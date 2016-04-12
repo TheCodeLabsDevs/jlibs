@@ -14,6 +14,11 @@ import com.sun.jna.platform.win32.WinNT.HANDLE;
 import com.sun.jna.platform.win32.WinReg.HKEY;
 import com.sun.jna.win32.W32APIOptions;
 
+/**
+ * This class allows on windows to use the UAC, to run an exe file with higher permissions.
+ * @author tobias - s0553746
+ *
+ */
 public interface Shell32X extends Shell32 {
 	Shell32X INSTANCE = (Shell32X) Native.loadLibrary("shell32", Shell32X.class, W32APIOptions.UNICODE_OPTIONS);
 
