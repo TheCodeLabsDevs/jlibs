@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/YML"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/HTML Builder"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Registry"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Common Net"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ControlFx"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JNA"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/XML"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
