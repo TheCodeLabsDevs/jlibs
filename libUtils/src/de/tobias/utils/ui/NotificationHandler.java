@@ -8,9 +8,9 @@ public interface NotificationHandler {
 
 	public void notify(String text, long duration, Runnable finish);
 
-	public default void showError(String message) {}
-
 	public default void show(String message, Action... action) {}
+
+	public void showError(String message);
 
 	public void hide();
 }

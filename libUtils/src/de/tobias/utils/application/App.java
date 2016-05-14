@@ -167,30 +167,32 @@ public class App {
 	@SuppressWarnings("unchecked")
 	public void start(String[] args) throws ApplicationException, URISyntaxException {
 		this.args = args;
-		if (args.length != 0) {
-			if (Arrays.binarySearch(args, "debug") >= 0) {
-				debug = true;
-				container.updatePath();
-			}
-
-			// Args: -clear -> Löscht file container
-			if (args[0].equalsIgnoreCase("-clear")) {
-				long start = System.currentTimeMillis();
-				println("Start clearing container: " + appInfo.getName() + " (" + appInfo.getIdentifier() + ")");
-				try {
-					container.clear();
-
-					println("Folder: '" + container.getContainerPath().toString() + "' cleared in: " + (System.currentTimeMillis() - start)
-							+ "ms");
-				} catch (IOException e) {
-					println("Can't delete container folder: " + e.getLocalizedMessage());
+		if (args != null) {
+			if (args.length != 0) {
+				if (Arrays.binarySearch(args, "debug") >= 0) {
+					debug = true;
+					container.updatePath();
 				}
 
-				return;
+				// Args: -clear -> Löscht file container
+				if (args[0].equalsIgnoreCase("-clear")) {
+					long start = System.currentTimeMillis();
+					println("Start clearing container: " + appInfo.getName() + " (" + appInfo.getIdentifier() + ")");
+					try {
+						container.clear();
 
-				// Args: -createBackup -> Erstellt ein Backup
-			} else if (args[0].equalsIgnoreCase("-createBackup")) {
-				backupFiles();
+						println("Folder: '" + container.getContainerPath().toString() + "' cleared in: " + (System.currentTimeMillis() - start)
+								+ "ms");
+					} catch (IOException e) {
+						println("Can't delete container folder: " + e.getLocalizedMessage());
+					}
+
+					return;
+
+					// Args: -createBackup -> Erstellt ein Backup
+				} else if (args[0].equalsIgnoreCase("-createBackup")) {
+					backupFiles();
+				}
 			}
 		}
 		println("Launching App" + ": " + appInfo.getName() + ", version: " + appInfo.getVersion() + ", build: " + appInfo.getBuild());

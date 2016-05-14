@@ -5,6 +5,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Transition;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ProgressIndicator;
@@ -113,6 +114,11 @@ public class BusyView {
 	}
 
 	public void showProgress(boolean b) {
+		if (!Platform.isFxApplicationThread()) {
+			Platform.runLater(() -> showProgress(b));
+			return;
+		}
+		
 		if (b) {
 			if (!root.getChildren().contains(progressPane)) {
 				root.getChildren().add(progressPane);

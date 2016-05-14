@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.FileStore;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public class IOUtils {
@@ -47,12 +47,10 @@ public class IOUtils {
 	}
 
 	public static long getFreeSpaceForVolume(String file) throws IOException {
-		FileStore store = Files.getFileStore(FileSystems.getDefault().getPath(file));
-		return store.getUsableSpace();
+		return getFreeSpaceForVolume(Paths.get(file));
 	}
 
 	public static long getTotalSpaceForVolume(String file) throws IOException {
-		FileStore store = Files.getFileStore(FileSystems.getDefault().getPath(file));
-		return store.getTotalSpace();
+		return getTotalSpaceForVolume(Paths.get(file));
 	}
 }

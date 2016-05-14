@@ -18,7 +18,6 @@ import java.util.zip.ZipOutputStream;
  *
  * @version 1.0
  */
-@Deprecated
 public class ZIP {
 
 	/**
@@ -97,8 +96,7 @@ public class ZIP {
 	private static void pack(File file, File root, ZipOutputStream outputStream) throws IOException {
 		if (file.exists()) {
 			if (file.isFile()) {
-				String newFileName = file.getAbsolutePath().replace(
-						root.getAbsolutePath() + separator, "");
+				String newFileName = file.getAbsolutePath().replace(root.getAbsolutePath() + separator, "");
 
 				FileInputStream inputStream = new FileInputStream(file);
 				outputStream.putNextEntry(new ZipEntry(newFileName));
@@ -141,11 +139,9 @@ public class ZIP {
 					try {
 						File file;
 						if (separator.equals("\\"))
-							file = new File(output.getAbsolutePath(), entry.getName().replace(
-									"/", "\\"));
+							file = new File(output.getAbsolutePath(), entry.getName().replace("/", "\\"));
 						else
-							file = new File(output.getAbsolutePath(), entry.getName().replace(
-									"\\", "/"));
+							file = new File(output.getAbsolutePath(), entry.getName().replace("\\", "/"));
 
 						if (!entry.isDirectory()) {
 							file.delete();
@@ -165,7 +161,7 @@ public class ZIP {
 						}
 					} catch (NullPointerException | IOException e) {
 						e.printStackTrace();
-					}					
+					}
 				}
 			});
 		}
@@ -178,28 +174,8 @@ public class ZIP {
 
 	private static void copy(InputStream iStr, OutputStream oStr) throws IOException {
 		int count;
-		byte[] buffer = new byte[2^12];
+		byte[] buffer = new byte[4096];
 		while ((count = iStr.read(buffer)) > 0)
 			oStr.write(buffer, 0, count);
-	}
-	
-
-	/**
-	 * Löscht einen Ordner und Datein die in ihm sind.
-	 * 
-	 * @param file
-	 *            Ordner
-	 */
-	public static void deleteFolder(File file) {
-		if (file.isDirectory()) {
-			if (file.list() != null) { // Inhalt von Ordner löschen
-				for (File child : file.listFiles()) {
-					deleteFolder(child);
-				}
-			}
-			file.delete(); // Ordner ist leer
-		} else {
-			file.delete();
-		}
 	}
 }

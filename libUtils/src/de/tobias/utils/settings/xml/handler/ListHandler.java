@@ -1,0 +1,65 @@
+package de.tobias.utils.settings.xml.handler;
+
+import java.util.List;
+
+import org.dom4j.Element;
+
+import de.tobias.utils.settings.SettingsSerializable;
+import de.tobias.utils.settings.xml.ClassHandler;
+import de.tobias.utils.settings.xml.XMLDeserialzer;
+import de.tobias.utils.settings.xml.XMLFormatStrings;
+import de.tobias.utils.settings.xml.XMLSerializer;
+
+public class ListHandler implements ClassHandler {
+
+	@Override
+	public Element serialze(Element rootElement, Object obj) throws IllegalArgumentException, IllegalAccessException {
+		List<?> list = (List<?>) obj;
+
+		Element element = rootElement.addElement(getType());
+		element.addAttribute("class", list.getClass().getName()); // TODO Fix
+
+		for (Object item : list) {
+			Element itemElement = element.addElement(XMLFormatStrings.ITEM_ELEMENT);
+			XMLSerializer.serializeData(item, itemElement);
+		}
+		return element;
+	}
+
+	@Override
+	public Class<?> getClassType() {
+		return List.class;
+	}
+
+	@Override
+	public String getType() {
+		return XMLFormatStrings.LIST_ELEMENT;
+	}
+
+	@Override
+	public <T extends SettingsSerializable> Object deserialzeList(Element element)
+			throws InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchFieldException, SecurityException {
+		String attributeValue = element.attributeValue("class");
+		if (attributeValue != null) {
+			try {
+				Class<?> listClass = Class.forName(attributeValue);
+				@SuppressWarnings("unchecked") List<Object> list = (List<Object>) listClass.newInstance();
+
+				for (Object itemObj : element.elements(XMLFormatStrings.ITEM_ELEMENT)) {
+					if (itemObj instanceof Element) {
+						Element itemElement = (Element) itemObj;
+
+						Object data = XMLDeserialzer.deserialzeData(itemElement);
+						if (data != null) {
+							list.add(data);
+						}
+					}
+				}
+				return list;
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+}
