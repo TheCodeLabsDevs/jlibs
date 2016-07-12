@@ -19,6 +19,18 @@ public class OS {
 			type = OSType.Other;
 		}
 	}
+	
+	public static boolean isWindows() {
+		return type == OSType.Windows;
+	}
+	
+	public static boolean isMacOS() {
+		return type == OSType.MacOSX;
+	}
+	
+	public static boolean isLinux() {
+		return type == OSType.Linux;
+	}
 
 	public static OSType getType() {
 		return type;
