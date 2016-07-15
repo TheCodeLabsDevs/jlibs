@@ -82,6 +82,8 @@ public abstract class ViewController implements Refreshable, Alertable {
 	 */
 	private BasicControllerSettings settings;
 
+	private List<Runnable> closeHook;
+
 	private ResourceBundle bundle;
 
 	private List<ContentViewController> subViewController = new ArrayList<>();
@@ -149,6 +151,8 @@ public abstract class ViewController implements Refreshable, Alertable {
 			bundle = localization;
 		}
 
+		this.closeHook = new ArrayList<>();
+
 		try {
 			loader.load();
 
@@ -175,6 +179,7 @@ public abstract class ViewController implements Refreshable, Alertable {
 				if (!close) {
 					event.consume();
 				}
+				closeHook.forEach(Runnable::run);
 			});
 
 			// Einstellungen laden
@@ -283,6 +288,15 @@ public abstract class ViewController implements Refreshable, Alertable {
 	 */
 	public Parent getParent() {
 		return fxmlView;
+	}
+
+	/**
+	 * Fügt einen hook hinzu, wenn die View geschlossen wird.
+	 * 
+	 * @param runnable
+	 */
+	public void addCloseHook(Runnable runnable) {
+		this.closeHook.add(runnable);
 	}
 
 	/**

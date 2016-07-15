@@ -4,6 +4,12 @@ import java.util.Optional;
 
 import javafx.scene.image.Image;
 
+/**
+ * Definiert einige Abstracte Schnittstellen für das Darstellen von Meldungen zu einer View.
+ * 
+ * @author tobias - s0553746
+ *
+ */
 public interface Alertable {
 
 	public void showErrorMessage(String message);
