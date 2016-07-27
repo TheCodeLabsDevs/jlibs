@@ -12,8 +12,6 @@ import java.nio.file.WatchService;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import com.dropbox.core.DbxException;
-
 public class DbxPath implements Path {
 
 	private String path;
@@ -161,13 +159,8 @@ public class DbxPath implements Path {
 
 	@Override
 	public URI toUri() {
-		try {
-			return URI.create(
-					"dropbox://" + fileSystem.getDbxClient().users().getCurrentAccount().getName().getDisplayName().replace(" ", "") + path);
-		} catch (DbxException e) {
-			e.printStackTrace();
-		}
-		return null;
+		String path = this.path.replace(" ", "%20");
+		return URI.create("dropbox://" + path);
 	}
 
 	@Override

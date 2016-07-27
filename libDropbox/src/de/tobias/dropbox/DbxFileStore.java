@@ -19,7 +19,7 @@ public class DbxFileStore extends FileStore {
 	@Override
 	public String name() {
 		try {
-			return client.users().getCurrentAccount().getName().getDisplayName().replace(" ", "");
+			return client.users().getCurrentAccount().getName().getDisplayName().replace(" ", "%20");
 		} catch (DbxException e) {
 			e.printStackTrace();
 		}
