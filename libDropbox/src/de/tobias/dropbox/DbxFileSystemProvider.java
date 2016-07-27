@@ -32,8 +32,6 @@ import java.util.Set;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.DbxClientV2;
 
-import de.tobias.utils.util.IOUtils;
-
 public class DbxFileSystemProvider extends FileSystemProvider {
 
 	private HashMap<String, DbxFileSystem> fileSystems;
@@ -327,7 +325,7 @@ public class DbxFileSystemProvider extends FileSystemProvider {
 				} else {
 					InputStream iStr = sourceFileSystem.provider().newInputStream(source);
 					OutputStream oStr = targetFileSystem.provider().newOutputStream(target);
-					IOUtils.copy(iStr, oStr);
+//					IOUtils.copy(iStr, oStr); TODO Implement copy
 					iStr.close();
 					oStr.close();
 				}
@@ -348,7 +346,7 @@ public class DbxFileSystemProvider extends FileSystemProvider {
 				} else {
 					InputStream iStr = sourceFileSystem.provider().newInputStream(source, StandardOpenOption.DELETE_ON_CLOSE);
 					OutputStream oStr = targetFileSystem.provider().newOutputStream(target);
-					IOUtils.copy(iStr, oStr);
+//					IOUtils.copy(iStr, oStr); TODO Implement
 					iStr.close();
 					oStr.close();
 				}
