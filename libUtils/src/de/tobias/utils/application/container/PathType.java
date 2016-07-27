@@ -2,29 +2,35 @@ package de.tobias.utils.application.container;
 
 public enum PathType {
 
-	RESOURCES("Resources", true),
-	HELPMAP("Resources/HelpMap", false),
-	DOCUMENTS("Documents", true),
-	CONFIGURATION("Config", true),
-	LIBRARY("Library", true),
-	NATIVELIBRARY("Library/Native", false),
-	ROOT("", false),
-	BACKUP("Backup", false),
-	STORE("Store", true),
-	CACHE("Cache", false),
-	DOWNLOAD("Download", false),
-	LOG("Log", false);
+	RESOURCES("Resources", true, false),
+	HELPMAP("Resources/HelpMap", false, false),
+	DOCUMENTS("Documents", true, true),
+	CONFIGURATION("Config", true, true),
+	LIBRARY("Library", true, false),
+	NATIVELIBRARY("Library/Native", false, false),
+	ROOT("", false, false),
+	BACKUP("Backup", false, false),
+	STORE("Store", true, false),
+	CACHE("Cache", false, false),
+	DOWNLOAD("Download", false, false),
+	LOG("Log", false, false);
 
 	private String folder;
 	private boolean backup;
+	private boolean sync;
 
-	private PathType(String folder, boolean backup) {
+	private PathType(String folder, boolean backup, boolean sync) {
 		this.folder = folder;
 		this.backup = backup;
+		this.sync = sync;
 	}
 
 	public String getFolder() {
 		return folder;
+	}
+
+	public boolean isSync() {
+		return sync;
 	}
 
 	/**

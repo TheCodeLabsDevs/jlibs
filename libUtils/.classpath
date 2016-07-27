@@ -9,5 +9,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ControlFx"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JNA"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/XML"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Dropbox"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/libDropbox"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
