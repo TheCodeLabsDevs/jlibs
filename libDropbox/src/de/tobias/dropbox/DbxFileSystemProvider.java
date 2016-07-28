@@ -84,8 +84,6 @@ public class DbxFileSystemProvider extends FileSystemProvider {
 	public OutputStream newOutputStream(final Path path, OpenOption... options) throws IOException {
 		final DbxClientV2 client = ((DbxPath) path).getFileSystem().getDbxClient();
 
-		System.out.println("Start");
-
 		for (OpenOption o : options) {
 			if (o == StandardOpenOption.APPEND) {
 				throw new UnsupportedOperationException();
