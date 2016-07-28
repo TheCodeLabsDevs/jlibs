@@ -1,6 +1,7 @@
 package de.tobias.dropbox.test;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,6 +39,14 @@ public class DbxTest {
 		DbxUtils.createAttachPoint(env);
 
 		Path path = Paths.get(URI.create("dropbox:///"));
+
+		// Files.createDirectories(Paths.get(URI.create("dropbox:/Cache")));
+		OutputStream out = Files.newOutputStream(Paths.get(URI.create("dropbox:/Cache/test.txt")));
+		out.write((int) 'A');
+		out.write((int) 'B');
+		out.write((int) 'C');
+		out.write((int) 'D');
+		out.close();
 
 		Files.newDirectoryStream(path).forEach(System.out::println);
 	}

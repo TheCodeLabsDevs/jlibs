@@ -84,6 +84,8 @@ public class DbxFileSystemProvider extends FileSystemProvider {
 	public OutputStream newOutputStream(final Path path, OpenOption... options) throws IOException {
 		final DbxClientV2 client = ((DbxPath) path).getFileSystem().getDbxClient();
 
+		System.out.println("Start");
+
 		for (OpenOption o : options) {
 			if (o == StandardOpenOption.APPEND) {
 				throw new UnsupportedOperationException();
@@ -91,7 +93,7 @@ public class DbxFileSystemProvider extends FileSystemProvider {
 		}
 		try {
 			UploadUploader uploader = client.files().upload(path.toString());
-			return uploader.getOutputStream();
+			return new DbxOutputStream(uploader);
 		} catch (DbxException e) {
 			e.printStackTrace();
 		}
@@ -287,43 +289,49 @@ public class DbxFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public void copy(Path source, Path target, CopyOption... options) throws IOException {
-		if (source instanceof DbxPath && target instanceof DbxPath) {
-			DbxFileSystem sourceFileSystem = (DbxFileSystem) source.getFileSystem();
-			DbxFileSystem targetFileSystem = (DbxFileSystem) target.getFileSystem();
-			try {
-				if (sourceFileSystem == targetFileSystem) {
-					sourceFileSystem.getDbxClient().files().copy(source.toString(), target.toString());
-				} else {
-					InputStream iStr = sourceFileSystem.provider().newInputStream(source);
-					OutputStream oStr = targetFileSystem.provider().newOutputStream(target);
-					// IOUtils.copy(iStr, oStr); TODO Implement copy
-					iStr.close();
-					oStr.close();
-				}
-			} catch (DbxException e) {
-				e.printStackTrace();
+		FileSystem sourceFileSystem = source.getFileSystem();
+		FileSystem targetFileSystem = target.getFileSystem();
+		try {
+			if (sourceFileSystem == targetFileSystem && sourceFileSystem instanceof DbxFileSystem) {
+				((DbxFileSystem) sourceFileSystem).getDbxClient().files().copy(source.toString(), target.toString());
+			} else {
+				InputStream iStr = sourceFileSystem.provider().newInputStream(source);
+				OutputStream oStr = targetFileSystem.provider().newOutputStream(target);
+
+				int count;
+				byte[] buffer = new byte[1024];
+				while ((count = iStr.read(buffer)) > 0)
+					oStr.write(buffer, 0, count);
+
+				iStr.close();
+				oStr.close();
 			}
+		} catch (DbxException e) {
+			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public void move(Path source, Path target, CopyOption... options) throws IOException {
-		if (source instanceof DbxPath && target instanceof DbxPath) {
-			DbxFileSystem sourceFileSystem = (DbxFileSystem) source.getFileSystem();
-			DbxFileSystem targetFileSystem = (DbxFileSystem) target.getFileSystem();
-			try {
-				if (sourceFileSystem == targetFileSystem) {
-					sourceFileSystem.getDbxClient().files().move(source.toString(), target.toString());
-				} else {
-					InputStream iStr = sourceFileSystem.provider().newInputStream(source, StandardOpenOption.DELETE_ON_CLOSE);
-					OutputStream oStr = targetFileSystem.provider().newOutputStream(target);
-					// IOUtils.copy(iStr, oStr); TODO Implement
-					iStr.close();
-					oStr.close();
-				}
-			} catch (DbxException e) {
-				e.printStackTrace();
+		DbxFileSystem sourceFileSystem = (DbxFileSystem) source.getFileSystem();
+		DbxFileSystem targetFileSystem = (DbxFileSystem) target.getFileSystem();
+		try {
+			if (sourceFileSystem == targetFileSystem) {
+				sourceFileSystem.getDbxClient().files().move(source.toString(), target.toString());
+			} else {
+				InputStream iStr = sourceFileSystem.provider().newInputStream(source, StandardOpenOption.DELETE_ON_CLOSE);
+				OutputStream oStr = targetFileSystem.provider().newOutputStream(target);
+
+				int count;
+				byte[] buffer = new byte[1024];
+				while ((count = iStr.read(buffer)) > 0)
+					oStr.write(buffer, 0, count);
+
+				iStr.close();
+				oStr.close();
 			}
+		} catch (DbxException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -352,7 +360,7 @@ public class DbxFileSystemProvider extends FileSystemProvider {
 					throw new FileNotFoundException();
 				}
 			} catch (DbxException e) {
-				e.printStackTrace();
+				throw new FileNotFoundException();
 			}
 		}
 	}
