@@ -252,6 +252,17 @@ public class FileUtils {
 		Files.setOwner(path, o);
 	}
 
+	public static boolean isSubDirectory(Path base, Path child) {
+		Path parentFile = child;
+		while (parentFile != null) {
+			if (base.equals(parentFile)) {
+				return true;
+			}
+			parentFile = parentFile.getParent();
+		}
+		return false;
+	}
+
 	public static void deleteFilesInDirectory(Path dir) throws IOException {
 		loopThroughDirectory(dir, new FileAction() {
 
