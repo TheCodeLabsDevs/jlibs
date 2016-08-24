@@ -1,4 +1,4 @@
-package de.tobias.utils.util;
+package de.tobias.utils.util.win;
 
 import java.nio.CharBuffer;
 

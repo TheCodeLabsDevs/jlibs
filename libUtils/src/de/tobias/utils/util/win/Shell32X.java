@@ -1,4 +1,4 @@
-package de.tobias.utils.application;
+package de.tobias.utils.util.win;
 
 import java.util.Arrays;
 import java.util.List;
