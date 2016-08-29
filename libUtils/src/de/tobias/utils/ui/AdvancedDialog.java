@@ -31,7 +31,7 @@ public class AdvancedDialog extends Dialog<ButtonType> {
 	public void setContent(String text) {
 		contentLabel.setText(text);
 	}
-	
+
 	public void addButtonType(ButtonType button) {
 		getDialogPane().getButtonTypes().add(button);
 	}
@@ -46,7 +46,11 @@ public class AdvancedDialog extends Dialog<ButtonType> {
 		image.ifPresent(dialogStage.getIcons()::add);
 	}
 
-	public boolean isIgnoreUpdate() {
+	public void setCheckboxText(String text) {
+		checkBox.setText(text);
+	}
+
+	public boolean isSelected() {
 		return checkBox.isSelected();
 	}
 }
