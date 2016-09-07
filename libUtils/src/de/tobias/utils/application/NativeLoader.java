@@ -12,6 +12,7 @@ import de.tobias.utils.util.OS;
 public class NativeLoader {
 
 	/**
+	 * Load native library from inside a jar file
 	 * 
 	 * @param basename
 	 * @param folder
@@ -22,6 +23,7 @@ public class NativeLoader {
 	}
 
 	/**
+	 * Load native library from inside a jar file
 	 * 
 	 * @param name
 	 * @param clazz

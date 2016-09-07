@@ -197,11 +197,24 @@ public class App {
 		}
 		println("Launching App" + ": " + appInfo.getName() + ", version: " + appInfo.getVersion() + ", build: " + appInfo.getBuild());
 
+		// Load Natives
+		Path nativeFolder = getPath(PathType.NATIVELIBRARY);
+		try {
+			for (Path item : Files.newDirectoryStream(nativeFolder)) {
+				loadNativeLibrary(item);
+				System.out.println("Load Native Library: " + item);
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 		// Loading Resources
 		loadResources(args);
+
 		// Backup
 		if (appInfo.isBackup())
 			backupFiles();
+
 		// Update
 		if (checkLocalUpdate())
 			updateFiles();
@@ -209,6 +222,7 @@ public class App {
 		// Container Informationen Speichern
 		container.saveInformation();
 
+		// Load User Defaults
 		try {
 			userDefaults = UserDefaults.load(getPath(PathType.CONFIGURATION, "UserDefaults.xml"));
 			Runtime.getRuntime().addShutdownHook(new Thread(() ->
@@ -227,6 +241,15 @@ public class App {
 		if (mainClass.getSuperclass().equals(Application.class)) {
 			Application.launch((Class<? extends Application>) mainClass, args);
 		}
+	}
+
+	/**
+	 * Loads a native library into the java vm.
+	 * 
+	 * @param path full path to the library
+	 */
+	public void loadNativeLibrary(Path path) {
+		System.load(path.toString());
 	}
 
 	private boolean checkLocalUpdate() {
@@ -267,7 +290,9 @@ public class App {
 								try {
 									String destinationPath = t.toString().replace(folder.toString(), backupPath.toString());
 									Files.copy(t, Paths.get(destinationPath));
-								} catch (FileAlreadyExistsException e) {} catch (IOException e) {}
+								} catch (FileAlreadyExistsException e) {
+								} catch (IOException e) {
+								}
 							}
 						};
 						allFilesPathStream.forEach(action);

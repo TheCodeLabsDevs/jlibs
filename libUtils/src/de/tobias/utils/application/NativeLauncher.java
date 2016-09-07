@@ -12,12 +12,19 @@ import de.tobias.utils.util.OS.OSType;
 import de.tobias.utils.util.win.Shell32X;
 import de.tobias.utils.util.SystemUtils;
 
+/**
+ * Launches a windows exe as admin
+ * 
+ * @author tobias
+ *
+ */
 public class NativeLauncher {
 
 	public static void relaunchAsAdmin(String args) throws URISyntaxException {
 		if (OS.getType() == OSType.Windows) {
 			Path path = SystemUtils.getRunPath();
 			executeAsAdministrator(path.toString(), args);
+			System.exit(0);
 		}
 	}
 
@@ -35,8 +42,8 @@ public class NativeLauncher {
 		if (!result) {
 			int lastError = Kernel32.INSTANCE.GetLastError();
 			String errorMessage = Kernel32Util.formatMessageFromLastErrorCode(lastError);
-			throw new RuntimeException("Error performing elevation: " + lastError + ": " + errorMessage + " (apperror=" + execInfo.hInstApp
-					+ ")");
+			throw new RuntimeException(
+					"Error performing elevation: " + lastError + ": " + errorMessage + " (apperror=" + execInfo.hInstApp + ")");
 		}
 	}
 }
