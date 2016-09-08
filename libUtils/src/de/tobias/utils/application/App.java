@@ -200,9 +200,11 @@ public class App {
 		// Load Natives
 		Path nativeFolder = getPath(PathType.NATIVELIBRARY);
 		try {
-			for (Path item : Files.newDirectoryStream(nativeFolder)) {
-				loadNativeLibrary(item);
-				System.out.println("Load Native Library: " + item);
+			if (Files.exists(nativeFolder)) {
+				for (Path item : Files.newDirectoryStream(nativeFolder)) {
+					loadNativeLibrary(item);
+					System.out.println("Load Native Library: " + item);
+				}
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -246,7 +248,8 @@ public class App {
 	/**
 	 * Loads a native library into the java vm.
 	 * 
-	 * @param path full path to the library
+	 * @param path
+	 *            full path to the library
 	 */
 	public void loadNativeLibrary(Path path) {
 		System.load(path.toString());
