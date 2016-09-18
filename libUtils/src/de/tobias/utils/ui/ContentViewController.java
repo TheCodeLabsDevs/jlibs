@@ -76,6 +76,7 @@ public abstract class ContentViewController implements Refreshable, Alertable {
 
 			// MVC - Parent mit dem View
 			fxmlView = loader.getRoot();
+			fxmlView.setUserData(this);
 
 			init();
 		} catch (IOException e) {

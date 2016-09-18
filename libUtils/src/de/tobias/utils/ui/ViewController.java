@@ -158,6 +158,7 @@ public abstract class ViewController implements Refreshable, Alertable {
 
 			// MVC - Parent mit dem View
 			fxmlView = loader.getRoot();
+			fxmlView.setUserData(this);
 			Scene scene = new Scene(fxmlView);
 
 			stage.setScene(scene);
