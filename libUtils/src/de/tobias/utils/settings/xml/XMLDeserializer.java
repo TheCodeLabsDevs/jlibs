@@ -16,7 +16,7 @@ import de.tobias.utils.settings.xml.handler.PathHandler;
 import de.tobias.utils.settings.xml.handler.PropertyHandler;
 import de.tobias.utils.settings.xml.handler.SetHandler;
 
-public class XMLDeserialzer {
+public class XMLDeserializer {
 
 	static {
 		handlers = new HashMap<>();
@@ -153,7 +153,7 @@ public class XMLDeserialzer {
 			String subtype = element.attributeValue(XMLFormatStrings.TYPE_ATTR); // SubType
 			if (subtype != null) {
 				Element subElement = element.element(subtype);
-				Object res = XMLDeserialzer.deserialzeClass(subElement);
+				Object res = XMLDeserializer.deserialzeClass(subElement);
 				return res;
 			}
 		}

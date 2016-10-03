@@ -4,7 +4,7 @@ import org.dom4j.Element;
 
 import de.tobias.utils.settings.SettingsSerializable;
 import de.tobias.utils.settings.xml.ClassHandler;
-import de.tobias.utils.settings.xml.XMLDeserialzer;
+import de.tobias.utils.settings.xml.XMLDeserializer;
 import de.tobias.utils.settings.xml.XMLFormatStrings;
 import de.tobias.utils.settings.xml.XMLSerializer;
 import javafx.beans.property.Property;
@@ -44,7 +44,7 @@ public class PropertyHandler implements ClassHandler {
 				Class<?> propClass = Class.forName(attributeValue); // TODO Fix
 				@SuppressWarnings("unchecked") Property<Object> prop = (Property<Object>) propClass.newInstance();
 
-				Object data = XMLDeserialzer.deserialzeData(element);
+				Object data = XMLDeserializer.deserialzeData(element);
 				if (data != null) {
 					prop.setValue(data);
 				}

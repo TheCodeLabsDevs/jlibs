@@ -6,7 +6,7 @@ import org.dom4j.Element;
 
 import de.tobias.utils.settings.SettingsSerializable;
 import de.tobias.utils.settings.xml.ClassHandler;
-import de.tobias.utils.settings.xml.XMLDeserialzer;
+import de.tobias.utils.settings.xml.XMLDeserializer;
 import de.tobias.utils.settings.xml.XMLFormatStrings;
 import de.tobias.utils.settings.xml.XMLSerializer;
 
@@ -54,10 +54,10 @@ public class MapHandler implements ClassHandler {
 						Element itemElement = (Element) obj;
 
 						Element keyElement = itemElement.element(XMLFormatStrings.KEY_ELEMENT);
-						Object key = XMLDeserialzer.deserialzeData(keyElement);
+						Object key = XMLDeserializer.deserialzeData(keyElement);
 
 						Element valueElement = itemElement.element(XMLFormatStrings.VALUE_ELEMENT);
-						Object value = XMLDeserialzer.deserialzeData(valueElement);
+						Object value = XMLDeserializer.deserialzeData(valueElement);
 
 						if (key != null && value != null)
 							map.put(key, value);
