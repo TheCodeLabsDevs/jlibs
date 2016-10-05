@@ -27,7 +27,7 @@ public class DiscoveryClient {
 			try {
 				DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), 8888);
 				c.send(sendPacket);
-				System.out.println(getClass().getName() + ">>> Request packet sent to: 255.255.255.255 (DEFAULT)");
+				System.out.println("Request packet sent to: 255.255.255.255 (DEFAULT)");
 			} catch (Exception e) {}
 
 			// Broadcast the message over all the network interfaces
@@ -51,12 +51,12 @@ public class DiscoveryClient {
 						c.send(sendPacket);
 					} catch (Exception e) {}
 
-					System.out.println(getClass().getName() + ">>> Request packet sent to: " + broadcast.getHostAddress() + "; Interface: "
-							+ networkInterface.getDisplayName());
+					System.out.println(
+							"Request packet sent to: " + broadcast.getHostAddress() + "; Interface: " + networkInterface.getDisplayName());
 				}
 			}
 
-			System.out.println(getClass().getName() + ">>> Done looping over all network interfaces. Now waiting for a reply!");
+			System.out.println("Done looping over all network interfaces. Now waiting for a reply!");
 
 			// Wait for a response
 			byte[] recvBuf = new byte[15000];
@@ -64,7 +64,7 @@ public class DiscoveryClient {
 			c.receive(receivePacket);
 
 			// We have a response
-			System.out.println(getClass().getName() + ">>> Broadcast response from server: " + receivePacket.getAddress().getHostAddress());
+			System.out.println("Broadcast response from server: " + receivePacket.getAddress().getHostAddress());
 
 			// Check if the message is correct
 			String message = new String(receivePacket.getData()).trim();
