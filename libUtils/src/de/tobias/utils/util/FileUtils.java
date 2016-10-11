@@ -309,6 +309,7 @@ public class FileUtils {
 	}
 
 	// Loop
+	@Deprecated
 	public static void loopThroughDirecoriesWithFilter(Path root, FileAction action, Filter<Path> filter) throws IOException {
 		if (Files.isDirectory(root)) {
 			DirectoryStream<Path> files = Files.newDirectoryStream(root, filter);
@@ -323,9 +324,24 @@ public class FileUtils {
 			action.onFile(root);
 		}
 	}
+	
+	public static void loopThroughDirectoriesWithFilter(Path root, FileAction action, Filter<Path> filter) throws IOException {
+		if (Files.isDirectory(root)) {
+			DirectoryStream<Path> files = Files.newDirectoryStream(root, filter);
+			if (files != null) {
+				for (Path path : files) {
+					loopThroughDirectoriesWithFilter(path, action, filter);
+				}
+			}
+			files.close();
+			action.onDirectory(root);
+		} else {
+			action.onFile(root);
+		}
+	}
 
 	public static void loopThroughDirectory(Path root, FileAction action) throws IOException {
-		loopThroughDirecoriesWithFilter(root, action, (entry) -> true);
+		loopThroughDirectoriesWithFilter(root, action, (entry) -> true);
 	}
 
 	public interface FileAction {
