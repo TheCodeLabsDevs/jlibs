@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
+import java.net.SocketTimeoutException;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,8 +61,14 @@ public class DiscoveryClient {
 
 			// Wait for a response
 			byte[] recvBuf = new byte[15000];
+			c.setSoTimeout(10000);
+
 			DatagramPacket receivePacket = new DatagramPacket(recvBuf, recvBuf.length);
-			c.receive(receivePacket);
+			try {
+				c.receive(receivePacket);
+			} catch (SocketTimeoutException e) {
+				System.err.println(e.getMessage());
+			}
 
 			// We have a response
 			System.out.println("Broadcast response from server: " + receivePacket.getAddress().getHostAddress());
