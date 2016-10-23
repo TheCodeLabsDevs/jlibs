@@ -35,6 +35,7 @@ import javafx.stage.Stage;
  *
  * @version 1.0
  */
+@Deprecated
 public abstract class ViewController implements Refreshable, Alertable {
 
 	/**

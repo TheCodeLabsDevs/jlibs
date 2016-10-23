@@ -1,4 +1,4 @@
-package de.tobias.utils.ui;
+package de.tobias.utils.nui;
 
 import java.util.Optional;
 
@@ -12,7 +12,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-@Deprecated
 public class AdvancedDialog extends Dialog<ButtonType> {
 
 	private CheckBox checkBox;
