@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public final class NVCStage {
 
@@ -33,6 +34,11 @@ public final class NVCStage {
 		init();
 	}
 
+	public NVCStage initOwner(Window owner) {
+		stage.initOwner(owner);
+		return this;
+	}
+
 	private void init() {
 		// First Load States
 		NVCDatabase.load();
@@ -40,7 +46,6 @@ public final class NVCStage {
 		Scene scene = new Scene(viewController.getParent());
 
 		stage.setScene(scene);
-		stage.centerOnScreen();
 
 		// Load Settings
 		NVCItem loadItem = NVCDatabase.getItem(viewController.getClass());
@@ -52,13 +57,6 @@ public final class NVCStage {
 		// Init Close Handlers
 		stage.setOnCloseRequest(e ->
 		{
-			// Svae Settings
-			NVCItem saveItem = NVCDatabase.getItem(viewController.getClass());
-			saveItem.setPosX(stage.getX());
-			saveItem.setPosY(stage.getY());
-			saveItem.setWidth(stage.getWidth());
-			saveItem.setHeight(stage.getHeight());
-
 			// Event Handlers
 			for (CloseHook hook : closeHook) {
 				if (!hook.onClose()) {
@@ -67,6 +65,16 @@ public final class NVCStage {
 			}
 
 			NVCDatabase.save();
+		});
+
+		stage.setOnHidden(e ->
+		{
+			// Svae Settings
+			NVCItem saveItem = NVCDatabase.getItem(viewController.getClass());
+			saveItem.setPosX(stage.getX());
+			saveItem.setPosY(stage.getY());
+			saveItem.setWidth(stage.getWidth());
+			saveItem.setHeight(stage.getHeight());
 		});
 
 		viewController.initStage(stage);

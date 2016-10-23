@@ -24,6 +24,7 @@ import javafx.stage.Window;
  *
  * @version 1.0
  */
+@Deprecated
 public abstract class ContentViewController implements Refreshable, Alertable {
 
 	/**

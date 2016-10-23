@@ -23,6 +23,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class NVC implements Alertable {
 
@@ -243,5 +244,9 @@ public class NVC implements Alertable {
 	public void addCloseKeyShortcut(Runnable onClose) {
 		stageContainer.ifPresent(sc -> sc.getStage().getScene().getAccelerators()
 				.put(new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN), () -> Platform.runLater(onClose)));
+	}
+
+	public Window getContainingWindow() {
+		return fxmlView.getScene().getWindow();
 	}
 }

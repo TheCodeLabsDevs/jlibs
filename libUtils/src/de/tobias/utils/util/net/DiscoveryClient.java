@@ -61,13 +61,14 @@ public class DiscoveryClient {
 
 			// Wait for a response
 			byte[] recvBuf = new byte[15000];
-			c.setSoTimeout(10000);
+			c.setSoTimeout(5000);
 
 			DatagramPacket receivePacket = new DatagramPacket(recvBuf, recvBuf.length);
 			try {
 				c.receive(receivePacket);
 			} catch (SocketTimeoutException e) {
 				System.err.println(e.getMessage());
+				return null;
 			}
 
 			// We have a response

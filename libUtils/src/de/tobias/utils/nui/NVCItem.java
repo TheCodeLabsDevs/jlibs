@@ -2,11 +2,11 @@ package de.tobias.utils.nui;
 
 public class NVCItem {
 
-	private double posX;
-	private double posY;
+	private double posX = 100;
+	private double posY = 100;
 
-	private double width;
-	private double height;
+	private double width = 600;
+	private double height = 400;
 
 	public double getPosX() {
 		return posX;
