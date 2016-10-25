@@ -32,13 +32,14 @@ public class NVC implements Alertable {
 
 	private Optional<NVCStage> stageContainer;
 
-	public NVC(String path, String filename) {
-		this(path, filename, (ResourceBundle) null);
+	public NVC load(String path, String filename) {
+		return load(path, filename, (ResourceBundle) null);
 	}
 
-	public NVC(String path, String filename, ResourceBundle bundle) {
+	public NVC load(String path, String filename, ResourceBundle bundle) {
 		stageContainer = Optional.empty();
 		loadFXML(path, filename, bundle);
+		return this;
 	}
 
 	/**
@@ -48,8 +49,8 @@ public class NVC implements Alertable {
 	 * @param filename
 	 * @param onFinish
 	 */
-	public NVC(String path, String filename, Consumer<NVC> onFinish) {
-		this(path, filename, null, onFinish);
+	public NVC load(String path, String filename, Consumer<NVC> onFinish) {
+		return load(path, filename, null, onFinish);
 	}
 
 	/**
@@ -59,19 +60,23 @@ public class NVC implements Alertable {
 	 * @param filename
 	 * @param onFinish
 	 */
-	public NVC(String path, String filename, ResourceBundle bundle, Consumer<NVC> onFinish) {
+	public NVC load(String path, String filename, ResourceBundle bundle, Consumer<NVC> onFinish) {
 		stageContainer = Optional.empty();
 		Task<Void> task = new Task<Void>() {
 
 			@Override
 			protected Void call() throws Exception {
-				loadFXML(path, filename, bundle);
-				System.out.println(Thread.currentThread().getName());
+				try {
+					loadFXML(path, filename, bundle);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				return null;
 			}
 		};
 		task.setOnSucceeded(e -> onFinish.accept(this));
 		Worker.runLater(task);
+		return this;
 	}
 
 	private void loadFXML(String path, String filename, ResourceBundle localization) {
