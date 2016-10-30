@@ -22,6 +22,10 @@ public final class NVCStage {
 		public boolean onClose();
 	}
 
+	static {
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> NVCDatabase.save()));
+	}
+
 	private NVC viewController;
 	private Stage stage;
 	private List<CloseHook> closeHook;
@@ -63,11 +67,9 @@ public final class NVCStage {
 					e.consume();
 				}
 			}
-
-			NVCDatabase.save();
 		});
 
-		stage.setOnHidden(e ->
+		stage.setOnHiding(e ->
 		{
 			// Svae Settings
 			NVCItem saveItem = NVCDatabase.getItem(viewController.getClass());

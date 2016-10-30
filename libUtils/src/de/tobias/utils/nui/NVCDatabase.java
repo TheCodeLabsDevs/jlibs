@@ -75,9 +75,7 @@ public class NVCDatabase {
 							item.setHeight(Double.valueOf(child.attributeValue(HEIGHT_ATTR)));
 						}
 					}
-				} catch (IOException | DocumentException ex) {
-					ex.printStackTrace();
-				}
+				} catch (IOException | DocumentException ex) {}
 			}
 		}
 	}
