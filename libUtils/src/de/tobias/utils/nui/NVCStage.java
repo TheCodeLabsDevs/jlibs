@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
@@ -53,10 +54,15 @@ public final class NVCStage {
 
 		// Load Settings
 		NVCItem loadItem = NVCDatabase.getItem(viewController.getClass());
-		stage.setX(loadItem.getPosX());
-		stage.setY(loadItem.getPosY());
-		stage.setWidth(loadItem.getWidth());
-		stage.setHeight(loadItem.getHeight());
+
+		ObservableList<Screen> screens = Screen.getScreensForRectangle(loadItem.getPosX(), loadItem.getPosY(), loadItem.getWidth(),
+				loadItem.getHeight());
+		if (screens.size() != 0) {
+			stage.setX(loadItem.getPosX());
+			stage.setY(loadItem.getPosY());
+			stage.setWidth(loadItem.getWidth());
+			stage.setHeight(loadItem.getHeight());
+		}
 
 		// Init Close Handlers
 		stage.setOnCloseRequest(e ->
