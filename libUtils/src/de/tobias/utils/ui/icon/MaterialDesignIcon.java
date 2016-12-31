@@ -1189,6 +1189,11 @@ public enum MaterialDesignIcon implements FontIconType {
 		return ch;
 	}
 
+	@Override
+	public String getFontFile() {
+		return FONT_FILE;
+	}
+	
 	public static final String FONT_FILE = "de/tobias/utils/ui/icon/materialdesignicons-webfont.ttf";
 
 }

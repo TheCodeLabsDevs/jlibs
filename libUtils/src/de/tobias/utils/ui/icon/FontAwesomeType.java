@@ -596,6 +596,7 @@ public enum FontAwesomeType implements FontIconType {
 	YOUTUBE_PLAY('\uf16A'),
 	YOUTUBE_SQUARE('\uf166');
 
+	private static final String FONT_FILE = "de/tobias/utils/ui/icon/FontAwesome.otf";
 	private final char ch;
 
 	/**
@@ -610,5 +611,10 @@ public enum FontAwesomeType implements FontIconType {
 	@Override
 	public char getChar() {
 		return ch;
+	}
+	
+	@Override
+	public String getFontFile() {
+		return FONT_FILE;
 	}
 }
