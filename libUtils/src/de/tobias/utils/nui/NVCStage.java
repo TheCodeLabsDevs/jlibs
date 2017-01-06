@@ -7,6 +7,7 @@ import java.util.Optional;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -24,7 +25,7 @@ public final class NVCStage {
 	}
 
 	static {
-		Runtime.getRuntime().addShutdownHook(new Thread(() -> NVCDatabase.save()));
+		Runtime.getRuntime().addShutdownHook(new Thread(NVCDatabase::save));
 	}
 
 	private NVC viewController;
@@ -41,6 +42,11 @@ public final class NVCStage {
 
 	public NVCStage initOwner(Window owner) {
 		stage.initOwner(owner);
+		return this;
+	}
+	
+	public NVCStage initModality(Modality modality) {
+		stage.initModality(modality);
 		return this;
 	}
 
