@@ -1,6 +1,5 @@
-package de.tobias.utils.ui.scene;
+package de.tobias.utils.nui;
 
-import de.tobias.utils.ui.ViewController;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
@@ -16,7 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-@Deprecated
 public class BusyView {
 
 	private HBox progressPane;
@@ -26,7 +24,7 @@ public class BusyView {
 	private Transition inTransition;
 	private Transition outTransition;
 
-	public BusyView(ViewController rootViewController) {
+	public BusyView(NVC rootViewController) {
 		if (rootViewController.getParent() instanceof Pane) {
 			root = (Pane) rootViewController.getParent();
 			indicator = new ProgressIndicator(-1);
