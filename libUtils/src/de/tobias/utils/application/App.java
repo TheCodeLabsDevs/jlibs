@@ -169,7 +169,7 @@ public class App {
 		this.args = args;
 		if (args != null) {
 			if (args.length != 0) {
-				if (Arrays.binarySearch(args, "debug") >= 0) {
+				if (Arrays.binarySearch(args, "--debug") >= 0) {
 					debug = true;
 					container.updatePath();
 				}
