@@ -1,5 +1,7 @@
 package de.tobias.utils.util;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -7,6 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import de.tobias.logger.LogLevel;
 import de.tobias.utils.application.ApplicationUtils;
 
 public class Worker {
@@ -51,8 +54,7 @@ public class Worker {
 			}
 		};
 
-		if (ApplicationUtils.getApplication().isDebug())
-			System.out.println("Start ExecutorService");
+		log("Start ExecutorService");
 	}
 
 	private static int task = 0;
@@ -64,7 +66,7 @@ public class Worker {
 		}
 		task++;
 		if (ApplicationUtils.getApplication().isDebug())
-			System.out.println("Submit " + task + " task");
+			log("Submit " + task + " task");
 		Future<Void> future = executorService.submit(runnable, null);
 		return future;
 	}
@@ -73,8 +75,21 @@ public class Worker {
 		if (executorService != null) {
 			executorService.shutdown();
 			if (ApplicationUtils.getApplication().isDebug())
-				System.out.println("Stop ExecutorService");
+				log("Stop ExecutorService");
 			executorService = null;
+		}
+	}
+
+	private static void log(String message) {
+		if (ApplicationUtils.getApplication().isDebug()) {
+			try {
+				Class<?> clazz = Class.forName("de.tobias.logger.Logger");
+				Method method = clazz.getMethod("log", LogLevel.class, String.class);
+				method.invoke(null, LogLevel.DEBUG, message);
+			} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+					| NoSuchMethodException | SecurityException e) {
+				System.out.println(message);
+			}
 		}
 	}
 }
