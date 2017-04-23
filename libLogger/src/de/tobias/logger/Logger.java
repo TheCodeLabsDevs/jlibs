@@ -1,6 +1,7 @@
 package de.tobias.logger;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -28,6 +29,9 @@ public class Logger {
 			return;
 		}
 		try {
+			if (Files.notExists(path))
+				Files.createDirectories(path);
+
 			outputStream = new ConsoleStream(path.resolve("out.log"), System.out, LogLevel.INFO);
 			errorStream = new ConsoleStream(path.resolve("err.log"), System.err, LogLevel.ERROR);
 
@@ -36,7 +40,7 @@ public class Logger {
 
 			initialized = true;
 		} catch (IOException e) {
-			System.err.println("Failed to initalize logger: " + e.getMessage());
+			System.err.println("Failed to initalize logger: " + e.toString());
 		}
 	}
 
@@ -110,11 +114,13 @@ public class Logger {
 
 		builder.append(" ");
 
-		builder.append(className);
-		builder.append(" @ ");
-
 		long time = System.currentTimeMillis();
 		builder.append(format.format(time));
+		builder.append(" @ ");
+
+		builder.append("[");
+		builder.append(className);
+		builder.append("]");
 		builder.append(": ");
 
 		builder.append(message);
