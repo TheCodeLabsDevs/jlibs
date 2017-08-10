@@ -39,7 +39,7 @@ public class XMLSerializer {
 	// - class attr: class des wrapper types (e.g. map, list)
 	// - type attr: if supertype is a wrapper then the type attr is the class of the subtype (e.g. Property->Contains Float) else type
 	// indicates the type of the variable Field->ContainsDouble
-	public static <T extends SettingsSerializable> void serialze(T instance, Element rootElement)
+	public static <T extends SettingsSerializable> void serialize(T instance, Element rootElement)
 			throws IllegalArgumentException, IllegalAccessException {
 		if (rootElement == null) {
 			throw new IllegalArgumentException("XML Element cannot be null");
@@ -92,7 +92,7 @@ public class XMLSerializer {
 
 		if (data instanceof SettingsSerializable) {
 			Element element = rootElement.addElement(XMLFormatStrings.CLASS_ELEMENT);
-			serialze((SettingsSerializable) data, element);
+			serialize((SettingsSerializable) data, element);
 			return element;
 		}
 		System.err.println(data + " cannot be serialzed");
