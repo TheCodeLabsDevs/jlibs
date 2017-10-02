@@ -84,7 +84,6 @@ public class Logger {
 				Class<?> clazz = Class.forName(className);
 				codeBase = clazz.getProtectionDomain().getCodeSource().getLocation().getPath();
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
 			}
 
 			LogMessage logMessage = new LogMessage(level, message, className, codeBase);
