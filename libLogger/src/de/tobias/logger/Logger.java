@@ -3,7 +3,6 @@ package de.tobias.logger;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
@@ -80,10 +79,10 @@ public class Logger {
 
 			StackTraceElement element = Thread.currentThread().getStackTrace()[2];
 			String className = element.getClassName();
-			Path codeBase = null;
+			String codeBase = null;
 			try {
 				Class<?> clazz = Class.forName(className);
-				codeBase = Paths.get(clazz.getProtectionDomain().getCodeSource().getLocation().getPath());
+				codeBase = clazz.getProtectionDomain().getCodeSource().getLocation().getPath();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}

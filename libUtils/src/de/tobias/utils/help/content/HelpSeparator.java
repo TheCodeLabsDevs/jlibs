@@ -1,8 +1,5 @@
 package de.tobias.utils.help.content;
 
-import javafx.scene.Node;
-import javafx.scene.control.Separator;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -11,6 +8,8 @@ import com.hp.gagawa.java.elements.Hr;
 import de.tobias.utils.help.HelpContent;
 import de.tobias.utils.help.HelpMap;
 import de.tobias.utils.help.ui.HelpMapViewController;
+import javafx.scene.Node;
+import javafx.scene.control.Separator;
 
 /**
  * Repräsentiert ein Separator

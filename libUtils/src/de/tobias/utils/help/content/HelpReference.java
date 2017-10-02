@@ -2,8 +2,6 @@ package de.tobias.utils.help.content;
 
 import java.util.UUID;
 
-import javafx.scene.Node;
-
 import org.controlsfx.control.HyperlinkLabel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -15,6 +13,7 @@ import de.tobias.utils.help.HelpContent;
 import de.tobias.utils.help.HelpElement;
 import de.tobias.utils.help.HelpMap;
 import de.tobias.utils.help.ui.HelpMapViewController;
+import javafx.scene.Node;
 
 /**
  * Repräsentiert eine Referenz auf eine andere Topic

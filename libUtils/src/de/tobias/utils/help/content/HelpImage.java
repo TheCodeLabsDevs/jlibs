@@ -3,10 +3,6 @@ package de.tobias.utils.help.content;
 import java.io.IOException;
 import java.util.Base64;
 
-import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -15,6 +11,9 @@ import com.hp.gagawa.java.elements.Img;
 import de.tobias.utils.help.HelpContent;
 import de.tobias.utils.help.HelpMap;
 import de.tobias.utils.help.ui.HelpMapViewController;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Repräsentiert ein Bild

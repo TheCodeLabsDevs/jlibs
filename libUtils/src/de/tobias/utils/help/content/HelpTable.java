@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.Node;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -20,6 +15,10 @@ import de.tobias.utils.help.HelpContent;
 import de.tobias.utils.help.HelpMap;
 import de.tobias.utils.help.ui.HelpMapViewController;
 import de.tobias.utils.util.XMLUtils;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.Node;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 /**
  * Repräsentiert eine Tabelle

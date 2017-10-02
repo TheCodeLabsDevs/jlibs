@@ -3,11 +3,6 @@ package de.tobias.utils.help.content;
 import java.awt.Desktop;
 import java.net.URI;
 
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-
 import org.controlsfx.control.HyperlinkLabel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,6 +12,10 @@ import com.hp.gagawa.java.elements.A;
 import de.tobias.utils.help.HelpContent;
 import de.tobias.utils.help.HelpMap;
 import de.tobias.utils.help.ui.HelpMapViewController;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 
 /**
  * Repräsentiert ein Link (Internet)

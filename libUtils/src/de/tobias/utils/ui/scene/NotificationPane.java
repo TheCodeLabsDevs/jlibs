@@ -3,13 +3,12 @@ package de.tobias.utils.ui.scene;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import javafx.application.Platform;
-import javafx.scene.Node;
-import javafx.scene.image.ImageView;
-
 import org.controlsfx.control.action.Action;
 
 import de.tobias.utils.util.Worker;
+import javafx.application.Platform;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 
 public class NotificationPane extends org.controlsfx.control.NotificationPane {
 

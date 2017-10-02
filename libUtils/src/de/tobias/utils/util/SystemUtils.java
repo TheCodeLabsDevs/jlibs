@@ -9,8 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 
-import javafx.scene.image.Image;
 import de.tobias.utils.application.NativeLoader;
+import javafx.scene.image.Image;
 
 public class SystemUtils {
 

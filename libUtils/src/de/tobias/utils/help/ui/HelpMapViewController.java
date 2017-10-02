@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import de.tobias.utils.help.HelpElement;
+import de.tobias.utils.help.HelpMap;
+import de.tobias.utils.help.elements.HelpCategory;
+import de.tobias.utils.help.elements.HelpTopic;
+import de.tobias.utils.ui.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -18,11 +23,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import de.tobias.utils.help.HelpElement;
-import de.tobias.utils.help.HelpMap;
-import de.tobias.utils.help.elements.HelpCategory;
-import de.tobias.utils.help.elements.HelpTopic;
-import de.tobias.utils.ui.ViewController;
 
 public class HelpMapViewController extends ViewController {
 

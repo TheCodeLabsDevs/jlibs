@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-import javafx.scene.image.Image;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -23,6 +21,7 @@ import de.tobias.utils.help.elements.HelpCategory;
 import de.tobias.utils.help.elements.HelpTopic;
 import de.tobias.utils.util.FileUtils;
 import de.tobias.utils.util.XMLUtils;
+import javafx.scene.image.Image;
 
 /**
  * Container für Hilfethemen

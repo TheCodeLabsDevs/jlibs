@@ -9,8 +9,8 @@ import com.sun.jna.platform.win32.Kernel32Util;
 
 import de.tobias.utils.util.OS;
 import de.tobias.utils.util.OS.OSType;
-import de.tobias.utils.util.win.Shell32X;
 import de.tobias.utils.util.SystemUtils;
+import de.tobias.utils.util.win.Shell32X;
 
 /**
  * Launches a windows exe as admin

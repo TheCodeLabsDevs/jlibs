@@ -3,9 +3,6 @@ package de.tobias.utils.help.content;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.Node;
-import javafx.scene.control.ListView;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -16,6 +13,8 @@ import de.tobias.utils.help.HelpContent;
 import de.tobias.utils.help.HelpMap;
 import de.tobias.utils.help.ui.HelpMapViewController;
 import de.tobias.utils.util.XMLUtils;
+import javafx.scene.Node;
+import javafx.scene.control.ListView;
 
 /**
  * Repräsentiert eine Liste

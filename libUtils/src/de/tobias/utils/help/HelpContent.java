@@ -2,12 +2,11 @@ package de.tobias.utils.help;
 
 import java.lang.reflect.InvocationTargetException;
 
-import javafx.scene.Node;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.tobias.utils.help.ui.HelpMapViewController;
+import javafx.scene.Node;
 
 /**
  * Grundlage für den Inhalt einer HelpTopic.

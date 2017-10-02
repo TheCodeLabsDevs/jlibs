@@ -1,15 +1,13 @@
 package de.tobias.logger;
 
-import java.nio.file.Path;
-
 public class LogMessage {
 
 	private final LogLevel level;
 	private final String message;
 	private final String callerClass;
-	private final Path codeBase;
+	private final String codeBase;
 
-	public LogMessage(LogLevel level, String message, String callerClass, Path codeBase) {
+	public LogMessage(LogLevel level, String message, String callerClass, String codeBase) {
 		this.level = level;
 		this.message = message;
 		this.callerClass = callerClass;
@@ -28,7 +26,7 @@ public class LogMessage {
 		return callerClass;
 	}
 
-	public Path getCodeBase() {
+	public String getCodeBase() {
 		return codeBase;
 	}
 
