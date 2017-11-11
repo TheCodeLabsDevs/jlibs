@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ListView fx:id="listView" minWidth="500.0" prefHeight="349.0" prefWidth="600.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="360.0" spacing="14.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+         <children>
+            <ProgressBar fx:id="progressBar" layoutX="108.0" layoutY="363.0" maxWidth="1.7976931348623157E308" minWidth="200.0" prefHeight="20.0" progress="0.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="startButton" layoutX="525.0" layoutY="360.0" minWidth="50.0" mnemonicParsing="false" onAction="#startHandler" text="Starten" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

@@ -56,7 +56,8 @@ public class HelpMapViewController extends ViewController {
 		contentView.setFillWidth(true);
 
 		// Select Content
-		treeView.getSelectionModel().selectedItemProperty().addListener((a, b, c) -> {
+		treeView.getSelectionModel().selectedItemProperty().addListener((a, b, c) ->
+		{
 			if (c != null) {
 				if (c.getValue() instanceof HelpTopic) {
 					HelpTopic topicItem = (HelpTopic) c.getValue();
@@ -66,7 +67,8 @@ public class HelpMapViewController extends ViewController {
 					headline.getStyleClass().add("headline");
 					contentView.getChildren().add(headline);
 
-					topicItem.getContents().forEach(contentItem -> {
+					topicItem.getContents().forEach(contentItem ->
+					{
 						contentView.getChildren().add(contentItem.getNode(this));
 					});
 					contentView.getChildren().add(new Separator());
@@ -141,7 +143,7 @@ public class HelpMapViewController extends ViewController {
 
 		loadTree(treeView.getRoot(), helpMap.getElements());
 	}
-	
+
 	public void show() {
 		getStage().show();
 	}
