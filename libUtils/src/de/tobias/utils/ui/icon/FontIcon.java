@@ -10,7 +10,7 @@ import javafx.scene.text.Font;
 public class FontIcon extends Label {
 
 	public static final String STYLE_CLASS = "fonticon";
-	private static String FONT_FILE = "de/tobias/utils/ui/icon/FontAwesome.otf";
+	private static String FONT_FILE = "de/tobias/utils/ui/icon/fontawesome-webfont.ttf";
 	
 	private String fontFile = FONT_FILE;
 	
