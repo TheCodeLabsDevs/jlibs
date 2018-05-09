@@ -94,7 +94,7 @@
 		<repository>
 			<id>releases</id>
 			<name>libUtils</name>
-			<url>http://h2650399.stratoserver.net:8081/nexus/content/repositories/releases</url>
+			<url>https://maven.thecodelabs.de/nexus/content/repositories/releases</url>
 		</repository>
 	</distributionManagement>
 </project>
