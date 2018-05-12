@@ -64,11 +64,9 @@ public class Logger {
 
 	/**
 	 * Logs a message into a special channel.
-	 * 
-	 * @param level
-	 *            log level
-	 * @param message
-	 *            message
+	 *
+	 * @param level   log level
+	 * @param message message
 	 */
 	public static void log(LogLevel level, String message) {
 		if (!initialized) {
@@ -101,14 +99,12 @@ public class Logger {
 	static String buildString(LogLevel level, String message, String className) {
 		StringBuilder builder = new StringBuilder();
 
-		StringBuilder levelBuilder = new StringBuilder();
-
 		// Log Level
-		levelBuilder.append("[");
-		levelBuilder.append(level.name());
-		levelBuilder.append("]");
 
-		builder.append(String.format("%9s", levelBuilder.toString()));
+		String levelBuilder = "[" +
+				level.name() +
+				"]";
+		builder.append(String.format("%9s", levelBuilder));
 
 		builder.append(" ");
 
