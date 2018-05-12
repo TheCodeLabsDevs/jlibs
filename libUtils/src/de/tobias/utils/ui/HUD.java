@@ -102,7 +102,7 @@ public class HUD extends AnchorPane {
 
 	public void removeFromParent() {
 		if (!Platform.isFxApplicationThread()) {
-			Platform.runLater(() -> removeFromParent());
+			Platform.runLater(this::removeFromParent);
 			return;
 		}
 		if (fadeTransition != null) {
@@ -116,7 +116,7 @@ public class HUD extends AnchorPane {
 		{
 			try {
 				((Pane) getParent()).getChildren().remove(this);
-			} catch (Exception e) {}
+			} catch (Exception ignored) {}
 			fadeTransition = null;
 		});
 		fadeTransition.play();

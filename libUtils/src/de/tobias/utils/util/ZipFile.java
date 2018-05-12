@@ -25,7 +25,7 @@ public class ZipFile {
 	private Path path;
 	private FileMode mode;
 
-	public ZipFile(Path path, FileMode mode) throws ZipException, IOException {
+	public ZipFile(Path path, FileMode mode) throws IOException {
 		this.mode = mode;
 
 		if (mode == FileMode.READ) {

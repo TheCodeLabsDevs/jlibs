@@ -106,16 +106,6 @@ public class Localization {
 			return key + " (bundle nil)";
 	}
 
-	@Deprecated
-	public static String getLocalizedString(String key, Object... args) {
-		return getString(key, args);
-	}
-
-	@Deprecated
-	public static String getLocalizedString(String key) {
-		return getString(key);
-	}
-
 	/**
 	 * 
 	 * @author tobias

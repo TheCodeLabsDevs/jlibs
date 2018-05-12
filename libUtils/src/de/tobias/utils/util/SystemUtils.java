@@ -21,20 +21,6 @@ public class SystemUtils {
 		return name.substring(0, name.indexOf("@"));
 	}
 
-	@Deprecated
-	public static File getApplicationSupportDirectory(String name) {
-		switch (OS.getType()) {
-		case Windows:
-			return new File(System.getenv("APPDATA"), name);
-		case MacOSX:
-			return new File(System.getProperty("user.home"), "Library/Application Support/" + name);
-		case Linux:
-			return new File("/etc", name);
-		default:
-			return null;
-		}
-	}
-
 	public static Path getApplicationSupportDirectoryPath(String name) {
 		switch (OS.getType()) {
 		case Windows:
@@ -73,11 +59,7 @@ public class SystemUtils {
 		}
 	}
 
-	@Deprecated
-	public static Image getImageForFile(File file) {
-		return getImageForFile(file.toPath());
-	}
-
+	// File Icon
 	public static Image getImageForFile(Path file) {
 		load();
 		return new Image(IOUtils.byteArrayToInputStream(getImageForFile_N(file.toString())));
@@ -91,26 +73,4 @@ public class SystemUtils {
 	}
 
 	private static native byte[] getImageForFile_N(String path);
-
-	@Deprecated
-	public static PrintStream convertStream(PrintStream stream, String prefix) {
-		return new ConsoleStream(stream, prefix);
-	}
-
-	@Deprecated
-	private static class ConsoleStream extends PrintStream {
-
-		private SimpleDateFormat format = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
-		private String prefix;
-
-		public ConsoleStream(OutputStream out, String prefix) {
-			super(out);
-			this.prefix = prefix;
-		}
-
-		@Override
-		public void println(String obj) {
-			super.println(prefix + " " + format.format(System.currentTimeMillis()) + ": " + obj);
-		}
-	}
 }

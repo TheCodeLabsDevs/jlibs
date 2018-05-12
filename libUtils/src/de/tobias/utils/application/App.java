@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -33,10 +34,6 @@ public class App {
 	 * Bundle Information
 	 */
 	private ApplicationInfo appInfo;
-	/**
-	 * Helpmap for the bundle (if exists)
-	 */
-	private HelpMap helpMap;
 	/**
 	 * File Container for the bundle
 	 */
@@ -66,18 +63,18 @@ public class App {
 
 	/**
 	 * Create a new AppBundle with configuration file
-	 * 
+	 *
 	 * @param mainClass
 	 * @throws Exception
 	 */
 	public App(Class<?> mainClass) throws Exception {
-		this(YAMLSettings.load(ApplicationInfo.class, mainClass.getClassLoader().getResource("application.yml")));
+		this(YAMLSettings.load(ApplicationInfo.class, Objects.requireNonNull(mainClass.getClassLoader().getResource("application.yml"))));
 		this.mainClass = mainClass;
 	}
 
 	/**
 	 * Create a new app with appinformation
-	 * 
+	 *
 	 * @param info
 	 */
 	public App(ApplicationInfo info) {
@@ -87,7 +84,7 @@ public class App {
 
 	/**
 	 * Get Bundle Infos
-	 * 
+	 *
 	 * @return Infos
 	 */
 	public ApplicationInfo getInfo() {
@@ -104,11 +101,9 @@ public class App {
 
 	/**
 	 * Get a path for a type of file
-	 * 
-	 * @param type
-	 *            filetype
-	 * @param childPath
-	 *            path
+	 *
+	 * @param type      filetype
+	 * @param childPath path
 	 * @return full path
 	 */
 	public Path getPath(PathType type, String... childPath) {
@@ -117,28 +112,13 @@ public class App {
 
 	/**
 	 * Get a path for a type of file
-	 * 
-	 * @param childPath
-	 *            path
-	 * @param type
-	 *            file type
+	 *
+	 * @param childPath path
+	 * @param type      file type
 	 * @return full path
 	 */
 	public Path getPath(Path childPath, PathType type) {
-		Path path = container.getPath(childPath.toString(), type);
-		if (debug) {
-			// println("Get Path: " + path);
-		}
-		return path;
-	}
-
-	/**
-	 * Get the Helpmap instance
-	 * 
-	 * @return helpmap
-	 */
-	public HelpMap getHelpMap() {
-		return helpMap;
+		return container.getPath(childPath.toString(), type);
 	}
 
 	public boolean isDebug() {
@@ -147,21 +127,11 @@ public class App {
 
 	/**
 	 * Show debug infos in the console
-	 * 
-	 * @param debug
-	 *            show
+	 *
+	 * @param debug show
 	 */
 	public void setDebugging(boolean debug) {
 		this.debug = debug;
-	}
-
-	/**
-	 * Automatic backup fof your file container
-	 * 
-	 * @param backup
-	 */
-	public void setAutoBackup(boolean backup) {
-		appInfo.setBackup(backup); // TODO Implementieren
 	}
 
 	@SuppressWarnings("unchecked")
@@ -198,7 +168,7 @@ public class App {
 		println("Launching App" + ": " + appInfo.getName() + ", version: " + appInfo.getVersion() + ", build: " + appInfo.getBuild());
 
 		// Load Natives
-		Path nativeFolder = getPath(PathType.NATIVELIBRARY);
+		Path nativeFolder = getPath(PathType.NATIVE_LIBRARY);
 		try {
 			if (Files.exists(nativeFolder)) {
 				for (Path item : Files.newDirectoryStream(nativeFolder)) {
@@ -209,13 +179,6 @@ public class App {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-
-		// Loading Resources
-		loadResources(args);
-
-		// Backup
-		if (appInfo.isBackup())
-			backupFiles();
 
 		// Update
 		if (checkLocalUpdate())
@@ -247,9 +210,8 @@ public class App {
 
 	/**
 	 * Loads a native library into the java vm.
-	 * 
-	 * @param path
-	 *            full path to the library
+	 *
+	 * @param path full path to the library
 	 */
 	public void loadNativeLibrary(Path path) {
 		System.load(path.toString());
@@ -265,15 +227,6 @@ public class App {
 		return false;
 	}
 
-	private void loadResources(String[] args) {
-		try {
-			if (appInfo.getHelpmap() != null)
-				helpMap = HelpMap.loadHelpMap(appInfo.getHelpmap());
-		} catch (Exception e) {
-			System.err.println("Can't load helpmap: " + e.getLocalizedMessage());
-		}
-	}
-
 	private void backupFiles() {
 		long time = System.currentTimeMillis();
 
@@ -286,19 +239,13 @@ public class App {
 						Files.createDirectories(backupPath);
 
 						Stream<Path> allFilesPathStream = Files.walk(folder);
-						Consumer<? super Path> action = new Consumer<Path>() {
-
-							@Override
-							public void accept(Path t) {
-								try {
-									String destinationPath = t.toString().replace(folder.toString(), backupPath.toString());
-									Files.copy(t, Paths.get(destinationPath));
-								} catch (FileAlreadyExistsException e) {
-								} catch (IOException e) {
-								}
+						allFilesPathStream.forEach(t -> {
+							try {
+								String destinationPath = t.toString().replace(folder.toString(), backupPath.toString());
+								Files.copy(t, Paths.get(destinationPath));
+							} catch (IOException ignored) {
 							}
-						};
-						allFilesPathStream.forEach(action);
+						});
 						allFilesPathStream.close();
 
 					} catch (IOException e) {
@@ -311,8 +258,7 @@ public class App {
 	}
 
 	private void updateFiles() {
-		// Backup erstellen, wenn nicht Automatisch bei Programmstart
-		if (!appInfo.isBackup() && !debug)
+		if (!debug)
 			backupFiles();
 
 		// FileContainer hat noch alte Versionnummer des Bundles

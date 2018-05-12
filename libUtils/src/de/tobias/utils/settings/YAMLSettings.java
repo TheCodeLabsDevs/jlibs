@@ -2,7 +2,6 @@ package de.tobias.utils.settings;
 
 import java.io.File;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.URL;
@@ -78,11 +77,6 @@ public class YAMLSettings {
 		}
 	}
 
-	@Deprecated
-	public static void save(SettingsSerializable serializable, File file) throws Exception {
-		save(serializable, file.toPath());
-	}
-
 	public static void save(SettingsSerializable serializable, Path file) throws Exception {
 		if (Files.notExists(file)) {
 			Files.createDirectories(file.getParent());
@@ -97,11 +91,6 @@ public class YAMLSettings {
 			}
 		}
 		cfg.save(file.toString());
-	}
-
-	@Deprecated
-	public static Serializable load(Class<? extends SettingsSerializable> clazz, File file) throws Exception {
-		return load(clazz, file.toPath());
 	}
 
 	public static <T extends SettingsSerializable> T load(Class<T> clazz, Path file) throws Exception {
@@ -152,7 +141,7 @@ public class YAMLSettings {
 					if (cfg.isSet(field.getName()))
 						field.set(serializable, cfg.get(field.getName()));
 					else if (field.isAnnotationPresent(Required.class)) {
-						throw new RequirdedAttributeException(field);
+						throw new RequiredAttributeException(field);
 					}
 		}
 		return serializable;

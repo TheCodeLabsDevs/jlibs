@@ -94,7 +94,7 @@ public class NativeLoader {
 			folder += basename;
 		}
 
-		Path libpath = ApplicationUtils.getApplication().getPath(PathType.NATIVELIBRARY, name);
+		Path libpath = ApplicationUtils.getApplication().getPath(PathType.NATIVE_LIBRARY, name);
 
 		Files.createDirectories(libpath.getParent());
 		if (Files.notExists(libpath)) {

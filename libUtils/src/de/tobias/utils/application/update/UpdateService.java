@@ -4,5 +4,5 @@ import de.tobias.utils.application.App;
 
 public interface UpdateService {
 
-	public void update(App app, long oldVersion, long newVersion);
+	void update(App app, long oldVersion, long newVersion);
 }

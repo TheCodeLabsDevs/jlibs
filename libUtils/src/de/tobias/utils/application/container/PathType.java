@@ -3,11 +3,14 @@ package de.tobias.utils.application.container;
 public enum PathType {
 
 	RESOURCES("Resources", true, false),
+	@Deprecated
 	HELPMAP("Resources/HelpMap", false, false),
 	DOCUMENTS("Documents", true, true),
 	CONFIGURATION("Config", true, true),
 	LIBRARY("Library", true, false),
+	@Deprecated
 	NATIVELIBRARY("Library/Native", false, false),
+	NATIVE_LIBRARY("Library/Native", false, false),
 	ROOT("", false, false),
 	BACKUP("Backup", false, false),
 	STORE("Store", true, false),

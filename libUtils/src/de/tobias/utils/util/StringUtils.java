@@ -89,16 +89,17 @@ public class StringUtils {
 		return build(args, " ");
 	}
 
-	public static String build(List<String> args, String sepatator) {
-		String[] argsArray = args.toArray(new String[args.size()]);
-		return build(argsArray, sepatator);
+	public static String build(List<String> args, String separator) {
+		String[] argsArray = args.toArray(new String[0]);
+		return build(argsArray, separator);
 	}
 
-	public static String conact(Iterable<?> content, String sepeartor) {
-		return conact(content.iterator(), sepeartor);
+	public static String concat(Iterable<?> content, String separator) {
+		return concat(content.iterator(), separator);
 	}
 
-	public static String conact(Iterator<?> iterator, String sep) {
+
+	public static String concat(Iterator<?> iterator, String sep) {
 		StringBuilder builder = new StringBuilder();
 		while (iterator.hasNext()) {
 			builder.append(iterator.next());
@@ -107,6 +108,16 @@ public class StringUtils {
 			}
 		}
 		return builder.toString();
+	}
+
+	@Deprecated
+	public static String conact(Iterable<?> content, String separator) {
+		return conact(content.iterator(), separator);
+	}
+
+	@Deprecated
+	public static String conact(Iterator<?> iterator, String sep) {
+		return concat(iterator, sep);
 	}
 
 	public static boolean isStringNotVisable(String string) {

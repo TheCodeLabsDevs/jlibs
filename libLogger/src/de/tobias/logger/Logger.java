@@ -81,7 +81,7 @@ public class Logger {
 			try {
 				Class<?> clazz = Class.forName(className);
 				codeBase = clazz.getProtectionDomain().getCodeSource().getLocation().getPath();
-			} catch (ClassNotFoundException e) {
+			} catch (ClassNotFoundException ignored) {
 			}
 
 			LogMessage logMessage = new LogMessage(level, message, className, codeBase);
@@ -100,7 +100,6 @@ public class Logger {
 		StringBuilder builder = new StringBuilder();
 
 		// Log Level
-
 		String levelBuilder = "[" +
 				level.name() +
 				"]";

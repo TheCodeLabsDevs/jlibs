@@ -1,14 +1,12 @@
 package de.tobias.utils.application;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
-
 import de.tobias.utils.application.container.BackupInfo;
-import de.tobias.utils.application.update.HelpMapUpdateService;
 import de.tobias.utils.application.update.NativeUpdateService;
 import de.tobias.utils.application.update.UpdateService;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class ApplicationUtils {
 
@@ -23,8 +21,6 @@ public final class ApplicationUtils {
 		services = new ArrayList<>();
 		ConfigurationSerialization.registerClass(BackupInfo.class);
 
-		
-		services.add(new HelpMapUpdateService());
 		services.add(new NativeUpdateService());
 
 		// Default Application Info

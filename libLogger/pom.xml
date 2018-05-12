@@ -24,7 +24,24 @@
 			</plugin>
 		</plugins>
 	</build>
-	<distributionManagement>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>de.tobias</groupId>
+            <artifactId>libUtils</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>releases</id>
+            <url>https://maven.thecodelabs.de/nexus/content/repositories/releases</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
 		<repository>
 			<id>releases</id>
 			<name>libUtils</name>

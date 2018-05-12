@@ -65,10 +65,10 @@ public class Worker {
 			initWorker();
 		}
 		task++;
-		if (ApplicationUtils.getApplication().isDebug())
+		if (ApplicationUtils.getApplication().isDebug()) {
 			log("Submit " + task + " task");
-		Future<Void> future = executorService.submit(runnable, null);
-		return future;
+		}
+		return executorService.submit(runnable, null);
 	}
 
 	public static void shutdown() {

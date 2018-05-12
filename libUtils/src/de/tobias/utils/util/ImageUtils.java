@@ -1,5 +1,10 @@
 package de.tobias.utils.util;
 
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -8,22 +13,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-import javax.imageio.ImageIO;
-
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 public class ImageUtils {
 
 	public static ImageView getImageView(URL path) {
-		ImageView view = new ImageView(new Image(path.toString()));
-		return view;
+		return new ImageView(new Image(path.toString()));
 	}
 
 	public static ImageView getImageView(String path) {
-		ImageView view = new ImageView(new Image(path));
-		return view;
+		return new ImageView(new Image(path));
 	}
 
 	public static byte[] imageToByteArray(Image image) throws IOException {

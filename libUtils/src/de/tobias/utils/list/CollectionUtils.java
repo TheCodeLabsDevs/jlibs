@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 public class CollectionUtils {
 
@@ -22,6 +23,6 @@ public class CollectionUtils {
 				max = e;
 		}
 
-		return max.getKey();
+		return Objects.requireNonNull(max).getKey();
 	}
 }

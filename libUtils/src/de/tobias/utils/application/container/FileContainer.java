@@ -22,7 +22,7 @@ import de.tobias.utils.util.SystemUtils;
 
 public class FileContainer {
 
-	public static final String containerName = "Java File Container";
+	private String containerName = "Java File Container";
 
 	private FileContainerInfo containerInfo;
 	private Path containerPath;
@@ -35,6 +35,7 @@ public class FileContainer {
 		try {
 			this.app = app;
 			this.info = app.getInfo();
+			this.containerName = app.getInfo().getBasePath();
 
 			updatePath();
 
@@ -88,8 +89,7 @@ public class FileContainer {
 	}
 
 	public Path getBackupPath(long time, Path path, PathType type) {
-		Path backupPath = getFolder(PathType.BACKUP).resolve(Long.toString(time)).resolve(containerPath.relativize(path));
-		return backupPath;
+		return getFolder(PathType.BACKUP).resolve(Long.toString(time)).resolve(containerPath.relativize(path));
 	}
 
 	public FileContainerInfo getContainerInfo() {
@@ -100,6 +100,7 @@ public class FileContainer {
 		FileUtils.deleteDirectory(getContainerPath());
 	}
 
+	@Deprecated
 	public long availableBuild() {
 		long version = -1;
 		if (containerInfo.getUpdatePath() != null) {
@@ -110,12 +111,13 @@ public class FileContainer {
 				URL url = new URL(containerInfo.getUpdatePath() + "/version.yml");
 				FileConfiguration cfg = YamlConfiguration.loadConfiguration(url.openStream());
 				version = cfg.getLong("build");
-			} catch (IOException ex) {
+			} catch (IOException ignored) {
 			}
 		}
 		return version;
 	}
 
+	@Deprecated
 	public String availableVersion() {
 		String version = "";
 		if (containerInfo.getUpdatePath() != null) {
@@ -126,12 +128,13 @@ public class FileContainer {
 				URL url = new URL(containerInfo.getUpdatePath() + "/version.yml");
 				FileConfiguration cfg = YamlConfiguration.loadConfiguration(url.openStream());
 				version = cfg.getString("version");
-			} catch (IOException ex) {
+			} catch (IOException ignored) {
 			}
 		}
 		return version;
 	}
 
+	@Deprecated
 	public void updateApp(Consumer<Double> consumer) throws IOException {
 		if (!containerInfo.getUpdatePath().endsWith("/")) {
 			containerInfo.setUpdatePath(containerInfo.getUpdatePath() + "/");

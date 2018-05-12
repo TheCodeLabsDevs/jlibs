@@ -19,6 +19,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import de.tobias.utils.application.container.PathType;
+import de.tobias.utils.util.OS;
 
 public class Launcher {
 
@@ -35,7 +36,7 @@ public class Launcher {
 
 		// Native
 		copyNative(path.toFile(), app);
-		commands.add("-Djava.library.path=" + app.getPath(PathType.NATIVELIBRARY));
+		commands.add("-Djava.library.path=" + app.getPath(PathType.NATIVE_LIBRARY));
 
 		// Main
 		commands.add(app.getInfo().getSubMain());
@@ -56,12 +57,12 @@ public class Launcher {
 		Enumeration<JarEntry> entities = jarFile.entries();
 
 		while (entities.hasMoreElements()) {
-			JarEntry entry = (JarEntry) entities.nextElement();
+			JarEntry entry = entities.nextElement();
 
 			if ((!entry.isDirectory()) && (entry.getName().indexOf('/') == -1)) {
 				if (isNativeFile(entry.getName())) {
 					InputStream in = jarFile.getInputStream(jarFile.getEntry(entry.getName()));
-					Path outputPath = app.getPath(PathType.NATIVELIBRARY, entry.getName());
+					Path outputPath = app.getPath(PathType.NATIVE_LIBRARY, entry.getName());
 					if (Files.notExists(outputPath)) {
 						Files.createDirectories(outputPath.getParent());
 						Files.createFile(outputPath);
@@ -83,21 +84,15 @@ public class Launcher {
 	}
 
 	private static boolean isNativeFile(String entryName) {
-		String osName = System.getProperty("os.name");
 		String name = entryName.toLowerCase();
 
-		if (osName.startsWith("Win")) {
-			if (name.endsWith(".dll"))
-				return true;
-		} else if (osName.startsWith("Linux")) {
-			if (name.endsWith(".so"))
-				return true;
-		} else if (((osName.startsWith("Mac")) || (osName.startsWith("Darwin")))
-				&& ((name.endsWith(".jnilib")) || (name.endsWith(".dylib")))) {
-			return true;
-		}
+		if (OS.isWindows()) {
+			return name.endsWith(".dll");
+		} else if (OS.isLinux()) {
+			return name.endsWith(".so");
+		} else return (OS.isMacOS())
+				&& ((name.endsWith(".jnilib")) || (name.endsWith(".dylib")));
 
-		return false;
 	}
 
 	private static void writeConsoleOutput(Process process) throws IOException {

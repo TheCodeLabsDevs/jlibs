@@ -14,9 +14,8 @@ import de.tobias.utils.util.win.Shell32X;
 
 /**
  * Launches a windows exe as admin
- * 
- * @author tobias
  *
+ * @author tobias
  */
 public class NativeLauncher {
 
@@ -25,6 +24,8 @@ public class NativeLauncher {
 			Path path = SystemUtils.getRunPath();
 			executeAsAdministrator(path.toString(), args);
 			System.exit(0);
+		} else {
+			throw new UnsupportedOperationException("Only for windows implemented");
 		}
 	}
 
