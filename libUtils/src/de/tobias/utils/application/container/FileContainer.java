@@ -35,7 +35,9 @@ public class FileContainer {
 		try {
 			this.app = app;
 			this.info = app.getInfo();
-			this.containerName = app.getInfo().getBasePath();
+			if (app.getInfo().getBasePath() != null && !app.getInfo().getBasePath().isEmpty()) {
+				this.containerName = app.getInfo().getBasePath();
+			}
 
 			updatePath();
 
@@ -168,19 +170,21 @@ public class FileContainer {
 		in.close();
 	}
 
-	public void saveInformation() throws URISyntaxException {
+	public void saveInformation() {
 		// Update der Informationen
-		containerInfo.setExecutionPath(SystemUtils.getRunPath().toFile().getAbsolutePath());
+		try {
+			containerInfo.setExecutionPath(SystemUtils.getRunPath().toFile().getAbsolutePath());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+
 		if (info.getUpdateURL() != null)
 			containerInfo.setUpdatePath(info.getUpdateURL());
+
 		containerInfo.setBuild(info.getBuild());
 		containerInfo.setIdentifier(info.getIdentifier());
 		containerInfo.setName(info.getName());
 
-		try {
-			YAMLSettings.save(containerInfo, containerInfoPath);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		YAMLSettings.save(containerInfo, containerInfoPath);
 	}
 }

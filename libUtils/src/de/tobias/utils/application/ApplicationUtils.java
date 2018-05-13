@@ -33,7 +33,7 @@ public final class ApplicationUtils {
 		sharedApplication = new App(sharedInfo);
 	}
 
-	public static App registerMainApplication(Class<?> mainClass) throws Exception {
+	public static App registerMainApplication(Class<?> mainClass) {
 		mainApplication = new App(mainClass); // Load Main Application
 		return mainApplication;
 	}

@@ -67,7 +67,7 @@ public class App {
 	 * @param mainClass
 	 * @throws Exception
 	 */
-	public App(Class<?> mainClass) throws Exception {
+	public App(Class<?> mainClass) {
 		this(YAMLSettings.load(ApplicationInfo.class, Objects.requireNonNull(mainClass.getClassLoader().getResource("application.yml"))));
 		this.mainClass = mainClass;
 	}
@@ -135,7 +135,7 @@ public class App {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void start(String[] args) throws ApplicationException, URISyntaxException {
+	public void start(String[] args) {
 		this.args = args;
 		if (args != null) {
 			if (args.length != 0) {
@@ -184,7 +184,7 @@ public class App {
 		if (checkLocalUpdate())
 			updateFiles();
 
-		// Container Informationen Speichern
+		// Save container information
 		container.saveInformation();
 
 		// Load User Defaults
