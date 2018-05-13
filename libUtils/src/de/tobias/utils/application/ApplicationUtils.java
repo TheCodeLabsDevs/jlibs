@@ -22,15 +22,6 @@ public final class ApplicationUtils {
 		ConfigurationSerialization.registerClass(BackupInfo.class);
 
 		services.add(new NativeUpdateService());
-
-		// Default Application Info
-		ApplicationInfo sharedInfo = new ApplicationInfo();
-		sharedInfo.setBuild(-1);
-		sharedInfo.setIdentifier("default");
-		sharedInfo.setName("Shared Application");
-
-		// Default Application
-		sharedApplication = new App(sharedInfo);
 	}
 
 	public static App registerMainApplication(Class<?> mainClass) {
@@ -73,6 +64,16 @@ public final class ApplicationUtils {
 	 */
 	public static App getApplication() {
 		if (mainApplication == null) {
+			if (sharedApplication == null) { // Lazy initial
+				// Default Application Info
+				ApplicationInfo sharedInfo = new ApplicationInfo();
+				sharedInfo.setBuild(-1);
+				sharedInfo.setIdentifier("default");
+				sharedInfo.setName("Shared Application");
+
+				// Default Application
+				sharedApplication = new App(sharedInfo);
+			}
 			return sharedApplication;
 		} else {
 			return mainApplication;
