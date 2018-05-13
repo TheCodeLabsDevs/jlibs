@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.tobias</groupId>
 	<artifactId>libLogger</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>de.tobias</groupId>
             <artifactId>libUtils</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.1</version>
         </dependency>
     </dependencies>
 
