@@ -1,13 +1,13 @@
 package de.tobias.logger;
 
 import de.tobias.utils.settings.YAMLSettings;
-import de.tobias.utils.util.ConsoleUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -81,10 +81,10 @@ public class Logger {
 	/**
 	 * Logs a message into a special channel.
 	 *
-	 * @param level   log level
-	 * @param message message
+	 * @param level log level
+	 * @param any   object to log
 	 */
-	public static void log(LogLevel level, String message) {
+	public static void log(LogLevel level, Object any) {
 		if (!initialized) {
 			System.err.println("initialize logger first (Logger.init(Path))");
 			return;
@@ -94,7 +94,7 @@ public class Logger {
 			StackTraceElement element = Thread.currentThread().getStackTrace()[2];
 			String className = element.getClassName();
 
-			LogMessage logMessage = new LogMessage(level, message, className);
+			LogMessage logMessage = new LogMessage(level, any != null ? any.toString() : "null", className);
 			boolean cancelMessage = filters.stream().anyMatch(f -> !f.accept(logMessage));
 			if (!cancelMessage) {
 				if (level == LogLevel.ERROR || level == LogLevel.FATAL) {
@@ -105,4 +105,36 @@ public class Logger {
 			}
 		}
 	}
+
+	public static void info(Object any) {
+		log(LogLevel.INFO, any.toString());
+	}
+
+	public static void debug(Object any) {
+		log(LogLevel.DEBUG, any.toString());
+	}
+
+	public static void error(Object any) {
+		log(LogLevel.ERROR, any.toString());
+	}
+
+	public static void warning(Object any) {
+		log(LogLevel.WARNING, any.toString());
+	}
+
+	public static void fatal(Object any) {
+		log(LogLevel.FATAL, any.toString());
+	}
+
+	public static void error(Throwable throwable) {
+		log(LogLevel.ERROR, getStringFromException(throwable));
+	}
+
+	private static String getStringFromException(Throwable e) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		e.printStackTrace(pw);
+		return sw.toString();
+	}
+
 }

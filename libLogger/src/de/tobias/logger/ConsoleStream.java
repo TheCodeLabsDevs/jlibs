@@ -1,5 +1,6 @@
 package de.tobias.logger;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
@@ -78,7 +79,7 @@ public class ConsoleStream extends PrintStream {
 	}
 
 	@Override
-	public void write(byte[] buf, int off, int len) {
+	public void write(@Nonnull byte[] buf, int off, int len) {
 		if (fileOutput)
 			super.write(buf, off, len);
 		source.write(buf, off, len);
