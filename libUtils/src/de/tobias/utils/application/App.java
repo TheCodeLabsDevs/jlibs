@@ -165,6 +165,9 @@ public class App {
 				}
 			}
 		}
+
+
+
 		println("Launching App" + ": " + appInfo.getName() + ", version: " + appInfo.getVersion() + ", build: " + appInfo.getBuild());
 
 		// Load Natives

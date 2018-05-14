@@ -8,15 +8,19 @@ import java.nio.file.StandardOpenOption;
 
 public class ConsoleStream extends PrintStream {
 
-	private boolean fileOutput;
 	private final PrintStream source;
-	private final LogLevel standardLogLevel;
+	private boolean fileOutput;
 
-	public ConsoleStream(Path path, PrintStream source, LogLevel standardLogLevel) throws IOException {
+	private final LogLevel standardLogLevel;
+	private final LoggerConfig loggerConfig;
+
+	public ConsoleStream(Path path, PrintStream source, LogLevel standardLogLevel, LoggerConfig loggerConfig) throws IOException {
 		super(Files.newOutputStream(path, StandardOpenOption.APPEND, StandardOpenOption.CREATE));
 		this.source = source;
-		this.standardLogLevel = standardLogLevel;
 		this.fileOutput = false;
+
+		this.standardLogLevel = standardLogLevel;
+		this.loggerConfig = loggerConfig;
 	}
 
 	@Override
@@ -83,7 +87,8 @@ public class ConsoleStream extends PrintStream {
 	private String printToLogger(Object obj) {
 		StackTraceElement element = Thread.currentThread().getStackTrace()[4];
 		if (!element.getClassName().equals("de.tobias.logger.Logger")) {
-			return Logger.buildString(standardLogLevel, obj.toString(), element.getClassName());
+			LogMessage logMessage = new LogMessage(standardLogLevel, obj.toString(), element.getClassName());
+			return logMessage.buildString(loggerConfig);
 		}
 		return obj.toString();
 	}

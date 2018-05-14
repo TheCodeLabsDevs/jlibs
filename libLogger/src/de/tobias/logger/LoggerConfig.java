@@ -20,32 +20,38 @@ public class LoggerConfig implements SettingsSerializable {
 	private String detailColor = ConsoleUtils.Color.CYAN.name();
 	@Storable
 	private String messageColor = ConsoleUtils.Color.RESET.name();
+	@Storable
+	private String dateFormatterPattern = "dd-MM-YY HH:mm:ss";
 
-	public Boolean isColorEnabled() {
+	Boolean isColorEnabled() {
 		return color;
 	}
 
-	public ConsoleUtils.Color getInfoColor() {
+	ConsoleUtils.Color getInfoColor() {
 		return ConsoleUtils.Color.valueOf(infoColor);
 	}
 
-	public ConsoleUtils.Color getWarnColor() {
+	ConsoleUtils.Color getWarnColor() {
 		return ConsoleUtils.Color.valueOf(warnColor);
 	}
 
-	public ConsoleUtils.Color getErrorColor() {
+	ConsoleUtils.Color getErrorColor() {
 		return ConsoleUtils.Color.valueOf(errorColor);
 	}
 
-	public ConsoleUtils.Color getTimeColor() {
+	ConsoleUtils.Color getTimeColor() {
 		return ConsoleUtils.Color.valueOf(timeColor);
 	}
 
-	public ConsoleUtils.Color getDetailColor() {
+	ConsoleUtils.Color getDetailColor() {
 		return ConsoleUtils.Color.valueOf(detailColor);
 	}
 
-	public ConsoleUtils.Color getMessageColor() {
+	ConsoleUtils.Color getMessageColor() {
 		return ConsoleUtils.Color.valueOf(messageColor);
+	}
+
+	String getDateFormatterPattern() {
+		return dateFormatterPattern;
 	}
 }
