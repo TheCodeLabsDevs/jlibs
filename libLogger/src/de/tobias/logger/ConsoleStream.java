@@ -17,6 +17,7 @@ public class ConsoleStream extends PrintStream {
 
 	public ConsoleStream(Path path, PrintStream source, LogLevel standardLogLevel, LoggerConfig loggerConfig) throws IOException {
 		super(Files.newOutputStream(path, StandardOpenOption.APPEND, StandardOpenOption.CREATE));
+
 		this.source = source;
 		this.fileOutput = false;
 
@@ -26,51 +27,53 @@ public class ConsoleStream extends PrintStream {
 
 	@Override
 	public void print(boolean b) {
-		String s = printToLogger(b);
+		String s = formatString(b);
 		super.print(s);
 	}
 
 	@Override
 	public void print(char c) {
-		String s = printToLogger(c);
+		String s = formatString(c);
 		super.print(s);
 	}
 
 	@Override
 	public void print(double d) {
-		String s = printToLogger(d);
+		String s = formatString(d);
 		super.print(s);
 	}
 
 	@Override
 	public void print(float f) {
-		super.print(f);
+		String s = formatString(f);
+		super.print(s);
 	}
 
 	@Override
 	public void print(int i) {
-		String s = printToLogger(i);
+		String s = formatString(i);
 		super.print(s);
 	}
 
 	@Override
 	public void print(long l) {
-		String s = printToLogger(l);
+		String s = formatString(l);
 		super.print(s);
 	}
 
 	@Override
 	public void print(Object obj) {
-		obj = printToLogger(obj);
+		obj = formatString(obj);
 		super.print(obj);
 	}
 
 	@Override
 	public void print(String s) {
-		s = printToLogger(s);
+		s = formatString(s);
 		super.print(s);
 	}
 
+	// Handle print --> file or console
 	@Override
 	public void write(int b) {
 		if (fileOutput)
@@ -85,9 +88,10 @@ public class ConsoleStream extends PrintStream {
 		source.write(buf, off, len);
 	}
 
-	private String printToLogger(Object obj) {
+	// Add standard format, if user uses System.out / System.err
+	private String formatString(Object obj) {
 		StackTraceElement element = Thread.currentThread().getStackTrace()[4];
-		if (!element.getClassName().equals("de.tobias.logger.Logger")) {
+		if (!element.getClassName().equals(Logger.class.getName())) {
 			LogMessage logMessage = new LogMessage(standardLogLevel, obj.toString(), element.getClassName());
 			return logMessage.buildString(loggerConfig);
 		}
@@ -97,5 +101,9 @@ public class ConsoleStream extends PrintStream {
 	
 	public void setFileOutput(boolean fileOutput) {
 		this.fileOutput = fileOutput;
+	}
+
+	public PrintStream getSource() {
+		return source;
 	}
 }

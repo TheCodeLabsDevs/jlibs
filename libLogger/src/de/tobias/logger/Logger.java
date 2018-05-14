@@ -2,10 +2,7 @@ package de.tobias.logger;
 
 import de.tobias.utils.settings.YAMLSettings;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
@@ -13,11 +10,16 @@ import java.util.List;
 
 public class Logger {
 
+	private static final String OUT_FILE = "out.log";
+	private static final String ERR_FILE = "err.log";
+
 	private static LogLevelFilter levelFilter;
 	private static List<LogFilter> filters;
 
+	private static Path baseDir;
 	private static ConsoleStream outputStream;
 	private static ConsoleStream errorStream;
+
 	private static boolean initialized = false;
 
 	private static LoggerConfig loggerConfig;
@@ -27,24 +29,20 @@ public class Logger {
 		levelFilter = LogLevelFilter.NORMAL;
 	}
 
-	public static void init(Path path) {
+	public static void init(Path baseDir) {
 		if (initialized) {
 			System.err.println("Logger is already initialized.");
 			return;
 		}
 		try {
-			if (Files.notExists(path))
-				Files.createDirectories(path);
+			if (Files.notExists(baseDir))
+				Files.createDirectories(baseDir);
 
+			Logger.baseDir = baseDir;
 			loggerConfig = loadLoggerConfig();
-
-			outputStream = new ConsoleStream(path.resolve("out.log"), System.out, LogLevel.INFO, loggerConfig);
-			errorStream = new ConsoleStream(path.resolve("err.log"), System.err, LogLevel.ERROR, loggerConfig);
-
-			System.setOut(outputStream);
-			System.setErr(errorStream);
-
 			initialized = true;
+
+			setFileOutput(FileOutputOption.DISABLE, System.out, System.err);
 		} catch (IOException e) {
 			System.err.println("Failed to initialize logger: " + e.toString());
 		}
@@ -59,10 +57,33 @@ public class Logger {
 		}
 	}
 
-	public static void enableFileOutput(boolean enable) {
+	public static void setFileOutput(FileOutputOption fileOutputOption) {
+		setFileOutput(fileOutputOption, outputStream.getSource(), errorStream.getSource());
+	}
+
+	private static void setFileOutput(FileOutputOption fileOutputOption, PrintStream standardOut, PrintStream standardError) {
 		if (initialized) {
-			outputStream.setFileOutput(enable);
-			errorStream.setFileOutput(enable);
+			try {
+				Path outFile, errFile;
+				if (fileOutputOption == FileOutputOption.COMBINED) {
+					outFile = baseDir.resolve(OUT_FILE);
+					errFile = baseDir.resolve(OUT_FILE);
+				} else {
+					outFile = baseDir.resolve(OUT_FILE);
+					errFile = baseDir.resolve(ERR_FILE);
+				}
+
+				outputStream = new ConsoleStream(outFile, standardOut, LogLevel.INFO, loggerConfig);
+				errorStream = new ConsoleStream(errFile, standardError, LogLevel.ERROR, loggerConfig);
+
+				System.setOut(outputStream);
+				System.setErr(errorStream);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+			outputStream.setFileOutput(fileOutputOption != FileOutputOption.DISABLE);
+			errorStream.setFileOutput(fileOutputOption != FileOutputOption.DISABLE);
 		}
 	}
 
