@@ -1,6 +1,8 @@
 package de.tobias.logger;
 
 import de.tobias.utils.settings.YAMLSettings;
+import de.tobias.utils.util.OS;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -41,6 +43,11 @@ public class Logger {
 			Logger.baseDir = baseDir;
 			loggerConfig = loadLoggerConfig();
 			initialized = true;
+
+			// Allow Windows to use colors in prompt
+			if (loggerConfig.isColorEnabled() && OS.isWindows()) {
+				AnsiConsole.systemInstall();
+			}
 
 			setFileOutput(FileOutputOption.DISABLED, System.out, System.err);
 		} catch (IOException e) {
