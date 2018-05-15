@@ -14,10 +14,14 @@ public final class ApplicationUtils {
 	private static App mainApplication;
 	private static App sharedApplication;
 
+	private static List<AppListener> appListeners;
+
 	private ApplicationUtils() {
 	}
 
 	static {
+		appListeners = new ArrayList<>();
+
 		services = new ArrayList<>();
 		ConfigurationSerialization.registerClass(BackupInfo.class);
 
@@ -87,5 +91,13 @@ public final class ApplicationUtils {
 	 */
 	static List<UpdateService> getServices() {
 		return services;
+	}
+
+	public static void addAppListener(AppListener listener) {
+		appListeners.add(listener);
+	}
+
+	static List<AppListener> getAppListeners() {
+		return appListeners;
 	}
 }

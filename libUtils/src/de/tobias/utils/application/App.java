@@ -166,7 +166,7 @@ public class App {
 			}
 		}
 
-
+		ApplicationUtils.getAppListeners().forEach(listener -> listener.applicationWillStart(this));
 
 		println("Launching App" + ": " + appInfo.getName() + ", version: " + appInfo.getVersion() + ", build: " + appInfo.getBuild());
 
