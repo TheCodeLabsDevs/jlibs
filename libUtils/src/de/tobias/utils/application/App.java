@@ -1,27 +1,23 @@
 package de.tobias.utils.application;
 
+import de.tobias.utils.application.container.BackupInfo;
+import de.tobias.utils.application.container.FileContainer;
+import de.tobias.utils.application.container.PathType;
+import de.tobias.utils.settings.UserDefaults;
+import de.tobias.utils.settings.YAMLSettings;
+import de.tobias.utils.util.StringUtils;
+import javafx.application.Application;
+import org.dom4j.DocumentException;
+
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.FileAlreadyExistsException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
-
-import org.dom4j.DocumentException;
-
-import de.tobias.utils.application.container.BackupInfo;
-import de.tobias.utils.application.container.FileContainer;
-import de.tobias.utils.application.container.PathType;
-import de.tobias.utils.help.HelpMap;
-import de.tobias.utils.settings.UserDefaults;
-import de.tobias.utils.settings.YAMLSettings;
-import de.tobias.utils.util.StringUtils;
-import javafx.application.Application;
 
 public class App {
 
@@ -68,8 +64,16 @@ public class App {
 	 * @throws Exception
 	 */
 	public App(Class<?> mainClass) {
-		this(YAMLSettings.load(ApplicationInfo.class, Objects.requireNonNull(mainClass.getClassLoader().getResource("application.yml"))));
+		this(YAMLSettings.load(ApplicationInfo.class, Objects.requireNonNull(getInputStreamForApplicationFile(mainClass))));
 		this.mainClass = mainClass;
+	}
+
+	private static InputStream getInputStreamForApplicationFile(Class<?> mainClass) {
+		InputStream inputStream = mainClass.getClassLoader().getResourceAsStream("application.yml");
+		if (inputStream == null) {
+			inputStream = mainClass.getClassLoader().getResourceAsStream("config/application.yml");
+		}
+		return inputStream;
 	}
 
 	/**
@@ -143,32 +147,25 @@ public class App {
 					debug = true;
 					container.updatePath();
 				}
-
-				// Args: -clear -> Löscht file container
-				if (args[0].equalsIgnoreCase("-clear")) {
-					long start = System.currentTimeMillis();
-					println("Start clearing container: " + appInfo.getName() + " (" + appInfo.getIdentifier() + ")");
-					try {
-						container.clear();
-
-						println("Folder: '" + container.getContainerPath().toString() + "' cleared in: " + (System.currentTimeMillis() - start)
-								+ "ms");
-					} catch (IOException e) {
-						println("Can't delete container folder: " + e.getLocalizedMessage());
-					}
-
-					return;
-
-					// Args: -createBackup -> Erstellt ein Backup
-				} else if (args[0].equalsIgnoreCase("-createBackup")) {
-					backupFiles();
-				}
 			}
 		}
 
 		ApplicationUtils.getAppListeners().forEach(listener -> listener.applicationWillStart(this));
 
-		println("Launching App" + ": " + appInfo.getName() + ", version: " + appInfo.getVersion() + ", build: " + appInfo.getBuild());
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Launching App: ").append(appInfo.getName());
+
+		if (appInfo.getVersion() != null) {
+			stringBuilder.append(", version: ").append(appInfo.getVersion());
+		}
+		if (appInfo.getBuild() > 0) {
+			stringBuilder.append(", build: ").append(appInfo.getBuild());
+		}
+		if (appInfo.getAuthor() != null) {
+			stringBuilder.append(", date: ").append(appInfo.getDate());
+		}
+
+		println(stringBuilder.toString());
 
 		// Load Natives
 		Path nativeFolder = getPath(PathType.NATIVE_LIBRARY);

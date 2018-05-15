@@ -42,14 +42,17 @@ public class Logger {
 			loggerConfig = loadLoggerConfig();
 			initialized = true;
 
-			setFileOutput(FileOutputOption.DISABLE, System.out, System.err);
+			setFileOutput(FileOutputOption.DISABLED, System.out, System.err);
 		} catch (IOException e) {
 			System.err.println("Failed to initialize logger: " + e.toString());
 		}
 	}
 
 	private static LoggerConfig loadLoggerConfig() {
-		final InputStream inputStream = Logger.class.getClassLoader().getResourceAsStream("libLogger.yml");
+		InputStream inputStream = Logger.class.getClassLoader().getResourceAsStream("libLogger.yml");
+		if (inputStream == null) {
+			inputStream = Logger.class.getClassLoader().getResourceAsStream("config/libLogger.yml");
+		}
 		if (inputStream != null) {
 			return YAMLSettings.load(LoggerConfig.class, inputStream);
 		} else {
@@ -82,8 +85,8 @@ public class Logger {
 				throw new RuntimeException(e);
 			}
 
-			outputStream.setFileOutput(fileOutputOption != FileOutputOption.DISABLE);
-			errorStream.setFileOutput(fileOutputOption != FileOutputOption.DISABLE);
+			outputStream.setFileOutput(fileOutputOption != FileOutputOption.DISABLED);
+			errorStream.setFileOutput(fileOutputOption != FileOutputOption.DISABLED);
 		}
 	}
 

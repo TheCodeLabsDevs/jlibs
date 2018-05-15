@@ -14,6 +14,8 @@ public class ApplicationInfo implements SettingsSerializable {
 	@Storable private String version;
 	@Storable @Required private long build;
 	@Storable private String author;
+	@Storable
+	private String date;
 
 	@Storable private String basePath;
 
@@ -42,6 +44,10 @@ public class ApplicationInfo implements SettingsSerializable {
 
 	public String getAuthor() {
 		return author;
+	}
+
+	public String getDate() {
+		return date;
 	}
 
 	public String getUpdateURL() {
