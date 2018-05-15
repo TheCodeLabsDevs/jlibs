@@ -23,6 +23,8 @@
     <orderEntry type="library" name="Maven: org.codehaus.mojo:animal-sniffer-annotations:1.14" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.19" level="project" />
     <orderEntry type="library" name="Maven: de.tobias:YAMLStorage:1.0.0" level="project" />
-    <orderEntry type="library" name="Maven: de.tobias:libLogger:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: de.tobias:libLogger:1.2.0" level="project" />
+    <orderEntry type="library" name="Maven: de.tobias:libUtils:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.fusesource.jansi:jansi:1.15" level="project" />
   </component>
 </module>
