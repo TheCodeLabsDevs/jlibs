@@ -7,7 +7,7 @@ import de.tobias.utils.util.ConsoleUtils;
 public class LoggerConfig implements SettingsSerializable {
 
 	@Storable
-	private Boolean color = false;
+	private Boolean color = true;
 	@Storable
 	private String infoColor = ConsoleUtils.Color.GREEN.name();
 	@Storable

@@ -36,6 +36,28 @@
             <groupId>org.fusesource.jansi</groupId>
             <artifactId>jansi</artifactId>
             <version>1.15</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.fusesource.jansi</groupId>
+                    <artifactId>jansi-osx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.fusesource.jansi</groupId>
+                    <artifactId>jansi-linux32</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.fusesource.jansi</groupId>
+                    <artifactId>jansi-linux64</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.fusesource.jansi</groupId>
+                    <artifactId>jansi-freebsd32</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.fusesource.jansi</groupId>
+                    <artifactId>jansi-freebsd64</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

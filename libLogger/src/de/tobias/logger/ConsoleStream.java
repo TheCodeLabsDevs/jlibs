@@ -73,19 +73,33 @@ public class ConsoleStream extends PrintStream {
 		super.print(s);
 	}
 
+	private boolean skipColor = false;
+
 	// Handle print --> file or console
 	@Override
 	public void write(int b) {
-		if (fileOutput)
-			super.write(b);
+		if (fileOutput) {
+			if (b == '\u001B') {
+				skipColor = true;
+			}
+
+			if (!skipColor) {
+				super.write(b);
+			}
+
+			if (b == 'm') {
+				skipColor = false;
+			}
+		}
 		source.write(b);
 	}
 
+	// TODO Improve code performance
 	@Override
 	public void write(@Nonnull byte[] buf, int off, int len) {
-		if (fileOutput)
-			super.write(buf, off, len);
-		source.write(buf, off, len);
+		for (int i = off; i < len; i++) {
+			write(buf[i]);
+		}
 	}
 
 	// Add standard format, if user uses System.out / System.err
@@ -97,13 +111,20 @@ public class ConsoleStream extends PrintStream {
 		}
 		return obj.toString();
 	}
-	
-	
+
+
 	public void setFileOutput(boolean fileOutput) {
 		this.fileOutput = fileOutput;
 	}
 
 	public PrintStream getSource() {
 		return source;
+	}
+
+	public static int find(byte[] array, byte value, int start) {
+		for (int i = start; i < array.length; i++)
+			if (array[i] == value)
+				return i;
+		return -1;
 	}
 }
