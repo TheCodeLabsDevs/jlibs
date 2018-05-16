@@ -9,21 +9,11 @@ public class LogMessage {
 	private final LogLevel level;
 	private final String message;
 	private final String callerClass;
-	private final String codeBase;
 
 	public LogMessage(LogLevel level, String message, String callerClass) {
 		this.level = level;
 		this.message = message;
 		this.callerClass = callerClass;
-
-		String codeBase = null;
-		try {
-			Class<?> clazz = Class.forName(callerClass);
-			codeBase = clazz.getProtectionDomain().getCodeSource().getLocation().getPath();
-		} catch (ClassNotFoundException ignored) {
-		}
-
-		this.codeBase = codeBase;
 	}
 
 	public LogLevel getLevel() {
@@ -36,10 +26,6 @@ public class LogMessage {
 
 	public String getCallerClass() {
 		return callerClass;
-	}
-
-	public String getCodeBase() {
-		return codeBase;
 	}
 
 
@@ -70,13 +56,16 @@ public class LogMessage {
 		if (loggerConfig.isColorEnabled()) {
 			builder.append(ConsoleUtils.getConsoleColorCode(ConsoleUtils.Color.RESET));
 		}
-		builder.append(" @ ");
 
-		// Class Name
-		if (loggerConfig.isColorEnabled()) {
-			builder.append(ConsoleUtils.getConsoleColorCode(loggerConfig.getDetailColor()));
+		if (callerClass != null) {
+			builder.append(" @ ");
+
+			// Class Name
+			if (loggerConfig.isColorEnabled()) {
+				builder.append(ConsoleUtils.getConsoleColorCode(loggerConfig.getDetailColor()));
+			}
+			builder.append(getClassName(callerClass));
 		}
-		builder.append(getClassName(callerClass));
 
 		if (loggerConfig.isColorEnabled()) {
 			builder.append(ConsoleUtils.getConsoleColorCode(ConsoleUtils.Color.RESET));

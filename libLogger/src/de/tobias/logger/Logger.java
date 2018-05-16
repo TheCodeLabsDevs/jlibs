@@ -122,8 +122,17 @@ public class Logger {
 		}
 		if (levelFilter.acceptLevel(level)) {
 
-			StackTraceElement element = Thread.currentThread().getStackTrace()[2];
-			String className = element.getClassName();
+			String className = null;
+			final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+			for (int i = 2; i < stackTrace.length; i++) {
+				StackTraceElement element = stackTrace[i];
+				if (!element.getClassName().contains(Logger.class.getPackage().getName())) {
+					className = element.getClassName();
+					break;
+				}
+			}
+
 
 			LogMessage logMessage = new LogMessage(level, any != null ? any.toString() : "null", className);
 			boolean cancelMessage = filters.stream().anyMatch(f -> !f.accept(logMessage));
