@@ -27,50 +27,58 @@ public class ConsoleStream extends PrintStream {
 
 	@Override
 	public void print(boolean b) {
-		String s = formatString(b);
-		super.print(s);
+		if (checkAndUseLogger(b)) {
+			super.print(b);
+		}
 	}
 
 	@Override
 	public void print(char c) {
-		String s = formatString(c);
-		super.print(s);
+		if (checkAndUseLogger(c)) {
+			super.print(c);
+		}
 	}
 
 	@Override
 	public void print(double d) {
-		String s = formatString(d);
-		super.print(s);
+		if (checkAndUseLogger(d)) {
+			super.print(d);
+		}
 	}
 
 	@Override
 	public void print(float f) {
-		String s = formatString(f);
-		super.print(s);
+		if (checkAndUseLogger(f)) {
+			super.print(f);
+		}
 	}
 
 	@Override
 	public void print(int i) {
-		String s = formatString(i);
-		super.print(s);
+		if (checkAndUseLogger(i)) {
+			super.print(i);
+		}
 	}
 
 	@Override
 	public void print(long l) {
-		String s = formatString(l);
-		super.print(s);
+		if (checkAndUseLogger(l)) {
+			super.print(l);
+		}
 	}
 
 	@Override
 	public void print(Object obj) {
-		obj = formatString(obj);
-		super.print(obj);
+		if (checkAndUseLogger(obj)) {
+			super.print(obj);
+		}
 	}
 
 	@Override
 	public void print(String s) {
-		s = formatString(s);
-		super.print(s);
+		if (checkAndUseLogger(s)) {
+			super.print(s);
+		}
 	}
 
 	private boolean skipColor = false;
@@ -103,13 +111,13 @@ public class ConsoleStream extends PrintStream {
 	}
 
 	// Add standard format, if user uses System.out / System.err
-	private String formatString(Object obj) {
+	private boolean checkAndUseLogger(Object obj) {
 		StackTraceElement element = Thread.currentThread().getStackTrace()[4];
 		if (!element.getClassName().equals(Logger.class.getName())) {
-			LogMessage logMessage = new LogMessage(standardLogLevel, obj.toString(), element.getClassName());
-			return logMessage.buildString(loggerConfig);
+			Logger.log(standardLogLevel, obj);
+			return false;
 		}
-		return obj.toString();
+		return true;
 	}
 
 

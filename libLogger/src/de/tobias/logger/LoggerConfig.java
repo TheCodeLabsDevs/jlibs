@@ -22,6 +22,10 @@ public class LoggerConfig implements SettingsSerializable {
 	private String messageColor = ConsoleUtils.Color.RESET.name();
 	@Storable
 	private String dateFormatterPattern = "dd-MM-YY HH:mm:ss";
+	@Storable
+	private String defaultOutLevel = LogLevel.INFO.name();
+	@Storable
+	private String defaultErrLevel = LogLevel.ERROR.name();
 
 	Boolean isColorEnabled() {
 		return color;
@@ -53,5 +57,13 @@ public class LoggerConfig implements SettingsSerializable {
 
 	String getDateFormatterPattern() {
 		return dateFormatterPattern;
+	}
+
+	LogLevel getDefaultOutLevel() {
+		return LogLevel.valueOf(defaultOutLevel);
+	}
+
+	LogLevel getDefaultErrLevel() {
+		return LogLevel.valueOf(defaultErrLevel);
 	}
 }

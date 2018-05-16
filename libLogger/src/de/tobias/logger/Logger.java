@@ -83,8 +83,8 @@ public class Logger {
 					errFile = baseDir.resolve(ERR_FILE);
 				}
 
-				outputStream = new ConsoleStream(outFile, standardOut, LogLevel.INFO, loggerConfig);
-				errorStream = new ConsoleStream(errFile, standardError, LogLevel.ERROR, loggerConfig);
+				outputStream = new ConsoleStream(outFile, standardOut, loggerConfig.getDefaultOutLevel(), loggerConfig);
+				errorStream = new ConsoleStream(errFile, standardError, loggerConfig.getDefaultErrLevel(), loggerConfig);
 
 				System.setOut(outputStream);
 				System.setErr(errorStream);
