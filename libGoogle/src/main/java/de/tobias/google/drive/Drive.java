@@ -379,7 +379,7 @@ public class Drive extends Service {
 	}
 
 	public static String getMimeType(Path path) {
-		switch (FileUtils.getFileExtention(path)) {
+		switch (FileUtils.getFileExtension(path)) {
 			case "xls":
 				return "application/vnd.ms-excel";
 			case "xlsx":
