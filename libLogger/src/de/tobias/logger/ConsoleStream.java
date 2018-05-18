@@ -13,16 +13,14 @@ public class ConsoleStream extends PrintStream {
 	private boolean fileOutput;
 
 	private final LogLevel standardLogLevel;
-	private final LoggerConfig loggerConfig;
 
-	public ConsoleStream(Path path, PrintStream source, LogLevel standardLogLevel, LoggerConfig loggerConfig) throws IOException {
+	public ConsoleStream(Path path, PrintStream source, LogLevel standardLogLevel) throws IOException {
 		super(Files.newOutputStream(path, StandardOpenOption.APPEND, StandardOpenOption.CREATE));
 
 		this.source = source;
 		this.fileOutput = false;
 
 		this.standardLogLevel = standardLogLevel;
-		this.loggerConfig = loggerConfig;
 	}
 
 	@Override
@@ -81,6 +79,12 @@ public class ConsoleStream extends PrintStream {
 		}
 	}
 
+	@Override
+	public void flush() {
+		super.flush();
+		source.flush();
+	}
+
 	private boolean skipColor = false;
 
 	// Handle print --> file or console
@@ -112,12 +116,15 @@ public class ConsoleStream extends PrintStream {
 
 	// Add standard format, if user uses System.out / System.err
 	private boolean checkAndUseLogger(Object obj) {
-		StackTraceElement element = Thread.currentThread().getStackTrace()[4];
-		if (!element.getClassName().equals(Logger.class.getName())) {
-			Logger.log(standardLogLevel, obj);
-			return false;
+		final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+		for (int i = 2; i < stackTrace.length; i++) {
+			StackTraceElement element = stackTrace[i];
+			if (element.getClassName().contains(Logger.class.getName()) && element.getMethodName().equals("log")) {
+				return true;
+			}
 		}
-		return true;
+		Logger.log(standardLogLevel, obj, false);
+		return false;
 	}
 
 

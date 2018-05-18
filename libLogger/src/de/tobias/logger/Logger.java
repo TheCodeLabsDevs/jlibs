@@ -83,8 +83,8 @@ public class Logger {
 					errFile = baseDir.resolve(ERR_FILE);
 				}
 
-				outputStream = new ConsoleStream(outFile, standardOut, loggerConfig.getDefaultOutLevel(), loggerConfig);
-				errorStream = new ConsoleStream(errFile, standardError, loggerConfig.getDefaultErrLevel(), loggerConfig);
+				outputStream = new ConsoleStream(outFile, standardOut, loggerConfig.getDefaultOutLevel());
+				errorStream = new ConsoleStream(errFile, standardError, loggerConfig.getDefaultErrLevel());
 
 				System.setOut(outputStream);
 				System.setErr(errorStream);
@@ -116,6 +116,10 @@ public class Logger {
 	 * @param any   object to log
 	 */
 	public static void log(LogLevel level, Object any) {
+		log(level, any, true);
+	}
+
+	static void log(LogLevel level, Object any, boolean newLine) {
 		if (!initialized) {
 			System.err.println("initialize logger first (Logger.init(Path))");
 			return;
@@ -127,7 +131,7 @@ public class Logger {
 
 			for (int i = 2; i < stackTrace.length; i++) {
 				StackTraceElement element = stackTrace[i];
-				if (!element.getClassName().contains(Logger.class.getPackage().getName())) {
+				if (!element.getClassName().contains(Logger.class.getPackage().getName()) && !element.getClassName().startsWith("java")) {
 					className = element.getClassName();
 					break;
 				}
@@ -137,10 +141,18 @@ public class Logger {
 			LogMessage logMessage = new LogMessage(level, any != null ? any.toString() : "null", className);
 			boolean cancelMessage = filters.stream().anyMatch(f -> !f.accept(logMessage));
 			if (!cancelMessage) {
+				PrintStream printStream;
 				if (level == LogLevel.ERROR || level == LogLevel.FATAL) {
-					System.err.println(logMessage.buildString(loggerConfig));
+					printStream = System.err;
 				} else {
-					System.out.println(logMessage.buildString(loggerConfig));
+					printStream = System.out;
+				}
+
+				if (newLine) {
+					printStream.println(logMessage.buildString(loggerConfig));
+				} else {
+					printStream.print(logMessage.buildString(loggerConfig));
+					printStream.flush();
 				}
 			}
 		}
