@@ -22,5 +22,5 @@ public @interface DocumentHandler {
 	 * 
 	 * @return File Type Extension
 	 */
-	public abstract String type();
+	String type();
 }
