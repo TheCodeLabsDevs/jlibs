@@ -1,10 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>de.tobias</groupId>
 	<artifactId>libUtils</artifactId>
-	<version>1.2.1</version>
-	<build>
+    <version>1.2.2</version>
+
+    <build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
 			<resource>
@@ -25,7 +27,8 @@
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
+
+    <dependencies>
 		<dependency>
 			<groupId>commons-net</groupId>
 			<artifactId>commons-net</artifactId>
@@ -76,6 +79,11 @@
 			<artifactId>YAMLStorage</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+        <dependency>
+            <groupId>de.tobias</groupId>
+            <artifactId>libStorage</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 	</dependencies>
 
 	<distributionManagement>
