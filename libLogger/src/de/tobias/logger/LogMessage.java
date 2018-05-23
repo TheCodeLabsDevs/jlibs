@@ -1,7 +1,5 @@
 package de.tobias.logger;
 
-import de.tobias.utils.util.ConsoleUtils;
-
 import java.text.SimpleDateFormat;
 
 public class LogMessage {

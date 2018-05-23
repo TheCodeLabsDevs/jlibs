@@ -1,7 +1,6 @@
 package de.tobias.logger;
 
 import de.tobias.utils.settings.YAMLSettings;
-import de.tobias.utils.util.OS;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.io.*;
@@ -45,7 +44,7 @@ public class Logger {
 			initialized = true;
 
 			// Allow Windows to use colors in prompt
-			if (loggerConfig.isColorEnabled() && OS.isWindows() && !ConsoleUtils.runningInIntellij()) {
+			if (loggerConfig.isColorEnabled() && ConsoleUtils.isWindows() && !ConsoleUtils.runningInIntellij()) {
 				AnsiConsole.systemInstall();
 			}
 

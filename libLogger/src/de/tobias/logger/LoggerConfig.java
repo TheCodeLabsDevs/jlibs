@@ -2,7 +2,6 @@ package de.tobias.logger;
 
 import de.tobias.utils.settings.SettingsSerializable;
 import de.tobias.utils.settings.Storable;
-import de.tobias.utils.util.ConsoleUtils;
 
 public class LoggerConfig implements SettingsSerializable {
 
