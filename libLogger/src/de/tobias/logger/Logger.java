@@ -45,7 +45,7 @@ public class Logger {
 			initialized = true;
 
 			// Allow Windows to use colors in prompt
-			if (loggerConfig.isColorEnabled() && OS.isWindows()) {
+			if (loggerConfig.isColorEnabled() && OS.isWindows() && !ConsoleUtils.runningInIntellij()) {
 				AnsiConsole.systemInstall();
 			}
 
