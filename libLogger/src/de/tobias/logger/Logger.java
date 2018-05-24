@@ -187,4 +187,7 @@ public class Logger {
 		return sw.toString();
 	}
 
+	static LoggerConfig getLoggerConfig() {
+		return loggerConfig;
+	}
 }

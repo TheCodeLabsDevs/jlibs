@@ -115,6 +115,10 @@ public class ConsoleStream extends PrintStream {
 
 	// Add standard format, if user uses System.out / System.err
 	private boolean checkAndUseLogger(Object obj) {
+		if (Logger.getLoggerConfig().isIgnoreStandardStream()) {
+			return true;
+		}
+
 		final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 		for (int i = 2; i < stackTrace.length; i++) {
 			StackTraceElement element = stackTrace[i];
@@ -133,12 +137,5 @@ public class ConsoleStream extends PrintStream {
 
 	public PrintStream getSource() {
 		return source;
-	}
-
-	public static int find(byte[] array, byte value, int start) {
-		for (int i = start; i < array.length; i++)
-			if (array[i] == value)
-				return i;
-		return -1;
 	}
 }

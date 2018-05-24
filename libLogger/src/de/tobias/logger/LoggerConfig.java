@@ -37,6 +37,9 @@ public class LoggerConfig implements SettingsSerializable {
 	@Storable
 	private boolean showLineNumber = false;
 
+	@Storable
+	private boolean ignoreStandardStream = false;
+
 	boolean isColorEnabled() {
 		return color;
 	}
@@ -91,6 +94,10 @@ public class LoggerConfig implements SettingsSerializable {
 
 	boolean isShowLineNumber() {
 		return showLineNumber;
+	}
+
+	boolean isIgnoreStandardStream() {
+		return ignoreStandardStream;
 	}
 
 	boolean showCallInformation() {
