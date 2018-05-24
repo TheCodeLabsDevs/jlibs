@@ -54,6 +54,10 @@ public class Logger {
 		}
 	}
 
+	public static boolean isInitialized() {
+		return initialized;
+	}
+
 	private static LoggerConfig loadLoggerConfig() {
 		InputStream inputStream = Logger.class.getClassLoader().getResourceAsStream("libLogger.yml");
 		if (inputStream == null) {
