@@ -4,7 +4,7 @@
 
 	<groupId>de.tobias</groupId>
 	<artifactId>libUtils</artifactId>
-    <version>1.2.3</version>
+	<version>1.2.4</version>
 
     <build>
 		<sourceDirectory>src</sourceDirectory>
@@ -84,6 +84,12 @@
             <artifactId>libStorage</artifactId>
             <version>1.0.0</version>
         </dependency>
+
+		<dependency>
+			<groupId>de.tobias</groupId>
+			<artifactId>libLogger</artifactId>
+			<version>1.3.0</version>
+		</dependency>
 	</dependencies>
 
 	<distributionManagement>

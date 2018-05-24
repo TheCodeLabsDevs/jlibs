@@ -1,5 +1,6 @@
 package de.tobias.utils.application;
 
+import de.tobias.logger.Logger;
 import de.tobias.utils.application.container.BackupInfo;
 import de.tobias.utils.application.container.FileContainer;
 import de.tobias.utils.application.container.PathType;
@@ -278,7 +279,9 @@ public class App {
 	}
 
 	private void println(String string) {
-		if (debug) {
+		if (Logger.isInitialized()) {
+			Logger.info(string);
+		} else {
 			System.out.println(string);
 		}
 	}
