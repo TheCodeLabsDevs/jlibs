@@ -6,12 +6,13 @@ public class LogMessage {
 
 	private final LogLevel level;
 	private final String message;
-	private final String callerClass;
 
-	public LogMessage(LogLevel level, String message, String callerClass) {
+	private final StackTraceElement caller;
+
+	public LogMessage(LogLevel level, String message, StackTraceElement caller) {
 		this.level = level;
 		this.message = message;
-		this.callerClass = callerClass;
+		this.caller = caller;
 	}
 
 	public LogLevel getLevel() {
@@ -22,10 +23,9 @@ public class LogMessage {
 		return message;
 	}
 
-	public String getCallerClass() {
-		return callerClass;
+	public StackTraceElement getCaller() {
+		return caller;
 	}
-
 
 	public String buildString(LoggerConfig loggerConfig) {
 		final SimpleDateFormat format = new SimpleDateFormat(loggerConfig.getDateFormatterPattern());
@@ -55,14 +55,15 @@ public class LogMessage {
 			builder.append(ConsoleUtils.getConsoleColorCode(ConsoleUtils.Color.RESET));
 		}
 
-		if (callerClass != null) {
+		if (caller != null && loggerConfig.showCallInformation()) {
 			builder.append(" @ ");
 
 			// Class Name
 			if (loggerConfig.isColorEnabled()) {
 				builder.append(ConsoleUtils.getConsoleColorCode(loggerConfig.getDetailColor()));
 			}
-			builder.append(getClassName(callerClass));
+
+			builder.append(getClassName(caller, loggerConfig));
 		}
 
 		if (loggerConfig.isColorEnabled()) {
@@ -82,8 +83,32 @@ public class LogMessage {
 		return "[" + level.name() + "]";
 	}
 
-	private static String getClassName(String className) {
-		return "[" + className + "]";
+	private static String getClassName(StackTraceElement caller, LoggerConfig config) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[");
+		if (config.isShowClassName()) {
+			String className = caller.getClassName();
+
+			if (config.isShowShortPackageName()) {
+				className = ConsoleUtils.stripPackageName(className);
+			}
+
+			builder.append(className);
+			if (config.isShowMethodName()) {
+				builder.append(".");
+			}
+		}
+		if (config.isShowMethodName()) {
+			builder.append(caller.getMethodName());
+			if (config.isShowLineNumber()) {
+				builder.append(":");
+			}
+		}
+		if (config.isShowLineNumber()) {
+			builder.append(caller.getLineNumber());
+		}
+		builder.append("]");
+		return builder.toString();
 	}
 
 	private static ConsoleUtils.Color getColorForLogLevel(LogLevel logLevel, LoggerConfig loggerConfig) {

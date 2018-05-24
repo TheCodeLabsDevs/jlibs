@@ -6,7 +6,7 @@ import de.tobias.utils.settings.Storable;
 public class LoggerConfig implements SettingsSerializable {
 
 	@Storable
-	private Boolean color = true;
+	private boolean color = true;
 	@Storable
 	private String infoColor = ConsoleUtils.Color.GREEN.name();
 	@Storable
@@ -19,14 +19,25 @@ public class LoggerConfig implements SettingsSerializable {
 	private String detailColor = ConsoleUtils.Color.CYAN.name();
 	@Storable
 	private String messageColor = ConsoleUtils.Color.RESET.name();
+
 	@Storable
 	private String dateFormatterPattern = "dd-MM-YY HH:mm:ss";
+
 	@Storable
 	private String defaultOutLevel = LogLevel.INFO.name();
 	@Storable
 	private String defaultErrLevel = LogLevel.ERROR.name();
 
-	Boolean isColorEnabled() {
+	@Storable
+	private boolean showShortPackageName = true;
+	@Storable
+	private boolean showClassName = true;
+	@Storable
+	private boolean showMethodName = false;
+	@Storable
+	private boolean showLineNumber = false;
+
+	boolean isColorEnabled() {
 		return color;
 	}
 
@@ -64,5 +75,25 @@ public class LoggerConfig implements SettingsSerializable {
 
 	LogLevel getDefaultErrLevel() {
 		return LogLevel.valueOf(defaultErrLevel);
+	}
+
+	boolean isShowShortPackageName() {
+		return showShortPackageName;
+	}
+
+	boolean isShowClassName() {
+		return showClassName;
+	}
+
+	boolean isShowMethodName() {
+		return showMethodName;
+	}
+
+	boolean isShowLineNumber() {
+		return showLineNumber;
+	}
+
+	boolean showCallInformation() {
+		return showClassName || showMethodName || showLineNumber;
 	}
 }
