@@ -19,7 +19,7 @@ public class ConsoleUtils {
 		WHITE(ConsoleColors.WHITE),
 		RED_BRIGHT(ConsoleColors.RED_BRIGHT),
 		GREEN_BRIGHT(ConsoleColors.GREEN_BRIGHT),
-		YELLOW_BRIGHT(ConsoleColors.GREEN_BRIGHT),
+		YELLOW_BRIGHT(ConsoleColors.YELLOW_BRIGHT),
 		BLUE_BRIGHT(ConsoleColors.BLUE_BRIGHT),
 		PURPLE_BRIGHT(ConsoleColors.PURPLE_BRIGHT),
 		CYAN_BRIGHT(ConsoleColors.CYAN_BRIGHT),
