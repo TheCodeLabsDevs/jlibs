@@ -1,13 +1,12 @@
 package de.tobias.utils.util;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * 
  * @author tobias
- *
  */
 public class Localization {
 
@@ -16,7 +15,6 @@ public class Localization {
 	private static ResourceBundle bundle;
 
 	/**
-	 * 
 	 * @param delegate
 	 */
 	public static void setDelegate(LocalizationDelegate delegate) {
@@ -24,7 +22,7 @@ public class Localization {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public static void load() {
 		if (delegate == null) {
@@ -34,7 +32,6 @@ public class Localization {
 	}
 
 	/**
-	 * 
 	 * @param name
 	 * @param loader
 	 * @return
@@ -49,7 +46,6 @@ public class Localization {
 	}
 
 	/**
-	 * 
 	 * @return
 	 */
 	public static ResourceBundle getBundle() {
@@ -57,11 +53,10 @@ public class Localization {
 	}
 
 	/**
-	 * 
 	 * @param key
 	 * @return
 	 */
-	public static String getString(String key) {
+	private static String _getString(String key) {
 		if (bundle != null)
 			if (bundle.containsKey(key))
 				return bundle.getString(key);
@@ -74,12 +69,11 @@ public class Localization {
 	}
 
 	/**
-	 * 
 	 * @param key
 	 * @param args
 	 * @return
 	 */
-	public static String getString(String key, Object... args) {
+	private static String _getString(String key, Object... args) {
 		if (bundle != null)
 			if (bundle.containsKey(key)) {
 				String message = bundle.getString(key);
@@ -106,23 +100,51 @@ public class Localization {
 			return key + " (bundle nil)";
 	}
 
-	/**
-	 * 
-	 * @author tobias
-	 *
-	 */
+	public static String getString(String key) {
+		// Use old method
+		if (!delegate.useMessageFormatter()) {
+			return _getString(key);
+		}
+
+		if (bundle == null) {
+			throw new NullPointerException("ResourceBundle is null. Call Localization.init() and Localization.loadLanguage() first");
+		}
+
+		if (bundle.containsKey(key)) {
+			return bundle.getString(key);
+		} else {
+			System.err.println("Unknown key for ResourceBundle: " + key);
+			return key;
+		}
+	}
+
+	public static String getString(String key, Object... args) {
+		// Use old method
+		if (!delegate.useMessageFormatter()) {
+			return _getString(key, args);
+		}
+
+		if (bundle == null) {
+			throw new NullPointerException("ResourceBundle is null. Call Localization.init() and Localization.loadLanguage() first");
+		}
+
+		if (bundle.containsKey(key)) {
+			return MessageFormat.format(bundle.getString(key), args);
+		} else {
+			System.err.println("Unknown key for ResourceBundle: " + key);
+			return key;
+		}
+	}
+
+
 	public interface LocalizationDelegate {
 
-		/**
-		 * 
-		 * @return
-		 */
-		public Locale getLocale();
+		Locale getLocale();
 
-		/**
-		 * 
-		 * @return
-		 */
-		public String getBaseResource();
+		String getBaseResource();
+
+		default boolean useMessageFormatter() {
+			return false;
+		}
 	}
 }
