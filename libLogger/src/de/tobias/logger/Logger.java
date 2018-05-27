@@ -54,6 +54,18 @@ public class Logger {
 		}
 	}
 
+	public static LogLevelFilter getLevelFilter() {
+		return levelFilter;
+	}
+
+	public static Path getOutPath() {
+		return baseDir.resolve(OUT_FILE);
+	}
+
+	public static Path getErrPath() {
+		return baseDir.resolve(ERR_FILE);
+	}
+
 	public static boolean isInitialized() {
 		return initialized;
 	}
