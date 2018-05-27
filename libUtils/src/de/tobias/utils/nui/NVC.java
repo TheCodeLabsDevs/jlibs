@@ -168,8 +168,7 @@ public class NVC implements Alertable {
 		}
 
 		Alert alert = new Alert(AlertType.ERROR);
-		if (stageContainer.isPresent())
-			alert.initOwner(stageContainer.get().getStage());
+		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
 		alert.initModality(Modality.WINDOW_MODAL);
 		alert.setContentText(message);
 		if (icon != null) {
@@ -186,8 +185,7 @@ public class NVC implements Alertable {
 		}
 
 		Alert alert = new Alert(AlertType.ERROR);
-		if (stageContainer.isPresent())
-			alert.initOwner(stageContainer.get().getStage());
+		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
 		alert.initModality(Modality.WINDOW_MODAL);
 		alert.setContentText(message);
 		if (icon.isPresent()) {
@@ -204,8 +202,7 @@ public class NVC implements Alertable {
 		}
 
 		Alert alert = new Alert(AlertType.INFORMATION);
-		if (stageContainer.isPresent())
-			alert.initOwner(stageContainer.get().getStage());
+		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
 		alert.initModality(Modality.WINDOW_MODAL);
 		alert.setContentText(message);
 		if (icon != null) {
@@ -222,8 +219,7 @@ public class NVC implements Alertable {
 		}
 
 		Alert alert = new Alert(AlertType.INFORMATION);
-		if (stageContainer.isPresent())
-			alert.initOwner(stageContainer.get().getStage());
+		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
 		alert.initModality(Modality.WINDOW_MODAL);
 		alert.setContentText(message);
 		alert.setHeaderText(header);
@@ -232,6 +228,25 @@ public class NVC implements Alertable {
 			stage.getIcons().add(icon);
 		}
 		alert.showAndWait();
+	}
+
+	// Action methods
+	public final boolean showStage() {
+		if (getStageContainer().isPresent()) {
+			getStageContainer().get().show();
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public final boolean closeStage() {
+		if (getStageContainer().isPresent()) {
+			getStageContainer().get().close();
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	// Utils
