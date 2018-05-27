@@ -2,8 +2,8 @@ package de.tobias.utils.nui;
 
 public class NVCItem {
 
-	private double posX = 100;
-	private double posY = 100;
+	private double posX = Double.NaN;
+	private double posY = Double.NaN;
 
 	private double width = 600;
 	private double height = 400;

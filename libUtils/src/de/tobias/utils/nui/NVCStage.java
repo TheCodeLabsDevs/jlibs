@@ -18,7 +18,7 @@ public final class NVCStage {
 
 		/**
 		 * Wird beim Schließen des Fensters aufgerufen.
-		 * 
+		 *
 		 * @return <code>true</code> schließen
 		 */
 		boolean onClose();
@@ -54,7 +54,7 @@ public final class NVCStage {
 		stage.initOwner(owner);
 		return this;
 	}
-	
+
 	public NVCStage initModality(Modality modality) {
 		stage.initModality(modality);
 		return this;
@@ -70,15 +70,19 @@ public final class NVCStage {
 
 		// Load Settings
 		if (!viewController.getClass().isAnnotationPresent(IgnoreStageSizing.class) && !isDisabledSizeLoading()) {
-			NVCItem loadItem = NVCDatabase.getItem(viewController.getClass());
+			NVCItem item = NVCDatabase.getItem(viewController.getClass());
 
-			ObservableList<Screen> screens = Screen.getScreensForRectangle(loadItem.getPosX(), loadItem.getPosY(), loadItem.getWidth(),
-					loadItem.getHeight());
+			ObservableList<Screen> screens = Screen.getScreensForRectangle(item.getPosX(), item.getPosY(), item.getWidth(), item.getHeight());
 			if (screens.size() != 0) {
-				stage.setX(loadItem.getPosX());
-				stage.setY(loadItem.getPosY());
-				stage.setWidth(loadItem.getWidth());
-				stage.setHeight(loadItem.getHeight());
+				if (!Double.isNaN(item.getPosX()) && !Double.isNaN(item.getPosY())) {
+					stage.setX(item.getPosX());
+					stage.setY(item.getPosY());
+				} else {
+					stage.centerOnScreen();
+				}
+
+				stage.setWidth(item.getWidth());
+				stage.setHeight(item.getHeight());
 			}
 		} else {
 			System.out.println("Skip stage sizing");
@@ -110,12 +114,9 @@ public final class NVCStage {
 
 	/**
 	 * Setzt das Icon der Stage.
-	 * 
-	 * @param image
-	 *            Image
-	 * 
-	 * @throws IllegalStateException
-	 *             Stage is null
+	 *
+	 * @param image Image
+	 * @throws IllegalStateException Stage is null
 	 */
 	public void setImage(Image image) {
 		if (stage == null) {
@@ -130,9 +131,8 @@ public final class NVCStage {
 
 	/**
 	 * Fügt ein Stylesheet hinzu.
-	 * 
-	 * @param path
-	 *            Path zu stylesheet
+	 *
+	 * @param path Path zu stylesheet
 	 */
 	public void addStylesheet(String path) {
 		if (stage == null) {
