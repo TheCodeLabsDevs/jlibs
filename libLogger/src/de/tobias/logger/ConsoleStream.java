@@ -126,7 +126,7 @@ public class ConsoleStream extends PrintStream {
 				return true;
 			}
 		}
-		Logger.log(standardLogLevel, obj, false);
+		Logger.log(false, standardLogLevel, obj);
 		return false;
 	}
 

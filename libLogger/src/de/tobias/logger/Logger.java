@@ -6,6 +6,7 @@ import org.fusesource.jansi.AnsiConsole;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -130,11 +131,11 @@ public class Logger {
 	 * @param level log level
 	 * @param any   object to log
 	 */
-	public static void log(LogLevel level, Object any) {
-		log(level, any, true);
+	public static void log(LogLevel level, Object any, Object... args) {
+		log(true, level, any, args);
 	}
 
-	static void log(LogLevel level, Object any, boolean newLine) {
+	static void log(boolean newLine, LogLevel level, Object any, Object... args) {
 		if (!initialized) {
 			System.err.println("initialize logger first (Logger.init(Path))");
 			return;
@@ -152,7 +153,10 @@ public class Logger {
 				}
 			}
 
-			LogMessage logMessage = new LogMessage(level, any != null ? any.toString() : "null", element);
+			String message = any != null ? any.toString() : "null";
+			message = MessageFormat.format(message, args);
+
+			LogMessage logMessage = new LogMessage(level, message, element);
 			boolean cancelMessage = filters.stream().anyMatch(f -> !f.accept(logMessage));
 			if (!cancelMessage) {
 				PrintStream printStream;
@@ -172,24 +176,24 @@ public class Logger {
 		}
 	}
 
-	public static void info(Object any) {
-		log(LogLevel.INFO, any.toString());
+	public static void info(Object any, Object... args) {
+		log(LogLevel.INFO, any.toString(), args);
 	}
 
-	public static void debug(Object any) {
-		log(LogLevel.DEBUG, any.toString());
+	public static void debug(Object any, Object... args) {
+		log(LogLevel.DEBUG, any.toString(), args);
 	}
 
-	public static void error(Object any) {
-		log(LogLevel.ERROR, any.toString());
+	public static void error(Object any, Object... args) {
+		log(LogLevel.ERROR, any.toString(), args);
 	}
 
-	public static void warning(Object any) {
-		log(LogLevel.WARNING, any.toString());
+	public static void warning(Object any, Object... args) {
+		log(LogLevel.WARNING, any.toString(), args);
 	}
 
-	public static void fatal(Object any) {
-		log(LogLevel.FATAL, any.toString());
+	public static void fatal(Object any, Object... args) {
+		log(LogLevel.FATAL, any.toString(), args);
 	}
 
 	public static void error(Throwable throwable) {
