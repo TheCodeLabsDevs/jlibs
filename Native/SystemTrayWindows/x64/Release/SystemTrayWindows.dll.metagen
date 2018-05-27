@@ -1,0 +1,77 @@
+ImageRuntimeVersion: v4.0.30319
+Assembly SystemTrayWindows, Version=1.0.*, Culture=Invariante Sprache (Invariantes Land): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
+Class SystemTrayWindows.SystemTray: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    startUp(): PrivateScope, Public, Static, HideBySig
+    treaDown(): PrivateScope, Public, Static, HideBySig
+    addObject(Int32 IsLong, Object): PrivateScope, Public, Static, HideBySig
+    getID(JNIEnv_*, _jobject*): PrivateScope, Public, Static, HideBySig
+    getObject(Int32 IsLong): PrivateScope, Public, Static, HideBySig
+    removeObject(Int32 IsLong): PrivateScope, Public, Static, HideBySig
+    isSameClass(SByte*, JNIEnv_*, _jobject*): PrivateScope, Public, Static, HideBySig
+    getIconFromJava(JNIEnv_*, _jbyteArray*): PrivateScope, Public, Static, HideBySig
+Class SystemTrayWindows.TUMenuItem: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 id IsLong : Public
+    _jobject* saved_listener_instance : Public
+  Methods:
+    setJava(JNIEnv_*, _jobject*): PrivateScope, Public, HideBySig
+    setTitle(String): PrivateScope, Public, HideBySig
+    getMenuItem(): PrivateScope, Public, HideBySig
+Class SystemTrayWindows.TUSubMenu: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 id IsLong : Public
+  Methods:
+    getMenuItem(): PrivateScope, Public, HideBySig
+    addItem(MenuItem): PrivateScope, Public, HideBySig
+    insertItem(MenuItem, Int32): PrivateScope, Public, HideBySig
+    removeItem(Int32): PrivateScope, Public, HideBySig
+    removeItem(MenuItem): PrivateScope, Public, HideBySig
+    clearMenu(): PrivateScope, Public, HideBySig
+    setTitle(String): PrivateScope, Public, HideBySig
+Class SystemTrayWindows.TUMenu: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 id IsLong : Public
+  Methods:
+    getConextMenu(): PrivateScope, Public, HideBySig
+    addItem(MenuItem): PrivateScope, Public, HideBySig
+    insertItem(MenuItem, Int32): PrivateScope, Public, HideBySig
+    removeItem(Int32): PrivateScope, Public, HideBySig
+    removeItem(MenuItem): PrivateScope, Public, HideBySig
+    clearMenu(): PrivateScope, Public, HideBySig
+Class SystemTrayWindows.TUSystemTrayItem: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 id IsLong : Public
+  Methods:
+    getNotifyIcon(): PrivateScope, Public, HideBySig
+    setIcon(Icon): PrivateScope, Public, HideBySig
+    setToolTip(String): PrivateScope, Public, HideBySig
+    setMenu(TUMenu): PrivateScope, Public, HideBySig
+    show(): PrivateScope, Public, HideBySig
+    dismiss(): PrivateScope, Public, HideBySig
+Class SystemTrayWindows.TUNotification: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 id IsLong : Public
+    _jobject* saved_listener_instance : Public
+  Methods:
+    show(String, String, TUSystemTrayItem): PrivateScope, Public, HideBySig
+    setJava(JNIEnv_*, _jobject*): PrivateScope, Public, HideBySig

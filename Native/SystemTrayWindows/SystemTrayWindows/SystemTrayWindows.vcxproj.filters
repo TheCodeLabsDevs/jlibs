@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien\.net">
+      <UniqueIdentifier>{4221a732-df21-444c-b277-7ea0dfcef8b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\java">
+      <UniqueIdentifier>{ff575a1e-cd3b-4252-a57a-e8e4ab9f7128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\.net">
+      <UniqueIdentifier>{32f2637c-7dc9-4455-a803-957a157d0af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\java">
+      <UniqueIdentifier>{314eb156-1354-4b78-8d21-9087c5fe72b5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SystemTrayWindows.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Stdafx.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="TUMenus.h">
+      <Filter>Headerdateien\.net</Filter>
+    </ClInclude>
+    <ClInclude Include="de_tobias_systemtray_menu_Menu.h">
+      <Filter>Headerdateien\java</Filter>
+    </ClInclude>
+    <ClInclude Include="de_tobias_systemtray_menu_MenuItem.h">
+      <Filter>Headerdateien\java</Filter>
+    </ClInclude>
+    <ClInclude Include="de_tobias_systemtray_menu_SubMenu.h">
+      <Filter>Headerdateien\java</Filter>
+    </ClInclude>
+    <ClInclude Include="de_tobias_systemtray_SystemTray.h">
+      <Filter>Headerdateien\java</Filter>
+    </ClInclude>
+    <ClInclude Include="de_tobias_systemtray_SystemTrayItem.h">
+      <Filter>Headerdateien\java</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SystemTrayWindows.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="AssemblyInfo.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Stdafx.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="TUmenu.cpp">
+      <Filter>Quelldateien\.net</Filter>
+    </ClCompile>
+    <ClCompile Include="TUMenuItem.cpp">
+      <Filter>Quelldateien\.net</Filter>
+    </ClCompile>
+    <ClCompile Include="TUNotification.cpp">
+      <Filter>Quelldateien\.net</Filter>
+    </ClCompile>
+    <ClCompile Include="TUSubMenu.cpp">
+      <Filter>Quelldateien\.net</Filter>
+    </ClCompile>
+    <ClCompile Include="TUSystemTrayItem.cpp">
+      <Filter>Quelldateien\.net</Filter>
+    </ClCompile>
+    <ClCompile Include="de_tobias_systemtray_menu_Menu.cpp">
+      <Filter>Quelldateien\java</Filter>
+    </ClCompile>
+    <ClCompile Include="de_tobias_systemtray_menu_MenuItem.cpp">
+      <Filter>Quelldateien\java</Filter>
+    </ClCompile>
+    <ClCompile Include="de_tobias_systemtray_menu_SubMenu.cpp">
+      <Filter>Quelldateien\java</Filter>
+    </ClCompile>
+    <ClCompile Include="de_tobias_systemtray_SystemTray.cpp">
+      <Filter>Quelldateien\java</Filter>
+    </ClCompile>
+    <ClCompile Include="de_tobias_systemtray_SystemTrayItem.cpp">
+      <Filter>Quelldateien\java</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc">
+      <Filter>Ressourcendateien</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="app.ico">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

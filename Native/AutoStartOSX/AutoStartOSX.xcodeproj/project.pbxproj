@@ -1,0 +1,431 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F677737B19E87F4D00AD887F /* de_tobias_autostart_impl_OSXAutoStartNative.h in Headers */ = {isa = PBXBuildFile; fileRef = F677737A19E87F4D00AD887F /* de_tobias_autostart_impl_OSXAutoStartNative.h */; };
+		F677737D19E87F7900AD887F /* AutostartImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = F677737C19E87F7900AD887F /* AutostartImpl.m */; };
+		F677738719E87FD600AD887F /* classfile_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = F677737E19E87FD600AD887F /* classfile_constants.h */; };
+		F677738819E87FD600AD887F /* jawt_md.h in Headers */ = {isa = PBXBuildFile; fileRef = F677738019E87FD600AD887F /* jawt_md.h */; };
+		F677738919E87FD600AD887F /* jni_md.h in Headers */ = {isa = PBXBuildFile; fileRef = F677738119E87FD600AD887F /* jni_md.h */; };
+		F677738A19E87FD600AD887F /* jawt.h in Headers */ = {isa = PBXBuildFile; fileRef = F677738219E87FD600AD887F /* jawt.h */; };
+		F677738B19E87FD600AD887F /* jdwpTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = F677738319E87FD600AD887F /* jdwpTransport.h */; };
+		F677738C19E87FD600AD887F /* jni.h in Headers */ = {isa = PBXBuildFile; fileRef = F677738419E87FD600AD887F /* jni.h */; };
+		F677738D19E87FD600AD887F /* jvmti.h in Headers */ = {isa = PBXBuildFile; fileRef = F677738519E87FD600AD887F /* jvmti.h */; };
+		F677738E19E87FD600AD887F /* jvmticmlr.h in Headers */ = {isa = PBXBuildFile; fileRef = F677738619E87FD600AD887F /* jvmticmlr.h */; };
+		F680EFEA19E83D70006729B3 /* AutoStartOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = F680EFE919E83D70006729B3 /* AutoStartOSX.h */; };
+		F680EFEC19E83D70006729B3 /* AutoStartOSX.m in Sources */ = {isa = PBXBuildFile; fileRef = F680EFEB19E83D70006729B3 /* AutoStartOSX.m */; };
+		F680EFF219E83D70006729B3 /* libAutoStartOSX.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F680EFE619E83D70006729B3 /* libAutoStartOSX.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F680EFF319E83D70006729B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F680EFDE19E83D70006729B3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F680EFE519E83D70006729B3;
+			remoteInfo = AutoStartOSX;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F677737A19E87F4D00AD887F /* de_tobias_autostart_impl_OSXAutoStartNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = de_tobias_autostart_impl_OSXAutoStartNative.h; sourceTree = "<group>"; };
+		F677737C19E87F7900AD887F /* AutostartImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutostartImpl.m; sourceTree = "<group>"; };
+		F677737E19E87FD600AD887F /* classfile_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = classfile_constants.h; sourceTree = "<group>"; };
+		F677738019E87FD600AD887F /* jawt_md.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jawt_md.h; sourceTree = "<group>"; };
+		F677738119E87FD600AD887F /* jni_md.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jni_md.h; sourceTree = "<group>"; };
+		F677738219E87FD600AD887F /* jawt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jawt.h; sourceTree = "<group>"; };
+		F677738319E87FD600AD887F /* jdwpTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jdwpTransport.h; sourceTree = "<group>"; };
+		F677738419E87FD600AD887F /* jni.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jni.h; sourceTree = "<group>"; };
+		F677738519E87FD600AD887F /* jvmti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jvmti.h; sourceTree = "<group>"; };
+		F677738619E87FD600AD887F /* jvmticmlr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jvmticmlr.h; sourceTree = "<group>"; };
+		F680EFE619E83D70006729B3 /* libAutoStartOSX.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libAutoStartOSX.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		F680EFE919E83D70006729B3 /* AutoStartOSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AutoStartOSX.h; sourceTree = "<group>"; };
+		F680EFEB19E83D70006729B3 /* AutoStartOSX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AutoStartOSX.m; sourceTree = "<group>"; };
+		F680EFF119E83D70006729B3 /* AutoStartOSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AutoStartOSXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F680EFF719E83D70006729B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F680EFE319E83D70006729B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F680EFEE19E83D70006729B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F680EFF219E83D70006729B3 /* libAutoStartOSX.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F677737F19E87FD600AD887F /* darwin */ = {
+			isa = PBXGroup;
+			children = (
+				F677738019E87FD600AD887F /* jawt_md.h */,
+				F677738119E87FD600AD887F /* jni_md.h */,
+			);
+			path = darwin;
+			sourceTree = "<group>";
+		};
+		F677739019E87FE400AD887F /* jni */ = {
+			isa = PBXGroup;
+			children = (
+				F677737E19E87FD600AD887F /* classfile_constants.h */,
+				F677737F19E87FD600AD887F /* darwin */,
+				F677738219E87FD600AD887F /* jawt.h */,
+				F677738319E87FD600AD887F /* jdwpTransport.h */,
+				F677738419E87FD600AD887F /* jni.h */,
+				F677738519E87FD600AD887F /* jvmti.h */,
+				F677738619E87FD600AD887F /* jvmticmlr.h */,
+			);
+			name = jni;
+			sourceTree = "<group>";
+		};
+		F680EFDD19E83D70006729B3 = {
+			isa = PBXGroup;
+			children = (
+				F680EFE819E83D70006729B3 /* AutoStartOSX */,
+				F680EFF519E83D70006729B3 /* AutoStartOSXTests */,
+				F680EFE719E83D70006729B3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F680EFE719E83D70006729B3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F680EFE619E83D70006729B3 /* libAutoStartOSX.dylib */,
+				F680EFF119E83D70006729B3 /* AutoStartOSXTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F680EFE819E83D70006729B3 /* AutoStartOSX */ = {
+			isa = PBXGroup;
+			children = (
+				F677739019E87FE400AD887F /* jni */,
+				F677737A19E87F4D00AD887F /* de_tobias_autostart_impl_OSXAutoStartNative.h */,
+				F680EFE919E83D70006729B3 /* AutoStartOSX.h */,
+				F680EFEB19E83D70006729B3 /* AutoStartOSX.m */,
+				F677737C19E87F7900AD887F /* AutostartImpl.m */,
+			);
+			path = AutoStartOSX;
+			sourceTree = "<group>";
+		};
+		F680EFF519E83D70006729B3 /* AutoStartOSXTests */ = {
+			isa = PBXGroup;
+			children = (
+				F680EFF619E83D70006729B3 /* Supporting Files */,
+			);
+			path = AutoStartOSXTests;
+			sourceTree = "<group>";
+		};
+		F680EFF619E83D70006729B3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F680EFF719E83D70006729B3 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		F680EFE419E83D70006729B3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F677738D19E87FD600AD887F /* jvmti.h in Headers */,
+				F677738719E87FD600AD887F /* classfile_constants.h in Headers */,
+				F677738819E87FD600AD887F /* jawt_md.h in Headers */,
+				F677738A19E87FD600AD887F /* jawt.h in Headers */,
+				F680EFEA19E83D70006729B3 /* AutoStartOSX.h in Headers */,
+				F677738C19E87FD600AD887F /* jni.h in Headers */,
+				F677737B19E87F4D00AD887F /* de_tobias_autostart_impl_OSXAutoStartNative.h in Headers */,
+				F677738B19E87FD600AD887F /* jdwpTransport.h in Headers */,
+				F677738919E87FD600AD887F /* jni_md.h in Headers */,
+				F677738E19E87FD600AD887F /* jvmticmlr.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		F680EFE519E83D70006729B3 /* AutoStartOSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F680EFFA19E83D70006729B3 /* Build configuration list for PBXNativeTarget "AutoStartOSX" */;
+			buildPhases = (
+				F680EFE219E83D70006729B3 /* Sources */,
+				F680EFE319E83D70006729B3 /* Frameworks */,
+				F680EFE419E83D70006729B3 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AutoStartOSX;
+			productName = AutoStartOSX;
+			productReference = F680EFE619E83D70006729B3 /* libAutoStartOSX.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		F680EFF019E83D70006729B3 /* AutoStartOSXTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F680EFFD19E83D70006729B3 /* Build configuration list for PBXNativeTarget "AutoStartOSXTests" */;
+			buildPhases = (
+				F680EFED19E83D70006729B3 /* Sources */,
+				F680EFEE19E83D70006729B3 /* Frameworks */,
+				F680EFEF19E83D70006729B3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F680EFF419E83D70006729B3 /* PBXTargetDependency */,
+			);
+			name = AutoStartOSXTests;
+			productName = AutoStartOSXTests;
+			productReference = F680EFF119E83D70006729B3 /* AutoStartOSXTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F680EFDE19E83D70006729B3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = Tobias;
+				TargetAttributes = {
+					F680EFE519E83D70006729B3 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					F680EFF019E83D70006729B3 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = F680EFE119E83D70006729B3 /* Build configuration list for PBXProject "AutoStartOSX" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F680EFDD19E83D70006729B3;
+			productRefGroup = F680EFE719E83D70006729B3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F680EFE519E83D70006729B3 /* AutoStartOSX */,
+				F680EFF019E83D70006729B3 /* AutoStartOSXTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F680EFEF19E83D70006729B3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F680EFE219E83D70006729B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F680EFEC19E83D70006729B3 /* AutoStartOSX.m in Sources */,
+				F677737D19E87F7900AD887F /* AutostartImpl.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F680EFED19E83D70006729B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F680EFF419E83D70006729B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F680EFE519E83D70006729B3 /* AutoStartOSX */;
+			targetProxy = F680EFF319E83D70006729B3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F680EFF819E83D70006729B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F680EFF919E83D70006729B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F680EFFB19E83D70006729B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F680EFFC19E83D70006729B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		F680EFFE19E83D70006729B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = AutoStartOSXTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F680EFFF19E83D70006729B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = AutoStartOSXTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F680EFE119E83D70006729B3 /* Build configuration list for PBXProject "AutoStartOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F680EFF819E83D70006729B3 /* Debug */,
+				F680EFF919E83D70006729B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F680EFFA19E83D70006729B3 /* Build configuration list for PBXNativeTarget "AutoStartOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F680EFFB19E83D70006729B3 /* Debug */,
+				F680EFFC19E83D70006729B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F680EFFD19E83D70006729B3 /* Build configuration list for PBXNativeTarget "AutoStartOSXTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F680EFFE19E83D70006729B3 /* Debug */,
+				F680EFFF19E83D70006729B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F680EFDE19E83D70006729B3 /* Project object */;
+}

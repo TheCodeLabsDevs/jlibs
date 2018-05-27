@@ -1,0 +1,39 @@
+﻿Der Buildvorgang wurde am 26.11.2014 11:34:11 gestartet.
+     1>Projekt "C:\Users\Tobias\documents\visual studio 2013\Projects\SystemUtilsWindows\SystemUtilsWindows\SystemUtilsWindows.vcxproj" auf Knoten "2", Build Ziel(e).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W1 /WX- /O2 /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt AssemblyInfo.cpp Impl.cpp Stdafx.cpp SystemUtilsWindows.cpp
+         AssemblyInfo.cpp
+     1>AssemblyInfo.cpp(3): error C2871: 'System': Es ist kein Namespace mit diesem Namen vorhanden
+     1>AssemblyInfo.cpp(4): error C2653: 'System': Keine Klasse oder Namespace
+     1>AssemblyInfo.cpp(4): error C2871: 'Reflection': Es ist kein Namespace mit diesem Namen vorhanden
+     1>AssemblyInfo.cpp(5): error C2653: 'System': Keine Klasse oder Namespace
+     1>AssemblyInfo.cpp(5): error C2871: 'CompilerServices': Es ist kein Namespace mit diesem Namen vorhanden
+     1>AssemblyInfo.cpp(6): error C2653: 'System': Keine Klasse oder Namespace
+     1>AssemblyInfo.cpp(6): error C2871: 'InteropServices': Es ist kein Namespace mit diesem Namen vorhanden
+     1>AssemblyInfo.cpp(7): error C2653: 'System': Keine Klasse oder Namespace
+     1>AssemblyInfo.cpp(7): error C2871: 'Permissions': Es ist kein Namespace mit diesem Namen vorhanden
+     1>AssemblyInfo.cpp(14): error C2337: "AssemblyTitleAttribute": Attribut wurde nicht gefunden.
+     1>AssemblyInfo.cpp(15): error C2337: "AssemblyDescriptionAttribute": Attribut wurde nicht gefunden.
+     1>AssemblyInfo.cpp(16): error C2337: "AssemblyConfigurationAttribute": Attribut wurde nicht gefunden.
+     1>AssemblyInfo.cpp(17): error C2337: "AssemblyCompanyAttribute": Attribut wurde nicht gefunden.
+     1>AssemblyInfo.cpp(18): error C2337: "AssemblyProductAttribute": Attribut wurde nicht gefunden.
+     1>AssemblyInfo.cpp(19): error C2337: "AssemblyCopyrightAttribute": Attribut wurde nicht gefunden.
+     1>AssemblyInfo.cpp(20): error C2337: "AssemblyTrademarkAttribute": Attribut wurde nicht gefunden.
+     1>AssemblyInfo.cpp(21): error C2337: "AssemblyCultureAttribute": Attribut wurde nicht gefunden.
+     1>AssemblyInfo.cpp(34): error C2337: "AssemblyVersionAttribute": Attribut wurde nicht gefunden.
+     1>AssemblyInfo.cpp(36): error C2337: "ComVisible": Attribut wurde nicht gefunden.
+     1>AssemblyInfo.cpp(38): error C2337: "CLSCompliantAttribute": Attribut wurde nicht gefunden.
+         Impl.cpp
+     1>c:\users\tobias\documents\visual studio 2013\projects\systemutilswindows\systemutilswindows\de_tobias_utils_util_SystemUtils.h(2): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "jni.h": No such file or directory
+         Stdafx.cpp
+         SystemUtilsWindows.cpp
+     1>c:\users\tobias\documents\visual studio 2013\projects\systemutilswindows\systemutilswindows\SystemUtilsWindows.h(5): error C2871: 'System': Es ist kein Namespace mit diesem Namen vorhanden
+     1>c:\users\tobias\documents\visual studio 2013\projects\systemutilswindows\systemutilswindows\SystemUtilsWindows.h(9): error C2059: Syntaxfehler: 'public'
+     1>c:\users\tobias\documents\visual studio 2013\projects\systemutilswindows\systemutilswindows\SystemUtilsWindows.h(10): error C2143: Syntaxfehler: Es fehlt ';' vor '{'
+     1>c:\users\tobias\documents\visual studio 2013\projects\systemutilswindows\systemutilswindows\SystemUtilsWindows.h(10): error C2447: '{': Funktionsheader fehlt - Parameterliste im alten Stil?
+         Code wird generiert...
+     1>Die Erstellung des Projekts "C:\Users\Tobias\documents\visual studio 2013\Projects\SystemUtilsWindows\SystemUtilsWindows\SystemUtilsWindows.vcxproj" ist abgeschlossen, Build Ziel(e) -- FEHLER.
+
+Fehler beim Buildvorgang.
+
+Verstrichene Zeit 00:00:01.02

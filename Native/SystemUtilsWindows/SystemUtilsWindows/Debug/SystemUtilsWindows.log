@@ -1,0 +1,27 @@
+﻿Der Buildvorgang wurde am 25.10.2014 19:38:31 gestartet.
+     1>Projekt "C:\Users\Tobias\documents\visual studio 2013\Projects\SystemUtilsWindows\SystemUtilsWindows\SystemUtilsWindows.vcxproj" auf Knoten "2", Build Ziel(e).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\SystemUtilsWindows.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /analyze- /errorReport:prompt /clr:nostdlib Stdafx.cpp
+         Stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\SystemUtilsWindows.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /analyze- /errorReport:prompt /clr:nostdlib AssemblyInfo.cpp Impl.cpp SystemUtilsWindows.cpp
+         AssemblyInfo.cpp
+         Impl.cpp
+     1>Impl.cpp(31): warning C4244: 'Initialisierung': Konvertierung von '__int64' in 'unsigned int', möglicher Datenverlust
+     1>Impl.cpp(38): warning C4244: 'Argument': Konvertierung von '__int64' in 'jsize', möglicher Datenverlust
+     1>Impl.cpp(39): warning C4244: 'Argument': Konvertierung von '__int64' in 'jsize', möglicher Datenverlust
+         SystemUtilsWindows.cpp
+         Code wird generiert...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Tobias\documents\visual studio 2013\Projects\SystemUtilsWindows\Debug\SystemUtilsWindows.dll" /INCREMENTAL /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Tobias\documents\visual studio 2013\Projects\SystemUtilsWindows\Debug\SystemUtilsWindows.pdb" /ASSEMBLYDEBUG /TLBID:1 /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 /DLL Debug\app.res
+         Debug\AssemblyInfo.obj
+         Debug\Impl.obj
+         Debug\Stdafx.obj
+         Debug\SystemUtilsWindows.obj
+         "Debug\.NETFramework,Version=v4.5.AssemblyAttributes.obj"
+            Bibliothek "C:\Users\Tobias\documents\visual studio 2013\Projects\SystemUtilsWindows\Debug\SystemUtilsWindows.lib" und Objekt "C:\Users\Tobias\documents\visual studio 2013\Projects\SystemUtilsWindows\Debug\SystemUtilsWindows.exp" werden erstellt.
+         SystemUtilsWindows.vcxproj -> C:\Users\Tobias\documents\visual studio 2013\Projects\SystemUtilsWindows\Debug\SystemUtilsWindows.dll
+     1>Die Erstellung des Projekts "C:\Users\Tobias\documents\visual studio 2013\Projects\SystemUtilsWindows\SystemUtilsWindows\SystemUtilsWindows.vcxproj" ist abgeschlossen, Build Ziel(e).
+
+Build erfolgreich.
+
+Verstrichene Zeit 00:00:02.46

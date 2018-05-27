@@ -1,0 +1,136 @@
+﻿Der Buildvorgang wurde am 04.03.2015 20:48:21 gestartet.
+     1>Projekt "C:\Users\Tobias\Documents\Visual Studio 2013\Projects\SystemTrayWindows\SystemTrayWindows\SystemTrayWindows.vcxproj" auf Knoten "2", Build Ziel(e).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /Zi /clr /nologo /W3 /WX- /O2 /D WIN32 /D NDEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"x64\Release\SystemTrayWindows.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /Zl /errorReport:prompt /clr:nostdlib Stdafx.cpp
+         Stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /Zi /clr /nologo /W3 /WX- /O2 /D WIN32 /D NDEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"x64\Release\SystemTrayWindows.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /Zl /errorReport:prompt /clr:nostdlib AssemblyInfo.cpp de_tobias_systemtray_menu_Menu.cpp de_tobias_systemtray_menu_MenuItem.cpp de_tobias_systemtray_menu_SubMenu.cpp de_tobias_systemtray_SystemTray.cpp de_tobias_systemtray_SystemTrayItem.cpp SystemTrayWindows.cpp TUmenu.cpp TUMenuItem.cpp TUNotification.cpp TUSubMenu.cpp TUSystemTrayItem.cpp
+         AssemblyInfo.cpp
+         de_tobias_systemtray_menu_Menu.cpp
+         de_tobias_systemtray_menu_MenuItem.cpp
+     1>de_tobias_systemtray_menu_MenuItem.cpp(44): warning C4800: 'jboolean': Variable wird auf booleschen Wert ('True' oder 'False') gesetzt (Auswirkungen auf Leistungsverhalten möglich)
+     1>de_tobias_systemtray_menu_MenuItem.cpp(48): warning C4800: 'jboolean': Variable wird auf booleschen Wert ('True' oder 'False') gesetzt (Auswirkungen auf Leistungsverhalten möglich)
+         de_tobias_systemtray_menu_SubMenu.cpp
+         de_tobias_systemtray_SystemTray.cpp
+         de_tobias_systemtray_SystemTrayItem.cpp
+         SystemTrayWindows.cpp
+     1>SystemTrayWindows.cpp(16): warning C4267: 'Argument': Konvertierung von 'size_t' nach 'int', Datenverlust möglich
+     1>SystemTrayWindows.cpp(41): warning C4244: 'return': Konvertierung von 'jlong' in 'long', möglicher Datenverlust
+         TUmenu.cpp
+         TUMenuItem.cpp
+         TUNotification.cpp
+         TUSubMenu.cpp
+         TUSystemTrayItem.cpp
+         Code wird generiert...
+     1>c:\program files (x86)\java\jdk1.8.0_20\include\jni.h(1051): warning C4793: "JNIEnv_::CallVoidMethod" : Funktion wird als systemeigen kompiliert :
+         	Varargs werden von "/clr" nicht unterstützt.
+     1>c:\program files (x86)\java\jdk1.8.0_20\include\jni.h(1053): warning C4793: "JNIEnv_::CallVoidMethod" : Funktion wird als systemeigen kompiliert :
+         	Es wurde eine systeminterne Funktion gefunden, die in verwaltetem Code nicht unterstützt wird.
+     1>c:\program files (x86)\java\jdk1.8.0_20\include\jni.h(1055): warning C4793: "JNIEnv_::CallVoidMethod" : Funktion wird als systemeigen kompiliert :
+         	Es wurde eine systeminterne Funktion gefunden, die in verwaltetem Code nicht unterstützt wird.
+     1>c:\program files (x86)\java\jdk1.8.0_20\include\jni.h(1051): warning C4793: "JNIEnv_::CallVoidMethod" : Funktion wird als systemeigen kompiliert :
+         	Varargs werden von "/clr" nicht unterstützt.
+     1>c:\program files (x86)\java\jdk1.8.0_20\include\jni.h(1053): warning C4793: "JNIEnv_::CallVoidMethod" : Funktion wird als systemeigen kompiliert :
+         	Es wurde eine systeminterne Funktion gefunden, die in verwaltetem Code nicht unterstützt wird.
+     1>c:\program files (x86)\java\jdk1.8.0_20\include\jni.h(1055): warning C4793: "JNIEnv_::CallVoidMethod" : Funktion wird als systemeigen kompiliert :
+         	Es wurde eine systeminterne Funktion gefunden, die in verwaltetem Code nicht unterstützt wird.
+     1>c:\program files (x86)\java\jdk1.8.0_20\include\jni.h(897): warning C4793: "JNIEnv_::CallObjectMethod" : Funktion wird als systemeigen kompiliert :
+         	Varargs werden von "/clr" nicht unterstützt.
+     1>c:\program files (x86)\java\jdk1.8.0_20\include\jni.h(900): warning C4793: "JNIEnv_::CallObjectMethod" : Funktion wird als systemeigen kompiliert :
+         	Es wurde eine systeminterne Funktion gefunden, die in verwaltetem Code nicht unterstützt wird.
+     1>c:\program files (x86)\java\jdk1.8.0_20\include\jni.h(902): warning C4793: "JNIEnv_::CallObjectMethod" : Funktion wird als systemeigen kompiliert :
+         	Es wurde eine systeminterne Funktion gefunden, die in verwaltetem Code nicht unterstützt wird.
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /clr /nologo /W3 /WX- /O2 /D WIN32 /D NDEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /TP /Zl /errorReport:prompt "C:\Users\Tobias\AppData\Local\Temp\.NETFramework,Version=v4.5.AssemblyAttributes.cpp"
+         .NETFramework,Version=v4.5.AssemblyAttributes.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Tobias\Documents\Visual Studio 2013\Projects\SystemTrayWindows\x64\Release\SystemTrayWindows.dll" /INCREMENTAL:NO /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Tobias\Documents\Visual Studio 2013\Projects\SystemTrayWindows\x64\Release\SystemTrayWindows.pdb" /TLBID:1 /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X64 /DLL x64\Release\app.res
+         x64\Release\AssemblyInfo.obj
+         x64\Release\de_tobias_systemtray_menu_Menu.obj
+         x64\Release\de_tobias_systemtray_menu_MenuItem.obj
+         x64\Release\de_tobias_systemtray_menu_SubMenu.obj
+         x64\Release\de_tobias_systemtray_SystemTray.obj
+         x64\Release\de_tobias_systemtray_SystemTrayItem.obj
+         x64\Release\Stdafx.obj
+         x64\Release\SystemTrayWindows.obj
+         x64\Release\TUmenu.obj
+         x64\Release\TUMenuItem.obj
+         x64\Release\TUNotification.obj
+         x64\Release\TUSubMenu.obj
+         x64\Release\TUSystemTrayItem.obj
+         "x64\Release\.NETFramework,Version=v4.5.AssemblyAttributes.obj"
+            Bibliothek "C:\Users\Tobias\Documents\Visual Studio 2013\Projects\SystemTrayWindows\x64\Release\SystemTrayWindows.lib" und Objekt "C:\Users\Tobias\Documents\Visual Studio 2013\Projects\SystemTrayWindows\x64\Release\SystemTrayWindows.exp" werden erstellt.
+     1>TUNotification.obj : warning LNK4248: Nicht aufgelöstes Typeref-Token (01000014) für "_jmethodID". Das Image kann möglicherweise nicht ausgeführt werden.
+     1>TUMenuItem.obj : warning LNK4248: Nicht aufgelöstes Typeref-Token (01000018) für "_jmethodID". Das Image kann möglicherweise nicht ausgeführt werden.
+     1>SystemTrayWindows.obj : warning LNK4248: Nicht aufgelöstes Typeref-Token (01000018) für "_jmethodID". Das Image kann möglicherweise nicht ausgeführt werden.
+     1>SystemTrayWindows.obj : warning LNK4248: Nicht aufgelöstes Typeref-Token (01000019) für "_jfieldID". Das Image kann möglicherweise nicht ausgeführt werden.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A000003) ""extern "C" void __clrcall ___CxxCallUnwindDtor(void (__clrcall*)(void *),void *)" (?___CxxCallUnwindDtor@@$$J0YMXP6MXPEAX@Z0@Z)", auf das in Funktion ""public: __cdecl std::runtime_error::runtime_error(class std::runtime_error const &)" (??0runtime_error@std@@$$FQEAA@AEBV01@@Z)" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A0002F6) ""void * __cdecl operator new(unsigned __int64)" (??2@$$FYAPEAX_K@Z)", auf das in Funktion ""char * __cdecl std::_Allocate<char>(unsigned __int64,char *)" (??$_Allocate@D@std@@$$FYAPEAD_KPEAD@Z)" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A000302) ""extern "C" int __cdecl __CxxQueryExceptionSize(void)" (?__CxxQueryExceptionSize@@$$J0YAHXZ)", auf das in Funktion ""public: void __cdecl std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >::_Copy(unsigned __int64,unsigned __int64)" (?_Copy@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$$FQEAAX_K0@Z)" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A000303) ""extern "C" int __cdecl __CxxDetectRethrow(void *)" (?__CxxDetectRethrow@@$$J0YAHPEAX@Z)", auf das in Funktion "$LN23" verwiesen wird.
+     1>Stdafx.obj : error LNK2020: Nicht aufgelöstes Token (0A000314) "const type_info::`vftable'" (??_7type_info@@6B@).
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A000327) ""extern "C" void __cdecl _CxxThrowException(void *,struct _s__ThrowInfo const *)" (?_CxxThrowException@@$$J0YAXPEAXPEBU_s__ThrowInfo@@@Z)", auf das in Funktion "$LN275" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A000329) ""extern "C" double __cdecl _hypot(double,double)" (?_hypot@@$$J0YANNN@Z)", auf das in Funktion ""extern "C" double __cdecl hypot(double,double)" (?hypot@@$$J0YANNN@Z)" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A00034A) ""extern "C" void __cdecl __CxxUnregisterExceptionObject(void *,int)" (?__CxxUnregisterExceptionObject@@$$J0YAXPEAXH@Z)", auf das in Funktion "__catch$?_Copy@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$$FQEAAX_K0@Z$3" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A00034D) ""void __cdecl operator delete(void *)" (??3@$$FYAXPEAX@Z)", auf das in Funktion ""public: void __cdecl std::allocator<char>::deallocate(char *,unsigned __int64)" (?deallocate@?$allocator@D@std@@$$FQEAAXPEAD_K@Z)" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A000359) ""extern "C" int __clrcall _atexit_m(void (__clrcall*)(void))" (?_atexit_m@@$$J0YMHP6MXXZ@Z)", auf das in Funktion ""void __clrcall `dynamic initializer for 'public: static class std::_Generic_error_category std::_Error_objects<int>::_Generic_object''(void)" (???__E?_Generic_object@?$_Error_objects@H@std@@2V_Generic_error_category@2@A@@YMXXZ@?A0x0649cb3c@@$$FYMXXZ)" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A000361) ""extern "C" int __cdecl __CxxExceptionFilter(void *,void *,int,void *)" (?__CxxExceptionFilter@@$$J0YAHPEAX0H0@Z)", auf das in Funktion "$LN14" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A000366) ""void __cdecl operator delete[](void *)" (??_V@$$FYAXPEAX@Z)", auf das in Funktion ""public: virtual void * __cdecl std::runtime_error::`vector deleting destructor'(unsigned int)" (??_Eruntime_error@std@@$$FUEAAPEAXI@Z)" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A00039D) ""void __clrcall `eh vector destructor iterator'(void *,unsigned __int64,int,void (__clrcall*)(void *))" (??_M@$$FYMXPEAX_KHP6MX0@Z@Z)", auf das in Funktion ""public: virtual void * __cdecl std::runtime_error::`vector deleting destructor'(unsigned int)" (??_Eruntime_error@std@@$$FUEAAPEAXI@Z)" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A0003AE) ""extern "C" int __cdecl __CxxRegisterExceptionObject(void *,void *)" (?__CxxRegisterExceptionObject@@$$J0YAHPEAX0@Z)", auf das in Funktion "$LN271" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A0003E3) ""extern "C" void * __cdecl memmove(void *,void const *,unsigned __int64)" (?memmove@@$$J0YAPEAXPEAXPEBX_K@Z)", auf das in Funktion ""public: static char * __cdecl std::char_traits<char>::move(char *,char const *,unsigned __int64)" (?move@?$char_traits@D@std@@$$FSAPEADPEADPEBD_K@Z)" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A0003F0) ""void __cdecl __ExceptionPtrCopy(void *,void const *)" (?__ExceptionPtrCopy@@$$FYAXPEAXPEBX@Z)", auf das in Funktion ""public: __cdecl std::exception_ptr::exception_ptr(class std::exception_ptr const &)" (??0exception_ptr@std@@$$FQEAA@AEBV01@@Z)" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A00040D) ""public: __cdecl std::exception::exception(class std::exception const &)" (??0exception@std@@$$FQEAA@AEBV01@@Z)", auf das in Funktion ""public: __cdecl std::runtime_error::runtime_error(class std::runtime_error const &)" (??0runtime_error@std@@$$FQEAA@AEBV01@@Z)" verwiesen wird.
+     1>Stdafx.obj : error LNK2028: Nicht aufgelöstes Token (0A000410) ""public: virtual __cdecl std::exception::~exception(void)" (??1exception@std@@$$FUEAA@XZ)", auf das in Funktion ""public: virtual __cdecl std::runtime_error::~runtime_error(void)" (??1runtime_error@std@@$$FUEAA@XZ)" verwiesen wird.
+     1>TUSystemTrayItem.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>.NETFramework,Version=v4.5.AssemblyAttributes.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>TUNotification.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>TUSubMenu.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>TUSubMenu.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>TUSystemTrayItem.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>TUmenu.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>TUMenuItem.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>TUMenuItem.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>TUNotification.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>Stdafx.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>SystemTrayWindows.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>SystemTrayWindows.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>TUmenu.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>de_tobias_systemtray_SystemTray.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>de_tobias_systemtray_SystemTray.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>de_tobias_systemtray_SystemTrayItem.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>de_tobias_systemtray_SystemTrayItem.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>de_tobias_systemtray_menu_MenuItem.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>de_tobias_systemtray_menu_MenuItem.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>de_tobias_systemtray_menu_SubMenu.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>de_tobias_systemtray_menu_SubMenu.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>AssemblyInfo.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>AssemblyInfo.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>de_tobias_systemtray_menu_Menu.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>de_tobias_systemtray_menu_Menu.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""?.cctor@@$$FYMXXZ" (?.cctor@@$$FYMXXZ)".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""extern "C" double __cdecl _hypot(double,double)" (?_hypot@@$$J0YANNN@Z)" in Funktion ""extern "C" double __cdecl hypot(double,double)" (?hypot@@$$J0YANNN@Z)".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""void __cdecl __ExceptionPtrCopy(void *,void const *)" (?__ExceptionPtrCopy@@$$FYAXPEAXPEBX@Z)" in Funktion ""public: __cdecl std::exception_ptr::exception_ptr(class std::exception_ptr const &)" (??0exception_ptr@std@@$$FQEAA@AEBV01@@Z)".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""extern "C" void * __cdecl memmove(void *,void const *,unsigned __int64)" (?memmove@@$$J0YAPEAXPEAXPEBX_K@Z)" in Funktion ""public: static char * __cdecl std::char_traits<char>::move(char *,char const *,unsigned __int64)" (?move@?$char_traits@D@std@@$$FSAPEADPEADPEBD_K@Z)".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""public: virtual __cdecl std::exception::~exception(void)" (??1exception@std@@$$FUEAA@XZ)" in Funktion ""public: virtual __cdecl std::runtime_error::~runtime_error(void)" (??1runtime_error@std@@$$FUEAA@XZ)".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""public: __cdecl std::exception::exception(class std::exception const &)" (??0exception@std@@$$FQEAA@AEBV01@@Z)" in Funktion ""public: __cdecl std::runtime_error::runtime_error(class std::runtime_error const &)" (??0runtime_error@std@@$$FQEAA@AEBV01@@Z)".
+     1>Stdafx.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""const type_info::`vftable'" (??_7type_info@@6B@)".
+     1>Stdafx.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""public: virtual char const * __cdecl std::exception::what(void)const " (?what@exception@std@@UEBAPEBDXZ)".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""extern "C" void __clrcall ___CxxCallUnwindDtor(void (__clrcall*)(void *),void *)" (?___CxxCallUnwindDtor@@$$J0YMXP6MXPEAX@Z0@Z)" in Funktion ""public: __cdecl std::runtime_error::runtime_error(class std::runtime_error const &)" (??0runtime_error@std@@$$FQEAA@AEBV01@@Z)".
+     1>Stdafx.obj : error LNK2001: Nicht aufgelöstes externes Symbol "_purecall".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""void __cdecl operator delete(void *)" (??3@$$FYAXPEAX@Z)" in Funktion ""public: void __cdecl std::allocator<char>::deallocate(char *,unsigned __int64)" (?deallocate@?$allocator@D@std@@$$FQEAAXPEAD_K@Z)".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""void * __cdecl operator new(unsigned __int64)" (??2@$$FYAPEAX_K@Z)" in Funktion ""char * __cdecl std::_Allocate<char>(unsigned __int64,char *)" (??$_Allocate@D@std@@$$FYAPEAD_KPEAD@Z)".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""extern "C" int __cdecl __CxxQueryExceptionSize(void)" (?__CxxQueryExceptionSize@@$$J0YAHXZ)" in Funktion ""public: void __cdecl std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >::_Copy(unsigned __int64,unsigned __int64)" (?_Copy@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$$FQEAAX_K0@Z)".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""extern "C" int __cdecl __CxxExceptionFilter(void *,void *,int,void *)" (?__CxxExceptionFilter@@$$J0YAHPEAX0H0@Z)" in Funktion "$LN14".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""extern "C" int __cdecl __CxxRegisterExceptionObject(void *,void *)" (?__CxxRegisterExceptionObject@@$$J0YAHPEAX0@Z)" in Funktion "$LN271".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""extern "C" void __cdecl _CxxThrowException(void *,struct _s__ThrowInfo const *)" (?_CxxThrowException@@$$J0YAXPEAXPEBU_s__ThrowInfo@@@Z)" in Funktion "$LN275".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""extern "C" int __cdecl __CxxDetectRethrow(void *)" (?__CxxDetectRethrow@@$$J0YAHPEAX@Z)" in Funktion "$LN23".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""extern "C" void __cdecl __CxxUnregisterExceptionObject(void *,int)" (?__CxxUnregisterExceptionObject@@$$J0YAXPEAXH@Z)" in Funktion "__catch$?_Copy@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$$FQEAAX_K0@Z$3".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""void __clrcall `eh vector destructor iterator'(void *,unsigned __int64,int,void (__clrcall*)(void *))" (??_M@$$FYMXPEAX_KHP6MX0@Z@Z)" in Funktion ""public: virtual void * __cdecl std::runtime_error::`vector deleting destructor'(unsigned int)" (??_Eruntime_error@std@@$$FUEAAPEAXI@Z)".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""void __cdecl operator delete[](void *)" (??_V@$$FYAXPEAX@Z)" in Funktion ""public: virtual void * __cdecl std::runtime_error::`vector deleting destructor'(unsigned int)" (??_Eruntime_error@std@@$$FUEAAPEAXI@Z)".
+     1>Stdafx.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""extern "C" int __clrcall _atexit_m(void (__clrcall*)(void))" (?_atexit_m@@$$J0YMHP6MXXZ@Z)" in Funktion ""void __clrcall `dynamic initializer for 'public: static class std::_Generic_error_category std::_Error_objects<int>::_Generic_object''(void)" (???__E?_Generic_object@?$_Error_objects@H@std@@2V_Generic_error_category@2@A@@YMXXZ@?A0x0649cb3c@@$$FYMXXZ)".
+     1>LINK : error LNK2001: Nicht aufgelöstes externes Symbol "_DllMainCRTStartup".
+     1>LINK : error LNK2001: Nicht aufgelöstes externes Symbol "_CorDllMain".
+     1>C:\Users\Tobias\Documents\Visual Studio 2013\Projects\SystemTrayWindows\x64\Release\SystemTrayWindows.dll : fatal error LNK1120: 41 nicht aufgelöste Externe
+     1>Die Erstellung des Projekts "C:\Users\Tobias\Documents\Visual Studio 2013\Projects\SystemTrayWindows\SystemTrayWindows\SystemTrayWindows.vcxproj" ist abgeschlossen, Build Ziel(e) -- FEHLER.
+
+Fehler beim Buildvorgang.
+
+Verstrichene Zeit 00:00:04.21
