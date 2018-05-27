@@ -1,5 +1,13 @@
 package de.tobias.utils.application.container;
 
+import de.tobias.utils.application.App;
+import de.tobias.utils.application.ApplicationInfo;
+import de.tobias.utils.settings.YAMLSettings;
+import de.tobias.utils.util.FileUtils;
+import de.tobias.utils.util.SystemUtils;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -10,15 +18,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Consumer;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import de.tobias.utils.application.App;
-import de.tobias.utils.application.ApplicationInfo;
-import de.tobias.utils.settings.YAMLSettings;
-import de.tobias.utils.util.FileUtils;
-import de.tobias.utils.util.SystemUtils;
 
 public class FileContainer {
 
@@ -32,31 +31,21 @@ public class FileContainer {
 	private App app;
 
 	public FileContainer(App app) {
-		try {
-			this.app = app;
-			this.info = app.getInfo();
-			if (app.getInfo().getBasePath() != null && !app.getInfo().getBasePath().isEmpty()) {
-				this.containerName = app.getInfo().getBasePath();
-			}
-
-			updatePath();
-
-			if (Files.exists(containerInfoPath)) {
-				containerInfo = YAMLSettings.load(FileContainerInfo.class, containerInfoPath);
-			} else {
-				containerInfo = new FileContainerInfo();
-				saveInformation();
-			}
-		} catch (Exception e1) {
-			System.err.println("Can't read container infos");
+		this.app = app;
+		this.info = app.getInfo();
+		if (app.getInfo().getBasePath() != null && !app.getInfo().getBasePath().isEmpty()) {
+			this.containerName = app.getInfo().getBasePath();
 		}
 
-		if (Files.notExists(containerPath)) {
-			try {
-				Files.createDirectories(containerPath);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		FileUtils.createDirectoriesIfNotExists(containerPath);
+
+		updatePath();
+
+		if (Files.exists(containerInfoPath)) {
+			containerInfo = YAMLSettings.load(FileContainerInfo.class, containerInfoPath);
+		} else {
+			containerInfo = new FileContainerInfo();
+			saveInformation();
 		}
 	}
 
@@ -77,13 +66,11 @@ public class FileContainer {
 	}
 
 	public Path getPath(String name, PathType pathType) {
-		Path path = containerPath.resolve(pathType.getFolder()).resolve(name);
-		return path;
+		return containerPath.resolve(pathType.getFolder()).resolve(name);
 	}
 
 	public Path getFolder(PathType type) {
-		Path path = containerPath.resolve(type.getFolder());
-		return path;
+		return containerPath.resolve(type.getFolder());
 	}
 
 	public Path getContainerPath() {

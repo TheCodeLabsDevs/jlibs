@@ -1,16 +1,15 @@
 package de.tobias.utils.application;
 
-import java.net.URISyntaxException;
-import java.nio.file.Path;
-
 import com.sun.jna.WString;
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.Kernel32Util;
-
 import de.tobias.utils.util.OS;
 import de.tobias.utils.util.OS.OSType;
 import de.tobias.utils.util.SystemUtils;
 import de.tobias.utils.util.win.Shell32X;
+
+import java.net.URISyntaxException;
+import java.nio.file.Path;
 
 /**
  * Launches a windows exe as admin
@@ -30,7 +29,7 @@ public class NativeLauncher {
 	}
 
 	// http://stackoverflow.com/questions/11041509/elevating-a-processbuilder-process-via-uac
-	public static void executeAsAdministrator(String command, String args) {
+	private static void executeAsAdministrator(String command, String args) {
 		Shell32X.SHELLEXECUTEINFO execInfo = new Shell32X.SHELLEXECUTEINFO();
 		execInfo.lpFile = new WString(command);
 		if (args != null)

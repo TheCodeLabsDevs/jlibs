@@ -1,16 +1,13 @@
 package de.tobias.utils.util;
 
+import de.tobias.utils.application.NativeLoader;
+import javafx.scene.image.Image;
+
 import java.io.File;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.lang.management.ManagementFactory;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-
-import de.tobias.utils.application.NativeLoader;
-import javafx.scene.image.Image;
 
 public class SystemUtils {
 
@@ -52,11 +49,7 @@ public class SystemUtils {
 
 	// Linux only
 	public static boolean isRootUser() {
-		if (System.getenv().get("USER").equalsIgnoreCase("root")) {
-			return true;
-		} else {
-			return false;
-		}
+		return System.getenv().get("USER").equalsIgnoreCase("root");
 	}
 
 	// File Icon

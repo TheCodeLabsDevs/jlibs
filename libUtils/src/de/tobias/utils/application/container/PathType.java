@@ -22,7 +22,7 @@ public enum PathType {
 	private boolean backup;
 	private boolean sync;
 
-	private PathType(String folder, boolean backup, boolean sync) {
+	PathType(String folder, boolean backup, boolean sync) {
 		this.folder = folder;
 		this.backup = backup;
 		this.sync = sync;

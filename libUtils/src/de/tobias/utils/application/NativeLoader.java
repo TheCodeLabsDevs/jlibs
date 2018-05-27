@@ -1,13 +1,13 @@
 package de.tobias.utils.application;
 
+import de.tobias.utils.application.container.PathType;
+import de.tobias.utils.util.IOUtils;
+import de.tobias.utils.util.OS;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import de.tobias.utils.application.container.PathType;
-import de.tobias.utils.util.IOUtils;
-import de.tobias.utils.util.OS;
 
 public class NativeLoader {
 
@@ -32,44 +32,30 @@ public class NativeLoader {
 		load(name, "", clazz, null, null);
 	}
 
-	/**
-	 * 
-	 * @param basename
-	 * @param folder
-	 * @param clazz
-	 * @param startup
-	 * @param shutdown
-	 */
-	public static void load(String basename, String folder, Class<?> clazz, Thread startup, Thread shutdown) {
+	public static void load(String basename, String folder, Class<?> clazz, Runnable startup, Runnable shutdown) {
 		try {
-			Path libpath = copyLibrary(basename, folder, clazz);
+			Path libraryPath = copyLibrary(basename, folder, clazz);
 			try {
-				System.load(libpath.toString());
+				// Load file into jvm
+				System.load(libraryPath.toString());
+
 				if (startup != null)
-					startup.start();
+					startup.run();
 
 				if (shutdown != null)
-					Runtime.getRuntime().addShutdownHook(shutdown);
+					Runtime.getRuntime().addShutdownHook(new Thread(shutdown));
 
-				System.out.println("Loaded: " + libpath.toString());
+				System.out.println("Loaded: " + libraryPath.toString());
 			} catch (UnsatisfiedLinkError e) {
 				System.err.println(e.getLocalizedMessage());
 			}
 		} catch (NullPointerException | IOException e) {
 			e.printStackTrace();
 			System.err.println("No version of " + basename + " available");
-			return;
 		}
 	}
 
-	/**
-	 * 
-	 * @param basename
-	 * @param folder
-	 * @param clazz
-	 * @throws IOException
-	 */
-	protected static Path copyLibrary(String basename, String folder, Class<?> clazz) throws IOException {
+	private static Path copyLibrary(String basename, String folder, Class<?> clazz) throws IOException {
 		String name;
 		if (folder.isEmpty()) {
 			name = "";
@@ -91,22 +77,22 @@ public class NativeLoader {
 				throw new UnsupportedOperationException("OS not supported: load native manually");
 			}
 		} else {
-			folder += basename;
+			name += basename;
 		}
 
-		Path libpath = ApplicationUtils.getApplication().getPath(PathType.NATIVE_LIBRARY, name);
+		Path libraryPath = ApplicationUtils.getApplication().getPath(PathType.NATIVE_LIBRARY, name);
 
-		Files.createDirectories(libpath.getParent());
-		if (Files.notExists(libpath)) {
-			Files.createFile(libpath);
+		Files.createDirectories(libraryPath.getParent());
+		if (Files.notExists(libraryPath)) {
+			Files.createFile(libraryPath);
 		}
 		try {
 			InputStream iStr = clazz.getClassLoader().getResourceAsStream(name);
-			IOUtils.copy(iStr, libpath);
+			IOUtils.copy(iStr, libraryPath);
 			iStr.close();
 		} catch (Exception e) {
 			System.err.println(e.getLocalizedMessage());
 		}
-		return libpath;
+		return libraryPath;
 	}
 }
