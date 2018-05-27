@@ -37,7 +37,6 @@ public class FileContainer {
 			this.containerName = app.getInfo().getBasePath();
 		}
 
-		FileUtils.createDirectoriesIfNotExists(containerPath);
 
 		updatePath();
 
@@ -47,6 +46,8 @@ public class FileContainer {
 			containerInfo = new FileContainerInfo();
 			saveInformation();
 		}
+
+		FileUtils.createDirectoriesIfNotExists(containerPath);
 	}
 
 	public FileContainer(String bundleIdentifier) throws Exception {
