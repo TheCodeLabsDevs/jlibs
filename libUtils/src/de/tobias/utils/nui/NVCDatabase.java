@@ -1,10 +1,8 @@
 package de.tobias.utils.nui;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.HashMap;
-
+import de.tobias.utils.application.App;
+import de.tobias.utils.application.ApplicationUtils;
+import de.tobias.utils.application.container.PathType;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -13,9 +11,10 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-import de.tobias.utils.application.App;
-import de.tobias.utils.application.ApplicationUtils;
-import de.tobias.utils.application.container.PathType;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
 
 public class NVCDatabase {
 
@@ -75,7 +74,9 @@ public class NVCDatabase {
 							item.setHeight(Double.valueOf(child.attributeValue(HEIGHT_ATTR)));
 						}
 					}
-				} catch (IOException | DocumentException ex) {}
+				} catch (IOException | DocumentException ex) {
+					throw new RuntimeException(ex);
+				}
 			}
 		}
 	}
@@ -114,9 +115,8 @@ public class NVCDatabase {
 				writer.write(document);
 				writer.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		}
-		// TODO Implement
 	}
 }

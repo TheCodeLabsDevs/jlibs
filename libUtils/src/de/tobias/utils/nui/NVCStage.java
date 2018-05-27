@@ -1,9 +1,5 @@
 package de.tobias.utils.nui;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -11,6 +7,10 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public final class NVCStage {
 
@@ -59,15 +59,19 @@ public final class NVCStage {
 		stage.setScene(scene);
 
 		// Load Settings
-		NVCItem loadItem = NVCDatabase.getItem(viewController.getClass());
+		if (!viewController.getClass().isAnnotationPresent(IgnoreStageSizing.class)) {
+			NVCItem loadItem = NVCDatabase.getItem(viewController.getClass());
 
-		ObservableList<Screen> screens = Screen.getScreensForRectangle(loadItem.getPosX(), loadItem.getPosY(), loadItem.getWidth(),
-				loadItem.getHeight());
-		if (screens.size() != 0) {
-			stage.setX(loadItem.getPosX());
-			stage.setY(loadItem.getPosY());
-			stage.setWidth(loadItem.getWidth());
-			stage.setHeight(loadItem.getHeight());
+			ObservableList<Screen> screens = Screen.getScreensForRectangle(loadItem.getPosX(), loadItem.getPosY(), loadItem.getWidth(),
+					loadItem.getHeight());
+			if (screens.size() != 0) {
+				stage.setX(loadItem.getPosX());
+				stage.setY(loadItem.getPosY());
+				stage.setWidth(loadItem.getWidth());
+				stage.setHeight(loadItem.getHeight());
+			}
+		} else {
+			System.out.println("Skip stage sizing");
 		}
 
 		// Init Close Handlers

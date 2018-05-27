@@ -1,10 +1,5 @@
 package de.tobias.utils.nui;
 
-import java.io.IOException;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.function.Consumer;
-
 import de.tobias.utils.ui.Alertable;
 import de.tobias.utils.util.Worker;
 import javafx.application.Platform;
@@ -24,6 +19,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+
+import java.io.IOException;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public class NVC implements Alertable {
 
