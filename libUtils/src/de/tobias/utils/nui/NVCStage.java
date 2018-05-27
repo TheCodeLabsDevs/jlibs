@@ -21,11 +21,21 @@ public final class NVCStage {
 		 * 
 		 * @return <code>true</code> schließen
 		 */
-		public boolean onClose();
+		boolean onClose();
 	}
 
 	static {
 		Runtime.getRuntime().addShutdownHook(new Thread(NVCDatabase::save));
+	}
+
+	private static boolean disabledSizeLoading;
+
+	public static boolean isDisabledSizeLoading() {
+		return disabledSizeLoading;
+	}
+
+	public static void setDisabledSizeLoading(boolean disabledSizeLoading) {
+		NVCStage.disabledSizeLoading = disabledSizeLoading;
 	}
 
 	private NVC viewController;
@@ -59,7 +69,7 @@ public final class NVCStage {
 		stage.setScene(scene);
 
 		// Load Settings
-		if (!viewController.getClass().isAnnotationPresent(IgnoreStageSizing.class)) {
+		if (!viewController.getClass().isAnnotationPresent(IgnoreStageSizing.class) && !isDisabledSizeLoading()) {
 			NVCItem loadItem = NVCDatabase.getItem(viewController.getClass());
 
 			ObservableList<Screen> screens = Screen.getScreensForRectangle(loadItem.getPosX(), loadItem.getPosY(), loadItem.getWidth(),
