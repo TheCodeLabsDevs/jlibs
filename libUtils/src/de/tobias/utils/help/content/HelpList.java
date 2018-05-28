@@ -1,20 +1,18 @@
 package de.tobias.utils.help.content;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Ul;
-
+import de.tobias.utils.XMLUtils;
 import de.tobias.utils.help.HelpContent;
 import de.tobias.utils.help.HelpMap;
 import de.tobias.utils.help.ui.HelpMapViewController;
-import de.tobias.utils.util.XMLUtils;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Repräsentiert eine Liste

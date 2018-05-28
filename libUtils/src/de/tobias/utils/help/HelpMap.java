@@ -1,5 +1,18 @@
 package de.tobias.utils.help;
 
+import de.tobias.utils.XMLUtils;
+import de.tobias.utils.application.ApplicationUtils;
+import de.tobias.utils.application.container.PathType;
+import de.tobias.utils.help.elements.HelpCategory;
+import de.tobias.utils.help.elements.HelpTopic;
+import de.tobias.utils.util.FileUtils;
+import javafx.scene.image.Image;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -7,21 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
-
-import de.tobias.utils.application.ApplicationUtils;
-import de.tobias.utils.application.container.PathType;
-import de.tobias.utils.help.elements.HelpCategory;
-import de.tobias.utils.help.elements.HelpTopic;
-import de.tobias.utils.util.FileUtils;
-import de.tobias.utils.util.XMLUtils;
-import javafx.scene.image.Image;
 
 /**
  * Container für Hilfethemen
