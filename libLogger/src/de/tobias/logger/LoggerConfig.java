@@ -1,43 +1,43 @@
 package de.tobias.logger;
 
+import de.tobias.utils.settings.Key;
 import de.tobias.utils.settings.SettingsSerializable;
-import de.tobias.utils.settings.Storable;
 
 public class LoggerConfig implements SettingsSerializable {
 
-	@Storable
+	@Key("color.enable")
 	private boolean color = true;
-	@Storable
+	@Key("color.info")
 	private String infoColor = ConsoleUtils.Color.GREEN.name();
-	@Storable
+	@Key("color.warn")
 	private String warnColor = ConsoleUtils.Color.YELLOW.name();
-	@Storable
+	@Key("color.error")
 	private String errorColor = ConsoleUtils.Color.RED.name();
-	@Storable
+	@Key("color.time")
 	private String timeColor = ConsoleUtils.Color.WHITE.name();
-	@Storable
+	@Key("color.detail")
 	private String detailColor = ConsoleUtils.Color.CYAN.name();
-	@Storable
+	@Key("color.message")
 	private String messageColor = ConsoleUtils.Color.RESET.name();
 
-	@Storable
+	@Key
 	private String dateFormatterPattern = "dd-MM-YY HH:mm:ss";
 
-	@Storable
+	@Key
 	private String defaultOutLevel = LogLevel.INFO.name();
-	@Storable
+	@Key
 	private String defaultErrLevel = LogLevel.ERROR.name();
 
-	@Storable
+	@Key
 	private boolean showShortPackageName = true;
-	@Storable
+	@Key
 	private boolean showClassName = true;
-	@Storable
+	@Key
 	private boolean showMethodName = false;
-	@Storable
+	@Key
 	private boolean showLineNumber = false;
 
-	@Storable
+	@Key
 	private boolean ignoreStandardStream = false;
 
 	boolean isColorEnabled() {
