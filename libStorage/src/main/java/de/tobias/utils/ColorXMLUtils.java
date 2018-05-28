@@ -1,8 +1,7 @@
-package de.tobias.utils.util;
-
-import org.dom4j.Element;
+package de.tobias.utils;
 
 import javafx.scene.paint.Color;
+import org.dom4j.Element;
 
 public class ColorXMLUtils {
 

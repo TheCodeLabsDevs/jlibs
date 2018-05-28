@@ -8,32 +8,38 @@ import org.bukkit.configuration.MemorySection;
 
 import de.tobias.utils.settings.Required;
 import de.tobias.utils.settings.SettingsSerializable;
-import de.tobias.utils.settings.Storable;
+import de.tobias.utils.settings.Key;
 
 public class BasicControllerSettings implements SettingsSerializable {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 *
 	 */
-	@Storable @Required public double width = 600;
+	@Key
+	@Required
+	public double width = 600;
 	/**
-	 * 
+	 *
 	 */
-	@Storable @Required public double height = 400;
+	@Key
+	@Required
+	public double height = 400;
 	/**
-	 * 
+	 *
 	 */
-	@Storable @Required public boolean iconified = false;
+	@Key
+	@Required
+	public boolean iconified = false;
 
 	/**
-	 * 
+	 *
 	 */
-	@Storable protected MemorySection userInfo = new MemoryConfiguration();
+	@Key
+	protected MemorySection userInfo = new MemoryConfiguration();
 
 	/**
-	 * 
 	 * @param key
 	 * @param o
 	 */
@@ -42,7 +48,6 @@ public class BasicControllerSettings implements SettingsSerializable {
 	}
 
 	/**
-	 * 
 	 * @param key
 	 * @return
 	 */
@@ -183,7 +188,6 @@ public class BasicControllerSettings implements SettingsSerializable {
 	}
 
 	/**
-	 * 
 	 * @param key
 	 */
 	public void removeUserInfo(String key) {

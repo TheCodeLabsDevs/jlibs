@@ -14,6 +14,6 @@ import java.lang.annotation.Target;
 @Target({ ElementType.FIELD })
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Key {
-	String value() default "";
+public @interface Required {
+
 }

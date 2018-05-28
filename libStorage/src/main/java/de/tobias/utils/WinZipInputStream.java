@@ -1,4 +1,4 @@
-package de.tobias.utils.util;
+package de.tobias.utils;
 
 import java.io.FilterInputStream;
 import java.io.IOException;

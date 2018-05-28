@@ -75,7 +75,7 @@ public class NVCDatabase {
 						}
 					}
 				} catch (IOException | DocumentException ex) {
-					throw new RuntimeException(ex);
+					System.err.println(ex);
 				}
 			}
 		}

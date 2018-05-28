@@ -2,29 +2,42 @@ package de.tobias.utils.application;
 
 import de.tobias.utils.settings.Required;
 import de.tobias.utils.settings.SettingsSerializable;
-import de.tobias.utils.settings.Storable;
+import de.tobias.utils.settings.Key;
 import org.bukkit.configuration.MemorySection;
 
 public class ApplicationInfo implements SettingsSerializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Storable @Required private String name;
-	@Storable @Required private String identifier;
-	@Storable private String version;
-	@Storable @Required private long build;
-	@Storable private String author;
-	@Storable
+	@Key
+	@Required
+	private String name;
+	@Key
+	@Required
+	private String identifier;
+	@Key
+	private String version;
+	@Key
+	@Required
+	private long build;
+	@Key
+	private String author;
+	@Key
 	private String date;
 
-	@Storable private String basePath;
+	@Key
+	private String basePath;
 
-	@Storable private String updateURL;
+	@Key
+	private String updateURL;
 
-	@Storable private String main;
-	@Storable private String subMain;
+	@Key
+	private String main;
+	@Key
+	private String subMain;
 
-	@Storable private MemorySection userInfo;
+	@Key
+	private MemorySection userInfo;
 
 	public String getName() {
 		return name;
