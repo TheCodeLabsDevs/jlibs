@@ -1,6 +1,7 @@
 package de.tobias.utils.application;
 
 import de.tobias.utils.application.container.PathType;
+import de.tobias.utils.util.FileUtils;
 import de.tobias.utils.util.IOUtils;
 import de.tobias.utils.util.OS;
 
@@ -13,7 +14,7 @@ public class NativeLoader {
 
 	/**
 	 * Load native library from inside a jar file
-	 * 
+	 *
 	 * @param basename
 	 * @param folder
 	 * @param clazz
@@ -24,7 +25,7 @@ public class NativeLoader {
 
 	/**
 	 * Load native library from inside a jar file
-	 * 
+	 *
 	 * @param name
 	 * @param clazz
 	 */
@@ -34,7 +35,25 @@ public class NativeLoader {
 
 	public static void load(String basename, String folder, Class<?> clazz, Runnable startup, Runnable shutdown) {
 		try {
-			Path libraryPath = copyLibrary(basename, folder, clazz);
+			String filename = null;
+			if (!basename.contains(".")) {
+				switch (OS.getType()) {
+					case Windows:
+						filename = basename + "Windows.dll";
+						break;
+					case MacOSX:
+						filename = "lib" + basename + "OSX.dylib";
+						break;
+					case Linux:
+						filename = "lib" + basename + "Linux.so";
+						break;
+					case Other:
+						throw new UnsupportedOperationException("OS not supported: load native manually");
+				}
+			} else {
+				filename = basename;
+			}
+			Path libraryPath = copy(filename, folder, clazz);
 			try {
 				// Load file into jvm
 				System.load(libraryPath.toString());
@@ -55,32 +74,16 @@ public class NativeLoader {
 		}
 	}
 
-	private static Path copyLibrary(String basename, String folder, Class<?> clazz) throws IOException {
+	public static Path copy(String filename, String folder, Class<?> clazz) throws IOException {
 		String name;
 		if (folder.isEmpty()) {
 			name = "";
 		} else {
 			name = folder + "/";
 		}
-		if (!basename.contains(".")) {
-			switch (OS.getType()) {
-			case Windows:
-				name += basename + "Windows.dll";
-				break;
-			case MacOSX:
-				name += "lib" + basename + "OSX.dylib";
-				break;
-			case Linux:
-				name += "lib" + basename + "Linux.so";
-				break;
-			case Other:
-				throw new UnsupportedOperationException("OS not supported: load native manually");
-			}
-		} else {
-			name += basename;
-		}
+		name += filename;
 
-		Path libraryPath = ApplicationUtils.getApplication().getPath(PathType.NATIVE_LIBRARY, name);
+		Path libraryPath = ApplicationUtils.getApplication().getPath(PathType.NATIVE_LIBRARY, filename);
 
 		Files.createDirectories(libraryPath.getParent());
 		if (Files.notExists(libraryPath)) {
@@ -88,11 +91,24 @@ public class NativeLoader {
 		}
 		try {
 			InputStream iStr = clazz.getClassLoader().getResourceAsStream(name);
+			System.out.println(name);
 			IOUtils.copy(iStr, libraryPath);
 			iStr.close();
 		} catch (Exception e) {
 			System.err.println(e.getLocalizedMessage());
 		}
 		return libraryPath;
+	}
+
+	private static final String[] nativeFileExtensions = {"dylib", "dll", "so"};
+
+	public static boolean isNativeLibraryFile(Path path) {
+		String extension = FileUtils.getFileExtension(path);
+		for (String e : nativeFileExtensions) {
+			if (e.equalsIgnoreCase(extension)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

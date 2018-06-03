@@ -23,9 +23,13 @@ public class ImageUtils {
 		return new ImageView(new Image(path));
 	}
 
-	public static byte[] imageToByteArray(Image image) throws IOException {
+	public static byte[] imageToByteArray(Image image) {
 		ByteArrayOutputStream oStr = new ByteArrayOutputStream();
-		ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", oStr);
+		try {
+			ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", oStr);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		return oStr.toByteArray();
 	}
 

@@ -4,6 +4,7 @@ import de.tobias.utils.application.NativeLoader;
 import javafx.scene.image.Image;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -13,6 +14,17 @@ public class SystemUtils {
 
 	private static boolean loaded = false;
 
+	public static void loadNativeLibrary() {
+		if (!loaded && OS.isMacOS()) {
+			try {
+				NativeLoader.copy("libUtilsNative.dylib", "de/tobias/utils/util/assets", SystemUtils.class);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			loaded = !loaded;
+		}
+	}
+	
 	public static String getPID() {
 		String name = ManagementFactory.getRuntimeMXBean().getName();
 		return name.substring(0, name.indexOf("@"));
@@ -54,15 +66,7 @@ public class SystemUtils {
 
 	// File Icon
 	public static Image getImageForFile(Path file) {
-		load();
 		return new Image(IOUtils.byteArrayToInputStream(getImageForFile_N(file.toString())));
-	}
-
-	private static void load() {
-		if (!loaded) {
-			NativeLoader.load("SystemUtils", "de/tobias/utils/util/assets/", SystemUtils.class);
-			loaded = !loaded;
-		}
 	}
 
 	private static native byte[] getImageForFile_N(String path);

@@ -6,8 +6,9 @@
 //  Copyright (c) 2014 Tobias. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#include "NativeUtils.h"
+#import <AppKit/AppKit.h>
+
+#include "Utils.h"
 
 
 long getID(JNIEnv* e , jobject o) {
@@ -45,32 +46,6 @@ bool isSameClass(const char* name, JNIEnv* env, jobject obj) {
     (*e) -> ReleaseByteArrayElements(e, imageData, data, 0);
     
     return image;
-}
-
-- (jbooleanArray)imageToJava:(JNIEnv *)env {
-    CGImageRef cgRef = [self CGImageForProposedRect:NULL
-                                             context:nil
-                                               hints:nil];
-    NSBitmapImageRep *newRep = [[NSBitmapImageRep alloc] initWithCGImage:cgRef];
-    [newRep setSize:[self size]];
-    NSData *d = [newRep representationUsingType:NSPNGFileType properties:nil];
-    
-    jbyte* data = (jbyte*) [d bytes];
-    jbyteArray array = (*env) -> NewByteArray(env, (int) d.length);
-    (*env) -> SetByteArrayRegion(env, array, 0, (int) d.length, data);
-    return array;
-}
-
-- (NSImage *)resizeImageWithSize:(NSSize)size {
-    NSRect targetFrame = NSMakeRect(0, 0, size.width, size.height);
-    NSImage*  targetImage = [[NSImage alloc] initWithSize:size];
-    
-    [targetImage lockFocus];
-    [self drawInRect:targetFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:@{NSImageHintInterpolation:
-                                  [NSNumber numberWithInt:NSImageInterpolationLow]}];
-    [targetImage unlockFocus];
-    
-    return targetImage;
 }
 
 @end

@@ -173,8 +173,10 @@ public class App {
 		try {
 			if (Files.exists(nativeFolder)) {
 				for (Path item : Files.newDirectoryStream(nativeFolder)) {
-					loadNativeLibrary(item);
-					System.out.println("Load Native Library: " + item);
+					if (NativeLoader.isNativeLibraryFile(item)) {
+						loadNativeLibrary(item);
+						println("Load Native Library: " + item);
+					}
 				}
 			}
 		} catch (IOException e1) {

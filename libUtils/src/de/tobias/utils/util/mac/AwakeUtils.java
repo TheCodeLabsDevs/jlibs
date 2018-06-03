@@ -1,4 +1,4 @@
-package de.tobias.utils.util;
+package de.tobias.utils.util.mac;
 
 public class AwakeUtils {
 

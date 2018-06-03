@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:SystemUtilsOSX.xcodeproj">
+      location = "self:libUtilsNative.xcodeproj">
    </FileRef>
 </Workspace>
