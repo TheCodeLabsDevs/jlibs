@@ -91,7 +91,6 @@ public class NativeLoader {
 		}
 		try {
 			InputStream iStr = clazz.getClassLoader().getResourceAsStream(name);
-			System.out.println(name);
 			IOUtils.copy(iStr, libraryPath);
 			iStr.close();
 		} catch (Exception e) {

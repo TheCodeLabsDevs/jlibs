@@ -1,5 +1,7 @@
 package de.tobias.utils.util;
 
+import de.tobias.logger.Logger;
+
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -29,6 +31,7 @@ public class Localization {
 			throw new NullPointerException("Delegate is null. Use: Localization.setDelegate()");
 		}
 		bundle = loadBundle(delegate.getBaseResource(), Localization.class.getClassLoader());
+		Logger.debug("Loaded localization bundle: {0} for language: {1}", bundle.getBaseBundleName(), bundle.getLocale());
 	}
 
 	/**
