@@ -2,12 +2,14 @@ package de.tobias.utils.nui;
 
 import de.tobias.utils.ui.Alertable;
 import de.tobias.utils.util.Worker;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -16,9 +18,11 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -31,6 +35,7 @@ public class NVC implements Alertable {
 	private ResourceBundle bundle;
 
 	private Optional<NVCStage> stageContainer;
+	private Optional<Scene> parent;
 
 	public NVC load(String path, String filename) {
 		return load(path, filename, (ResourceBundle) null);
@@ -62,6 +67,8 @@ public class NVC implements Alertable {
 	 */
 	public NVC load(String path, String filename, ResourceBundle bundle, Consumer<NVC> onFinish) {
 		stageContainer = Optional.empty();
+		parent = Optional.empty();
+
 		Task<Void> task = new Task<Void>() {
 
 			@Override
@@ -268,5 +275,49 @@ public class NVC implements Alertable {
 
 	public Window getContainingWindow() {
 		return fxmlView.getScene().getWindow();
+	}
+
+	public void fadeTo(NVC nvc, Paint backgroundFill, Duration duration) {
+		NVCStage stage = getStageContainer().orElse(null);
+		if (stage != null) {
+			getContainingWindow().getScene().setFill(backgroundFill);
+
+			FadeTransition transition = new FadeTransition(duration, getParent());
+			transition.setToValue(0);
+			transition.setOnFinished((event) -> {
+				nvc.parent = Optional.of(stage.getStage().getScene());
+				nvc.getParent().setOpacity(0);
+				nvc.applyViewControllerToStage(stage.getStage());
+				nvc.getContainingWindow().getScene().setFill(backgroundFill);
+				FadeTransition fadeIn = new FadeTransition(duration, nvc.getParent());
+				fadeIn.setFromValue(0);
+				fadeIn.setToValue(1);
+				fadeIn.playFromStart();
+			});
+			transition.playFromStart();
+		} else {
+			throw new IllegalStateException("NVC not contains NVCStage");
+		}
+	}
+
+	public void fadeBack(Duration duration) {
+		NVCStage stage = getStageContainer().orElse(null);
+		Scene parent = this.parent.orElse(null);
+		if (stage != null && parent != null) {
+
+			FadeTransition transition = new FadeTransition(duration, getParent());
+			transition.setToValue(0);
+			transition.setOnFinished((event) -> {
+				parent.getRoot().setOpacity(0);
+				stage.getStage().setScene(parent);
+				FadeTransition fadeIn = new FadeTransition(duration, parent.getRoot());
+				fadeIn.setFromValue(0);
+				fadeIn.setToValue(1);
+				fadeIn.playFromStart();
+			});
+			transition.playFromStart();
+		} else {
+			throw new IllegalStateException("NVC not contains NVCStage");
+		}
 	}
 }
