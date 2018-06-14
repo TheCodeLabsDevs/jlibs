@@ -18,7 +18,6 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -31,6 +30,7 @@ import java.util.function.Consumer;
 
 public class NVC implements Alertable {
 
+	private String fxmlPath;
 	private Parent fxmlView;
 	private ResourceBundle bundle;
 
@@ -87,7 +87,6 @@ public class NVC implements Alertable {
 	}
 
 	private void loadFXML(String path, String filename, ResourceBundle localization) {
-
 		if (!filename.endsWith(".fxml")) {
 			filename += ".fxml";
 		}
@@ -95,8 +94,11 @@ public class NVC implements Alertable {
 		if (!path.endsWith("/")) {
 			path += "/";
 		}
+		loadFXML(path + filename, localization);
+	}
 
-		String fxmlPath = path + filename;
+	private void loadFXML(String path, ResourceBundle localization) {
+		fxmlPath = path;
 
 		// FXML erzeugen
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(fxmlPath));
@@ -277,10 +279,17 @@ public class NVC implements Alertable {
 		return fxmlView.getScene().getWindow();
 	}
 
-	public void fadeTo(NVC nvc, Paint backgroundFill, Duration duration) {
+	// Modify stage content
+	public void reloadFxml(ResourceBundle resourceBundle) {
+		loadFXML(fxmlPath, resourceBundle);
+		getStageContainer().ifPresent(nvcStage -> {
+			applyViewControllerToStage(nvcStage.getStage());
+		});
+	}
+
+	public void fadeTo(NVC nvc, Duration duration) {
 		NVCStage stage = getStageContainer().orElse(null);
 		if (stage != null) {
-			getContainingWindow().getScene().setFill(backgroundFill);
 
 			FadeTransition transition = new FadeTransition(duration, getParent());
 			transition.setToValue(0);
@@ -288,7 +297,6 @@ public class NVC implements Alertable {
 				nvc.parent = Optional.of(stage.getStage().getScene());
 				nvc.getParent().setOpacity(0);
 				nvc.applyViewControllerToStage(stage.getStage());
-				nvc.getContainingWindow().getScene().setFill(backgroundFill);
 				FadeTransition fadeIn = new FadeTransition(duration, nvc.getParent());
 				fadeIn.setFromValue(0);
 				fadeIn.setToValue(1);
