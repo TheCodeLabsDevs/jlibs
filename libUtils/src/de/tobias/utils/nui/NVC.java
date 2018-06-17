@@ -35,6 +35,8 @@ public class NVC implements Alertable {
 	private ResourceBundle bundle;
 
 	private Optional<NVCStage> stageContainer;
+
+	private Optional<NVC> parentNVC;
 	private Optional<Scene> parent;
 
 	public NVC load(String path, String filename) {
@@ -295,6 +297,7 @@ public class NVC implements Alertable {
 			transition.setToValue(0);
 			transition.setOnFinished((event) -> {
 				nvc.parent = Optional.of(stage.getStage().getScene());
+				nvc.parentNVC = Optional.of(this);
 				nvc.getParent().setOpacity(0);
 				nvc.applyViewControllerToStage(stage.getStage());
 				FadeTransition fadeIn = new FadeTransition(duration, nvc.getParent());
@@ -317,7 +320,9 @@ public class NVC implements Alertable {
 			transition.setToValue(0);
 			transition.setOnFinished((event) -> {
 				parent.getRoot().setOpacity(0);
+				parentNVC.ifPresent(nvc -> nvc.initStage(stage.getStage()));
 				stage.getStage().setScene(parent);
+
 				FadeTransition fadeIn = new FadeTransition(duration, parent.getRoot());
 				fadeIn.setFromValue(0);
 				fadeIn.setToValue(1);
