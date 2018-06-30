@@ -154,7 +154,9 @@ public class Logger {
 			}
 
 			String message = any != null ? any.toString() : "null";
-			message = MessageFormat.format(message, args);
+			if (args != null && args.length > 0) {
+				message = MessageFormat.format(message, args);
+			}
 
 			LogMessage logMessage = new LogMessage(level, message, element);
 			boolean cancelMessage = filters.stream().anyMatch(f -> !f.accept(logMessage));
