@@ -217,7 +217,11 @@ public class App {
 	 * @param path full path to the library
 	 */
 	public void loadNativeLibrary(Path path) {
-		System.load(path.toString());
+		try {
+			System.load(path.toString());
+		} catch (Exception e) {
+			System.err.println("Unable to load native library " + path + " for reason: " + e.getMessage());
+		}
 	}
 
 	private boolean checkLocalUpdate() {

@@ -24,7 +24,7 @@ public class SystemUtils {
 			loaded = !loaded;
 		}
 	}
-	
+
 	public static String getPID() {
 		String name = ManagementFactory.getRuntimeMXBean().getName();
 		return name.substring(0, name.indexOf("@"));
@@ -32,14 +32,14 @@ public class SystemUtils {
 
 	public static Path getApplicationSupportDirectoryPath(String name) {
 		switch (OS.getType()) {
-		case Windows:
-			return Paths.get(System.getenv("APPDATA"), name);
-		case MacOSX:
-			return Paths.get(System.getProperty("user.home"), "Library/Application Support/", name);
-		case Linux:
-			return Paths.get("/opt", name);
-		default:
-			return null;
+			case Windows:
+				return Paths.get(System.getenv("APPDATA"), name);
+			case MacOSX:
+				return Paths.get(System.getProperty("user.home"), "Library/Application Support/", name);
+			case Linux:
+				return Paths.get(System.getProperty("user.home"), "." + name);
+			default:
+				return null;
 		}
 	}
 
