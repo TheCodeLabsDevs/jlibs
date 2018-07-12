@@ -33,7 +33,6 @@ public class Logger {
 
 	public static void init(Path baseDir) {
 		if (initialized) {
-			System.err.println("Logger is already initialized.");
 			return;
 		}
 		try {

@@ -50,7 +50,7 @@ public class FileContainer {
 		FileUtils.createDirectoriesIfNotExists(containerPath);
 	}
 
-	public FileContainer(String bundleIdentifier) throws Exception {
+	public FileContainer(String bundleIdentifier) {
 		containerPath = SystemUtils.getApplicationSupportDirectoryPath(containerName, bundleIdentifier);
 		containerInfoPath = getPath("container.yml", PathType.ROOT);
 		containerInfo = YAMLSettings.load(FileContainerInfo.class, containerInfoPath);
@@ -67,7 +67,15 @@ public class FileContainer {
 	}
 
 	public Path getPath(String name, PathType pathType) {
-		return containerPath.resolve(pathType.getFolder()).resolve(name);
+		final Path baseFolder = containerPath.resolve(pathType.getFolder());
+		if (Files.notExists(baseFolder)) {
+			try {
+				Files.createDirectories(baseFolder);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return baseFolder.resolve(name);
 	}
 
 	public Path getFolder(PathType type) {
@@ -90,73 +98,6 @@ public class FileContainer {
 		FileUtils.deleteDirectory(getContainerPath());
 	}
 
-	@Deprecated
-	public long availableBuild() {
-		long version = -1;
-		if (containerInfo.getUpdatePath() != null) {
-			try {
-				if (!containerInfo.getUpdatePath().endsWith("/")) {
-					containerInfo.setUpdatePath(containerInfo.getUpdatePath() + "/");
-				}
-				URL url = new URL(containerInfo.getUpdatePath() + "/version.yml");
-				FileConfiguration cfg = YamlConfiguration.loadConfiguration(url.openStream());
-				version = cfg.getLong("build");
-			} catch (IOException ignored) {
-			}
-		}
-		return version;
-	}
-
-	@Deprecated
-	public String availableVersion() {
-		String version = "";
-		if (containerInfo.getUpdatePath() != null) {
-			try {
-				if (!containerInfo.getUpdatePath().endsWith("/")) {
-					containerInfo.setUpdatePath(containerInfo.getUpdatePath() + "/");
-				}
-				URL url = new URL(containerInfo.getUpdatePath() + "/version.yml");
-				FileConfiguration cfg = YamlConfiguration.loadConfiguration(url.openStream());
-				version = cfg.getString("version");
-			} catch (IOException ignored) {
-			}
-		}
-		return version;
-	}
-
-	@Deprecated
-	public void updateApp(Consumer<Double> consumer) throws IOException {
-		if (!containerInfo.getUpdatePath().endsWith("/")) {
-			containerInfo.setUpdatePath(containerInfo.getUpdatePath() + "/");
-		}
-		URL url = new URL(containerInfo.getUpdatePath() + "version.yml");
-		FileConfiguration cfg = YamlConfiguration.loadConfiguration(url.openStream());
-		String path;
-		if (containerInfo.getExecutionPath().toLowerCase().endsWith("jar")) {
-			path = cfg.getString("pathJar");
-		} else {
-			path = cfg.getString("pathExe");
-		}
-		URL downloadUrl = new URL(path);
-
-		HttpURLConnection httpConnection = (HttpURLConnection) (downloadUrl.openConnection());
-		long completeFileSize = httpConnection.getContentLength();
-
-		BufferedInputStream in = new BufferedInputStream(httpConnection.getInputStream());
-		BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(containerInfo.getExecutionPath()), 1024);
-		byte[] data = new byte[1024];
-		long downloadedFileSize = 0;
-		int x = 0;
-		while ((x = in.read(data, 0, 1024)) >= 0) {
-			downloadedFileSize += x;
-
-			final double currentProgress = (double) downloadedFileSize / (double) completeFileSize;
-			consumer.accept(currentProgress);
-			bout.write(data, 0, x);
-		}
-		bout.close();
-		in.close();
-	}
 
 	public void saveInformation() {
 		// Update der Informationen
