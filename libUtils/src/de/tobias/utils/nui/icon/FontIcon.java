@@ -32,6 +32,12 @@ public class FontIcon extends Label {
 		this(new FontIconType[]{type});
 	}
 
+	public FontIcon(FontAwesomeType type, int size, String styleClass) {
+		this(new FontIconType[]{type});
+		setSize(size);
+		getStyleClass().add(styleClass);
+	}
+
 	public FontIcon(String styleClass, FontAwesomeType type) {
 		this(new FontIconType[]{type});
 		getStyleClass().add(styleClass);
