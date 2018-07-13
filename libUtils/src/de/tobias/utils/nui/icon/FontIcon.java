@@ -1,21 +1,21 @@
-package de.tobias.utils.ui.icon;
-
-import java.util.HashMap;
-import java.util.Map;
+package de.tobias.utils.nui.icon;
 
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class FontIcon extends Label {
 
 	public static final String STYLE_CLASS = "fonticon";
-	private static String FONT_FILE = "de/tobias/utils/ui/icon/fontawesome-webfont.ttf";
-	
+	private static String FONT_FILE = "de/tobias/utils/nui/icon/fontawesome-webfont.ttf";
+
 	private String fontFile = FONT_FILE;
-	
+
 	private static Map<String, Map<Integer, Font>> fonts;
-	
+
 	static {
 		fonts = new HashMap<>();
 	}
@@ -29,11 +29,11 @@ public class FontIcon extends Label {
 	private Color color;
 
 	public FontIcon(FontAwesomeType type) {
-		this(new FontIconType[] { type });
+		this(new FontIconType[]{type});
 	}
-	
+
 	public FontIcon(String styleClass, FontAwesomeType type) {
-		this(new FontIconType[] { type });
+		this(new FontIconType[]{type});
 		getStyleClass().add(styleClass);
 	}
 
@@ -42,16 +42,16 @@ public class FontIcon extends Label {
 	}
 
 	public FontIcon(FontAwesomeType type, String fontFile) {
-		this(new FontIconType[] { type });
+		this(new FontIconType[]{type});
 	}
 
 	public FontIcon(String fontFile, FontIconType... types) {
-		this.fontFile = fontFile; 
+		this.fontFile = fontFile;
 		setIcons(types);
 		loadFont();
 		getStyleClass().remove("label");
 		getStyleClass().add(STYLE_CLASS);
-		
+
 	}
 
 	public void setIcons(FontIconType... types) {
@@ -66,12 +66,12 @@ public class FontIcon extends Label {
 		if (!fonts.containsKey(fontFile)) {
 			fonts.put(fontFile, new HashMap<>());
 		}
-		
+
 		Map<Integer, Font> localFonts = fonts.get(fontFile);
 		if (!localFonts.containsKey(size)) {
 			localFonts.put(size, Font.loadFont(getClass().getClassLoader().getResourceAsStream(fontFile), size));
 		}
-		
+
 		font = fonts.get(fontFile).get(size);
 		setFont(font);
 	}

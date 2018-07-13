@@ -1,10 +1,9 @@
 package de.tobias.utils.help;
 
-import java.util.UUID;
-
 import com.hp.gagawa.java.Document;
+import de.tobias.utils.help.ui.HelpMapViewController;
 
-import de.tobias.utils.help.ui.HelpMapViewController2;
+import java.util.UUID;
 
 /**
  * Element in einer HelpMap
@@ -60,8 +59,8 @@ public abstract class HelpElement implements Cloneable {
 	public HelpMap getHelpMap() {
 		return helpMap;
 	}
-	
-	public abstract Document getHtmlDocument(HelpMapViewController2 hmvc, Document htmlDocument);
+
+	public abstract Document getHtmlDocument(HelpMapViewController hmvc, Document htmlDocument);
 
 	@Override
 	public String toString() {

@@ -1,8 +1,8 @@
-package de.tobias.utils.ui;
-
-import java.util.Optional;
+package de.tobias.utils.nui;
 
 import javafx.scene.image.Image;
+
+import java.util.Optional;
 
 /**
  * Definiert einige Abstracte Schnittstellen für das Darstellen von Meldungen zu einer View.

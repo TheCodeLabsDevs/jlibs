@@ -1,6 +1,5 @@
 package de.tobias.utils.nui;
 
-import de.tobias.utils.ui.Alertable;
 import de.tobias.utils.util.Worker;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;

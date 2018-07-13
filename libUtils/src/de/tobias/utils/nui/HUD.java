@@ -1,14 +1,10 @@
-package de.tobias.utils.ui;
+package de.tobias.utils.nui;
 
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class HUD extends AnchorPane {
@@ -19,7 +15,7 @@ public class HUD extends AnchorPane {
 	public HUD(Node content) {
 		content.setMouseTransparent(true);
 		getChildren().add(content);
-		ViewController.setAnchor(content, 0, 0, 0, 0);
+		NVC.setAnchor(content, 0, 0, 0, 0);
 		setBackground(new Background(new BackgroundFill(Color.rgb(30, 30, 30, 0.7), new CornerRadii(20), null)));
 	}
 

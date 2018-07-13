@@ -4,7 +4,7 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>libUtils</artifactId>
-    <version>1.4.7</version>
+    <version>1.5.0</version>
 
     <build>
         <sourceDirectory>src</sourceDirectory>
@@ -121,6 +121,7 @@
             <artifactId>snakeyaml</artifactId>
             <version>1.19</version>
         </dependency>
+
         <dependency>
             <groupId>de.tobias</groupId>
             <artifactId>YAMLStorage</artifactId>
@@ -131,7 +132,6 @@
             <artifactId>libStorage</artifactId>
             <version>1.1.0</version>
         </dependency>
-
         <dependency>
             <groupId>de.tobias</groupId>
             <artifactId>libLogger</artifactId>

@@ -1,141 +1,142 @@
 package de.tobias.utils.help.ui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
-
+import com.hp.gagawa.java.Document;
+import com.hp.gagawa.java.DocumentType;
+import com.hp.gagawa.java.elements.Style;
 import de.tobias.utils.help.HelpElement;
 import de.tobias.utils.help.HelpMap;
 import de.tobias.utils.help.elements.HelpCategory;
-import de.tobias.utils.help.elements.HelpTopic;
-import de.tobias.utils.ui.ViewController;
+import de.tobias.utils.nui.NVC;
+import de.tobias.utils.util.FileUtils;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import netscape.javascript.JSObject;
+import org.controlsfx.glyphfont.FontAwesome;
+import org.controlsfx.glyphfont.GlyphFont;
 
-public class HelpMapViewController extends ViewController {
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+
+public class HelpMapViewController extends NVC implements ChangeListener<TreeItem<HelpElement>> {
 
 	@FXML protected TextField searchField;
-	@FXML protected TreeView<HelpElement> treeView;
-	@FXML protected VBox contentView;
-	@FXML public ScrollPane scrollPane;
+	@FXML private Button backButton;
+	@FXML private Button forthButton;
 
-	private HashMap<UUID, TreeItem<HelpElement>> items;
-	private List<HelpElement> searchElements;
+	@FXML protected TreeView<HelpElement> treeView;
+	@FXML private WebView webView;
+
+	private HashMap<UUID, TreeItem<HelpElement>> treeItems;
+	private List<HelpElement> searchResult;
 	private boolean isSearching;
+
+	private HelpElement currentElement;
+	private Stack<HelpElement> backStack;
+	private boolean isUndoing;
+	private Stack<HelpElement> forthStack;
+	private boolean isRedoing;
 
 	private HelpMap helpMap;
 
+	private GlyphFont font;
+	private JSBridge bridge;
+
 	public HelpMapViewController(HelpMap helpMap) {
-		this(helpMap, "helpView", "de/tobias/utils/help/ui/assets");
-		this.helpMap = helpMap;
+		this(helpMap, "helpView2", "de/tobias/utils/help/ui/assets/");
 	}
 
 	public HelpMapViewController(HelpMap helpMap, String path, String rootPath) {
-		super(path, rootPath);
-		items = new HashMap<>();
-		searchElements = new ArrayList<>();
-		isSearching = false;
+		load(rootPath, rootPath);
+		
+		this.helpMap = helpMap;
+		this.treeItems = new HashMap<>();
+		this.searchResult = new ArrayList<>();
+		this.isSearching = false;
+		this.bridge = new JSBridge();
 
 		TreeItem<HelpElement> root = new TreeItem<>();
-		loadTree(root, helpMap.getElements());
 		treeView.setShowRoot(false);
 		treeView.setRoot(root);
 
-		contentView.setFillWidth(true);
-
 		// Select Content
-		treeView.getSelectionModel().selectedItemProperty().addListener((a, b, c) ->
-		{
-			if (c != null) {
-				if (c.getValue() instanceof HelpTopic) {
-					HelpTopic topicItem = (HelpTopic) c.getValue();
-					contentView.getChildren().clear();
+		treeView.getSelectionModel().selectedItemProperty().addListener(this);
+	}
 
-					Label headline = new Label(topicItem.getHeadline());
-					headline.getStyleClass().add("headline");
-					contentView.getChildren().add(headline);
-
-					topicItem.getContents().forEach(contentItem ->
-					{
-						contentView.getChildren().add(contentItem.getNode(this));
-					});
-					contentView.getChildren().add(new Separator());
-					String tags = "Schlagwörter: " + ((HelpTopic) topicItem).getTags();
-					contentView.getChildren().add(getTextNode(tags));
-				} else {
-					c.setExpanded(true);
-				}
-			} else {
-				contentView.getChildren().clear();
-			}
-		});
+	public void loadItems() {
+		treeView.getRoot().getChildren().clear();
+		loadTree(treeView.getRoot(), helpMap.getElements());
 	}
 
 	private void loadTree(TreeItem<HelpElement> item, List<HelpElement> elements) {
 		for (HelpElement element : elements) {
 			if (element instanceof HelpCategory) {
 				TreeItem<HelpElement> catItem = new TreeItem<HelpElement>(element);
-				catItem.setGraphic(new ImageView("de/tobias/utils/help/ui/assets/folder.png"));
+				catItem.setGraphic(font.create(FontAwesome.Glyph.FOLDER_OPEN.name()));
+
 				loadTree(catItem, ((HelpCategory) element).getChildElements());
+
 				item.getChildren().add(catItem);
-				items.put(element.getUUID(), catItem);
+				treeItems.put(element.getUUID(), catItem);
 			} else {
 				TreeItem<HelpElement> topItem = new TreeItem<HelpElement>(element);
-				topItem.setGraphic(new ImageView("de/tobias/utils/help/ui/assets/file.png"));
+				topItem.setGraphic(font.create(FontAwesome.Glyph.FILE.name()));
+
 				if (isSearching) {
-					if (searchElements.contains(element)) {
+					if (searchResult.contains(element))
 						item.getChildren().add(topItem);
-						item.setExpanded(true);
-					}
-				} else {
+				} else
 					item.getChildren().add(topItem);
-					item.setExpanded(false);
-				}
-				items.put(element.getUUID(), topItem);
+				treeItems.put(element.getUUID(), topItem);
 			}
 		}
 	}
 
-	private Text getTextNode(String text) {
-		Text textNode = new Text(text);
-		textNode.wrappingWidthProperty().bind(getStage().widthProperty().subtract(235));
-		textNode.setTextAlignment(TextAlignment.JUSTIFY);
-		return textNode;
-	}
-
 	@Override
 	public void init() {
-		setCSS("style", "de/tobias/utils/help/ui/assets/");
+		backStack = new Stack<>();
+		forthStack = new Stack<>();
+		isUndoing = false;
+
+		font = new FontAwesome();
+		
+		backButton.setGraphic(font.create(FontAwesome.Glyph.ARROW_LEFT.name()));
+		backButton.setText("");
+		backButton.setDisable(true);
+		forthButton.setGraphic(font.create(FontAwesome.Glyph.ARROW_RIGHT.name()));
+		forthButton.setText("");
+		forthButton.setDisable(true);
 	}
 
 	@Override
 	public void initStage(Stage stage) {
 		stage.setTitle("Hilfe");
+		stage.getScene().getStylesheets().add("de/tobias/utils/help/ui/assets/style.css");
+		stage.setMinWidth(800);
+		stage.setMinHeight(500);
 	}
 
 	public void selectElement(HelpElement topic) {
-		treeView.getSelectionModel().select(items.get(topic.getUUID()));
+		treeView.getSelectionModel().select(treeItems.get(topic.getUUID()));
 	}
 
 	@FXML
 	private void searchHandler(ActionEvent e) {
+		searchResult.clear();
 		treeView.getRoot().getChildren().clear();
-		searchElements.clear();
 
 		if (!searchField.getText().isEmpty()) {
-			searchElements.addAll(helpMap.search(searchField.getText()));
+			searchResult.addAll(helpMap.search(searchField.getText()));
 			isSearching = true;
 		} else {
 			isSearching = false;
@@ -144,7 +145,88 @@ public class HelpMapViewController extends ViewController {
 		loadTree(treeView.getRoot(), helpMap.getElements());
 	}
 
+	@FXML
+	private void backButtonHandler(ActionEvent e) {
+		isUndoing = true;
+		HelpElement item = backStack.pop();
+		forthStack.push(currentElement);
+		selectElement(item);
+		isUndoing = false;
+	}
+
+	@FXML
+	private void forthButtonHandler(ActionEvent e) {
+		isRedoing = true;
+		HelpElement item = forthStack.pop();
+		selectElement(item);
+		isRedoing = false;
+	}
+
 	public void show() {
-		getStage().show();
+		loadItems();
+		showStage();
+	}
+
+	private String getHtmlDocument(HelpElement helpElement) throws IOException {
+		Path path = helpMap.getLocalResourcePath(helpElement.getUUID());
+
+		if (Files.exists(path)) {
+			String content = FileUtils.readFile(path);
+			return content;
+		}
+
+		Document document = new Document(DocumentType.HTMLStrict);
+
+		// CSS
+		Style style = new Style("text/css");
+		style.appendText(FileUtils.readURL(getClass().getClassLoader().getResource("de/tobias/utils/help/ui/assets/helpmap.css")));
+		document.head.appendChild(style);
+
+		String content = helpElement.getHtmlDocument(this, document).write();
+
+		Files.createDirectories(path.getParent());
+		Files.write(path, content.getBytes());
+
+		return content;
+	}
+
+	@Override
+	public void changed(ObservableValue<? extends TreeItem<HelpElement>> observable, TreeItem<HelpElement> oldValue,
+			TreeItem<HelpElement> newValue) {
+		if (newValue != null) {
+			try {
+				if (oldValue != null && !isUndoing) {
+					backStack.push(oldValue.getValue());
+				}
+
+				if (!isRedoing && !isUndoing) {
+					forthStack.clear();
+				}
+
+				backButton.setDisable(backStack.isEmpty());
+				forthButton.setDisable(forthStack.isEmpty());
+
+				currentElement = newValue.getValue();
+
+				String content = getHtmlDocument(currentElement);
+				webView.getEngine().loadContent((content));
+				webView.getEngine().getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
+					if (newState == State.SUCCEEDED) {
+						JSObject window = (JSObject) webView.getEngine().executeScript("window");
+						window.setMember("app", bridge);
+					}
+				});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return;
+		}
+	}
+
+	public class JSBridge {
+
+		public void select(String uuid) {
+			selectElement(helpMap.findElement(UUID.fromString(uuid)));
+		}
 	}
 }

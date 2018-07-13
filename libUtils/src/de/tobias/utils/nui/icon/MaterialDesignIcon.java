@@ -1,4 +1,4 @@
-package de.tobias.utils.ui.icon;
+package de.tobias.utils.nui.icon;
 
 public enum MaterialDesignIcon implements FontIconType {
 
@@ -1177,7 +1177,7 @@ public enum MaterialDesignIcon implements FontIconType {
 
 	/**
 	 * Creates a named Glyph mapped to the given character
-	 * 
+	 *
 	 * @param ch
 	 */
 	MaterialDesignIcon(char ch) {
@@ -1193,7 +1193,7 @@ public enum MaterialDesignIcon implements FontIconType {
 	public String getFontFile() {
 		return FONT_FILE;
 	}
-	
-	public static final String FONT_FILE = "de/tobias/utils/ui/icon/materialdesignicons-webfont.ttf";
+
+	public static final String FONT_FILE = "de/tobias/utils/nui/icon/materialdesignicons-webfont.ttf";
 
 }

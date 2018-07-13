@@ -1,18 +1,17 @@
 package de.tobias.utils.help.elements;
 
-import java.util.List;
-import java.util.UUID;
-
 import com.hp.gagawa.java.Document;
 import com.hp.gagawa.java.Node;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.H1;
 import com.hp.gagawa.java.elements.U;
-
 import de.tobias.utils.help.HelpContent;
 import de.tobias.utils.help.HelpElement;
 import de.tobias.utils.help.HelpMap;
-import de.tobias.utils.help.ui.HelpMapViewController2;
+import de.tobias.utils.help.ui.HelpMapViewController;
+
+import java.util.List;
+import java.util.UUID;
 
 /**
  * 
@@ -56,8 +55,8 @@ public class HelpTopic extends HelpElement {
 	public void setHeadline(String headline) {
 		this.headline = headline;
 	}
-	
-	public Document getHtmlDocument(HelpMapViewController2 hmvc, Document htmlDocument) {
+
+	public Document getHtmlDocument(HelpMapViewController hmvc, Document htmlDocument) {
 		// Überschrift
 		H1 headline = new H1();
 		headline.appendText(getHeadline());

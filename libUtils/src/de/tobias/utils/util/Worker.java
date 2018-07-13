@@ -14,7 +14,7 @@ public class Worker {
 
 	private static void initWorker() {
 		int nThreads = Runtime.getRuntime().availableProcessors();
-		executorService = new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>()) {
+		executorService = new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>()) {
 
 			@Override
 			public <T> Future<T> submit(final Callable<T> task) {
@@ -51,7 +51,7 @@ public class Worker {
 
 	private static int task = 0;
 
-	public static Future<Void> runLater(Runnable runnable) {
+	public static void runLater(Runnable runnable) {
 		if (executorService == null) {
 			task = 0;
 			initWorker();
@@ -60,7 +60,7 @@ public class Worker {
 		if (ApplicationUtils.getApplication().isDebug()) {
 			System.out.println("Submit " + task + " task");
 		}
-		return executorService.submit(runnable, null);
+		executorService.submit(runnable, null);
 	}
 
 	public static void shutdown() {

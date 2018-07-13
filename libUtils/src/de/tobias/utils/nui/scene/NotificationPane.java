@@ -1,14 +1,13 @@
-package de.tobias.utils.ui.scene;
-
-import java.util.LinkedList;
-import java.util.Queue;
-
-import org.controlsfx.control.action.Action;
+package de.tobias.utils.nui.scene;
 
 import de.tobias.utils.util.Worker;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import org.controlsfx.control.action.Action;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class NotificationPane extends org.controlsfx.control.NotificationPane {
 

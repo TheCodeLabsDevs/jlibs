@@ -1,4 +1,4 @@
-package de.tobias.utils.nui;
+package de.tobias.utils.nui.size;
 
 public class NVCItem {
 
