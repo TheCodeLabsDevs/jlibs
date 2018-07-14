@@ -1,8 +1,0 @@
-name: Updater
-version: 1.0.0
-build: 1
-identifier: de.tobias.playpad
-main: de.tobias.updater.main.UpdaterMain
-author: Tobias Ullerich
-backup: false
-iconPath: de/tobias/updater/assets/icon

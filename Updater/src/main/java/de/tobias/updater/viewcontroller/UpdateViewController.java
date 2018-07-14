@@ -83,7 +83,7 @@ public class UpdateViewController extends NVC implements Updater.UpdaterListener
 		stage.setWidth(600);
 		stage.setHeight(110);
 		stage.setTitle("Updater");
-		stage.getIcons().add(new Image("icon.png"));
+		stage.getIcons().add(new Image("icons/icon.png"));
 	}
 
 	private double size;

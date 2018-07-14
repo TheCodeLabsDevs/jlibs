@@ -6,14 +6,14 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>Updater</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <project.main>de.tobias.updater.main.UpdaterMain</project.main>
-        <project.iconBase>src/main/resources/icon</project.iconBase>
+        <project.iconBase>src/main/resources/icons/icon</project.iconBase>
     </properties>
 
     <build>
@@ -115,11 +115,19 @@
         </repository>
     </repositories>
 
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>Updater</name>
+            <url>https://maven.thecodelabs.de/nexus/content/repositories/releases</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>de.tobias</groupId>
             <artifactId>libUtils</artifactId>
-            <version>1.5.1</version>
+            <version>1.5.2</version>
         </dependency>
 
         <dependency>

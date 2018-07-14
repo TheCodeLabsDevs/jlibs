@@ -5,8 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.tobias.updater.viewcontroller.UpdateViewController;
-import de.tobias.utils.application.App;
-import de.tobias.utils.application.ApplicationUtils;
 import de.tobias.utils.nui.Alerts;
 import de.tobias.utils.util.StringUtils;
 import javafx.application.Application;
@@ -24,8 +22,7 @@ public class UpdaterMain extends Application {
 
 	// Parameters: "{downloadPath:path, files:[{url:remotepath, local:path}, {...}],executePath:path}"
 	public static void main(String[] args) {
-		App app = ApplicationUtils.registerMainApplication(UpdaterMain.class);
-		app.start(args);
+		launch(args);
 	}
 
 	@Override

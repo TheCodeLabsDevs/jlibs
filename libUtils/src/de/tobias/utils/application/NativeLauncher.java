@@ -29,7 +29,7 @@ public class NativeLauncher {
 	}
 
 	// http://stackoverflow.com/questions/11041509/elevating-a-processbuilder-process-via-uac
-	private static void executeAsAdministrator(String command, String args) {
+	public static void executeAsAdministrator(String command, String args) {
 		Shell32X.SHELLEXECUTEINFO execInfo = new Shell32X.SHELLEXECUTEINFO();
 		execInfo.lpFile = new WString(command);
 		if (args != null)
