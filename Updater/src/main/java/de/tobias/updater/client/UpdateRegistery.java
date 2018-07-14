@@ -1,16 +1,15 @@
 package de.tobias.updater.client;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import de.tobias.utils.util.OS;
+import de.tobias.utils.util.SystemUtils;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
-
-import de.tobias.utils.util.OS;
-import de.tobias.utils.util.SystemUtils;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
-import net.minidev.json.JSONStyle;
 
 public class UpdateRegistery {
 
@@ -47,25 +46,24 @@ public class UpdateRegistery {
 	private static final String EXECUTE_FILE = "executePath";
 
 	public static String buildParamaterString(String downloadPath) {
-		JSONObject data = new JSONObject();
-		data.put(DOWNLOAD_PATH, downloadPath);
+		JsonObject data = new JsonObject();
+		data.addProperty(DOWNLOAD_PATH, downloadPath);
 
-		JSONArray array = new JSONArray();
+		JsonArray array = new JsonArray();
 		for (Updatable updatable : availableUpdates) {
-			JSONObject file = new JSONObject();
-			file.put(URL, updatable.getDownloadPath().toString());
-			file.put(LOCAL, updatable.getLocalPath().toString());
+			JsonObject file = new JsonObject();
+			file.addProperty(URL, updatable.getDownloadPath().toString());
+			file.addProperty(LOCAL, updatable.getLocalPath().toString());
 			array.add(file);
 		}
-		data.put(FILES, array);
+		data.add(FILES, array);
 		try {
-			data.put(EXECUTE_FILE, SystemUtils.getRunPath().toString());
+			data.addProperty(EXECUTE_FILE, SystemUtils.getRunPath().toString());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 
-		String json = data.toJSONString(JSONStyle.MAX_COMPRESS);
-		return json;
+		return data.toString();
 	}
 
 	public static boolean needsAdminPermission() {
@@ -78,7 +76,8 @@ public class UpdateRegistery {
 					if (Files.getOwner(updatable.getLocalPath()).getName().toLowerCase().contains("admin")) {
 						return true;
 					}
-				} catch (IOException e) {}
+				} catch (IOException ignored) {
+				}
 			}
 		}
 		return false;

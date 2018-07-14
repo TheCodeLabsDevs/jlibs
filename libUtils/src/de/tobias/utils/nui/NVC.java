@@ -50,7 +50,7 @@ public class NVC implements Alertable {
 
 	/**
 	 * Lädt die FXML async
-	 * 
+	 *
 	 * @param path
 	 * @param filename
 	 * @param onFinish
@@ -61,7 +61,7 @@ public class NVC implements Alertable {
 
 	/**
 	 * Lädt die FXML async
-	 * 
+	 *
 	 * @param path
 	 * @param filename
 	 * @param onFinish
@@ -125,19 +125,20 @@ public class NVC implements Alertable {
 		}
 	}
 
-	public void init() {}
+	public void init() {
+	}
 
 	/**
 	 * Wird erst aufgerufen, wenn eine Stage erzeugt wird. Die Methode muss überschrieben werden, damit sie die Stage initalizieren kann.
-	 * 
-	 * @param stage
-	 *            Stage
+	 *
+	 * @param stage Stage
 	 */
-	public void initStage(Stage stage) {}
+	public void initStage(Stage stage) {
+	}
 
 	/**
 	 * Fügt den SceneGrapf zu einer Stage hinzu
-	 * 
+	 *
 	 * @return
 	 */
 	public NVCStage applyViewControllerToStage() {
@@ -177,14 +178,9 @@ public class NVC implements Alertable {
 			return;
 		}
 
-		Alert alert = new Alert(AlertType.ERROR);
+		Alert alert = Alerts.createAlert(AlertType.ERROR, null, message, icon);
 		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
 		alert.initModality(Modality.WINDOW_MODAL);
-		alert.setContentText(message);
-		if (icon != null) {
-			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-			stage.getIcons().add(icon);
-		}
 		alert.showAndWait();
 	}
 
@@ -194,14 +190,9 @@ public class NVC implements Alertable {
 			return;
 		}
 
-		Alert alert = new Alert(AlertType.ERROR);
+		Alert alert = Alerts.createAlert(AlertType.ERROR, null, message, icon.orElse(null));
 		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
 		alert.initModality(Modality.WINDOW_MODAL);
-		alert.setContentText(message);
-		if (icon.isPresent()) {
-			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-			stage.getIcons().add(icon.get());
-		}
 		alert.showAndWait();
 	}
 
@@ -211,14 +202,9 @@ public class NVC implements Alertable {
 			return;
 		}
 
-		Alert alert = new Alert(AlertType.INFORMATION);
+		Alert alert = Alerts.createAlert(AlertType.INFORMATION, null, message, icon);
 		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
 		alert.initModality(Modality.WINDOW_MODAL);
-		alert.setContentText(message);
-		if (icon != null) {
-			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-			stage.getIcons().add(icon);
-		}
 		alert.showAndWait();
 	}
 
@@ -228,15 +214,9 @@ public class NVC implements Alertable {
 			return;
 		}
 
-		Alert alert = new Alert(AlertType.INFORMATION);
-		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
+		Alert alert = Alerts.createAlert(AlertType.INFORMATION, header, message, icon);
 		alert.initModality(Modality.WINDOW_MODAL);
-		alert.setContentText(message);
-		alert.setHeaderText(header);
-		if (icon != null) {
-			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-			stage.getIcons().add(icon);
-		}
+		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
 		alert.showAndWait();
 	}
 

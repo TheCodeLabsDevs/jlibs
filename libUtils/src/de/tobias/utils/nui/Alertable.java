@@ -7,21 +7,21 @@ import java.util.Optional;
 /**
  * Definiert einige Abstracte Schnittstellen für das Darstellen von Meldungen zu einer View.
  * 
- * @author tobias - s0553746
+ * @author tobias
  *
  */
 public interface Alertable {
 
-	public void showErrorMessage(String message);
+	void showErrorMessage(String message);
 
-	public void showInfoMessage(String message);
+	void showInfoMessage(String message);
 
-	public void showErrorMessage(String message, Image icon);
+	void showErrorMessage(String message, Image icon);
 
-	public void showErrorMessage(String message, Optional<Image> icon);
+	void showErrorMessage(String message, Optional<Image> icon);
 
-	public void showInfoMessage(String message, Image icon);
+	void showInfoMessage(String message, Image icon);
 
-	public void showInfoMessage(String message, String header, Image icon);
+	void showInfoMessage(String message, String header, Image icon);
 
 }

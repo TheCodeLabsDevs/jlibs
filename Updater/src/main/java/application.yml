@@ -1,0 +1,7 @@
+name: Updater
+version: 1.1.0
+build: 2
+date: 2018-07-14
+identifier: de.tobias.updater
+main: de.tobias.updater.main.UpdaterMain
+author: Tobias Ullerich
