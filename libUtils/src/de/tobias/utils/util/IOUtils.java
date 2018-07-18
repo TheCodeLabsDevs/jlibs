@@ -1,15 +1,7 @@
 package de.tobias.utils.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.FileStore;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.io.*;
+import java.nio.file.*;
 
 public class IOUtils {
 
@@ -24,9 +16,7 @@ public class IOUtils {
 	}
 
 	public static void copy(InputStream iStr, Path des) throws IOException {
-		OutputStream oStr = Files.newOutputStream(des, StandardOpenOption.CREATE);
-		copy(iStr, oStr);
-		oStr.close();
+		Files.copy(iStr, des, StandardCopyOption.REPLACE_EXISTING);
 	}
 
 	public static void copy(InputStream iStr, OutputStream oStr) throws IOException {

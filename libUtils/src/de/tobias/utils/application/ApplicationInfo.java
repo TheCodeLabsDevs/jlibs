@@ -1,8 +1,8 @@
 package de.tobias.utils.application;
 
+import de.tobias.utils.settings.Key;
 import de.tobias.utils.settings.Required;
 import de.tobias.utils.settings.SettingsSerializable;
-import de.tobias.utils.settings.Key;
 import org.bukkit.configuration.MemorySection;
 
 public class ApplicationInfo implements SettingsSerializable {
@@ -27,6 +27,8 @@ public class ApplicationInfo implements SettingsSerializable {
 
 	@Key
 	private String basePath;
+	@Key
+	private String serverBaseURL;
 
 	@Key
 	private String updateURL;
@@ -77,6 +79,10 @@ public class ApplicationInfo implements SettingsSerializable {
 
 	public String getBasePath() {
 		return basePath;
+	}
+
+	public String getServerBaseURL() {
+		return serverBaseURL;
 	}
 
 	public MemorySection getUserInfo() {
