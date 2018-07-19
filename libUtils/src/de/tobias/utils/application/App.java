@@ -4,6 +4,9 @@ import de.tobias.logger.Logger;
 import de.tobias.utils.application.container.BackupInfo;
 import de.tobias.utils.application.container.FileContainer;
 import de.tobias.utils.application.container.PathType;
+import de.tobias.utils.application.remote.RemoteResource;
+import de.tobias.utils.application.remote.RemoteResourceHandler;
+import de.tobias.utils.application.remote.RemoteResourceType;
 import de.tobias.utils.settings.UserDefaults;
 import de.tobias.utils.settings.YAMLSettings;
 import de.tobias.utils.util.StringUtils;
@@ -35,6 +38,7 @@ public class App {
 	 * File Container for the bundle
 	 */
 	private FileContainer container;
+	private RemoteResourceHandler remoteResourceHandler;
 
 	/**
 	 * show debug messages in the console
@@ -61,8 +65,7 @@ public class App {
 	/**
 	 * Create a new AppBundle with configuration file
 	 *
-	 * @param mainClass
-	 * @throws Exception
+	 * @param mainClass main app class
 	 */
 	public App(Class<?> mainClass) {
 		this(YAMLSettings.load(ApplicationInfo.class, Objects.requireNonNull(getInputStreamForApplicationFile(mainClass))));
@@ -78,13 +81,14 @@ public class App {
 	}
 
 	/**
-	 * Create a new app with appinformation
+	 * Create a new app with app information
 	 *
 	 * @param info
 	 */
 	public App(ApplicationInfo info) {
 		appInfo = info;
 		container = new FileContainer(this);
+		remoteResourceHandler = new RemoteResourceHandler(this);
 	}
 
 	/**
@@ -124,6 +128,14 @@ public class App {
 	 */
 	public Path getPath(Path childPath, PathType type) {
 		return container.getPath(childPath.toString(), type);
+	}
+
+	public RemoteResourceHandler getRemoteResources() {
+		return remoteResourceHandler;
+	}
+
+	public RemoteResource getRemoteResource(RemoteResourceType remoteResourceType, String... more) {
+		return getRemoteResources().get(remoteResourceType, more);
 	}
 
 	public boolean isDebug() {

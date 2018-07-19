@@ -5,19 +5,10 @@ import de.tobias.utils.application.ApplicationInfo;
 import de.tobias.utils.settings.YAMLSettings;
 import de.tobias.utils.util.FileUtils;
 import de.tobias.utils.util.SystemUtils;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.function.Consumer;
 
 public class FileContainer {
 
@@ -101,11 +92,7 @@ public class FileContainer {
 
 	public void saveInformation() {
 		// Update der Informationen
-		try {
-			containerInfo.setExecutionPath(SystemUtils.getRunPath().toFile().getAbsolutePath());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+		containerInfo.setExecutionPath(SystemUtils.getRunPath().toFile().getAbsolutePath());
 
 		if (info.getUpdateURL() != null)
 			containerInfo.setUpdatePath(info.getUpdateURL());

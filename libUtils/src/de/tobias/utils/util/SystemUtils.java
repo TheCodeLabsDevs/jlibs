@@ -47,15 +47,19 @@ public class SystemUtils {
 		return getApplicationSupportDirectoryPath(StringUtils.build(name, File.separator));
 	}
 
-	public static Path getRunPath() throws URISyntaxException {
-		return Paths.get(SystemUtils.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+	public static Path getRunPath() {
+		try {
+			return Paths.get(SystemUtils.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	public static boolean isJar() throws URISyntaxException {
+	public static boolean isJar() {
 		return getRunPath().toString().toLowerCase().endsWith(".jar");
 	}
 
-	public static boolean isExe() throws URISyntaxException {
+	public static boolean isExe() {
 		return getRunPath().toString().toLowerCase().endsWith(".exe");
 	}
 

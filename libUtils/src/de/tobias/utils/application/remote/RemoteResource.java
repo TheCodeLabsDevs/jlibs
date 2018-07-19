@@ -1,12 +1,17 @@
 package de.tobias.utils.application.remote;
 
+import com.google.gson.Gson;
 import de.tobias.utils.application.ApplicationUtils;
 import de.tobias.utils.application.container.PathType;
+import de.tobias.utils.settings.SettingsSerializable;
+import de.tobias.utils.settings.YAMLSettings;
 import de.tobias.utils.util.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -24,6 +29,30 @@ public class RemoteResource {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public byte[] getAsByteArray() {
+		try {
+			return IOUtils.inputStreamToByteArray(getInputStream());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public String getAsString() {
+		return new String(getAsByteArray());
+	}
+
+	public String getAsString(Charset charset) {
+		return new String(getAsByteArray(), charset);
+	}
+
+	public <T> T getAsJson(Class<T> clazz) {
+		return new Gson().fromJson(new InputStreamReader(getInputStream()), clazz);
+	}
+
+	public <T extends SettingsSerializable> T getAsYaml(Class<T> clazz) {
+		return YAMLSettings.load(clazz, getInputStream());
 	}
 
 	public void copy(PathType pathType, String childPath) {
