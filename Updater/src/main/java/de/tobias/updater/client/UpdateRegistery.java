@@ -57,11 +57,7 @@ public class UpdateRegistery {
 			array.add(file);
 		}
 		data.add(FILES, array);
-		try {
-			data.addProperty(EXECUTE_FILE, SystemUtils.getRunPath().toString());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+		data.addProperty(EXECUTE_FILE, SystemUtils.getRunPath().toString());
 
 		return data.toString();
 	}
