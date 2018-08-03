@@ -1,9 +1,8 @@
 package de.tobias.logger;
 
 import de.tobias.utils.settings.Key;
-import de.tobias.utils.settings.SettingsSerializable;
 
-public class LoggerConfig implements SettingsSerializable {
+public class LoggerConfig {
 
 	@Key("color.enable")
 	private boolean color = true;

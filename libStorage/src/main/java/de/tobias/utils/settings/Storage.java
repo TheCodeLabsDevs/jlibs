@@ -17,8 +17,8 @@ public class Storage {
 	static {
 		storageHandlerMap = new HashMap<>();
 
-		storageHandlerMap.put(StorageTyps.YAML, new YAMLHandler());
-		storageHandlerMap.put(StorageTyps.PROPERTIES, new PropertiesHandler());
+		storageHandlerMap.put(StorageTypes.YAML, new YAMLHandler());
+		storageHandlerMap.put(StorageTypes.PROPERTIES, new PropertiesHandler());
 	}
 
 	public static <T> T load(InputStream stream, StorageType type, Class<T> clazz) {

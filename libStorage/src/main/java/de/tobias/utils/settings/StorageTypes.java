@@ -1,6 +1,6 @@
 package de.tobias.utils.settings;
 
-public enum StorageTyps implements StorageType {
+public enum StorageTypes implements StorageType {
 
 
 	YAML,

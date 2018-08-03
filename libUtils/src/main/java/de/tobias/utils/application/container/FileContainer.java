@@ -3,7 +3,7 @@ package de.tobias.utils.application.container;
 import de.tobias.utils.application.App;
 import de.tobias.utils.application.ApplicationInfo;
 import de.tobias.utils.settings.Storage;
-import de.tobias.utils.settings.StorageTyps;
+import de.tobias.utils.settings.StorageTypes;
 import de.tobias.utils.util.FileUtils;
 import de.tobias.utils.util.SystemUtils;
 
@@ -33,7 +33,7 @@ public class FileContainer {
 		updatePath();
 
 		if (Files.exists(containerInfoPath)) {
-			containerInfo = Storage.load(containerInfoPath, StorageTyps.YAML, FileContainerInfo.class);
+			containerInfo = Storage.load(containerInfoPath, StorageTypes.YAML, FileContainerInfo.class);
 		} else {
 			containerInfo = new FileContainerInfo();
 			saveInformation();
@@ -45,7 +45,7 @@ public class FileContainer {
 	public FileContainer(String bundleIdentifier) {
 		containerPath = SystemUtils.getApplicationSupportDirectoryPath(containerName, bundleIdentifier);
 		containerInfoPath = getPath("container.yml", PathType.ROOT);
-		containerInfo = Storage.load(containerInfoPath, StorageTyps.YAML, FileContainerInfo.class);
+		containerInfo = Storage.load(containerInfoPath, StorageTypes.YAML, FileContainerInfo.class);
 	}
 
 	public void updatePath() {
@@ -102,6 +102,6 @@ public class FileContainer {
 		containerInfo.setIdentifier(info.getIdentifier());
 		containerInfo.setName(info.getName());
 
-		Storage.save(containerInfoPath, StorageTyps.YAML, containerInfo);
+		Storage.save(containerInfoPath, StorageTypes.YAML, containerInfo);
 	}
 }

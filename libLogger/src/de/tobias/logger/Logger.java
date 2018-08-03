@@ -1,6 +1,7 @@
 package de.tobias.logger;
 
-import de.tobias.utils.settings.YAMLSettings;
+import de.tobias.utils.settings.Storage;
+import de.tobias.utils.settings.StorageTypes;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.io.*;
@@ -76,7 +77,7 @@ public class Logger {
 			inputStream = Logger.class.getClassLoader().getResourceAsStream("config/libLogger.yml");
 		}
 		if (inputStream != null) {
-			return YAMLSettings.load(LoggerConfig.class, inputStream);
+			return Storage.load(inputStream, StorageTypes.YAML, LoggerConfig.class);
 		} else {
 			return new LoggerConfig();
 		}

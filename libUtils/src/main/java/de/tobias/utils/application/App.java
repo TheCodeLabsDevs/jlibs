@@ -8,7 +8,7 @@ import de.tobias.utils.application.remote.RemoteResource;
 import de.tobias.utils.application.remote.RemoteResourceHandler;
 import de.tobias.utils.application.remote.RemoteResourceType;
 import de.tobias.utils.settings.Storage;
-import de.tobias.utils.settings.StorageTyps;
+import de.tobias.utils.settings.StorageTypes;
 import de.tobias.utils.settings.UserDefaults;
 import de.tobias.utils.util.StringUtils;
 import javafx.application.Application;
@@ -69,7 +69,7 @@ public class App {
 	 * @param mainClass main app class
 	 */
 	public App(Class<?> mainClass) {
-		this(Storage.load(Objects.requireNonNull(getInputStreamForApplicationFile(mainClass)), StorageTyps.YAML, ApplicationInfo.class));
+		this(Storage.load(Objects.requireNonNull(getInputStreamForApplicationFile(mainClass)), StorageTypes.YAML, ApplicationInfo.class));
 		this.mainClass = mainClass;
 	}
 

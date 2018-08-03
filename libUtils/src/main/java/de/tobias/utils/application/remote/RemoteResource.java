@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import de.tobias.utils.application.ApplicationUtils;
 import de.tobias.utils.application.container.PathType;
 import de.tobias.utils.settings.Storage;
-import de.tobias.utils.settings.StorageTyps;
+import de.tobias.utils.settings.StorageTypes;
 import de.tobias.utils.util.IOUtils;
 
 import java.io.IOException;
@@ -52,7 +52,7 @@ public class RemoteResource {
 	}
 
 	public <T> T getAsYaml(Class<T> clazz) {
-		return Storage.load(getInputStream(), StorageTyps.YAML, clazz);
+		return Storage.load(getInputStream(), StorageTypes.YAML, clazz);
 	}
 
 	public void copy(PathType pathType, String childPath) {
