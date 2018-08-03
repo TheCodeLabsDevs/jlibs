@@ -8,6 +8,29 @@ import java.util.logging.Logger;
 
 public class DiscoveryClient {
 
+	private int port = 0;
+	private String messageKey = "UNDEFINED";
+
+	public int getPort()
+	{
+		return port;
+	}
+
+	public void setPort(int port)
+	{
+		this.port = port;
+	}
+
+	public String getMessageKey()
+	{
+		return messageKey;
+	}
+
+	public void setMessageKey(String messageKey)
+	{
+		this.messageKey = messageKey;
+	}
+
 	private DatagramSocket c;
 
 	public InetAddress discover() {
@@ -17,11 +40,11 @@ public class DiscoveryClient {
 			c = new DatagramSocket();
 			c.setBroadcast(true);
 
-			byte[] sendData = "DISCOVER_FUIFSERVER_REQUEST".getBytes();
+			byte[] sendData = ("DISCOVER_" + messageKey + "_REQUEST").getBytes();
 
 			// Try the 255.255.255.255 first
 			try {
-				DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), 8888);
+				DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), port);
 				c.send(sendPacket);
 				System.out.println("Request packet sent to: 255.255.255.255 (DEFAULT)");
 			} catch (Exception e) {}
@@ -43,7 +66,7 @@ public class DiscoveryClient {
 
 					// Send the broadcast package!
 					try {
-						DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, broadcast, 8888);
+						DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, broadcast, port);
 						c.send(sendPacket);
 					} catch (Exception e) {}
 
@@ -71,7 +94,8 @@ public class DiscoveryClient {
 
 			// Check if the message is correct
 			String message = new String(receivePacket.getData()).trim();
-			if (message.equals("DISCOVER_FUIFSERVER_RESPONSE")) {
+			if(message.equals("DISCOVER_" + messageKey + "_RESPONSE"))
+			{
 				InetAddress addr = receivePacket.getAddress();
 				// Close the port!
 				c.close();

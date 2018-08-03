@@ -53,10 +53,11 @@ public class DiscoveryThread implements Runnable {
 
 				//See if the packet holds the right command (message)
 				String message = new String(packet.getData()).trim();
-				if (message.equals("DISCOVER_" + messageKey + "_MASTER_REQUEST")) {
+				if(message.equals("DISCOVER_" + messageKey + "_REQUEST"))
+				{
 					System.out.println(getClass().getName() + "Received discovery packet from: " + packet.getAddress().getHostAddress());
 
-					byte[] sendData = ("DISCOVER_" + messageKey + "_MASTER_RESPONSE").getBytes();
+					byte[] sendData = ("DISCOVER_" + messageKey + "_RESPONSE").getBytes();
 					DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, packet.getAddress(), packet.getPort());
 					socket.send(sendPacket);
 				}
