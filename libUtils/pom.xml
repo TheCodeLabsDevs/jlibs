@@ -4,18 +4,9 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>libUtils</artifactId>
-    <version>1.6.0</version>
+    <version>1.6.1</version>
 
     <build>
-        <sourceDirectory>src</sourceDirectory>
-        <resources>
-            <resource>
-                <directory>src</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -136,7 +127,7 @@
         <dependency>
             <groupId>de.tobias</groupId>
             <artifactId>libStorage</artifactId>
-            <version>1.1.0</version>
+            <version>1.2.0</version>
         </dependency>
         <dependency>
             <groupId>de.tobias</groupId>
