@@ -1,4 +1,4 @@
-package de.tobias.utils.util.net;
+package de.tobias.utils.net;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,12 +12,12 @@ import java.util.HashMap;
 public class HttpUtils {
 
 	public static String sendPostRequest(String addr, HashMap<String, String> args) throws IOException {
-		String body = "";
+		StringBuilder body = new StringBuilder();
 		int i = 0;
 		for (String key : args.keySet()) {
-			body += key + "=" + URLEncoder.encode(args.get(key), "UTF-8");
+			body.append(key).append("=").append(URLEncoder.encode(args.get(key), "UTF-8"));
 			if (i + 1 < args.size()) {
-				body += "&";
+				body.append("&");
 			}
 			i++;
 		}
@@ -32,13 +32,13 @@ public class HttpUtils {
 		connection.setRequestProperty("Content-Length", String.valueOf(body.length()));
 
 		OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-		writer.write(body);
+		writer.write(body.toString());
 		writer.flush();
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		StringBuilder builder = new StringBuilder();
-		
-		for (String line; (line = reader.readLine()) != null;) {
+
+		for (String line; (line = reader.readLine()) != null; ) {
 			builder.append(line);
 			builder.append("\n");
 		}
