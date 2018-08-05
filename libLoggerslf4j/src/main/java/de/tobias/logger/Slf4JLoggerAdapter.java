@@ -2,12 +2,13 @@ package de.tobias.logger;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.slf4j.helpers.MessageFormatter;
 
 public class Slf4JLoggerAdapter implements Logger
 {
 	public String getName()
 	{
-		return null;
+		return "libLogger";
 	}
 
 	public boolean isTraceEnabled()
@@ -72,7 +73,7 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public boolean isDebugEnabled()
 	{
-		return false;
+		return de.tobias.logger.Logger.getLevelFilter().acceptLevel(LogLevel.DEBUG);
 	}
 
 	public void debug(String s)
@@ -82,17 +83,17 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void debug(String s, Object o)
 	{
-		de.tobias.logger.Logger.debug(s, o);
+		de.tobias.logger.Logger.debug(MessageFormatter.format(s, o).getMessage());
 	}
 
 	public void debug(String s, Object o, Object o1)
 	{
-		de.tobias.logger.Logger.debug(s, o, o1);
+		de.tobias.logger.Logger.debug(MessageFormatter.format(s, o, o1).getMessage());
 	}
 
 	public void debug(String s, Object... objects)
 	{
-		de.tobias.logger.Logger.debug(s, objects);
+		de.tobias.logger.Logger.debug(MessageFormatter.format(s, objects).getMessage());
 	}
 
 	public void debug(String s, Throwable throwable)
@@ -132,7 +133,7 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public boolean isInfoEnabled()
 	{
-		return false;
+		return de.tobias.logger.Logger.getLevelFilter().acceptLevel(LogLevel.INFO);
 	}
 
 	public void info(String s)
@@ -142,17 +143,17 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void info(String s, Object o)
 	{
-		de.tobias.logger.Logger.info(s, o);
+		de.tobias.logger.Logger.info(MessageFormatter.format(s, o).getMessage());
 	}
 
 	public void info(String s, Object o, Object o1)
 	{
-		de.tobias.logger.Logger.info(s, o, o1);
+		de.tobias.logger.Logger.info(MessageFormatter.format(s, o, o1).getMessage());
 	}
 
 	public void info(String s, Object... objects)
 	{
-		de.tobias.logger.Logger.info(s, objects);
+		de.tobias.logger.Logger.info(MessageFormatter.format(s, objects).getMessage());
 	}
 
 	public void info(String s, Throwable throwable)
@@ -192,7 +193,7 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public boolean isWarnEnabled()
 	{
-		return false;
+		return de.tobias.logger.Logger.getLevelFilter().acceptLevel(LogLevel.WARNING);
 	}
 
 	public void warn(String s)
@@ -202,17 +203,17 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void warn(String s, Object o)
 	{
-		de.tobias.logger.Logger.warning(s, 0);
+		de.tobias.logger.Logger.debug(MessageFormatter.format(s, o).getMessage());
 	}
 
 	public void warn(String s, Object... objects)
 	{
-		de.tobias.logger.Logger.warning(s, objects);
+		de.tobias.logger.Logger.debug(MessageFormatter.format(s, objects).getMessage());
 	}
 
 	public void warn(String s, Object o, Object o1)
 	{
-		de.tobias.logger.Logger.warning(s, o, o1);
+		de.tobias.logger.Logger.debug(MessageFormatter.format(s, o, o1).getMessage());
 	}
 
 	public void warn(String s, Throwable throwable)
@@ -252,7 +253,7 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public boolean isErrorEnabled()
 	{
-		return false;
+		return de.tobias.logger.Logger.getLevelFilter().acceptLevel(LogLevel.ERROR);
 	}
 
 	public void error(String s)
@@ -262,17 +263,17 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void error(String s, Object o)
 	{
-		de.tobias.logger.Logger.error(s, o);
+		de.tobias.logger.Logger.debug(MessageFormatter.format(s, o).getMessage());
 	}
 
 	public void error(String s, Object o, Object o1)
 	{
-		de.tobias.logger.Logger.error(s, o, o1);
+		de.tobias.logger.Logger.debug(MessageFormatter.format(s, o, o1).getMessage());
 	}
 
 	public void error(String s, Object... objects)
 	{
-		de.tobias.logger.Logger.error(s, objects);
+		de.tobias.logger.Logger.debug(MessageFormatter.format(s, objects).getMessage());
 	}
 
 	public void error(String s, Throwable throwable)
