@@ -203,17 +203,17 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void warn(String s, Object o)
 	{
-		de.tobias.logger.Logger.debug(MessageFormatter.format(s, o).getMessage());
+		de.tobias.logger.Logger.warning(MessageFormatter.format(s, o).getMessage());
 	}
 
 	public void warn(String s, Object... objects)
 	{
-		de.tobias.logger.Logger.debug(MessageFormatter.format(s, objects).getMessage());
+		de.tobias.logger.Logger.warning(MessageFormatter.format(s, objects).getMessage());
 	}
 
 	public void warn(String s, Object o, Object o1)
 	{
-		de.tobias.logger.Logger.debug(MessageFormatter.format(s, o, o1).getMessage());
+		de.tobias.logger.Logger.warning(MessageFormatter.format(s, o, o1).getMessage());
 	}
 
 	public void warn(String s, Throwable throwable)
@@ -263,17 +263,17 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void error(String s, Object o)
 	{
-		de.tobias.logger.Logger.debug(MessageFormatter.format(s, o).getMessage());
+		de.tobias.logger.Logger.error(MessageFormatter.format(s, o).getMessage());
 	}
 
 	public void error(String s, Object o, Object o1)
 	{
-		de.tobias.logger.Logger.debug(MessageFormatter.format(s, o, o1).getMessage());
+		de.tobias.logger.Logger.error(MessageFormatter.format(s, o, o1).getMessage());
 	}
 
 	public void error(String s, Object... objects)
 	{
-		de.tobias.logger.Logger.debug(MessageFormatter.format(s, objects).getMessage());
+		de.tobias.logger.Logger.error(MessageFormatter.format(s, objects).getMessage());
 	}
 
 	public void error(String s, Throwable throwable)
