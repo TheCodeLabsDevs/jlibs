@@ -6,6 +6,13 @@ import org.slf4j.helpers.MessageFormatter;
 
 public class Slf4JLoggerAdapter implements Logger
 {
+
+
+	public static void disableSlf4jDebugPrints()
+	{
+		de.tobias.logger.Logger.addFilter(logMessage -> !(logMessage.getCaller().getClassName().contains("Slf4jLog") && logMessage.getLevel() == LogLevel.DEBUG));
+	}
+
 	public String getName()
 	{
 		return "libLogger";
