@@ -7,10 +7,12 @@ import org.slf4j.helpers.MessageFormatter;
 public class Slf4JLoggerAdapter implements Logger
 {
 
+	private static boolean disableDebug;
 
 	public static void disableSlf4jDebugPrints()
 	{
 		de.tobias.logger.Logger.addFilter(logMessage -> !(logMessage.getCaller().getClassName().contains("Slf4jLog") && logMessage.getLevel() == LogLevel.DEBUG));
+		disableDebug = true;
 	}
 
 	public String getName()
@@ -80,7 +82,7 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public boolean isDebugEnabled()
 	{
-		return de.tobias.logger.Logger.getLevelFilter().acceptLevel(LogLevel.DEBUG);
+		return de.tobias.logger.Logger.getLevelFilter().acceptLevel(LogLevel.DEBUG) && !disableDebug;
 	}
 
 	public void debug(String s)
