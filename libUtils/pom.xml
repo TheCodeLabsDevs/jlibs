@@ -30,7 +30,9 @@
                         </goals>
                         <configuration>
                             <javahClass>de.tobias.utils.util.mac.AwakeUtils</javahClass>
-                            <javahOutputFilePath>${project.basedir}/target/jni/libUtils/include/de_tobias_utils_util_mac_AwakeUtils.h</javahOutputFilePath>
+                            <javahOutputFilePath>
+                                ${project.basedir}/target/jni/libUtils/include/de_tobias_utils_util_mac_AwakeUtils.h
+                            </javahOutputFilePath>
                         </configuration>
                     </execution>
                     <execution>
@@ -41,7 +43,9 @@
                         </goals>
                         <configuration>
                             <javahClass>de.tobias.utils.util.mac.NativeApplication</javahClass>
-                            <javahOutputFilePath>${project.basedir}/target/jni/libUtils/include/de_tobias_utils_util_mac_NativeApplication.h</javahOutputFilePath>
+                            <javahOutputFilePath>
+                                ${project.basedir}/target/jni/libUtils/include/de_tobias_utils_util_mac_NativeApplication.h
+                            </javahOutputFilePath>
                         </configuration>
                     </execution>
                     <execution>
@@ -52,7 +56,9 @@
                         </goals>
                         <configuration>
                             <javahClass>de.tobias.utils.util.SystemUtils</javahClass>
-                            <javahOutputFilePath>${project.basedir}/target/jni/libUtils/include/de_tobias_utils_util_SystemUtils.h</javahOutputFilePath>
+                            <javahOutputFilePath>
+                                ${project.basedir}/target/jni/libUtils/include/de_tobias_utils_util_SystemUtils.h
+                            </javahOutputFilePath>
                         </configuration>
                     </execution>
                 </executions>
@@ -138,16 +144,37 @@
 
     <distributionManagement>
         <repository>
-            <id>releases</id>
-            <name>libUtils</name>
-            <url>https://maven.thecodelabs.de/nexus/content/repositories/releases</url>
+            <id>central</id>
+            <name>TheCodeLabs-releases</name>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-release</url>
         </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>TheCodeLabs-snapshots</name>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-snapshots</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <repositories>
         <repository>
-            <id>releases</id>
-            <url>https://maven.thecodelabs.de/nexus/content/repositories/releases</url>
+            <id>central</id>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-release</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
     </repositories>
 </project>

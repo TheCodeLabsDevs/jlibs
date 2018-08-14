@@ -1,9 +1,8 @@
 package de.tobias.updater.client;
 
 import de.tobias.utils.settings.Key;
-import de.tobias.utils.settings.SettingsSerializable;
 
-public class UpdateItem implements SettingsSerializable {
+public class UpdateItem {
 
 	@Key
 	private int build;

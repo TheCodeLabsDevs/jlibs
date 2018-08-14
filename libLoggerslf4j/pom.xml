@@ -13,8 +13,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -34,19 +34,40 @@
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>releases</id>
-            <url>https://maven.thecodelabs.de/nexus/content/repositories/releases</url>
-        </repository>
-    </repositories>
-
     <distributionManagement>
         <repository>
-            <id>releases</id>
-            <name>libUtils</name>
-            <url>https://maven.thecodelabs.de/nexus/content/repositories/releases</url>
+            <id>central</id>
+            <name>TheCodeLabs-releases</name>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-release</url>
         </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>TheCodeLabs-snapshots</name>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-snapshots</url>
+        </snapshotRepository>
     </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-release</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
 </project>
