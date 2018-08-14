@@ -94,7 +94,7 @@ public class NativeLoader {
 			IOUtils.copy(iStr, libraryPath);
 			iStr.close();
 		} catch (Exception e) {
-			System.err.println(e.getLocalizedMessage());
+			System.err.println(e.getMessage());
 		}
 		return libraryPath;
 	}
