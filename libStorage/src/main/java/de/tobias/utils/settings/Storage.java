@@ -40,7 +40,7 @@ public class Storage {
 				Files.createDirectories(path.getParent());
 				Files.createFile(path);
 
-				Logger.debug("Create new Config: ", path);
+				Logger.debug("Create new Config: {0}", path);
 				T instance = clazz.newInstance();
 				handler.serialize(path, instance);
 				return instance;
