@@ -2,7 +2,6 @@ package de.tobias.midi;
 
 import javax.sound.midi.*;
 import javax.sound.midi.MidiDevice.Info;
-import java.util.Arrays;
 
 public class Midi implements AutoCloseable
 {
@@ -107,7 +106,7 @@ public class Midi implements AutoCloseable
 		this.inputDevice = newInputDevice;
 
 		Transmitter trans = inputDevice.getTransmitter();
-		trans.setReceiver(new MidiInputReceiver());
+		trans.setReceiver(new MidiListener());
 
 		inputDevice.open();
 	}
@@ -182,30 +181,6 @@ public class Midi implements AutoCloseable
 				outputDevice.getReceiver().send(message, -1);
 			}
 		}
-	}
-
-	private class MidiInputReceiver implements Receiver
-	{
-
-		@Override
-		public void send(MidiMessage msg, long timeStamp)
-		{
-			try
-			{
-				System.out.println(Arrays.toString(msg.getMessage()));
-//				listener.onMidiAction(msg);
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-
-		@Override
-		public void close()
-		{
-		}
-
 	}
 
 	public boolean isOpen()
