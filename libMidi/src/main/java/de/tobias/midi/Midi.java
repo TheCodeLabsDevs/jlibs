@@ -5,7 +5,6 @@ import javax.sound.midi.MidiDevice.Info;
 
 public class Midi implements AutoCloseable
 {
-
 	private static Midi INSTANCE;
 
 	public enum Mode
@@ -81,7 +80,7 @@ public class Midi implements AutoCloseable
 			}
 			else if(mode == Mode.OUTPUT)
 			{
-
+				setMidiOutputDevice(output);
 			}
 		}
 	}
@@ -172,7 +171,7 @@ public class Midi implements AutoCloseable
 
 	public void sendMessage(int midiCommand, int midiKey, int midiVelocity) throws MidiUnavailableException, InvalidMidiDataException
 	{
-		if(outputDevice != null)
+		if(isModeSupported(Mode.OUTPUT))
 		{
 			if(midiCommand != 0)
 			{

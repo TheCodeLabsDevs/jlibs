@@ -1,9 +1,12 @@
 package de.tobias.midi;
 
+import de.tobias.midi.event.KeyEvent;
+import de.tobias.midi.event.KeyEventDispatcher;
 import de.tobias.midi.event.KeyEventType;
 
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
+import java.util.Arrays;
 
 public class MidiListener implements Receiver
 {
@@ -15,6 +18,9 @@ public class MidiListener implements Receiver
 		int velocity = message.getMessage()[2];
 
 		KeyEventType type = velocity > 0 ? KeyEventType.DOWN : KeyEventType.UP;
+		KeyEvent keyEvent = new KeyEvent(type, key);
+
+		KeyEventDispatcher.dispatchEvent(keyEvent);
 	}
 
 	@Override
