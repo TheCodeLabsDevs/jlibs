@@ -2,6 +2,7 @@ package de.tobias.midi;
 
 import javax.sound.midi.*;
 import javax.sound.midi.MidiDevice.Info;
+import java.util.Arrays;
 
 public class Midi implements AutoCloseable
 {
@@ -169,15 +170,22 @@ public class Midi implements AutoCloseable
 		closeOutput();
 	}
 
-	public void sendMessage(int midiCommand, int midiKey, int midiVelocity) throws MidiUnavailableException, InvalidMidiDataException
+	public void sendMessage(int midiCommand, int midiKey, int midiVelocity)
 	{
 		if(isModeSupported(Mode.OUTPUT))
 		{
 			if(midiCommand != 0)
 			{
-				ShortMessage message = new ShortMessage(midiCommand, midiKey, midiVelocity);
-				// System.out.println("Send: " + Arrays.toString(message.getMessage()));
-				outputDevice.getReceiver().send(message, -1);
+				try
+				{
+					ShortMessage message = new ShortMessage(midiCommand, midiKey, midiVelocity);
+					System.out.println("Send: " + Arrays.toString(message.getMessage()));
+					outputDevice.getReceiver().send(message, -1);
+				}
+				catch(InvalidMidiDataException | MidiUnavailableException e)
+				{
+					throw new RuntimeException(e);
+				}
 			}
 		}
 	}

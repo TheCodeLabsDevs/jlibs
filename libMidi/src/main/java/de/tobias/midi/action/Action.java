@@ -1,6 +1,8 @@
 package de.tobias.midi.action;
 
 import de.tobias.midi.Key;
+import de.tobias.midi.feedback.Feedback;
+import de.tobias.midi.feedback.FeedbackType;
 
 import java.util.ArrayList;
 import java.util.List;
