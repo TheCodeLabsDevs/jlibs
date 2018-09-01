@@ -23,14 +23,14 @@ public class ActionKeyHandler implements KeyEventHandler
 			return;
 		}
 
-		final Action actionForKey = mapping.getActionForKey(keyEvent.getKeyValue());
-		if(actionForKey != null)
+		final Action action = mapping.getActionForKey(keyEvent.getKeyValue());
+		if(action != null)
 		{
-			final ActionHandler handler = ActionRegistry.getActionHandler(actionForKey.getActionType());
-			FeedbackType feedbackType = handler.handle(keyEvent);
+			final ActionHandler handler = ActionRegistry.getActionHandler(action.getActionType());
+			FeedbackType feedbackType = handler.handle(keyEvent, action);
 
 			if (Midi.getInstance().isModeSupported(Midi.Mode.OUTPUT)) {
-				for (Key key : actionForKey.getKeys())
+				for(Key key : action.getKeys())
 				{
 					Feedback feedback = key.getFeedbackForType(feedbackType);
 					if (feedback != null)

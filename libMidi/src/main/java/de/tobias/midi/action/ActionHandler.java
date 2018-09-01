@@ -7,5 +7,5 @@ public abstract class ActionHandler
 {
 	public abstract String actionType();
 
-	public abstract FeedbackType handle(KeyEvent keyEvent);
+	public abstract FeedbackType handle(KeyEvent keyEvent, Action action);
 }

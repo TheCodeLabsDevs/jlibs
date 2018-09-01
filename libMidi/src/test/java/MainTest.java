@@ -1,6 +1,12 @@
+import com.google.gson.Gson;
+import de.tobias.midi.Mapping;
 import de.tobias.midi.Midi;
+import de.tobias.midi.action.ActionRegistry;
 
 import javax.sound.midi.MidiUnavailableException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class MainTest
 {
@@ -8,12 +14,19 @@ public class MainTest
 	{
 		try
 		{
-			Midi.getInstance().lookupMidiDevice("MidiKeys", Midi.Mode.INPUT);
+			ActionRegistry.registerActionHandler(new EimerActionHandler());
+
+			Gson gson = new Gson();
+			Mapping mapping = gson.fromJson(Files.newBufferedReader(Paths.get("midi.json")), Mapping.class);
+
+			Mapping.setCurrentMapping(mapping);
+
+			Midi.getInstance().lookupMidiDevice("PD 12", Midi.Mode.INPUT, Midi.Mode.OUTPUT);
 
 			System.out.println(Midi.getInstance().isModeSupported(Midi.Mode.INPUT));
 			System.out.println(Midi.getInstance().isModeSupported(Midi.Mode.OUTPUT));
 		}
-		catch(MidiUnavailableException e)
+		catch(MidiUnavailableException | IOException e)
 		{
 			e.printStackTrace();
 		}
