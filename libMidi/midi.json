@@ -1,0 +1,23 @@
+{
+    "actions": [
+        {
+            "keys": [
+                {
+                    "value": 43,
+                    "defaultFeedback": {
+                        "channel": 144,
+                        "value": 45
+                    },
+                    "eventFeedback": {
+                        "channel": 144,
+                        "value": 46
+                    }
+                }
+            ],
+            "actionType": "EIMER",
+            "payload": {
+                "player": "eimer"
+            }
+        }
+    ]
+}

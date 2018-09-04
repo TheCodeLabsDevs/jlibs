@@ -73,6 +73,10 @@ public class Midi implements AutoCloseable
 			}
 		}
 
+		if (input == null) {
+			throw new MidiUnavailableException("Mid Device " + name + " unavailable");
+		}
+
 		for(Mode mode : modes)
 		{
 			if(mode == Mode.INPUT)

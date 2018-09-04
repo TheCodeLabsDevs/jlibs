@@ -60,6 +60,10 @@ public class Key
 
 	public Feedback getFeedbackForType(FeedbackType feedbackType)
 	{
+		if (feedbackType == null) {
+			return null;
+		}
+
 		switch(feedbackType)
 		{
 			case NONE:
