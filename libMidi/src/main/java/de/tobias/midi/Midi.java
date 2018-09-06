@@ -110,7 +110,7 @@ public class Midi implements AutoCloseable
 		this.inputDevice = newInputDevice;
 
 		Transmitter trans = inputDevice.getTransmitter();
-		trans.setReceiver(new MidiListener());
+		trans.setReceiver(new MidiMessageHandler());
 
 		inputDevice.open();
 	}
