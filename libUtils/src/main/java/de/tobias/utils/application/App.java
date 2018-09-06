@@ -166,20 +166,7 @@ public class App {
 
 		ApplicationUtils.getAppListeners().forEach(listener -> listener.applicationWillStart(this));
 
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Launching App: ").append(appInfo.getName());
-
-		if (appInfo.getVersion() != null) {
-			stringBuilder.append(", version: ").append(appInfo.getVersion());
-		}
-		if (appInfo.getBuild() > 0) {
-			stringBuilder.append(", build: ").append(appInfo.getBuild());
-		}
-		if (appInfo.getAuthor() != null) {
-			stringBuilder.append(", date: ").append(appInfo.getDate());
-		}
-
-		println(stringBuilder.toString());
+		printAppDetails();
 
 		// Load Natives
 		Path nativeFolder = getPath(PathType.NATIVE_LIBRARY);
@@ -222,6 +209,23 @@ public class App {
 		if (mainClass.getSuperclass().equals(Application.class)) {
 			Application.launch((Class<? extends Application>) mainClass, args);
 		}
+	}
+
+	private void printAppDetails() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Launching App: ").append(appInfo.getName());
+
+		if (appInfo.getVersion() != null) {
+			stringBuilder.append(", version: ").append(appInfo.getVersion());
+		}
+		if (appInfo.getBuild() > 0) {
+			stringBuilder.append(", build: ").append(appInfo.getBuild());
+		}
+		if (appInfo.getAuthor() != null) {
+			stringBuilder.append(", date: ").append(appInfo.getDate());
+		}
+
+		println(stringBuilder.toString());
 	}
 
 	/**

@@ -2,14 +2,18 @@ package de.tobias.utils.util;
 
 import de.tobias.utils.application.ApplicationUtils;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.*;
 
 public class Worker {
 
 	private static ExecutorService executorService;
+	private static List<AutoCloseable> closeableList;
 
 	static {
 		initWorker();
+		closeableList = new LinkedList<>();
 	}
 
 	private static void initWorker() {
@@ -70,7 +74,17 @@ public class Worker {
 				System.out.println("Stop ExecutorService");
 			executorService = null;
 		}
+
+		closeableList.forEach(i -> {
+			try {
+				i.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
-
+	public static void addCloseable(AutoCloseable autoCloseable) {
+		closeableList.add(autoCloseable);
+	}
 }
