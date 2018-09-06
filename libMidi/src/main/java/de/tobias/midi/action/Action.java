@@ -16,7 +16,12 @@ public class Action
 
 	public Action()
 	{
-		this(new ArrayList<>(), "");
+		this("");
+	}
+
+	public Action(String actionType)
+	{
+		this(new ArrayList<>(), actionType);
 	}
 
 	public Action(List<Key> keys, String actionType)

@@ -9,7 +9,8 @@ import java.util.List;
 
 public class Mapping
 {
-	static {
+	static
+	{
 		KeyEventDispatcher.registerKeyEventHandler(new ActionKeyHandler());
 	}
 
@@ -37,6 +38,16 @@ public class Mapping
 		this.actions = actions;
 	}
 
+	public void addAction(Action action)
+	{
+		this.actions.add(action);
+	}
+
+	public void removeAction(Action action)
+	{
+		this.actions.remove(action);
+	}
+
 	public Action getActionForKey(int key)
 	{
 		for(Action action : actions)
@@ -50,5 +61,18 @@ public class Mapping
 			}
 		}
 		return null;
+	}
+
+	public List<Action> getActionsForType(String type)
+	{
+		List<Action> result = new ArrayList<>();
+		for(Action action : actions)
+		{
+			if(action.getActionType().equals(type))
+			{
+				result.add(action);
+			}
+		}
+		return result;
 	}
 }
