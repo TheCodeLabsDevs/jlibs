@@ -22,7 +22,15 @@ public class MidiMessageHandler implements Receiver
 	@Override
 	public void send(MidiMessage message, long timeStamp)
 	{
-		if(message instanceof ShortMessage)
+		MidiEvent midiEvent = new MidiEvent(message);
+		midiListenerList.forEach(midiListener -> {
+			if(!midiEvent.isConsumed())
+			{
+				midiListener.onMidiMessage(midiEvent);
+			}
+		});
+
+		if(message instanceof ShortMessage && !midiEvent.isConsumed())
 		{
 			int key = message.getMessage()[1];
 			int velocity = message.getMessage()[2];
@@ -32,8 +40,6 @@ public class MidiMessageHandler implements Receiver
 
 			KeyEventDispatcher.dispatchEvent(keyEvent);
 		}
-
-		midiListenerList.forEach(midiListener -> midiListener.onMidiMessage(message));
 	}
 
 	@Override

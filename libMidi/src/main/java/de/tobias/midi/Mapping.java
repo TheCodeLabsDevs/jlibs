@@ -6,6 +6,7 @@ import de.tobias.midi.event.KeyEventDispatcher;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Mapping
 {
@@ -74,5 +75,38 @@ public class Mapping
 			}
 		}
 		return result;
+	}
+
+	public Action getFirstActionOrCreateForType(String type)
+	{
+		final List<Action> actions = Mapping.getCurrentMapping().getActionsForType(type);
+		if(actions.size() == 0)
+		{
+			final Action action = new Action(type);
+			Mapping.getCurrentMapping().addAction(action);
+			return action;
+		}
+		return actions.get(0);
+	}
+
+	public Optional<Key> getFirstKeyForAction(Action action)
+	{
+		if(action.getKeys().size() > 0)
+		{
+			return Optional.of(action.getKeys().get(0));
+		}
+		else
+		{
+			return Optional.empty();
+		}
+	}
+
+	public Key getFirstKeyOrCreateForAction(Action action)
+	{
+		return getFirstKeyForAction(action).orElseGet(() -> {
+			Key newKey = new Key();
+			action.getKeys().add(newKey);
+			return newKey;
+		});
 	}
 }
