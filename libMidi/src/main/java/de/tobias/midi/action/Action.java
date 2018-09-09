@@ -1,6 +1,6 @@
 package de.tobias.midi.action;
 
-import de.tobias.midi.Key;
+import de.tobias.midi.mapping.MidiKey;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Action
 {
-	private List<Key> keys;
+	private List<MidiKey> keys;
 	private String actionType;
 
 	private Map<String, String> payload;
@@ -24,26 +24,26 @@ public class Action
 		this(new ArrayList<>(), actionType);
 	}
 
-	public Action(List<Key> keys, String actionType)
+	public Action(List<MidiKey> keys, String actionType)
 	{
 		this.keys = keys;
 		this.actionType = actionType;
 		this.payload = new HashMap<>();
 	}
 
-	public Action(List<Key> keys, String actionType, Map<String, String> payload)
+	public Action(List<MidiKey> keys, String actionType, Map<String, String> payload)
 	{
 		this.keys = keys;
 		this.actionType = actionType;
 		this.payload = payload;
 	}
 
-	public List<Key> getKeys()
+	public List<MidiKey> getKeys()
 	{
 		return keys;
 	}
 
-	public void setKeys(List<Key> keys)
+	public void setKeys(List<MidiKey> keys)
 	{
 		this.keys = keys;
 	}

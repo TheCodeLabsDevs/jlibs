@@ -1,6 +1,5 @@
 package de.tobias.midi.action;
 
-import de.tobias.midi.Key;
 import de.tobias.midi.Mapping;
 import de.tobias.midi.Midi;
 import de.tobias.midi.event.KeyEvent;
@@ -8,6 +7,7 @@ import de.tobias.midi.event.KeyEventHandler;
 import de.tobias.midi.event.KeyEventType;
 import de.tobias.midi.feedback.Feedback;
 import de.tobias.midi.feedback.FeedbackType;
+import de.tobias.midi.mapping.MidiKey;
 
 public class ActionKeyHandler implements KeyEventHandler
 {
@@ -30,7 +30,7 @@ public class ActionKeyHandler implements KeyEventHandler
 			FeedbackType feedbackType = handler.handle(keyEvent, action);
 
 			if (Midi.getInstance().isModeSupported(Midi.Mode.OUTPUT)) {
-				for(Key key : action.getKeys())
+				for(MidiKey key : action.getKeys())
 				{
 					Feedback feedback = key.getFeedbackForType(feedbackType);
 					if (feedback != null)

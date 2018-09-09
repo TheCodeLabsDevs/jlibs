@@ -2,6 +2,7 @@ import com.google.gson.Gson;
 import de.tobias.midi.Mapping;
 import de.tobias.midi.Midi;
 import de.tobias.midi.action.ActionRegistry;
+import de.tobias.midi.serialize.MappingSerializer;
 
 import javax.sound.midi.MidiUnavailableException;
 import java.io.IOException;
@@ -16,7 +17,7 @@ public class MainTest
 		{
 			ActionRegistry.registerActionHandler(new EimerActionHandler());
 
-			Gson gson = new Gson();
+			Gson gson = MappingSerializer.getSerializer();
 			Mapping mapping = gson.fromJson(Files.newBufferedReader(Paths.get("midi.json")), Mapping.class);
 
 			Mapping.setCurrentMapping(mapping);

@@ -1,27 +1,27 @@
-package de.tobias.midi;
+package de.tobias.midi.mapping;
 
 import de.tobias.midi.feedback.Feedback;
 import de.tobias.midi.feedback.FeedbackType;
 
 import java.util.Objects;
 
-public class Key
+public class MidiKey extends Key
 {
 	private int value;
 
 	private Feedback defaultFeedback;
 	private Feedback eventFeedback;
 
-	public Key()
+	public MidiKey()
 	{
 	}
 
-	public Key(int value)
+	public MidiKey(int value)
 	{
 		this.value = value;
 	}
 
-	public Key(int value, Feedback defaultFeedback, Feedback eventFeedback)
+	public MidiKey(int value, Feedback defaultFeedback, Feedback eventFeedback)
 	{
 		this.value = value;
 		this.defaultFeedback = defaultFeedback;
@@ -58,6 +58,7 @@ public class Key
 		this.eventFeedback = eventFeedback;
 	}
 
+	@Override
 	public Feedback getFeedbackForType(FeedbackType feedbackType)
 	{
 		if (feedbackType == null) {
@@ -80,8 +81,8 @@ public class Key
 	public boolean equals(Object o)
 	{
 		if(this == o) return true;
-		if(!(o instanceof Key)) return false;
-		Key key = (Key) o;
+		if(!(o instanceof MidiKey)) return false;
+		MidiKey key = (MidiKey) o;
 		return value == key.value;
 	}
 

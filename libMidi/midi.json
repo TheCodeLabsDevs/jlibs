@@ -11,7 +11,8 @@
                     "eventFeedback": {
                         "channel": 144,
                         "value": 46
-                    }
+                    },
+                    "type": "MidiKey"
                 }
             ],
             "actionType": "EIMER",
