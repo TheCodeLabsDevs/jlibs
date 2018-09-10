@@ -8,37 +8,56 @@ import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MidiMessageHandler implements Receiver
 {
 	private static List<MidiListener> midiListenerList;
+	private static List<MidiListener> removableList;
 
 	static
 	{
 		midiListenerList = new ArrayList<>();
+		removableList = new LinkedList<>();
 	}
+
 
 	@Override
 	public void send(MidiMessage message, long timeStamp)
 	{
-		MidiEvent midiEvent = new MidiEvent(message);
-		midiListenerList.forEach(midiListener -> {
-			if(!midiEvent.isConsumed())
-			{
-				midiListener.onMidiMessage(midiEvent);
-			}
-		});
-
-		if(message instanceof ShortMessage && !midiEvent.isConsumed())
+		try
 		{
-			int key = message.getMessage()[1];
-			int velocity = message.getMessage()[2];
+			MidiEvent midiEvent = new MidiEvent(message);
 
-			KeyEventType type = velocity > 0 ? KeyEventType.DOWN : KeyEventType.UP;
-			KeyEvent keyEvent = new KeyEvent(type, key);
+			for(MidiListener listener : removableList)
+			{
+				midiListenerList.remove(listener);
+			}
+			removableList.clear();
 
-			KeyEventDispatcher.dispatchEvent(keyEvent);
+			for(MidiListener midiListener : midiListenerList)
+			{
+				if(!midiEvent.isConsumed())
+				{
+					midiListener.onMidiMessage(midiEvent);
+				}
+			}
+
+			if(message instanceof ShortMessage && !midiEvent.isConsumed())
+			{
+				int key = message.getMessage()[1];
+				int velocity = message.getMessage()[2];
+
+				KeyEventType type = velocity > 0 ? KeyEventType.DOWN : KeyEventType.UP;
+				KeyEvent keyEvent = new KeyEvent(type, key);
+
+				KeyEventDispatcher.dispatchEvent(keyEvent);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 
@@ -49,11 +68,12 @@ public class MidiMessageHandler implements Receiver
 
 	public static void addMidiListener(MidiListener midiListener)
 	{
+		removableList.remove(midiListener);
 		midiListenerList.add(midiListener);
 	}
 
 	public static void removeMidiListener(MidiListener midiListener)
 	{
-		midiListenerList.remove(midiListener);
+		removableList.add(midiListener);
 	}
 }
