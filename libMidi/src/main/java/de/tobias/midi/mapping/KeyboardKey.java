@@ -19,6 +19,12 @@ public class KeyboardKey extends Key
 		this.key = key;
 	}
 
+	@Override
+	public KeyTypes getType()
+	{
+		return KeyTypes.KEYBOARD;
+	}
+
 	public KeyCode getCode()
 	{
 		return code;

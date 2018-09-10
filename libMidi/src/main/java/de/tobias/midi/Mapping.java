@@ -3,7 +3,6 @@ package de.tobias.midi;
 import de.tobias.midi.action.Action;
 import de.tobias.midi.action.ActionKeyHandler;
 import de.tobias.midi.event.KeyEventDispatcher;
-import de.tobias.midi.mapping.Key;
 import de.tobias.midi.mapping.MidiKey;
 
 import java.util.ArrayList;
@@ -55,14 +54,11 @@ public class Mapping
 	{
 		for(Action action : actions)
 		{
-			for(Key actionKey : action.getKeys())
+			for(MidiKey actionKey : action.getKeysForType(MidiKey.class))
 			{
-				if(actionKey instanceof MidiKey)
+				if(actionKey.getValue() == key)
 				{
-					if(((MidiKey) actionKey).getValue() == key)
-					{
-						return action;
-					}
+					return action;
 				}
 			}
 		}

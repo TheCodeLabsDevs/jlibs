@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Action
 {
@@ -41,6 +42,11 @@ public class Action
 	public List<Key> getKeys()
 	{
 		return keys;
+	}
+
+	public <T extends Key> List<T> getKeysForType(Class<T> clazz)
+	{
+		return keys.stream().filter(key -> key.getClass().isAssignableFrom(clazz)).map(clazz::cast).collect(Collectors.toList());
 	}
 
 	public void setKeys(List<Key> keys)

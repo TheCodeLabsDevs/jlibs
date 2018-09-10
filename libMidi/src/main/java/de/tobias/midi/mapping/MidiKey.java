@@ -28,6 +28,12 @@ public class MidiKey extends Key
 		this.eventFeedback = eventFeedback;
 	}
 
+	@Override
+	public KeyTypes getType()
+	{
+		return KeyTypes.MIDI;
+	}
+
 	public int getValue()
 	{
 		return value;

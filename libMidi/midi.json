@@ -12,7 +12,7 @@
                         "channel": 144,
                         "value": 46
                     },
-                    "type": "MidiKey"
+                    "type": "MIDI"
                 }
             ],
             "actionType": "EIMER",
