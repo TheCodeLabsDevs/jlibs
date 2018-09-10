@@ -3,6 +3,7 @@ package de.tobias.midi;
 import de.tobias.midi.action.Action;
 import de.tobias.midi.action.ActionKeyHandler;
 import de.tobias.midi.event.KeyEventDispatcher;
+import de.tobias.midi.mapping.Key;
 import de.tobias.midi.mapping.MidiKey;
 
 import java.util.ArrayList;
@@ -50,15 +51,18 @@ public class Mapping
 		this.actions.remove(action);
 	}
 
-	public Action getActionForKey(int key)
+	public Action getActionForMidiKey(int key)
 	{
 		for(Action action : actions)
 		{
-			for(MidiKey actionKey : action.getKeys())
+			for(Key actionKey : action.getKeys())
 			{
-				if(actionKey.getValue() == key)
+				if(actionKey instanceof MidiKey)
 				{
-					return action;
+					if(((MidiKey) actionKey).getValue() == key)
+					{
+						return action;
+					}
 				}
 			}
 		}
@@ -90,11 +94,11 @@ public class Mapping
 		return actions.get(0);
 	}
 
-	public Optional<MidiKey> getFirstKeyForAction(Action action)
+	public Optional<MidiKey> getFirstMidiKeyForAction(Action action)
 	{
 		if(action.getKeys().size() > 0)
 		{
-			return Optional.of(action.getKeys().get(0));
+			return action.getKeys().stream().filter(key -> key instanceof MidiKey).map(key -> (MidiKey) key).findAny();
 		}
 		else
 		{
@@ -102,9 +106,9 @@ public class Mapping
 		}
 	}
 
-	public MidiKey getFirstKeyOrCreateForAction(Action action)
+	public MidiKey getFirstMidiKeyOrCreateForAction(Action action)
 	{
-		return getFirstKeyForAction(action).orElseGet(() -> {
+		return getFirstMidiKeyForAction(action).orElseGet(() -> {
 			MidiKey newKey = new MidiKey();
 			action.getKeys().add(newKey);
 			return newKey;

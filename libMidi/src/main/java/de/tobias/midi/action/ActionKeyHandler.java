@@ -7,6 +7,7 @@ import de.tobias.midi.event.KeyEventHandler;
 import de.tobias.midi.event.KeyEventType;
 import de.tobias.midi.feedback.Feedback;
 import de.tobias.midi.feedback.FeedbackType;
+import de.tobias.midi.mapping.Key;
 import de.tobias.midi.mapping.MidiKey;
 
 public class ActionKeyHandler implements KeyEventHandler
@@ -23,19 +24,23 @@ public class ActionKeyHandler implements KeyEventHandler
 			return;
 		}
 
-		final Action action = mapping.getActionForKey(keyEvent.getKeyValue());
+		final Action action = mapping.getActionForMidiKey(keyEvent.getKeyValue());
 		if(action != null)
 		{
 			final ActionHandler handler = ActionRegistry.getActionHandler(action.getActionType());
 			FeedbackType feedbackType = handler.handle(keyEvent, action);
 
 			if (Midi.getInstance().isModeSupported(Midi.Mode.OUTPUT)) {
-				for(MidiKey key : action.getKeys())
+				for(Key key : action.getKeys())
 				{
-					Feedback feedback = key.getFeedbackForType(feedbackType);
-					if (feedback != null)
+					if(key instanceof MidiKey)
 					{
-						Midi.getInstance().sendMessage(feedback.getChannel(), key.getValue(), feedback.getValue());
+						MidiKey midiKey = (MidiKey) key;
+						Feedback feedback = key.getFeedbackForType(feedbackType);
+						if(feedback != null)
+						{
+							Midi.getInstance().sendMessage(feedback.getChannel(), midiKey.getValue(), feedback.getValue());
+						}
 					}
 				}
 			}
