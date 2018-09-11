@@ -11,7 +11,8 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public static void disableSlf4jDebugPrints()
 	{
-		de.tobias.logger.Logger.addFilter(logMessage -> !(logMessage.getCaller().getClassName().contains("Slf4jLog") && logMessage.getLevel() == LogLevel.DEBUG));
+		de.tobias.logger.Logger.addFilter(logMessage -> !(logMessage.getCaller().getClassName().contains("Slf4jLog") &&
+				(logMessage.getLevel() == LogLevel.DEBUG || logMessage.getLevel() == LogLevel.TRACE)));
 		disableDebug = true;
 	}
 
@@ -27,27 +28,27 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void trace(String s)
 	{
-
+		de.tobias.logger.Logger.trace(s);
 	}
 
 	public void trace(String s, Object o)
 	{
-
+		de.tobias.logger.Logger.trace(MessageFormatter.format(s, o).getMessage());
 	}
 
 	public void trace(String s, Object o, Object o1)
 	{
-
+		de.tobias.logger.Logger.trace(MessageFormatter.format(s, o, o1).getMessage());
 	}
 
 	public void trace(String s, Object... objects)
 	{
-
+		de.tobias.logger.Logger.trace(MessageFormatter.format(s, objects).getMessage());
 	}
 
 	public void trace(String s, Throwable throwable)
 	{
-
+		de.tobias.logger.Logger.trace(MessageFormatter.format(s, throwable).getMessage());
 	}
 
 	public boolean isTraceEnabled(Marker marker)
@@ -107,7 +108,7 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void debug(String s, Throwable throwable)
 	{
-
+		de.tobias.logger.Logger.debug(MessageFormatter.format(s, throwable).getMessage());
 	}
 
 	public boolean isDebugEnabled(Marker marker)
