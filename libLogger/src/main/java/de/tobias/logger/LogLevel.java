@@ -1,20 +1,23 @@
 package de.tobias.logger;
 
-public enum LogLevel {
-
-	DEBUG(0b00001),
-	INFO(0b00010),
-	WARNING(0b00100),
-	ERROR(0b01000),
-	FATAL(0b10000);
+public enum LogLevel
+{
+	TRACE(0b000001),
+	DEBUG(0b000010),
+	INFO(0b000100),
+	WARNING(0b001000),
+	ERROR(0b010000),
+	FATAL(0b100000);
 
 	private int level;
 
-	private LogLevel(int level) {
+	LogLevel(int level)
+	{
 		this.level = level;
 	}
 
-	public int getLevel() {
+	public int getLevel()
+	{
 		return level;
 	}
 }

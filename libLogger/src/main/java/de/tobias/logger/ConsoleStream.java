@@ -103,6 +103,7 @@ public class ConsoleStream extends PrintStream {
 			}
 		}
 		source.write(b);
+		flush();
 	}
 
 	// TODO Improve code performance

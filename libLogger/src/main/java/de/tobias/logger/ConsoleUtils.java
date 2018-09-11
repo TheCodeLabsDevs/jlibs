@@ -7,7 +7,8 @@ public class ConsoleUtils {
 		return classPath.contains("idea_rt.jar");
 	}
 
-	public static enum Color {
+	public enum Color
+	{
 		RESET(ConsoleColors.RESET),
 		BLACK(ConsoleColors.BLACK),
 		RED(ConsoleColors.RED),
@@ -27,7 +28,8 @@ public class ConsoleUtils {
 
 		private String code;
 
-		private Color(String code) {
+		Color(String code)
+		{
 			this.code = code;
 		}
 	}

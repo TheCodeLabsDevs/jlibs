@@ -2,14 +2,16 @@ package de.tobias.logger;
 
 public enum LogLevelFilter {
 
-	DEBUG(0b11111),
-	ERROR(0b11000),
-	WARNING(0b11100),
-	NORMAL(0b11110);
+	TRACE(0b111111),
+	DEBUG(0b111110),
+	ERROR(0b110000),
+	WARNING(0b111000),
+	NORMAL(0b111100);
 
 	private int matchedLevel;
 
-	private LogLevelFilter(int matchedLevel) {
+	LogLevelFilter(int matchedLevel)
+	{
 		this.matchedLevel = matchedLevel;
 	}
 

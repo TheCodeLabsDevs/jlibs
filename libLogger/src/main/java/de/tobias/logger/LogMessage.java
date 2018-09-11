@@ -115,6 +115,7 @@ public class LogMessage {
 		switch (logLevel) {
 			case INFO:
 			case DEBUG:
+			case TRACE:
 				return loggerConfig.getInfoColor();
 			case WARNING:
 				return loggerConfig.getWarnColor();
