@@ -29,9 +29,9 @@ public class MidiKey extends Key
 	}
 
 	@Override
-	public KeyTypes getType()
+	public KeyType getType()
 	{
-		return KeyTypes.MIDI;
+		return KeyType.MIDI;
 	}
 
 	public int getValue()

@@ -1,6 +1,6 @@
 package de.tobias.midi.mapping;
 
-public enum KeyTypes
+public enum KeyType
 {
 	MIDI,
 	KEYBOARD

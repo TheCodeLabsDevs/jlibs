@@ -3,7 +3,9 @@ package de.tobias.midi;
 import de.tobias.midi.action.Action;
 import de.tobias.midi.action.ActionKeyHandler;
 import de.tobias.midi.event.KeyEventDispatcher;
+import de.tobias.midi.mapping.KeyboardKey;
 import de.tobias.midi.mapping.MidiKey;
+import javafx.scene.input.KeyCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +67,21 @@ public class Mapping
 		return null;
 	}
 
+	public Action getActionForKeyboardKey(KeyCode key)
+	{
+		for(Action action : actions)
+		{
+			for(KeyboardKey actionKey : action.getKeysForType(KeyboardKey.class))
+			{
+				if(actionKey.getCode() == key)
+				{
+					return action;
+				}
+			}
+		}
+		return null;
+	}
+
 	public List<Action> getActionsForType(String type)
 	{
 		List<Action> result = new ArrayList<>();
@@ -102,10 +119,31 @@ public class Mapping
 		}
 	}
 
+	public Optional<KeyboardKey> getFirstKeyboardKeyForAction(Action action)
+	{
+		if(action.getKeys().size() > 0)
+		{
+			return action.getKeys().stream().filter(key -> key instanceof KeyboardKey).map(key -> (KeyboardKey) key).findAny();
+		}
+		else
+		{
+			return Optional.empty();
+		}
+	}
+
 	public MidiKey getFirstMidiKeyOrCreateForAction(Action action)
 	{
 		return getFirstMidiKeyForAction(action).orElseGet(() -> {
 			MidiKey newKey = new MidiKey();
+			action.getKeys().add(newKey);
+			return newKey;
+		});
+	}
+
+	public KeyboardKey getFirstKeyboardKeyOrCreateForAction(Action action)
+	{
+		return getFirstKeyboardKeyForAction(action).orElseGet(() -> {
+			KeyboardKey newKey = new KeyboardKey();
 			action.getKeys().add(newKey);
 			return newKey;
 		});

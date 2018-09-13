@@ -19,7 +19,7 @@ public class KeyEventDispatcher
 		for(KeyEventHandler keyEventHandler : keyEventHandlerList)
 		{
 			try {
-				keyEventHandler.handleMidiKeyEvent(keyEvent);
+				keyEventHandler.handleKeyEvent(keyEvent);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

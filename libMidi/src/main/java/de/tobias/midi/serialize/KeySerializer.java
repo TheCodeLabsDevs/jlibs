@@ -3,7 +3,7 @@ package de.tobias.midi.serialize;
 import com.google.gson.*;
 import de.tobias.midi.mapping.Key;
 import de.tobias.midi.mapping.KeyRegistry;
-import de.tobias.midi.mapping.KeyTypes;
+import de.tobias.midi.mapping.KeyType;
 
 import java.lang.reflect.Type;
 
@@ -16,7 +16,7 @@ public class KeySerializer implements JsonDeserializer<Key>, JsonSerializer<Key>
 			throws JsonParseException
 	{
 		JsonObject jsonObj = jsonElement.getAsJsonObject();
-		KeyTypes className = KeyTypes.valueOf(jsonObj.get(CLASS_META_KEY).getAsString());
+		KeyType className = KeyType.valueOf(jsonObj.get(CLASS_META_KEY).getAsString());
 		Class<? extends Key> clz = KeyRegistry.getInstance().getType(className);
 		return jsonDeserializationContext.deserialize(jsonElement, clz);
 	}

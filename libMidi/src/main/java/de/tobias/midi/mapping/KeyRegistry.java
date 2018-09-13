@@ -13,27 +13,27 @@ public class KeyRegistry
 		{
 			instance = new KeyRegistry();
 
-			instance.register(KeyTypes.MIDI, MidiKey.class);
-			instance.register(KeyTypes.KEYBOARD, KeyboardKey.class);
+			instance.register(KeyType.MIDI, MidiKey.class);
+			instance.register(KeyType.KEYBOARD, KeyboardKey.class);
 		}
 		return instance;
 	}
 
-	private Map<KeyTypes, Class<? extends Key>> types = new HashMap<>();
+	private Map<KeyType, Class<? extends Key>> types = new HashMap<>();
 
-	public Class<? extends Key> getType(KeyTypes type)
+	public Class<? extends Key> getType(KeyType type)
 	{
 		return types.get(type);
 	}
 
-	public KeyTypes getIdentifier(Key obj)
+	public KeyType getIdentifier(Key obj)
 	{
 		return getIdentifier(obj.getClass());
 	}
 
-	public KeyTypes getIdentifier(Class<? extends Key> clazz)
+	public KeyType getIdentifier(Class<? extends Key> clazz)
 	{
-		for(KeyTypes type : types.keySet())
+		for(KeyType type : types.keySet())
 		{
 			if(types.get(type).equals(clazz))
 			{
@@ -43,7 +43,7 @@ public class KeyRegistry
 		return null;
 	}
 
-	public void register(KeyTypes type, Class<? extends Key> clazz)
+	public void register(KeyType type, Class<? extends Key> clazz)
 	{
 		this.types.put(type, clazz);
 	}

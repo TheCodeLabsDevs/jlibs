@@ -20,9 +20,9 @@ public class KeyboardKey extends Key
 	}
 
 	@Override
-	public KeyTypes getType()
+	public KeyType getType()
 	{
-		return KeyTypes.KEYBOARD;
+		return KeyType.KEYBOARD;
 	}
 
 	public KeyCode getCode()
