@@ -34,4 +34,13 @@ public class Feedback
 	{
 		this.value = value;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "Feedback{" +
+				"channel=" + channel +
+				", value=" + value +
+				'}';
+	}
 }

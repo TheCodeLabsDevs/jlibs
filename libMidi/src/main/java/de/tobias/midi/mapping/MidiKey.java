@@ -107,4 +107,14 @@ public class MidiKey extends Key
 	{
 		return Objects.hash(value);
 	}
+
+	@Override
+	public String toString()
+	{
+		return "MidiKey{" +
+				"value=" + value +
+				", defaultFeedback=" + defaultFeedback +
+				", eventFeedback=" + eventFeedback +
+				'}';
+	}
 }

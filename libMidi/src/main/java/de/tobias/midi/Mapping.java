@@ -193,4 +193,12 @@ public class Mapping
 			return newKey;
 		});
 	}
+
+	@Override
+	public String toString()
+	{
+		return "Mapping{" +
+				"actions=" + actions +
+				'}';
+	}
 }

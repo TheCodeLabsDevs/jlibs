@@ -73,4 +73,14 @@ public class Action
 	{
 		this.payload = payload;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "Action{" +
+				"keys=" + keys +
+				", actionType='" + actionType + '\'' +
+				", payload=" + payload +
+				'}';
+	}
 }

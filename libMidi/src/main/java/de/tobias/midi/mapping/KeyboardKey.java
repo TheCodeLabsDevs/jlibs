@@ -50,4 +50,13 @@ public class KeyboardKey extends Key
 	{
 		return null;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "KeyboardKey{" +
+				"code=" + code +
+				", key='" + key + '\'' +
+				'}';
+	}
 }
