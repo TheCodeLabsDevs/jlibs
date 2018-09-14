@@ -41,7 +41,10 @@ public class ActionKeyHandler implements KeyEventHandler
 	private void handleKeyboardEvent(KeyEvent keyEvent, Mapping mapping)
 	{
 		final Action action = mapping.getActionForKeyboardKey(KeyCode.values()[keyEvent.getKeyValue()]);
-		ActionRegistry.getActionHandler(action.getActionType()).handle(keyEvent, action);
+		if(action != null)
+		{
+			ActionRegistry.getActionHandler(action.getActionType()).handle(keyEvent, action);
+		}
 	}
 
 	private void handleMidiEvent(KeyEvent keyEvent, Mapping mapping)
