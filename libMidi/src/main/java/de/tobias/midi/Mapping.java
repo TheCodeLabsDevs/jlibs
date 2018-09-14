@@ -1,12 +1,16 @@
 package de.tobias.midi;
 
 import de.tobias.midi.action.Action;
+import de.tobias.midi.action.ActionHandler;
 import de.tobias.midi.action.ActionKeyHandler;
+import de.tobias.midi.action.ActionRegistry;
 import de.tobias.midi.event.KeyEventDispatcher;
+import de.tobias.midi.feedback.FeedbackType;
 import de.tobias.midi.mapping.KeyboardKey;
 import de.tobias.midi.mapping.MidiKey;
 import javafx.scene.input.KeyCode;
 
+import javax.sound.midi.ShortMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +54,47 @@ public class Mapping
 	public void removeAction(Action action)
 	{
 		this.actions.remove(action);
+	}
+
+	public List<Action> getActions()
+	{
+		return actions;
+	}
+
+	public void showFeedback()
+	{
+		for(Action action : getActions())
+		{
+			ActionHandler handler = ActionRegistry.getActionHandler(action.getActionType());
+			final FeedbackType currentFeedbackType = handler.getCurrentFeedbackType(action);
+
+			for(MidiKey key : action.getKeysForType(MidiKey.class))
+			{
+				key.sendFeedback(currentFeedbackType);
+			}
+		}
+	}
+
+	// TODO Extract special launchpad commands
+	public void clearFeedback()
+	{
+		final int maxMainKeyNumber = 89;
+
+		for(int i = 11; i <= maxMainKeyNumber; i++)
+		{
+			// Node_On = 144
+			Midi.getInstance().sendMessage(ShortMessage.NOTE_ON, i, 0);
+		}
+
+		// Obere Reihe an Tasten
+		final int liveKeyMin = 104;
+		final int liveKeyMax = 111;
+
+		for(int i = liveKeyMin; i <= liveKeyMax; i++)
+		{
+			// Control_Change = 176
+			Midi.getInstance().sendMessage(ShortMessage.CONTROL_CHANGE, i, 0);
+		}
 	}
 
 	public Action getActionForMidiKey(int key)

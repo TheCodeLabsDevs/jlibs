@@ -1,5 +1,6 @@
 package de.tobias.midi.mapping;
 
+import de.tobias.midi.Midi;
 import de.tobias.midi.feedback.Feedback;
 import de.tobias.midi.feedback.FeedbackType;
 
@@ -81,6 +82,15 @@ public class MidiKey extends Key
 				return eventFeedback;
 		}
 		return null;
+	}
+
+	public void sendFeedback(FeedbackType feedbackType)
+	{
+		Feedback feedback = getFeedbackForType(feedbackType);
+		if(feedback != null)
+		{
+			Midi.getInstance().sendMessage(feedback.getChannel(), getValue(), feedback.getValue());
+		}
 	}
 
 	@Override
