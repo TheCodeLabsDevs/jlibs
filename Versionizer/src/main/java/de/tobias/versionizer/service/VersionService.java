@@ -19,7 +19,7 @@ public class VersionService
 				.setUrl(item.getArtifactoryUrl())
 				.build();
 
-		List<Version> versionList = new LinkedList<Version>();
+		List<Version> versionList = new LinkedList<>();
 		versionList.addAll(getVersionsByRepository(artifactory, item, item.getReleaseRepository()));
 		versionList.addAll(getVersionsByRepository(artifactory, item, item.getSnapshotRepository()));
 
@@ -34,7 +34,7 @@ public class VersionService
 				.folder(item.getGroupId() + "/" + item.getArtifactId())
 				.info();
 
-		List<Version> versionList = new LinkedList<Version>();
+		List<Version> versionList = new LinkedList<>();
 		for(Item child : folder.getChildren())
 		{
 			if(child.isFolder())
@@ -44,5 +44,20 @@ public class VersionService
 			}
 		}
 		return versionList;
+	}
+
+	public void listFilesForVersion(VersionizerItem item, Version version)
+	{
+		Artifactory artifactory = ArtifactoryClientBuilder.create()
+				.setUrl(item.getArtifactoryUrl())
+				.build();
+
+		final Folder folder = artifactory.repository(item.getSnapshotRepository())
+				.folder(item.getGroupId() + "/" + item.getArtifactId() + "/" + version.toVersionString()).info();
+
+		for(Item child : folder.getChildren())
+		{
+			System.out.println("\t" + child.getName());
+		}
 	}
 }

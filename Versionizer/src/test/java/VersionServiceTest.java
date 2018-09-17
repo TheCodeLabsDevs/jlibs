@@ -11,7 +11,7 @@ public class VersionServiceTest
 		VersionizerItem versionizerItem = new VersionizerItem();
 		versionizerItem.setArtifactoryUrl("https://maven.thecodelabs.de/artifactory");
 		versionizerItem.setGroupId("de/tobias");
-		versionizerItem.setArtifactId("libUtils");
+		versionizerItem.setArtifactId("libMidi");
 		versionizerItem.setReleaseRepository("TheCodeLabs-release");
 		versionizerItem.setSnapshotRepository("TheCodeLabs-snapshots");
 
@@ -20,6 +20,14 @@ public class VersionServiceTest
 		Version[] versions = versionService.getVersions(versionizerItem);
 		Arrays.sort(versions);
 
-		System.out.println(Arrays.toString(versions));
+		for(Version version : versions)
+		{
+			System.out.println(version);
+			if(version.isSnapshot())
+			{
+				versionService.listFilesForVersion(versionizerItem, version);
+				System.out.println();
+			}
+		}
 	}
 }
