@@ -17,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F612D33B215A66E100C75187 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F62CAB6020C1E54600DB3354 /* classfile_constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = classfile_constants.h; sourceTree = "<group>"; };
 		F62CAB6120C1E54600DB3354 /* jvmti.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jvmti.h; sourceTree = "<group>"; };
 		F62CAB6220C1E54600DB3354 /* jvmticmlr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jvmticmlr.h; sourceTree = "<group>"; };
@@ -108,6 +109,7 @@
 		F62CAB6F20C1E5E800DB3354 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F612D33B215A66E100C75187 /* SystemConfiguration.framework */,
 				F62CAB7720C203DA00DB3354 /* AppKit.framework */,
 				F62CAB7020C1E5E800DB3354 /* IOKit.framework */,
 			);
@@ -315,7 +317,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = "";
 				HEADER_SEARCH_PATHS = "$(PROJECT)/jni";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
@@ -333,7 +335,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = "";
 				HEADER_SEARCH_PATHS = "$(PROJECT)/jni";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;

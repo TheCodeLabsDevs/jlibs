@@ -24,8 +24,17 @@ JNIEXPORT void JNICALL Java_de_tobias_utils_util_mac_NativeApplication_setDockIc
 }
 
 JNIEXPORT void JNICALL Java_de_tobias_utils_util_mac_NativeApplication_setDockIconBadge_1N (JNIEnv * e, jclass class, jint i) {
-    if (i != 0)
+    if (i != 0) {
         [[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%i", i]];
-    else
+    } else {
         [[NSApp dockTile] setBadgeLabel:@""];
+    }
+}
+
+JNIEXPORT void JNICALL Java_de_tobias_utils_util_mac_NativeApplication_setAppearance_1N (JNIEnv * env, jclass clazz, jboolean darkAqua) {
+    if (darkAqua) {
+        NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];
+    } else {
+        NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+    }
 }

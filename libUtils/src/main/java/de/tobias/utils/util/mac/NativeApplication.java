@@ -8,14 +8,24 @@ public class NativeApplication {
 	public static void setDockIcon(Image image) {
 		setDockIcon(ImageUtils.imageToByteArray(image));
 	}
+
 	public static void setDockIconBadge(int i) {
 		setDockIconBadge_N(i);
 	}
+
 	public static void setDockIconHidden(boolean hidden) {
 		setDockIconHidden_N(hidden);
 	}
 
+	public static void setAppearance(boolean darkAqua) {
+		setAppearance_N(darkAqua);
+	}
+
 	private static native void setDockIcon(byte[] image);
+
 	private static native void setDockIconBadge_N(int i);
+
 	private static native void setDockIconHidden_N(boolean hidden);
+
+	private static native void setAppearance_N(boolean darkAqua);
 }
