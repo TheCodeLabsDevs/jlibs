@@ -19,7 +19,6 @@ public class NativeMacSwitcher implements Switcher
 	public NativeMacSwitcher()
 	{
 		init();
-		System.out.println(nativePointer);
 	}
 
 	private native void init();
@@ -38,7 +37,11 @@ public class NativeMacSwitcher implements Switcher
 		deinit();
 	}
 
+	@Override
 	public native void connect();
+
+	@Override
+	public native String getProductName();
 
 	@Override
 	public String toString()
