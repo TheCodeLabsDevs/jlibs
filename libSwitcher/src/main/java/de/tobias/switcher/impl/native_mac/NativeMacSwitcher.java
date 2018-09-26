@@ -1,6 +1,12 @@
 package de.tobias.switcher.impl.native_mac;
 
 import de.tobias.switcher.Switcher;
+import de.tobias.switcher.SwitcherCallback;
+import de.tobias.switcher.SwitcherInput;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class NativeMacSwitcher implements Switcher
 {
@@ -18,12 +24,64 @@ public class NativeMacSwitcher implements Switcher
 
 	public NativeMacSwitcher()
 	{
-		init();
+		callbacks = new LinkedList<>();
+		this.init();
 	}
+
+	/*
+	Native methods
+	 */
 
 	private native void init();
 
 	private native void deinit();
+
+	@Override
+	public native void connect(String address);
+
+	@Override
+	public native String getProductName();
+
+	@Override
+	public void onDisconnect()
+	{
+		fireCallbacks(callback -> callback.onDisconnect(this));
+	}
+
+	@Override
+	public void dispose() {
+		deinit();
+	}
+
+	/*
+	Callback
+	 */
+
+	private List<SwitcherCallback> callbacks;
+
+	@Override
+	public void addCallback(SwitcherCallback switcherCallback)
+	{
+		callbacks.add(switcherCallback);
+	}
+
+	@Override
+	public void removeSwitcherCallback(SwitcherCallback switcherCallback)
+	{
+		callbacks.remove(switcherCallback);
+	}
+
+	private void fireCallbacks(Consumer<SwitcherCallback> consumer) {
+		for(SwitcherCallback callback : callbacks)
+		{
+			try
+			{
+				consumer.accept(callback);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	@Override
 	protected void finalize() throws Throwable
@@ -32,16 +90,6 @@ public class NativeMacSwitcher implements Switcher
 		deinit();
 		super.finalize();
 	}
-
-	public void dispose() {
-		deinit();
-	}
-
-	@Override
-	public native void connect();
-
-	@Override
-	public native String getProductName();
 
 	@Override
 	public String toString()
