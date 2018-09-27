@@ -45,9 +45,9 @@
                             <goal>javah</goal>
                         </goals>
                         <configuration>
-                            <javahClass>de.tobias.midi.device.MacMidiDeviceManager</javahClass>
+                            <javahClass>de.tobias.midi.device.mac.MacMidiDeviceManager</javahClass>
                             <javahOutputFilePath>
-                                ${project.basedir}/target/jni/libMidi/include/de_tobias_midi_device_MacMidiDeviceManager.h
+                                ${project.basedir}/target/jni/libMidi/include/de_tobias_midi_device_mac_MacMidiDeviceManager.h
                             </javahOutputFilePath>
                         </configuration>
                     </execution>
