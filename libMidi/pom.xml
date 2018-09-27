@@ -6,7 +6,22 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>libMidi</artifactId>
-    <version>1.1.4</version>
+    <version>2.0.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.tobias</groupId>
+            <artifactId>libUtils</artifactId>
+            <version>1.6.9</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -17,16 +32,29 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.alexkasko.maven</groupId>
+                <artifactId>jni-headers-maven-plugin</artifactId>
+                <version>1.0.6</version>
+                <executions>
+                    <!-- generate header for native methods -->
+                    <execution>
+                        <id>de.tobias.utils.util.mac.AwakeUtils</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>javah</goal>
+                        </goals>
+                        <configuration>
+                            <javahClass>de.tobias.midi.device.MacMidiDeviceManager</javahClass>
+                            <javahOutputFilePath>
+                                ${project.basedir}/target/jni/libMidi/include/de_tobias_midi_device_MacMidiDeviceManager.h
+                            </javahOutputFilePath>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.5</version>
-        </dependency>
-    </dependencies>
 
     <distributionManagement>
         <repository>

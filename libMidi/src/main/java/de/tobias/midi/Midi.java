@@ -1,5 +1,11 @@
 package de.tobias.midi;
 
+import de.tobias.midi.device.JavaDeviceManager;
+import de.tobias.midi.device.MacMidiDeviceManager;
+import de.tobias.midi.device.MidiDeviceInfo;
+import de.tobias.midi.device.MidiDeviceManager;
+import de.tobias.utils.util.OS;
+
 import javax.sound.midi.*;
 import javax.sound.midi.MidiDevice.Info;
 import java.util.Arrays;
@@ -12,6 +18,8 @@ public class Midi implements AutoCloseable
 	{
 		INPUT, OUTPUT
 	}
+
+	private MidiDeviceManager midiDeviceManager;
 
 	private MidiDevice inputDevice;
 	private MidiDevice outputDevice;
@@ -27,11 +35,19 @@ public class Midi implements AutoCloseable
 
 	private Midi()
 	{
+		if(OS.isMacOS())
+		{
+			midiDeviceManager = new MacMidiDeviceManager();
+		}
+		else
+		{
+			midiDeviceManager = new JavaDeviceManager();
+		}
 	}
 
-	public static Info[] getMidiDevices()
+	public MidiDeviceInfo[] getMidiDevices()
 	{
-		return MidiSystem.getMidiDeviceInfo();
+		return midiDeviceManager.listDevices();
 	}
 
 	public MidiDevice getDevice(Mode mode)
@@ -46,6 +62,11 @@ public class Midi implements AutoCloseable
 		return null;
 	}
 
+	public static Info[] getMidiDevices_()
+	{
+		return MidiSystem.getMidiDeviceInfo();
+	}
+
 	public boolean isModeSupported(Mode mode)
 	{
 		return getDevice(mode) != null;
@@ -57,7 +78,7 @@ public class Midi implements AutoCloseable
 
 		Info input = null;
 		Info output = null;
-		for(Info item : Midi.getMidiDevices())
+		for(Info item : Midi.getMidiDevices_())
 		{
 			if(item.getName().equals(name))
 			{
@@ -73,7 +94,8 @@ public class Midi implements AutoCloseable
 			}
 		}
 
-		if (input == null) {
+		if(input == null)
+		{
 			throw new MidiUnavailableException("Midi device " + name + " unavailable");
 		}
 

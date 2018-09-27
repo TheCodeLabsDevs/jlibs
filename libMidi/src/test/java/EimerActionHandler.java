@@ -17,4 +17,10 @@ public class EimerActionHandler extends ActionHandler
 		System.out.println(action.getPayload());
 		return FeedbackType.DEFAULT;
 	}
+
+	@Override
+	public FeedbackType getCurrentFeedbackType(Action action)
+	{
+		return null;
+	}
 }
