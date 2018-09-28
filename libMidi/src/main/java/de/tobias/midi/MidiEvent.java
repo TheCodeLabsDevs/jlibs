@@ -4,6 +4,7 @@ import de.tobias.midi.device.MidiCommand;
 
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
+import javax.sound.midi.SysexMessage;
 import java.util.Arrays;
 
 public class MidiEvent
@@ -26,22 +27,34 @@ public class MidiEvent
 
 	public MidiEvent(MidiMessage message)
 	{
-		int command = Byte.toUnsignedInt(message.getMessage()[0]);
-		switch(command)
+		if(message instanceof ShortMessage)
 		{
-			case ShortMessage.NOTE_ON:
-				this.midiCommand = MidiCommand.NOTE_ON;
-				break;
-			case ShortMessage.NOTE_OFF:
-				this.midiCommand = MidiCommand.NOTE_OFF;
-				break;
-			case ShortMessage.CONTROL_CHANGE:
-				this.midiCommand = MidiCommand.CONTROL_CHANGE;
-				break;
-			default:
-				this.midiCommand = null;
-				break;
+			int command = Byte.toUnsignedInt(message.getMessage()[0]);
+			switch(command)
+			{
+				case ShortMessage.NOTE_ON:
+					this.midiCommand = MidiCommand.NOTE_ON;
+					break;
+				case ShortMessage.NOTE_OFF:
+					this.midiCommand = MidiCommand.NOTE_OFF;
+					break;
+				case ShortMessage.CONTROL_CHANGE:
+					this.midiCommand = MidiCommand.CONTROL_CHANGE;
+					break;
+				default:
+					this.midiCommand = null;
+					break;
+			}
 		}
+		else if(message instanceof SysexMessage)
+		{
+			this.midiCommand = MidiCommand.SYSTEM_EXCLUSIVE;
+		}
+		else
+		{
+			this.midiCommand = null;
+		}
+
 		byte[] data = new byte[message.getLength() - 1];
 		System.arraycopy(message.getMessage(), 1, data, 0, message.getLength() - 1);
 		this.payload = data;

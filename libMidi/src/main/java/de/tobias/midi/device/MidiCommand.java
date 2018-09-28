@@ -4,5 +4,6 @@ public enum MidiCommand
 {
 	NOTE_ON,
 	NOTE_OFF,
-	CONTROL_CHANGE
+	CONTROL_CHANGE,
+	SYSTEM_EXCLUSIVE
 }
