@@ -3,7 +3,7 @@ package de.tobias.utils.util;
 public class OS {
 
 	public enum OSType {
-		Windows, MacOSX, Linux, Other;
+		Windows, MacOSX, Linux, Other
 	}
 
 	private static OSType type;

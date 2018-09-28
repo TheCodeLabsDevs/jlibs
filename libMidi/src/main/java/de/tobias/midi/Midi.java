@@ -106,7 +106,7 @@ public class Midi implements AutoCloseable
 		{
 			if(midiCommand != 0)
 			{
-
+				// TODO Implement send command
 			}
 		}
 	}

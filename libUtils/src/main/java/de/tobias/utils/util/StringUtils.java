@@ -1,6 +1,6 @@
 package de.tobias.utils.util;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
@@ -19,7 +19,7 @@ public class StringUtils {
 		try {
 			MessageDigest crypt = MessageDigest.getInstance("SHA-256");
 			return hash(crypt, string);
-		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+		} catch (NoSuchAlgorithmException e) {
 			System.err.println("SHA-256 is not supported: " + e.getLocalizedMessage());
 		}
 		return string;
@@ -36,7 +36,7 @@ public class StringUtils {
 		try {
 			MessageDigest crypt = MessageDigest.getInstance("SHA-1");
 			return hash(crypt, string);
-		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+		} catch (NoSuchAlgorithmException e) {
 			System.err.println("SHA-256 is not supported: " + e.getLocalizedMessage());
 		}
 		return string;
@@ -51,8 +51,8 @@ public class StringUtils {
 	 *            Hashverfahren
 	 * @return Hashwert als String
 	 */
-	private static String hash(MessageDigest crypt, String string) throws UnsupportedEncodingException {
-		byte[] hash = crypt.digest(string.getBytes("UTF-8"));
+	private static String hash(MessageDigest crypt, String string) {
+		byte[] hash = crypt.digest(string.getBytes(StandardCharsets.UTF_8));
 		return new String(hash);
 	}
 
