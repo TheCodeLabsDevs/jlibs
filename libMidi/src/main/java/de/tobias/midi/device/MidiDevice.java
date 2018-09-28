@@ -42,8 +42,6 @@ public abstract class MidiDevice
 
 	public abstract void closeDevice() throws Exception;
 
-	public abstract void open() throws Exception;
-
 	public abstract boolean isOpen();
 
 }

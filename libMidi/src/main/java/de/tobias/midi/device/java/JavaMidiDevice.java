@@ -81,10 +81,14 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 		internalDevice.close();
 	}
 
-	@Override
-	public void open() throws MidiUnavailableException
+	void open() throws MidiUnavailableException
 	{
 		internalDevice.open();
+	}
+
+	void setReceiver(Receiver receiver) throws MidiUnavailableException
+	{
+		internalDevice.getTransmitter().setReceiver(receiver);
 	}
 
 	@Override

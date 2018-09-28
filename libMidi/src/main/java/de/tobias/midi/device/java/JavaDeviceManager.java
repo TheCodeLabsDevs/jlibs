@@ -7,7 +7,6 @@ import de.tobias.midi.device.MidiDeviceManager;
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Transmitter;
 import java.util.stream.Stream;
 
 public class JavaDeviceManager implements MidiDeviceManager
@@ -81,12 +80,12 @@ public class JavaDeviceManager implements MidiDeviceManager
 	private void setMidiInputDevice(MidiDeviceInfo midiDeviceInfo, MidiDevice.Info input) throws MidiUnavailableException, IllegalArgumentException
 	{
 		MidiDevice newInputDevice = MidiSystem.getMidiDevice(input);
-
 		if(newInputDevice == null)
 		{
 			return;
 		}
 
+		// Check if old device equals new device
 		if(this.inputDevice != null && this.inputDevice.getInternalDevice() == newInputDevice)
 		{
 			return;
@@ -97,21 +96,19 @@ public class JavaDeviceManager implements MidiDeviceManager
 
 		this.inputDevice = new JavaMidiDevice(midiDeviceInfo, newInputDevice);
 
-		Transmitter trans = inputDevice.getInternalDevice().getTransmitter();
-		trans.setReceiver(inputDevice);
-
+		inputDevice.setReceiver(inputDevice);
 		inputDevice.open();
 	}
 
 	private void setMidiOutputDevice(MidiDeviceInfo midiDeviceInfo, MidiDevice.Info output) throws MidiUnavailableException, IllegalArgumentException
 	{
 		MidiDevice newOutputDevice = MidiSystem.getMidiDevice(output);
-
 		if(newOutputDevice == null)
 		{
 			return;
 		}
 
+		// Check if old device equals new device
 		if(this.outputDevice != null && this.outputDevice.getInternalDevice() == newOutputDevice)
 		{
 			return;
@@ -125,33 +122,19 @@ public class JavaDeviceManager implements MidiDeviceManager
 	}
 
 
-	public void closeInput()
+	private void closeInput() throws MidiUnavailableException
 	{
-		try
+		if(inputDevice != null)
 		{
-			if(inputDevice != null)
-			{
-				inputDevice.close();
-			}
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
+			inputDevice.closeDevice();
 		}
 	}
 
-	public void closeOutput()
+	private void closeOutput() throws MidiUnavailableException
 	{
-		try
+		if(outputDevice != null)
 		{
-			if(outputDevice != null)
-			{
-				outputDevice.close();
-			}
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
+			outputDevice.closeDevice();
 		}
 	}
 
