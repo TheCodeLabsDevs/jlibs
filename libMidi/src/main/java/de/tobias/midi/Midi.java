@@ -97,8 +97,8 @@ public class Midi implements AutoCloseable
 
 	public void close() throws Exception
 	{
-		inputDevice.close();
-		outputDevice.close();
+		inputDevice.closeDevice();
+		outputDevice.closeDevice();
 	}
 
 	public void sendMessage(int midiCommand, int midiKey, int midiVelocity)

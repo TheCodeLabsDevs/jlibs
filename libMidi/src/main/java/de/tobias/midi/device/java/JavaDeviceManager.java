@@ -1,7 +1,6 @@
 package de.tobias.midi.device.java;
 
 import de.tobias.midi.Midi;
-import de.tobias.midi.MidiMessageHandler;
 import de.tobias.midi.device.MidiDeviceInfo;
 import de.tobias.midi.device.MidiDeviceManager;
 
@@ -99,7 +98,7 @@ public class JavaDeviceManager implements MidiDeviceManager
 		this.inputDevice = new JavaMidiDevice(midiDeviceInfo, newInputDevice);
 
 		Transmitter trans = inputDevice.getInternalDevice().getTransmitter();
-		trans.setReceiver(new MidiMessageHandler());
+		trans.setReceiver(inputDevice);
 
 		inputDevice.open();
 	}
