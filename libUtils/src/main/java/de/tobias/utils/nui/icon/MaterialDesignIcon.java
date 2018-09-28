@@ -1194,6 +1194,6 @@ public enum MaterialDesignIcon implements FontIconType {
 		return FONT_FILE;
 	}
 
-	public static final String FONT_FILE = "de/tobias/utils/nui/icon/materialdesignicons-webfont.ttf";
+	public static final String FONT_FILE = "fonts/materialdesignicons-webfont.ttf";
 
 }

@@ -1,7 +1,5 @@
 package de.tobias.utils.nui;
 
-import java.util.Optional;
-
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
@@ -11,6 +9,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+
+import java.util.Optional;
 
 public class AdvancedDialog extends Dialog<ButtonType> {
 
@@ -41,6 +41,7 @@ public class AdvancedDialog extends Dialog<ButtonType> {
 		dialogStage.getIcons().add(image);
 	}
 
+	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	public void setIcon(Optional<Image> image) {
 		Stage dialogStage = (Stage) getDialogPane().getScene().getWindow();
 		image.ifPresent(dialogStage.getIcons()::add);

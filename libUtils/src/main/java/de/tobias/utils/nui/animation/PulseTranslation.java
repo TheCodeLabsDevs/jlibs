@@ -1,4 +1,4 @@
-package de.tobias.utils.nui.translation;
+package de.tobias.utils.nui.animation;
 
 import javafx.animation.*;
 import javafx.beans.property.DoubleProperty;
@@ -9,7 +9,7 @@ import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.util.Duration;
 
-public class ShakeTransition extends Transition {
+public class PulseTranslation extends Transition {
 
 	private final Interpolator WEB_EASE = Interpolator.SPLINE(0.25, 0.1, 0.25, 1);
 	private final Timeline timeline;
@@ -17,7 +17,6 @@ public class ShakeTransition extends Transition {
 	private boolean oldCache = false;
 	private CacheHint oldCacheHint = CacheHint.DEFAULT;
 	private final boolean useCache = true;
-	private final double xIni;
 
 	private final DoubleProperty x = new SimpleDoubleProperty();
 
@@ -26,7 +25,7 @@ public class ShakeTransition extends Transition {
 	 *
 	 * @param node The node to affect
 	 */
-	public ShakeTransition(final Node node, EventHandler<ActionEvent> event) {
+	public PulseTranslation(final Node node, EventHandler<ActionEvent> event, double weigth) {
 		this.node = node;
 		statusProperty().addListener((ov, t, newStatus) ->
 		{
@@ -40,19 +39,17 @@ public class ShakeTransition extends Transition {
 			}
 		});
 
-		this.timeline = new Timeline(new KeyFrame(Duration.millis(0), new KeyValue(x, 0, WEB_EASE)),
-				new KeyFrame(Duration.millis(100), new KeyValue(x, -10, WEB_EASE)),
-				new KeyFrame(Duration.millis(200), new KeyValue(x, 10, WEB_EASE)),
-				new KeyFrame(Duration.millis(300), new KeyValue(x, -10, WEB_EASE)),
-				new KeyFrame(Duration.millis(400), new KeyValue(x, 10, WEB_EASE)),
-				new KeyFrame(Duration.millis(500), new KeyValue(x, -10, WEB_EASE)),
-				new KeyFrame(Duration.millis(600), new KeyValue(x, 10, WEB_EASE)),
-				new KeyFrame(Duration.millis(700), new KeyValue(x, -10, WEB_EASE)),
-				new KeyFrame(Duration.millis(800), new KeyValue(x, 10, WEB_EASE)),
-				new KeyFrame(Duration.millis(900), new KeyValue(x, -10, WEB_EASE)),
-				new KeyFrame(Duration.millis(1000), new KeyValue(x, 0, WEB_EASE)));
-		xIni = node.getTranslateX();
-		x.addListener((ob, n, n1) -> node.setTranslateX(xIni + n1.doubleValue()));
+		this.timeline = new Timeline(new KeyFrame(Duration.millis(0), new KeyValue(x, 1, WEB_EASE)),
+				new KeyFrame(Duration.millis(200), new KeyValue(x, 1 + weigth, WEB_EASE)),
+				new KeyFrame(Duration.millis(400), new KeyValue(x, 1 - weigth, WEB_EASE)),
+				new KeyFrame(Duration.millis(600), new KeyValue(x, 1 + weigth, WEB_EASE)),
+				new KeyFrame(Duration.millis(800), new KeyValue(x, 1 - weigth, WEB_EASE)),
+				new KeyFrame(Duration.millis(1000), new KeyValue(x, 1, WEB_EASE)));
+		x.addListener((ob, n, n1) ->
+		{
+			node.setScaleX(n1.doubleValue());
+			node.setScaleY(n1.doubleValue());
+		});
 
 		setCycleDuration(Duration.seconds(1));
 		setDelay(Duration.seconds(0.2));

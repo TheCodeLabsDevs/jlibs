@@ -1,5 +1,6 @@
-package de.tobias.utils.nui;
+package de.tobias.utils.nui.scene;
 
+import de.tobias.utils.nui.NVC;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;

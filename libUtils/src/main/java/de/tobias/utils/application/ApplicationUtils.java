@@ -5,6 +5,7 @@ import de.tobias.utils.application.update.NativeUpdateService;
 import de.tobias.utils.application.update.UpdateService;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,17 +35,8 @@ public final class ApplicationUtils {
 	}
 
 	/**
-	 * Add an update service, if the app needs to update the document container.
-	 * 
-	 * @param service new service
-	 */
-	public static void registerUpdateSercive(UpdateService service) {
-		services.add(service);
-	}
-
-	/**
 	 * Get the Main Application Bundle
-	 * 
+	 *
 	 * @return application bundle
 	 */
 	public static App getMainApplication() {
@@ -53,45 +45,62 @@ public final class ApplicationUtils {
 
 	/**
 	 * Get the Default / Shared Application Bundle
-	 * 
+	 *
 	 * @return application bundle
 	 */
 	public static App getSharedApplication() {
+		if (sharedApplication == null) { // Lazy initial
+			// Default Application Info
+			ApplicationInfo sharedInfo = new ApplicationInfo();
+			sharedInfo.setBuild(-1);
+			sharedInfo.setIdentifier("default");
+			sharedInfo.setName("Shared Application");
+
+			// Default Application
+			sharedApplication = new App(sharedInfo);
+		}
 		return sharedApplication;
 	}
 
 	/**
 	 * Get Apllication. If the main application is null, this returns the shared
 	 * application.
-	 * 
+	 *
 	 * @return
 	 */
 	public static App getApplication() {
 		if (mainApplication == null) {
-			if (sharedApplication == null) { // Lazy initial
-				// Default Application Info
-				ApplicationInfo sharedInfo = new ApplicationInfo();
-				sharedInfo.setBuild(-1);
-				sharedInfo.setIdentifier("default");
-				sharedInfo.setName("Shared Application");
-
-				// Default Application
-				sharedApplication = new App(sharedInfo);
-			}
-			return sharedApplication;
+			return getSharedApplication();
 		} else {
-			return mainApplication;
+			return getMainApplication();
 		}
+	}
+
+	/*
+	Update Service
+	 */
+
+	/**
+	 * Add an update service, if the app needs to update the document container.
+	 *
+	 * @param service new service
+	 */
+	public static void registerUpdateSercive(UpdateService service) {
+		services.add(service);
 	}
 
 	/**
 	 * Get all registered update services.
-	 * 
+	 *
 	 * @return
 	 */
-	static List<UpdateService> getServices() {
+	static List<UpdateService> getUpdateServices() {
 		return services;
 	}
+
+	/*
+	App Listener
+	 */
 
 	public static void addAppListener(AppListener listener) {
 		appListeners.add(listener);
@@ -99,5 +108,13 @@ public final class ApplicationUtils {
 
 	static List<AppListener> getAppListeners() {
 		return appListeners;
+	}
+
+	/*
+	Utils
+	 */
+	public static String getPID() {
+		String name = ManagementFactory.getRuntimeMXBean().getName();
+		return name.substring(0, name.indexOf("@"));
 	}
 }

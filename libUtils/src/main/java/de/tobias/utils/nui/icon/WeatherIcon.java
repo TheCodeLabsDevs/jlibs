@@ -614,6 +614,6 @@ public enum WeatherIcon implements FontIconType {
 		return FONT_FILE;
 	}
 
-	public static final String FONT_FILE = "de/tobias/utils/nui/icon/weathericons-regular-webfont.ttf";
+	public static final String FONT_FILE = "fonts/weathericons-regular-webfont.ttf";
 
 }

@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,17 +16,12 @@ public class SystemUtils {
 	public static void loadNativeLibrary() {
 		if (!loaded && OS.isMacOS()) {
 			try {
-				NativeLoader.copy("libUtilsNative.dylib", "de/tobias/utils/util/assets", SystemUtils.class);
+				NativeLoader.copy("libUtilsNative.dylib", "libraries", SystemUtils.class);
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 			loaded = !loaded;
 		}
-	}
-
-	public static String getPID() {
-		String name = ManagementFactory.getRuntimeMXBean().getName();
-		return name.substring(0, name.indexOf("@"));
 	}
 
 	public static Path getApplicationSupportDirectoryPath(String name) {
@@ -74,4 +68,5 @@ public class SystemUtils {
 	}
 
 	private static native byte[] getImageForFile_N(String path);
+
 }

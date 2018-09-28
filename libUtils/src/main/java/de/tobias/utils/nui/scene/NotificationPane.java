@@ -1,6 +1,6 @@
 package de.tobias.utils.nui.scene;
 
-import de.tobias.utils.util.Worker;
+import de.tobias.utils.threading.Worker;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;

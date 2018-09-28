@@ -30,12 +30,17 @@ import java.util.*;
 
 public class HelpMapViewController extends NVC implements ChangeListener<TreeItem<HelpElement>> {
 
-	@FXML protected TextField searchField;
-	@FXML private Button backButton;
-	@FXML private Button forthButton;
+	@FXML
+	private TextField searchField;
+	@FXML
+	private Button backButton;
+	@FXML
+	private Button forthButton;
 
-	@FXML protected TreeView<HelpElement> treeView;
-	@FXML private WebView webView;
+	@FXML
+	private TreeView<HelpElement> treeView;
+	@FXML
+	private WebView webView;
 
 	private HashMap<UUID, TreeItem<HelpElement>> treeItems;
 	private List<HelpElement> searchResult;
@@ -53,12 +58,12 @@ public class HelpMapViewController extends NVC implements ChangeListener<TreeIte
 	private JSBridge bridge;
 
 	public HelpMapViewController(HelpMap helpMap) {
-		this(helpMap, "helpView2", "de/tobias/utils/help/ui/assets/");
+		this(helpMap, "helpmap/view", "helpView");
 	}
 
-	public HelpMapViewController(HelpMap helpMap, String path, String rootPath) {
-		load(rootPath, rootPath);
-		
+	public HelpMapViewController(HelpMap helpMap, String rootPath, String path) {
+		load(rootPath, path);
+
 		this.helpMap = helpMap;
 		this.treeItems = new HashMap<>();
 		this.searchResult = new ArrayList<>();
@@ -109,7 +114,7 @@ public class HelpMapViewController extends NVC implements ChangeListener<TreeIte
 		isUndoing = false;
 
 		font = new FontAwesome();
-		
+
 		backButton.setGraphic(font.create(FontAwesome.Glyph.ARROW_LEFT.name()));
 		backButton.setText("");
 		backButton.setDisable(true);
@@ -121,7 +126,7 @@ public class HelpMapViewController extends NVC implements ChangeListener<TreeIte
 	@Override
 	public void initStage(Stage stage) {
 		stage.setTitle("Hilfe");
-		stage.getScene().getStylesheets().add("de/tobias/utils/help/ui/assets/style.css");
+		stage.getScene().getStylesheets().add("helpmap/style//style.css");
 		stage.setMinWidth(800);
 		stage.setMinHeight(500);
 	}
@@ -171,15 +176,14 @@ public class HelpMapViewController extends NVC implements ChangeListener<TreeIte
 		Path path = helpMap.getLocalResourcePath(helpElement.getUUID());
 
 		if (Files.exists(path)) {
-			String content = FileUtils.readFile(path);
-			return content;
+			return FileUtils.readFile(path);
 		}
 
 		Document document = new Document(DocumentType.HTMLStrict);
 
 		// CSS
 		Style style = new Style("text/css");
-		style.appendText(FileUtils.readURL(getClass().getClassLoader().getResource("de/tobias/utils/help/ui/assets/helpmap.css")));
+		style.appendText(FileUtils.readURL(getClass().getClassLoader().getResource("helpmap/style/helpmap.css")));
 		document.head.appendChild(style);
 
 		String content = helpElement.getHtmlDocument(this, document).write();
@@ -192,7 +196,7 @@ public class HelpMapViewController extends NVC implements ChangeListener<TreeIte
 
 	@Override
 	public void changed(ObservableValue<? extends TreeItem<HelpElement>> observable, TreeItem<HelpElement> oldValue,
-			TreeItem<HelpElement> newValue) {
+						TreeItem<HelpElement> newValue) {
 		if (newValue != null) {
 			try {
 				if (oldValue != null && !isUndoing) {

@@ -1,20 +1,23 @@
-package de.tobias.utils.util;
+package de.tobias.utils.threading;
 
-import de.tobias.logger.Logger;
 import de.tobias.utils.application.ApplicationUtils;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.*;
 
-public class SingleDispatch {
+public class Worker {
 
 	private static ExecutorService executorService;
+	private static List<AutoCloseable> closeableList;
 
 	static {
 		initWorker();
+		closeableList = new LinkedList<>();
 	}
 
 	private static void initWorker() {
-		int nThreads = 1;
+		int nThreads = Runtime.getRuntime().availableProcessors();
 		executorService = new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>()) {
 
 			@Override
@@ -47,11 +50,7 @@ public class SingleDispatch {
 			}
 		};
 
-		if (Logger.isInitialized()) {
-			Logger.debug("Start SingleDispatch");
-		} else {
-			System.out.println("Start SingleDispatch");
-		}
+		System.out.println("Start ExecutorService");
 	}
 
 	private static int task = 0;
@@ -63,13 +62,7 @@ public class SingleDispatch {
 		}
 		task++;
 		if (ApplicationUtils.getApplication().isDebug()) {
-
-			final String text = "Submit " + task + " task";
-			if (Logger.isInitialized()) {
-				Logger.trace(text);
-			} else {
-				System.out.println(text);
-			}
+			System.out.println("Submit " + task + " task");
 		}
 		executorService.submit(runnable, null);
 	}
@@ -77,12 +70,21 @@ public class SingleDispatch {
 	public static void shutdown() {
 		if (executorService != null) {
 			executorService.shutdown();
-			if (Logger.isInitialized()) {
-				Logger.debug("Stop SingleDispatch");
-			} else {
-				System.out.println("Stop SingleDispatch");
-			}
+			if (ApplicationUtils.getApplication().isDebug())
+				System.out.println("Stop ExecutorService");
 			executorService = null;
 		}
+
+		closeableList.forEach(i -> {
+			try {
+				i.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	public static void addCloseable(AutoCloseable autoCloseable) {
+		closeableList.add(autoCloseable);
 	}
 }

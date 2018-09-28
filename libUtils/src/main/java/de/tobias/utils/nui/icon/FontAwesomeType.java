@@ -790,7 +790,7 @@ public enum FontAwesomeType implements FontIconType {
 	YOUTUBE_PLAY("\uf16A"),
 	YOUTUBE_SQUARE("\uf166");
 
-	private static final String FONT_FILE = "de/tobias/utils/nui/icon/fontawesome-webfont.ttf";
+	private static final String FONT_FILE = "fonts/fontawesome-webfont.ttf";
 	private final String ch;
 
 	/**

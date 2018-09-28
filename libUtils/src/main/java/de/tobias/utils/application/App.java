@@ -289,7 +289,7 @@ public class App {
 		long oldVersion = container.getContainerInfo().getBuild();
 		long newVersion = appInfo.getBuild();
 
-		ApplicationUtils.getServices().forEach(service ->
+		ApplicationUtils.getUpdateServices().forEach(service ->
 		{
 			try {
 				service.update(this, oldVersion, newVersion);

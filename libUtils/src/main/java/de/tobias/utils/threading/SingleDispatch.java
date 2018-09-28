@@ -1,23 +1,20 @@
-package de.tobias.utils.util;
+package de.tobias.utils.threading;
 
+import de.tobias.logger.Logger;
 import de.tobias.utils.application.ApplicationUtils;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.*;
 
-public class Worker {
+public class SingleDispatch {
 
 	private static ExecutorService executorService;
-	private static List<AutoCloseable> closeableList;
 
 	static {
 		initWorker();
-		closeableList = new LinkedList<>();
 	}
 
 	private static void initWorker() {
-		int nThreads = Runtime.getRuntime().availableProcessors();
+		int nThreads = 1;
 		executorService = new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>()) {
 
 			@Override
@@ -50,7 +47,11 @@ public class Worker {
 			}
 		};
 
-		System.out.println("Start ExecutorService");
+		if (Logger.isInitialized()) {
+			Logger.debug("Start SingleDispatch");
+		} else {
+			System.out.println("Start SingleDispatch");
+		}
 	}
 
 	private static int task = 0;
@@ -62,7 +63,13 @@ public class Worker {
 		}
 		task++;
 		if (ApplicationUtils.getApplication().isDebug()) {
-			System.out.println("Submit " + task + " task");
+
+			final String text = "Submit " + task + " task";
+			if (Logger.isInitialized()) {
+				Logger.trace(text);
+			} else {
+				System.out.println(text);
+			}
 		}
 		executorService.submit(runnable, null);
 	}
@@ -70,21 +77,12 @@ public class Worker {
 	public static void shutdown() {
 		if (executorService != null) {
 			executorService.shutdown();
-			if (ApplicationUtils.getApplication().isDebug())
-				System.out.println("Stop ExecutorService");
+			if (Logger.isInitialized()) {
+				Logger.debug("Stop SingleDispatch");
+			} else {
+				System.out.println("Stop SingleDispatch");
+			}
 			executorService = null;
 		}
-
-		closeableList.forEach(i -> {
-			try {
-				i.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-	}
-
-	public static void addCloseable(AutoCloseable autoCloseable) {
-		closeableList.add(autoCloseable);
 	}
 }
