@@ -1,6 +1,6 @@
 import de.tobias.midi.Midi;
+import de.tobias.midi.device.MidiDevice;
 import de.tobias.midi.device.MidiDeviceInfo;
-import de.tobias.midi.event.KeyEventDispatcher;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -11,17 +11,20 @@ public class NativeTest extends Application
 	public static void main(String[] args)
 	{
 		System.load("/Users/tobias/Documents/Programmieren/Projects/nativeLibs/libMidi/Build/Products/Debug/liblibMidi.dylib");
-		MidiDeviceInfo[] data = Midi.getInstance().getMidiDevices();
 		try
 		{
-			KeyEventDispatcher.registerKeyEventHandler(keyEvent -> System.out.println(keyEvent.getKeyValue()));
+			MidiDevice.addMidiListener(System.out::println);
+			Midi.setUseNative(true);
+
+			MidiDeviceInfo[] data = Midi.getInstance().getMidiDevices();
+			System.out.println(Arrays.toString(data));
+
 			Midi.getInstance().openInputDevice(data[2]);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		System.out.println(Arrays.toString(data));
 	}
 
 	@Override

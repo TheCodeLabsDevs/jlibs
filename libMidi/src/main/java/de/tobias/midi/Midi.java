@@ -4,6 +4,8 @@ import de.tobias.midi.device.MidiDevice;
 import de.tobias.midi.device.MidiDeviceInfo;
 import de.tobias.midi.device.MidiDeviceManager;
 import de.tobias.midi.device.java.JavaDeviceManager;
+import de.tobias.midi.device.mac.MacMidiDeviceManager;
+import de.tobias.utils.util.OS;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.ShortMessage;
@@ -12,6 +14,7 @@ import java.util.Arrays;
 public class Midi implements AutoCloseable
 {
 	private static Midi INSTANCE;
+	private static boolean useNative = true;
 
 	public enum Mode
 	{
@@ -34,14 +37,14 @@ public class Midi implements AutoCloseable
 
 	private Midi()
 	{
-//		if(OS.isMacOS())
-//		{
-//			midiDeviceManager = new MacMidiDeviceManager();
-//		}
-//		else
-//		{
+		if(OS.isMacOS() && useNative)
+		{
+			midiDeviceManager = new MacMidiDeviceManager();
+		}
+		else
+		{
 			midiDeviceManager = new JavaDeviceManager();
-//		}
+		}
 	}
 
 	public MidiDeviceInfo[] getMidiDevices()
@@ -124,5 +127,15 @@ public class Midi implements AutoCloseable
 	public boolean isOpen()
 	{
 		return inputDevice != null && outputDevice != null && inputDevice.isOpen() && outputDevice.isOpen();
+	}
+
+	public static boolean isUseNative()
+	{
+		return useNative;
+	}
+
+	public static void setUseNative(boolean useNative)
+	{
+		Midi.useNative = useNative;
 	}
 }
