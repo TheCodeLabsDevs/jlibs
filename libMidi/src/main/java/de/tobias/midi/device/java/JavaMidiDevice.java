@@ -1,6 +1,6 @@
 package de.tobias.midi.device.java;
 
-import de.tobias.midi.MidiEvent;
+import de.tobias.midi.MidiCommand;
 import de.tobias.midi.MidiListener;
 import de.tobias.midi.device.MidiDevice;
 import de.tobias.midi.device.MidiDeviceInfo;
@@ -9,10 +9,11 @@ import de.tobias.midi.event.KeyEventDispatcher;
 import de.tobias.midi.event.KeyEventType;
 import de.tobias.midi.mapping.KeyType;
 
-import javax.sound.midi.MidiMessage;
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
+import java.util.Arrays;
 
 public class JavaMidiDevice extends MidiDevice implements Receiver
 {
@@ -30,11 +31,11 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 	}
 
 	@Override
-	public void send(MidiMessage message, long timeStamp)
+	public void send(javax.sound.midi.MidiMessage message, long timeStamp)
 	{
 		try
 		{
-			MidiEvent midiEvent = new MidiEvent(message);
+			MidiCommand midiEvent = new MidiCommand(message);
 
 			for(MidiListener listener : removableList)
 			{
@@ -64,6 +65,21 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 		catch(Exception e)
 		{
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void sendMidiMessage(MidiCommand midiEvent)
+	{
+		try
+		{
+			ShortMessage message = new ShortMessage(midiEvent.getMidiCommand().getMidiValue(), midiEvent.getPayload()[0], midiEvent.getPayload()[1]);
+			System.out.println("Send: " + Arrays.toString(message.getMessage()));
+			internalDevice.getReceiver().send(message, -1);
+		}
+		catch(InvalidMidiDataException | MidiUnavailableException e)
+		{
+			throw new RuntimeException(e);
 		}
 	}
 

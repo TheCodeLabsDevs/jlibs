@@ -1,5 +1,6 @@
 package de.tobias.midi.device;
 
+import de.tobias.midi.MidiCommand;
 import de.tobias.midi.MidiListener;
 
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public abstract class MidiDevice
 	{
 		return midiDeviceInfo;
 	}
+
+	public abstract void sendMidiMessage(MidiCommand midiEvent);
 
 	public abstract void closeDevice() throws Exception;
 

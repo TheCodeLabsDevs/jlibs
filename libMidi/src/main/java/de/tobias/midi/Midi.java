@@ -7,10 +7,6 @@ import de.tobias.midi.device.java.JavaDeviceManager;
 import de.tobias.midi.device.mac.MacMidiDeviceManager;
 import de.tobias.utils.util.OS;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.ShortMessage;
-import java.util.Arrays;
-
 public class Midi implements AutoCloseable
 {
 	private static Midi INSTANCE;
@@ -110,16 +106,7 @@ public class Midi implements AutoCloseable
 		{
 			if(midiCommand != 0)
 			{
-				try
-				{
-					ShortMessage message = new ShortMessage(midiCommand, midiKey, midiVelocity);
-					System.out.println("Send: " + Arrays.toString(message.getMessage()));
-					//outputDevice.getReceiver().send(message, -1); TODO
-				}
-				catch(InvalidMidiDataException /*| MidiUnavailableException*/ e)
-				{
-					throw new RuntimeException(e);
-				}
+
 			}
 		}
 	}

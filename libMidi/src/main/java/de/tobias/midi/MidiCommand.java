@@ -1,31 +1,28 @@
 package de.tobias.midi;
 
-import de.tobias.midi.device.MidiCommand;
-
-import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 import java.util.Arrays;
 
-public class MidiEvent
+public class MidiCommand
 {
 	private boolean consumed;
 
-	private final MidiCommand midiCommand;
+	private final MidiCommandType midiCommand;
 	private final byte[] payload;
 
-	public MidiEvent(MidiCommand midiCommand, byte data1, byte data2)
+	public MidiCommand(MidiCommandType midiCommand, byte data1, byte data2)
 	{
 		this(midiCommand, new byte[]{data1, data2});
 	}
 
-	public MidiEvent(MidiCommand midiCommand, byte[] payload)
+	public MidiCommand(MidiCommandType midiCommand, byte[] payload)
 	{
 		this.midiCommand = midiCommand;
 		this.payload = payload;
 	}
 
-	public MidiEvent(MidiMessage message)
+	public MidiCommand(javax.sound.midi.MidiMessage message)
 	{
 		if(message instanceof ShortMessage)
 		{
@@ -33,13 +30,13 @@ public class MidiEvent
 			switch(command)
 			{
 				case ShortMessage.NOTE_ON:
-					this.midiCommand = MidiCommand.NOTE_ON;
+					this.midiCommand = MidiCommandType.NOTE_ON;
 					break;
 				case ShortMessage.NOTE_OFF:
-					this.midiCommand = MidiCommand.NOTE_OFF;
+					this.midiCommand = MidiCommandType.NOTE_OFF;
 					break;
 				case ShortMessage.CONTROL_CHANGE:
-					this.midiCommand = MidiCommand.CONTROL_CHANGE;
+					this.midiCommand = MidiCommandType.CONTROL_CHANGE;
 					break;
 				default:
 					this.midiCommand = null;
@@ -48,7 +45,7 @@ public class MidiEvent
 		}
 		else if(message instanceof SysexMessage)
 		{
-			this.midiCommand = MidiCommand.SYSTEM_EXCLUSIVE;
+			this.midiCommand = MidiCommandType.SYSTEM_EXCLUSIVE;
 		}
 		else
 		{
@@ -70,7 +67,7 @@ public class MidiEvent
 		return consumed;
 	}
 
-	public MidiCommand getMidiCommand()
+	public MidiCommandType getMidiCommand()
 	{
 		return midiCommand;
 	}
