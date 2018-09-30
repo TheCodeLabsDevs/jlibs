@@ -63,6 +63,12 @@ public class Logger
 		}
 	}
 
+	public static void appInfo(String appName, String versionName, String versionCode, String versionDate)
+	{
+		log(LogLevel.INFO, appName + " - v" + versionName + " - (versioncode: " + versionCode + ") from " + versionDate + ")");
+	}
+
+
 	public static LogLevelFilter getLevelFilter()
 	{
 		return levelFilter;
