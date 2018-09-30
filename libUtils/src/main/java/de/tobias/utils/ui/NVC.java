@@ -11,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -164,57 +163,29 @@ public class NVC implements Alertable {
 	}
 
 	// alertable
-	public void showErrorMessage(String message) {
-		showErrorMessage(message, Optional.empty());
-	}
-
 	public void showInfoMessage(String message) {
 		showInfoMessage(message, null);
 	}
 
-	public void showErrorMessage(String message, Image icon) {
+	public void showErrorMessage(String message) {
 		if (!Platform.isFxApplicationThread()) {
-			Platform.runLater(() -> showErrorMessage(message, icon));
+			Platform.runLater(() -> showErrorMessage(message));
 			return;
 		}
 
-		Alert alert = Alerts.createAlert(AlertType.ERROR, null, message, icon);
+		Alert alert = Alerts.shared().createAlert(AlertType.ERROR, null, message);
 		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
 		alert.initModality(Modality.WINDOW_MODAL);
 		alert.showAndWait();
 	}
 
-	public void showErrorMessage(String message, Optional<Image> icon) {
+	public void showInfoMessage(String message, String header) {
 		if (!Platform.isFxApplicationThread()) {
-			Platform.runLater(() -> showErrorMessage(message, icon));
+			Platform.runLater(() -> showInfoMessage(message, header));
 			return;
 		}
 
-		Alert alert = Alerts.createAlert(AlertType.ERROR, null, message, icon.orElse(null));
-		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
-		alert.initModality(Modality.WINDOW_MODAL);
-		alert.showAndWait();
-	}
-
-	public void showInfoMessage(String message, Image icon) {
-		if (!Platform.isFxApplicationThread()) {
-			Platform.runLater(() -> showInfoMessage(message, icon));
-			return;
-		}
-
-		Alert alert = Alerts.createAlert(AlertType.INFORMATION, null, message, icon);
-		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
-		alert.initModality(Modality.WINDOW_MODAL);
-		alert.showAndWait();
-	}
-
-	public void showInfoMessage(String message, String header, Image icon) {
-		if (!Platform.isFxApplicationThread()) {
-			Platform.runLater(() -> showInfoMessage(message, header, icon));
-			return;
-		}
-
-		Alert alert = Alerts.createAlert(AlertType.INFORMATION, header, message, icon);
+		Alert alert = Alerts.shared().createAlert(AlertType.INFORMATION, header, message);
 		alert.initModality(Modality.WINDOW_MODAL);
 		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
 		alert.showAndWait();
