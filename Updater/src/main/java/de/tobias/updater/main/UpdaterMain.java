@@ -29,7 +29,7 @@ public class UpdaterMain extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		String parameter = StringUtils.build(getParameters().getRaw(), " ");
 		if (parameter.isEmpty()) {
-			Alert alert = Alerts.createAlert(Alert.AlertType.ERROR, "Initialize Error", "No Parameter defined", null);
+			Alert alert = Alerts.shared().createAlert(Alert.AlertType.ERROR, "Initialize Error", "No Parameter defined");
 			alert.showAndWait();
 			Platform.exit();
 			return;
