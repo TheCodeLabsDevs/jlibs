@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.tobias.updater.viewcontroller.UpdateViewController;
-import de.tobias.utils.nui.Alerts;
+import de.tobias.utils.ui.Alerts;
 import de.tobias.utils.util.StringUtils;
 import javafx.application.Application;
 import javafx.application.Platform;

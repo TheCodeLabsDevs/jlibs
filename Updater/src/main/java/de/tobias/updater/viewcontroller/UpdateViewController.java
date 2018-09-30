@@ -2,9 +2,9 @@ package de.tobias.updater.viewcontroller;
 
 import de.tobias.updater.Updater;
 import de.tobias.updater.main.UpdateFile;
-import de.tobias.utils.nui.NVC;
+import de.tobias.utils.threading.Worker;
+import de.tobias.utils.ui.NVC;
 import de.tobias.utils.util.NumberUtils;
-import de.tobias.utils.util.Worker;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

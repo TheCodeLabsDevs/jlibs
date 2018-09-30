@@ -6,7 +6,7 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>Updater</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -112,12 +112,12 @@
         <dependency>
             <groupId>de.tobias</groupId>
             <artifactId>libUtils</artifactId>
-            <version>1.6.4</version>
+            <version>1.7.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>de.tobias</groupId>
             <artifactId>libStorage</artifactId>
-            <version>1.2.1</version>
+            <version>1.4.0</version>
         </dependency>
 
         <dependency>
