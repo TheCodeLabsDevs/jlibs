@@ -1,6 +1,6 @@
-package de.tobias.utils.nui.scene;
+package de.tobias.utils.ui.scene;
 
-import de.tobias.utils.nui.NVC;
+import de.tobias.utils.ui.NVC;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;

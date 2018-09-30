@@ -1,4 +1,4 @@
-package de.tobias.utils.nui.icon;
+package de.tobias.utils.ui.icon;
 
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -10,7 +10,7 @@ import java.util.Map;
 public class FontIcon extends Label {
 
 	public static final String STYLE_CLASS = "fonticon";
-	private static String FONT_FILE = "de/tobias/utils/nui/icon/fontawesome-webfont.ttf";
+	private static String FONT_FILE = "de/tobias/utils/ui/icon/fontawesome-webfont.ttf";
 
 	private String fontFile = FONT_FILE;
 

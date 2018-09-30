@@ -6,7 +6,7 @@ import com.hp.gagawa.java.elements.Style;
 import de.tobias.utils.help.HelpElement;
 import de.tobias.utils.help.HelpMap;
 import de.tobias.utils.help.elements.HelpCategory;
-import de.tobias.utils.nui.NVC;
+import de.tobias.utils.ui.NVC;
 import de.tobias.utils.util.FileUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

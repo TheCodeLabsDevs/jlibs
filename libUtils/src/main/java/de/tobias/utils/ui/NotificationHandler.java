@@ -1,4 +1,4 @@
-package de.tobias.utils.nui;
+package de.tobias.utils.ui;
 
 import org.controlsfx.control.action.Action;
 

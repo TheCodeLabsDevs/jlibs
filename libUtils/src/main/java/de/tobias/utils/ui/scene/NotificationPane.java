@@ -1,4 +1,4 @@
-package de.tobias.utils.nui.scene;
+package de.tobias.utils.ui.scene;
 
 import de.tobias.utils.threading.Worker;
 import javafx.application.Platform;

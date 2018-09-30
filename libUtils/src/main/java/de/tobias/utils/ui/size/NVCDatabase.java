@@ -1,4 +1,4 @@
-package de.tobias.utils.nui.size;
+package de.tobias.utils.ui.size;
 
 import de.tobias.utils.application.App;
 import de.tobias.utils.application.ApplicationUtils;

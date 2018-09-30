@@ -1,8 +1,8 @@
-package de.tobias.utils.nui;
+package de.tobias.utils.ui;
 
-import de.tobias.utils.nui.size.IgnoreStageSizing;
-import de.tobias.utils.nui.size.NVCDatabase;
-import de.tobias.utils.nui.size.NVCItem;
+import de.tobias.utils.ui.size.IgnoreStageSizing;
+import de.tobias.utils.ui.size.NVCDatabase;
+import de.tobias.utils.ui.size.NVCItem;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;

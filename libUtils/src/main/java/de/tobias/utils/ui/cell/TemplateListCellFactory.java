@@ -1,6 +1,6 @@
-package de.tobias.utils.nui.cell;
+package de.tobias.utils.ui.cell;
 
-import de.tobias.utils.nui.DetailItem;
+import de.tobias.utils.ui.DetailItem;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;

@@ -1,4 +1,4 @@
-package de.tobias.utils.nui.icon;
+package de.tobias.utils.ui.icon;
 
 public interface FontIconType {
 

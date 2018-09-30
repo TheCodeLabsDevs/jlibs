@@ -1,4 +1,4 @@
-package de.tobias.utils.nui.icon;
+package de.tobias.utils.ui.icon;
 
 // https://bitbucket.org/Jerady/fontawesomefx/src/c54e552ed260bfe171ca15b14939b467070f6ca9/fontawesomefx/fontawesomefx-fontawesome/src/main/java/de/jensd/fx/glyphs/fontawesome/FontAwesomeIcon.java?at=master&fileviewer=file-view-default 
 public enum FontAwesomeType implements FontIconType {

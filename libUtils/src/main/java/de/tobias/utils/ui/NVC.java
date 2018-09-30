@@ -1,4 +1,4 @@
-package de.tobias.utils.nui;
+package de.tobias.utils.ui;
 
 import de.tobias.utils.threading.Worker;
 import javafx.animation.FadeTransition;

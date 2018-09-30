@@ -1,6 +1,6 @@
 // http://myjavafx.blogspot.de/2013/09/javafx-charts-display-date-values-on.html
 
-package de.tobias.utils.nui.scene;
+package de.tobias.utils.ui.scene;
 
 import com.sun.javafx.charts.ChartLayoutAnimator;
 import javafx.animation.KeyFrame;

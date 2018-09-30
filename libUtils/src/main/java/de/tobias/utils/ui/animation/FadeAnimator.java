@@ -1,4 +1,4 @@
-package de.tobias.utils.nui.animation;
+package de.tobias.utils.ui.animation;
 
 import javafx.animation.FadeTransition;
 import javafx.scene.Node;
