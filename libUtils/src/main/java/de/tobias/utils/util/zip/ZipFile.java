@@ -1,6 +1,6 @@
 package de.tobias.utils.util.zip;
 
-import de.tobias.utils.util.IOUtils;
+import de.tobias.utils.io.IOUtils;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

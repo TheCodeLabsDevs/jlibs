@@ -3,9 +3,9 @@ package de.tobias.utils.application.remote;
 import com.google.gson.Gson;
 import de.tobias.utils.application.ApplicationUtils;
 import de.tobias.utils.application.container.PathType;
+import de.tobias.utils.io.IOUtils;
 import de.tobias.utils.settings.Storage;
 import de.tobias.utils.settings.StorageTypes;
-import de.tobias.utils.util.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

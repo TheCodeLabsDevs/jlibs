@@ -5,7 +5,7 @@ import de.tobias.utils.application.ApplicationUtils;
 import de.tobias.utils.application.container.PathType;
 import de.tobias.utils.help.elements.HelpCategory;
 import de.tobias.utils.help.elements.HelpTopic;
-import de.tobias.utils.util.FileUtils;
+import de.tobias.utils.io.FileUtils;
 import javafx.scene.image.Image;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

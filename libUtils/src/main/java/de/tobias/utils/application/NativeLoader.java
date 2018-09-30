@@ -1,8 +1,8 @@
 package de.tobias.utils.application;
 
 import de.tobias.utils.application.container.PathType;
-import de.tobias.utils.util.FileUtils;
-import de.tobias.utils.util.IOUtils;
+import de.tobias.utils.io.FileUtils;
+import de.tobias.utils.io.IOUtils;
 import de.tobias.utils.util.OS;
 
 import java.io.IOException;

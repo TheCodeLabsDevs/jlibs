@@ -1,9 +1,35 @@
-package de.tobias.utils.util;
+package de.tobias.utils.io;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.file.*;
 
 public class IOUtils {
+
+	/**
+	 * Liest die angegebene URL als Bytearray ein
+	 *
+	 * @param url URL - URL
+	 * @return byte[] - Bytearray
+	 * @throws IOException
+	 */
+	public static byte[] urlToByteArray(URL url) throws IOException {
+		InputStream in = url.openStream();
+		return IOUtils.inputStreamToByteArray(in);
+	}
+
+
+	/**
+	 * Liest die angegebene URL als String ein
+	 *
+	 * @param file URL - URL
+	 * @return String - Inhalt der Datei
+	 * @throws IOException
+	 */
+	public static String readURL(URL file) throws IOException {
+		return new String(IOUtils.urlToByteArray(file));
+	}
+
 
 	public static InputStream byteArrayToInputStream(byte[] b) {
 		return new ByteArrayInputStream(b);

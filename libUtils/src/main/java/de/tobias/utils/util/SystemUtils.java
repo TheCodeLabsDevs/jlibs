@@ -1,6 +1,7 @@
 package de.tobias.utils.util;
 
 import de.tobias.utils.application.NativeLoader;
+import de.tobias.utils.io.IOUtils;
 import javafx.scene.image.Image;
 
 import java.io.File;
