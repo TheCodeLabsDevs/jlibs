@@ -3,6 +3,7 @@ package de.tobias.utils.application.container;
 import de.tobias.utils.application.App;
 import de.tobias.utils.application.ApplicationInfo;
 import de.tobias.utils.io.FileUtils;
+import de.tobias.utils.io.PathUtils;
 import de.tobias.utils.settings.Storage;
 import de.tobias.utils.settings.StorageTypes;
 import de.tobias.utils.util.SystemUtils;
@@ -39,7 +40,7 @@ public class FileContainer {
 			saveInformation();
 		}
 
-		FileUtils.createDirectoriesIfNotExists(containerPath);
+		PathUtils.createDirectoriesIfNotExists(containerPath);
 	}
 
 	public FileContainer(String bundleIdentifier) {

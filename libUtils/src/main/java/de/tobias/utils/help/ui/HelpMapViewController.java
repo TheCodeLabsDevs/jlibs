@@ -7,6 +7,7 @@ import de.tobias.utils.help.HelpElement;
 import de.tobias.utils.help.HelpMap;
 import de.tobias.utils.help.elements.HelpCategory;
 import de.tobias.utils.io.FileUtils;
+import de.tobias.utils.io.IOUtils;
 import de.tobias.utils.ui.NVC;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -183,7 +184,7 @@ public class HelpMapViewController extends NVC implements ChangeListener<TreeIte
 
 		// CSS
 		Style style = new Style("text/css");
-		style.appendText(FileUtils.readURL(getClass().getClassLoader().getResource("helpmap/style/helpmap.css")));
+		style.appendText(IOUtils.readURL(getClass().getClassLoader().getResource("helpmap/style/helpmap.css")));
 		document.head.appendChild(style);
 
 		String content = helpElement.getHtmlDocument(this, document).write();

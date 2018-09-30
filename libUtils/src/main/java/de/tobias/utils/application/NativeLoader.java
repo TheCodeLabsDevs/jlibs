@@ -1,8 +1,8 @@
 package de.tobias.utils.application;
 
 import de.tobias.utils.application.container.PathType;
-import de.tobias.utils.io.FileUtils;
 import de.tobias.utils.io.IOUtils;
+import de.tobias.utils.io.PathUtils;
 import de.tobias.utils.util.OS;
 
 import java.io.IOException;
@@ -102,7 +102,7 @@ public class NativeLoader {
 	private static final String[] nativeFileExtensions = {"dylib", "dll", "so"};
 
 	public static boolean isNativeLibraryFile(Path path) {
-		String extension = FileUtils.getFileExtension(path);
+		String extension = PathUtils.getFileExtension(path);
 		for (String e : nativeFileExtensions) {
 			if (e.equalsIgnoreCase(extension)) {
 				return true;

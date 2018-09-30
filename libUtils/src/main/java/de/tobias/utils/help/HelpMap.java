@@ -5,7 +5,7 @@ import de.tobias.utils.application.ApplicationUtils;
 import de.tobias.utils.application.container.PathType;
 import de.tobias.utils.help.elements.HelpCategory;
 import de.tobias.utils.help.elements.HelpTopic;
-import de.tobias.utils.io.FileUtils;
+import de.tobias.utils.io.IOUtils;
 import javafx.scene.image.Image;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -104,7 +104,7 @@ public class HelpMap {
 
 	public byte[] loadImage(String name) throws IOException {
 		URL url = getClass().getClassLoader().getResource(classPath + "/" + imagePath + "/" + name);
-		return FileUtils.urlToByteArray(url);
+		return IOUtils.urlToByteArray(url);
 	}
 
 	public Path getLocalResourcePath(UUID elementUuid) {
