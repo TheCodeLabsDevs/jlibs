@@ -133,12 +133,12 @@
         <dependency>
             <groupId>de.tobias</groupId>
             <artifactId>libStorage</artifactId>
-            <version>1.2.1</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
             <groupId>de.tobias</groupId>
             <artifactId>libLogger</artifactId>
-            <version>1.3.7</version>
+            <version>1.3.9</version>
         </dependency>
     </dependencies>
 

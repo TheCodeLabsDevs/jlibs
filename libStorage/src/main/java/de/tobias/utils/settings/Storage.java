@@ -1,7 +1,5 @@
 package de.tobias.utils.settings;
 
-import de.tobias.logger.Logger;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -43,7 +41,7 @@ public class Storage {
                 Files.createDirectories(path.getParent());
                 Files.createFile(path);
 
-                Logger.debug("Create new Config: {0}", path);
+                System.out.println("Create new Config: " + path);
                 T instance = clazz.newInstance();
                 handler.serialize(path, instance);
                 return instance;
