@@ -8,17 +8,26 @@
     <artifactId>libMidi</artifactId>
     <version>2.0.0-SNAPSHOT</version>
 
+    <properties>
+        <gson.version>2.8.5</gson.version>
+        <libUtils.version>1.7.0</libUtils.version>
+
+        <project.headerDir>${project.basedir}/target/jni/libMidi/include</project.headerDir>
+        <java.version>1.8</java.version>
+    </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.5</version>
+            <version>${gson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.tobias</groupId>
             <artifactId>libUtils</artifactId>
-            <version>1.6.9</version>
+            <version>${libUtils.version}</version>
         </dependency>
     </dependencies>
 
@@ -28,8 +37,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -46,7 +55,7 @@
                         <configuration>
                             <javahClass>de.tobias.midi.device.mac.MacMidiDeviceManager</javahClass>
                             <javahOutputFilePath>
-                                ${project.basedir}/target/jni/libMidi/include/de_tobias_midi_device_mac_MacMidiDeviceManager.h
+                                ${project.headerDir}/de_tobias_midi_device_mac_MacMidiDeviceManager.h
                             </javahOutputFilePath>
                         </configuration>
                     </execution>
@@ -59,7 +68,7 @@
                         <configuration>
                             <javahClass>de.tobias.midi.device.mac.MacMidiDevice</javahClass>
                             <javahOutputFilePath>
-                                ${project.basedir}/target/jni/libMidi/include/de_tobias_midi_device_mac_MacMidiDevice.h
+                                ${project.headerDir}/de_tobias_midi_device_mac_MacMidiDevice.h
                             </javahOutputFilePath>
                         </configuration>
                     </execution>

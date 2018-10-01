@@ -8,24 +8,20 @@
     <artifactId>libStorage</artifactId>
     <version>1.4.1</version>
 
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <properties>
+        <java.version>1.8</java.version>
+
+        <dom4j.version>2.1.0</dom4j.version>
+        <guava.version>23.3-jre</guava.version>
+        <snakeyaml.version>1.19</snakeyaml.version>
+        <YAMLStorage.version>1.0.0</YAMLStorage.version>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.dom4j</groupId>
             <artifactId>dom4j</artifactId>
-            <version>2.1.0</version>
+            <version>${dom4j.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>jaxen</groupId>
@@ -37,19 +33,32 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>23.3-jre</version>
+            <version>${guava.version}</version>
         </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.19</version>
+            <version>${snakeyaml.version}</version>
         </dependency>
         <dependency>
             <groupId>de.tobias</groupId>
             <artifactId>YAMLStorage</artifactId>
-            <version>1.0.0</version>
+            <version>${YAMLStorage.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <distributionManagement>
         <repository>

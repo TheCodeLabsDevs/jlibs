@@ -10,7 +10,8 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.*;
 import de.tobias.google.Authentication;
 import de.tobias.google.Service;
-import de.tobias.utils.util.FileUtils;
+import de.tobias.utils.io.FileUtils;
+import de.tobias.utils.io.PathUtils;
 
 import javax.activation.MimetypesFileTypeMap;
 import java.io.FileOutputStream;
@@ -379,7 +380,7 @@ public class Drive extends Service {
 	}
 
 	public static String getMimeType(Path path) {
-		switch (FileUtils.getFileExtension(path)) {
+		switch (PathUtils.getFileExtension(path)) {
 			case "xls":
 				return "application/vnd.ms-excel";
 			case "xlsx":
@@ -423,7 +424,7 @@ public class Drive extends Service {
 			case "jar":
 				return "application/java-archive";
 			default:
-				System.out.println("Search for mime type: " + FileUtils.getFileExtention(path));
+				System.out.println("Search for mime type: " + PathUtils.getFileExtension(path));
 				MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
 				return mimeTypesMap.getContentType(path.toFile().getName());
 
