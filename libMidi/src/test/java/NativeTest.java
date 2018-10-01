@@ -19,11 +19,9 @@ public class NativeTest extends Application
 			MidiDeviceInfo[] data = Midi.getInstance().getMidiDevices();
 			System.out.println(Arrays.toString(data));
 
-			Midi.getInstance().openInputDevice(data[2]);
+			Midi.getInstance().openDevice(data[1]);
 
-			System.out.println(Midi.getInstance().getDevice(Midi.Mode.INPUT));
-			System.out.println(Midi.getInstance().isModeSupported(Midi.Mode.INPUT));
-			System.out.println(Midi.getInstance().isModeSupported(Midi.Mode.OUTPUT));
+			System.out.println(Midi.getInstance().getDevice());
 		}
 		catch(Exception e)
 		{

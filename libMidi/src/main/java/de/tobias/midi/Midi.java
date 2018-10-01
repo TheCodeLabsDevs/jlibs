@@ -19,8 +19,7 @@ public class Midi implements AutoCloseable
 
 	private MidiDeviceManager midiDeviceManager;
 
-	private MidiDevice inputDevice;
-	private MidiDevice outputDevice;
+	private MidiDevice device;
 
 	public static Midi getInstance()
 	{
@@ -48,72 +47,33 @@ public class Midi implements AutoCloseable
 		return midiDeviceManager.listDevices();
 	}
 
-	public MidiDevice getDevice(Mode mode)
+	public MidiDevice getDevice()
 	{
-		switch(mode)
-		{
-			case INPUT:
-				return inputDevice;
-			case OUTPUT:
-				return outputDevice;
-		}
-		return null;
+		return device;
 	}
 
 	public void openDevice(MidiDeviceInfo deviceInfo, Mode... modes) throws Exception
 	{
-		for(Mode mode : modes)
+		if(modes == null || modes.length == 0)
 		{
-			if(mode == Mode.INPUT)
-			{
-				openInputDevice(deviceInfo);
-			}
-			else if(mode == Mode.OUTPUT)
-			{
-				openOutputDevice(deviceInfo);
-			}
-			else
-			{
-				throw new RuntimeException("Midi Mode not supported: " + mode);
-			}
+			modes = new Mode[]{Mode.INPUT, Mode.OUTPUT};
 		}
-	}
-
-	public void openInputDevice(MidiDeviceInfo deviceInfo) throws Exception
-	{
-		inputDevice = midiDeviceManager.openInputDevice(deviceInfo);
-	}
-
-	public void openOutputDevice(MidiDeviceInfo deviceInfo) throws Exception
-	{
-		outputDevice = midiDeviceManager.openOutputDevice(deviceInfo);
-	}
-
-	public boolean isModeSupported(Mode mode)
-	{
-		return getDevice(mode) != null;
+		device = midiDeviceManager.openDevice(deviceInfo, modes);
 	}
 
 	public void close() throws Exception
 	{
-		inputDevice.closeDevice();
-		outputDevice.closeDevice();
+		device.closeDevice();
 	}
 
 	public void sendMessage(int midiCommand, int midiKey, int midiVelocity)
 	{
-		if(isModeSupported(Mode.OUTPUT))
-		{
-			if(midiCommand != 0)
-			{
-				// TODO Implement send command
-			}
-		}
+
 	}
 
 	public boolean isOpen()
 	{
-		return inputDevice != null && outputDevice != null && inputDevice.isOpen() && outputDevice.isOpen();
+		return device.isOpen();
 	}
 
 	public static boolean isUseNative()

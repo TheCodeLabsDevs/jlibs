@@ -21,11 +21,8 @@ public class MainTest
 
 			Mapping.setCurrentMapping(mapping);
 
-			Midi.getInstance().openInputDevice(new MidiDeviceInfo("PD 12", "PD 12"));
-			Midi.getInstance().openOutputDevice(new MidiDeviceInfo("PD 12", "PD 12"));
-
-			System.out.println(Midi.getInstance().isModeSupported(Midi.Mode.INPUT));
-			System.out.println(Midi.getInstance().isModeSupported(Midi.Mode.OUTPUT));
+			Midi.setUseNative(false);
+			Midi.getInstance().openDevice(new MidiDeviceInfo("PD 12", "PD 12"), Midi.Mode.INPUT, Midi.Mode.OUTPUT);
 		}
 		catch(Exception e)
 		{

@@ -1,10 +1,10 @@
 package de.tobias.midi.device;
 
+import de.tobias.midi.Midi;
+
 public interface MidiDeviceManager
 {
 	MidiDeviceInfo[] listDevices();
 
-	MidiDevice openInputDevice(MidiDeviceInfo deviceInfo) throws Exception;
-
-	MidiDevice openOutputDevice(MidiDeviceInfo deviceInfo) throws Exception;
+	MidiDevice openDevice(MidiDeviceInfo deviceInfo, Midi.Mode... modes) throws Exception;
 }

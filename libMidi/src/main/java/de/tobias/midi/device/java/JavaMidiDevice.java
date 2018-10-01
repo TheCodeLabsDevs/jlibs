@@ -1,5 +1,6 @@
 package de.tobias.midi.device.java;
 
+import de.tobias.midi.Midi;
 import de.tobias.midi.MidiCommand;
 import de.tobias.midi.MidiCommandHandler;
 import de.tobias.midi.device.MidiDevice;
@@ -10,17 +11,12 @@ import java.util.Arrays;
 
 public class JavaMidiDevice extends MidiDevice implements Receiver
 {
-	private javax.sound.midi.MidiDevice internalDevice;
+	private javax.sound.midi.MidiDevice internalInputDevice;
+	private javax.sound.midi.MidiDevice internalOutputDevice;
 
-	JavaMidiDevice(MidiDeviceInfo midiDeviceInfo, javax.sound.midi.MidiDevice internalDevice)
+	JavaMidiDevice(MidiDeviceInfo midiDeviceInfo)
 	{
 		super(midiDeviceInfo);
-		this.internalDevice = internalDevice;
-	}
-
-	javax.sound.midi.MidiDevice getInternalDevice()
-	{
-		return internalDevice;
 	}
 
 	@Override
@@ -37,7 +33,7 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 		{
 			ShortMessage message = new ShortMessage(midiEvent.getMidiCommand().getMidiValue(), midiEvent.getPayload()[0], midiEvent.getPayload()[1]);
 			System.out.println("Send: " + Arrays.toString(message.getMessage()));
-			internalDevice.getReceiver().send(message, -1);
+			internalOutputDevice.getReceiver().send(message, -1);
 		}
 		catch(InvalidMidiDataException | MidiUnavailableException e)
 		{
@@ -54,24 +50,118 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 	@Override
 	public void closeDevice() throws MidiUnavailableException
 	{
-		internalDevice.getTransmitter().close();
-		internalDevice.getReceiver().close();
-		internalDevice.close();
+		closeOutput();
+		closeInput();
 	}
 
-	void open() throws MidiUnavailableException
+	private void closeInput() throws MidiUnavailableException
 	{
-		internalDevice.open();
+		if(internalInputDevice != null)
+		{
+			internalInputDevice.getTransmitter().close();
+			internalInputDevice.close();
+		}
 	}
 
-	void setReceiver(Receiver receiver) throws MidiUnavailableException
+	private void closeOutput() throws MidiUnavailableException
 	{
-		internalDevice.getTransmitter().setReceiver(receiver);
+		if(internalOutputDevice != null)
+		{
+			internalOutputDevice.getReceiver().close();
+			internalOutputDevice.close();
+		}
 	}
 
 	@Override
 	public boolean isOpen()
 	{
-		return internalDevice.isOpen();
+		return internalInputDevice.isOpen() || internalOutputDevice.isOpen();
+	}
+
+	void lookupMidiDevice(MidiDeviceInfo deviceInfo, Midi.Mode... modes) throws IllegalArgumentException, MidiUnavailableException, NullPointerException
+	{
+		final String name = deviceInfo.getName();
+		boolean first = true;
+
+		javax.sound.midi.MidiDevice.Info input = null;
+		javax.sound.midi.MidiDevice.Info output = null;
+
+		for(javax.sound.midi.MidiDevice.Info item : MidiSystem.getMidiDeviceInfo())
+		{
+			if(item.getName().equals(name))
+			{
+				if(first)
+				{
+					input = item;
+					first = false;
+				}
+				else
+				{
+					output = item;
+				}
+			}
+		}
+
+		if(input == null)
+		{
+			throw new MidiUnavailableException("Midi device " + name + " unavailable");
+		}
+
+		for(Midi.Mode mode : modes)
+		{
+			if(mode == Midi.Mode.INPUT)
+			{
+				setMidiInputDevice(input);
+			}
+			else if(mode == Midi.Mode.OUTPUT)
+			{
+				setMidiOutputDevice(output);
+			}
+		}
+	}
+
+	private void setMidiInputDevice(javax.sound.midi.MidiDevice.Info input) throws MidiUnavailableException, IllegalArgumentException
+	{
+		javax.sound.midi.MidiDevice newInputDevice = MidiSystem.getMidiDevice(input);
+		if(newInputDevice == null)
+		{
+			return;
+		}
+
+		// Check if old device equals new device
+		if(this.internalInputDevice != null && this.internalInputDevice == newInputDevice)
+		{
+			return;
+		}
+
+		// Close Old Devices
+		closeInput();
+
+		this.internalInputDevice = newInputDevice;
+
+		Transmitter trans = internalInputDevice.getTransmitter();
+		trans.setReceiver(this);
+		internalInputDevice.open();
+	}
+
+	private void setMidiOutputDevice(javax.sound.midi.MidiDevice.Info output) throws MidiUnavailableException, IllegalArgumentException
+	{
+		javax.sound.midi.MidiDevice newOutputDevice = MidiSystem.getMidiDevice(output);
+		if(newOutputDevice == null)
+		{
+			return;
+		}
+
+		// Check if old device equals new device
+		if(this.internalOutputDevice != null && this.internalOutputDevice == newOutputDevice)
+		{
+			return;
+		}
+
+		// Close Old Devices
+		closeOutput();
+
+		this.internalOutputDevice = newOutputDevice;
+		internalOutputDevice.open();
 	}
 }
