@@ -66,9 +66,9 @@ public class Midi implements AutoCloseable
 		device.closeDevice();
 	}
 
-	public void sendMessage(int midiCommand, int midiKey, int midiVelocity)
+	public void sendMessage(MidiCommand midiCommand)
 	{
-
+		device.sendMidiMessage(midiCommand);
 	}
 
 	public boolean isOpen()

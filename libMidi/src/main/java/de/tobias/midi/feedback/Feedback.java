@@ -2,35 +2,35 @@ package de.tobias.midi.feedback;
 
 public class Feedback
 {
-	private int channel;
-	private int value;
+	private byte channel;
+	private byte value;
 
 	public Feedback()
 	{
 	}
 
-	public Feedback(int channel, int value)
+	public Feedback(byte channel, byte value)
 	{
 		this.channel = channel;
 		this.value = value;
 	}
 
-	public int getChannel()
+	public byte getChannel()
 	{
 		return channel;
 	}
 
-	public void setChannel(int channel)
+	public void setChannel(byte channel)
 	{
 		this.channel = channel;
 	}
 
-	public int getValue()
+	public byte getValue()
 	{
 		return value;
 	}
 
-	public void setValue(int value)
+	public void setValue(byte value)
 	{
 		this.value = value;
 	}

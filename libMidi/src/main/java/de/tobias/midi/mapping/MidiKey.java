@@ -1,6 +1,8 @@
 package de.tobias.midi.mapping;
 
 import de.tobias.midi.Midi;
+import de.tobias.midi.MidiCommand;
+import de.tobias.midi.MidiCommandType;
 import de.tobias.midi.feedback.Feedback;
 import de.tobias.midi.feedback.FeedbackType;
 
@@ -8,7 +10,7 @@ import java.util.Objects;
 
 public class MidiKey extends Key
 {
-	private int value;
+	private byte value;
 
 	private Feedback defaultFeedback;
 	private Feedback eventFeedback;
@@ -17,12 +19,12 @@ public class MidiKey extends Key
 	{
 	}
 
-	public MidiKey(int value)
+	public MidiKey(byte value)
 	{
 		this.value = value;
 	}
 
-	public MidiKey(int value, Feedback defaultFeedback, Feedback eventFeedback)
+	public MidiKey(byte value, Feedback defaultFeedback, Feedback eventFeedback)
 	{
 		this.value = value;
 		this.defaultFeedback = defaultFeedback;
@@ -35,12 +37,12 @@ public class MidiKey extends Key
 		return KeyType.MIDI;
 	}
 
-	public int getValue()
+	public byte getValue()
 	{
 		return value;
 	}
 
-	public void setValue(int value)
+	public void setValue(byte value)
 	{
 		this.value = value;
 	}
@@ -89,7 +91,8 @@ public class MidiKey extends Key
 		Feedback feedback = getFeedbackForType(feedbackType);
 		if(feedback != null)
 		{
-			Midi.getInstance().sendMessage(feedback.getChannel(), getValue(), feedback.getValue());
+			MidiCommand midiCommand = new MidiCommand(MidiCommandType.NOTE_ON, getValue(), feedback.getValue());
+			Midi.getInstance().sendMessage(midiCommand);
 		}
 	}
 

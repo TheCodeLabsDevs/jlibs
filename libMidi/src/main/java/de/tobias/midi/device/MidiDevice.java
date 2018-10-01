@@ -1,5 +1,6 @@
 package de.tobias.midi.device;
 
+import de.tobias.midi.Midi;
 import de.tobias.midi.MidiCommand;
 
 public abstract class MidiDevice
@@ -21,5 +22,7 @@ public abstract class MidiDevice
 	public abstract void closeDevice() throws Exception;
 
 	public abstract boolean isOpen();
+
+	public abstract boolean isModeSupported(Midi.Mode mode);
 
 }

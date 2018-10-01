@@ -31,7 +31,7 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 	{
 		try
 		{
-			ShortMessage message = new ShortMessage(midiEvent.getMidiCommand().getMidiValue(), midiEvent.getPayload()[0], midiEvent.getPayload()[1]);
+			ShortMessage message = new ShortMessage(midiEvent.getMidiCommand().getMidiValue() + midiEvent.getChannel(), midiEvent.getPayload()[0], midiEvent.getPayload()[1]);
 			System.out.println("Send: " + Arrays.toString(message.getMessage()));
 			internalOutputDevice.getReceiver().send(message, -1);
 		}
@@ -163,5 +163,18 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 
 		this.internalOutputDevice = newOutputDevice;
 		internalOutputDevice.open();
+	}
+
+	@Override
+	public boolean isModeSupported(Midi.Mode mode)
+	{
+		switch(mode)
+		{
+			case INPUT:
+				return internalInputDevice != null;
+			case OUTPUT:
+				return internalOutputDevice != null;
+		}
+		throw new IllegalArgumentException("Unknown Midi Mode: " + mode);
 	}
 }

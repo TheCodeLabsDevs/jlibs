@@ -10,7 +10,6 @@ import de.tobias.midi.mapping.KeyboardKey;
 import de.tobias.midi.mapping.MidiKey;
 import javafx.scene.input.KeyCode;
 
-import javax.sound.midi.ShortMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -80,20 +79,22 @@ public class Mapping
 	{
 		final int maxMainKeyNumber = 89;
 
-		for(int i = 11; i <= maxMainKeyNumber; i++)
+		for(byte i = 11; i <= maxMainKeyNumber; i++)
 		{
 			// Node_On = 144
-			Midi.getInstance().sendMessage(ShortMessage.NOTE_ON, i, 0);
+			MidiCommand midiCommand = new MidiCommand(MidiCommandType.NOTE_ON, i, (byte) 0);
+			Midi.getInstance().sendMessage(midiCommand);
 		}
 
 		// Obere Reihe an Tasten
 		final int liveKeyMin = 104;
 		final int liveKeyMax = 111;
 
-		for(int i = liveKeyMin; i <= liveKeyMax; i++)
+		for(byte i = liveKeyMin; i <= liveKeyMax; i++)
 		{
 			// Control_Change = 176
-			Midi.getInstance().sendMessage(ShortMessage.CONTROL_CHANGE, i, 0);
+			MidiCommand midiCommand = new MidiCommand(MidiCommandType.CONTROL_CHANGE, i, (byte) 0);
+			Midi.getInstance().sendMessage(midiCommand);
 		}
 	}
 

@@ -9,16 +9,18 @@ public class MidiCommand
 	private boolean consumed;
 
 	private final MidiCommandType midiCommand;
+	private final byte channel;
 	private final byte[] payload;
 
 	public MidiCommand(MidiCommandType midiCommand, byte data1, byte data2)
 	{
-		this(midiCommand, new byte[]{data1, data2});
+		this(midiCommand, (byte) 0, new byte[]{data1, data2});
 	}
 
-	public MidiCommand(MidiCommandType midiCommand, byte[] payload)
+	public MidiCommand(MidiCommandType midiCommand, byte channel, byte[] payload)
 	{
 		this.midiCommand = midiCommand;
+		this.channel = channel;
 		this.payload = payload;
 	}
 
@@ -55,6 +57,13 @@ public class MidiCommand
 		byte[] data = new byte[message.getLength() - 1];
 		System.arraycopy(message.getMessage(), 1, data, 0, message.getLength() - 1);
 		this.payload = data;
+
+		this.channel = 0;
+	}
+
+	public MidiCommand(MidiCommandType command, byte channel, byte data1, byte data2)
+	{
+		this(command, channel, new byte[]{data1, data2});
 	}
 
 	public void consume()
@@ -70,6 +79,11 @@ public class MidiCommand
 	public MidiCommandType getMidiCommand()
 	{
 		return midiCommand;
+	}
+
+	public byte getChannel()
+	{
+		return channel;
 	}
 
 	public byte[] getPayload()
