@@ -1,6 +1,7 @@
 package de.tobias.midi.device.mac;
 
 import de.tobias.midi.MidiCommand;
+import de.tobias.midi.MidiCommandHandler;
 import de.tobias.midi.device.MidiDevice;
 import de.tobias.midi.device.MidiDeviceInfo;
 
@@ -20,8 +21,8 @@ public class MacMidiDevice extends MidiDevice
 	@Override
 	public native boolean isOpen();
 
-	public static void handleMidiEvent(MidiCommand event)
+	private static void handleMidiEvent(MidiCommand midiCommand)
 	{
-		System.out.println("Native: " + event);
+		MidiCommandHandler.getInstance().handleCommand(midiCommand);
 	}
 }
