@@ -21,7 +21,6 @@
                 <artifactId>jni-headers-maven-plugin</artifactId>
                 <version>1.0.6</version>
                 <executions>
-                    <!-- generate header for native methods -->
                     <execution>
                         <id>de.tobias.utils.util.mac.AwakeUtils</id>
                         <phase>compile</phase>
@@ -65,6 +64,38 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>unix</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <version>1.6.0</version>
+                        <executions>
+                            <execution>
+                                <id>Remove Signing</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${basedir}/scripts/pre-deploy.sh</executable>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
