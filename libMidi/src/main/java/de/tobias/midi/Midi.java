@@ -52,6 +52,18 @@ public class Midi implements AutoCloseable
 		return midiDeviceManager.listDevices();
 	}
 
+	public MidiDeviceInfo getMidiDeviceInfo(String name)
+	{
+		for(MidiDeviceInfo info : getMidiDevices())
+		{
+			if(info.getName().equals(name))
+			{
+				return info;
+			}
+		}
+		return null;
+	}
+
 	public MidiDevice getDevice()
 	{
 		return device;
