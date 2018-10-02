@@ -24,41 +24,38 @@ public class MidiCommand
 		this.payload = payload;
 	}
 
-	public MidiCommand(javax.sound.midi.MidiMessage message)
+	public MidiCommand(byte[] data)
 	{
-		if(message instanceof ShortMessage)
+		int command = Byte.toUnsignedInt(data[0]);
+		switch(command)
 		{
-			int command = Byte.toUnsignedInt(message.getMessage()[0]);
-			switch(command)
-			{
-				case ShortMessage.NOTE_ON:
-					this.midiCommand = MidiCommandType.NOTE_ON;
-					break;
-				case ShortMessage.NOTE_OFF:
-					this.midiCommand = MidiCommandType.NOTE_OFF;
-					break;
-				case ShortMessage.CONTROL_CHANGE:
-					this.midiCommand = MidiCommandType.CONTROL_CHANGE;
-					break;
-				default:
-					this.midiCommand = null;
-					break;
-			}
-		}
-		else if(message instanceof SysexMessage)
-		{
-			this.midiCommand = MidiCommandType.SYSTEM_EXCLUSIVE;
-		}
-		else
-		{
-			this.midiCommand = null;
+			case ShortMessage.NOTE_ON:
+				this.midiCommand = MidiCommandType.NOTE_ON;
+				break;
+			case ShortMessage.NOTE_OFF:
+				this.midiCommand = MidiCommandType.NOTE_OFF;
+				break;
+			case ShortMessage.CONTROL_CHANGE:
+				this.midiCommand = MidiCommandType.CONTROL_CHANGE;
+				break;
+			case SysexMessage.SYSTEM_EXCLUSIVE:
+				this.midiCommand = MidiCommandType.SYSTEM_EXCLUSIVE;
+				break;
+			default:
+				this.midiCommand = null;
+				break;
 		}
 
-		byte[] data = new byte[message.getLength() - 1];
-		System.arraycopy(message.getMessage(), 1, data, 0, message.getLength() - 1);
-		this.payload = data;
+		byte[] payload = new byte[data.length - 1];
+		System.arraycopy(data, 1, payload, 0, data.length - 1);
+		this.payload = payload;
 
 		this.channel = 0;
+	}
+
+	public MidiCommand(javax.sound.midi.MidiMessage message)
+	{
+		this(message.getMessage());
 	}
 
 	public MidiCommand(MidiCommandType command, byte channel, byte data1, byte data2)

@@ -29,15 +29,19 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 	@Override
 	public void sendMidiMessage(MidiCommand midiEvent)
 	{
-		try
+		if(isModeSupported(Midi.Mode.OUTPUT))
 		{
-			ShortMessage message = new ShortMessage(midiEvent.getMidiCommand().getMidiValue() + midiEvent.getChannel(), midiEvent.getPayload()[0], midiEvent.getPayload()[1]);
-			System.out.println("Send: " + Arrays.toString(message.getMessage()));
-			internalOutputDevice.getReceiver().send(message, -1);
-		}
-		catch(InvalidMidiDataException | MidiUnavailableException e)
-		{
-			throw new RuntimeException(e);
+			try
+			{
+				final byte[] payload = midiEvent.getPayload();
+				ShortMessage message = new ShortMessage(midiEvent.getMidiCommand().getMidiValue() + midiEvent.getChannel(), payload[0], payload[1]);
+				System.out.println("Send: " + Arrays.toString(message.getMessage()));
+				internalOutputDevice.getReceiver().send(message, -1);
+			}
+			catch(InvalidMidiDataException | MidiUnavailableException e)
+			{
+				throw new RuntimeException(e);
+			}
 		}
 	}
 

@@ -14,7 +14,7 @@ public class JavaDeviceManager implements MidiDeviceManager
 	public MidiDeviceInfo[] listDevices()
 	{
 		final MidiDevice.Info[] midiDeviceInfo = MidiSystem.getMidiDeviceInfo();
-		return Stream.of(midiDeviceInfo).map(device -> new MidiDeviceInfo(device.getName(), device.getDescription())).toArray(MidiDeviceInfo[]::new);
+		return Stream.of(midiDeviceInfo).map(device -> new MidiDeviceInfo(device.getName(), device.getDescription(), device.getVendor())).toArray(MidiDeviceInfo[]::new);
 	}
 
 	@Override

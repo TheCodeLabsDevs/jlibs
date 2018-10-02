@@ -22,7 +22,7 @@ public class MainTest
 			Mapping.setCurrentMapping(mapping);
 
 			Midi.setUseNative(false);
-			Midi.getInstance().openDevice(new MidiDeviceInfo("PD 12", "PD 12"), Midi.Mode.INPUT, Midi.Mode.OUTPUT);
+			Midi.getInstance().openDevice(new MidiDeviceInfo("PD 12", "PD 12", ""), Midi.Mode.INPUT, Midi.Mode.OUTPUT);
 		}
 		catch(Exception e)
 		{
