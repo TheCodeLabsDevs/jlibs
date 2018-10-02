@@ -38,3 +38,8 @@ JNIEXPORT void JNICALL Java_de_tobias_utils_util_mac_NativeApplication_setAppear
         NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
     }
 }
+
+JNIEXPORT void JNICALL Java_de_tobias_utils_util_mac_NativeApplication_showFileInFileViewer_1N (JNIEnv * env, jclass cls, jstring file) {
+    NSString* nsFile = [NSString stringFromJava:file env:env];
+    [[NSWorkspace sharedWorkspace] selectFile:nsFile inFileViewerRootedAtPath:nsFile];
+}
