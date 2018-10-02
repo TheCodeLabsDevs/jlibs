@@ -6,14 +6,14 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>libMidi</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.0.0</version>
 
     <properties>
+        <java.version>1.8</java.version>
+
         <gson.version>2.8.5</gson.version>
         <libUtils.version>1.7.0</libUtils.version>
-
-        <project.headerDir>${project.basedir}/target/jni/libMidi/include</project.headerDir>
-        <java.version>1.8</java.version>
+        <coremidi4j.version>1.1</coremidi4j.version>
     </properties>
 
 
@@ -30,9 +30,10 @@
             <version>${libUtils.version}</version>
         </dependency>
         <dependency>
+            <!--TheCodeLabs Repo-->
             <groupId>uk.co.xfactory-librarians</groupId>
             <artifactId>coremidi4j</artifactId>
-            <version>1.1</version>
+            <version>${coremidi4j.version}</version>
         </dependency>
     </dependencies>
 
@@ -45,39 +46,6 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.alexkasko.maven</groupId>
-                <artifactId>jni-headers-maven-plugin</artifactId>
-                <version>1.0.6</version>
-                <executions>
-                    <execution>
-                        <id>de.tobias.midi.device.mac.MacMidiDeviceManager</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>javah</goal>
-                        </goals>
-                        <configuration>
-                            <javahClass>de.tobias.midi.device.mac.MacMidiDeviceManager</javahClass>
-                            <javahOutputFilePath>
-                                ${project.headerDir}/de_tobias_midi_device_mac_MacMidiDeviceManager.h
-                            </javahOutputFilePath>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>de.tobias.midi.device.mac.MacMidiDevice</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>javah</goal>
-                        </goals>
-                        <configuration>
-                            <javahClass>de.tobias.midi.device.mac.MacMidiDevice</javahClass>
-                            <javahOutputFilePath>
-                                ${project.headerDir}/de_tobias_midi_device_mac_MacMidiDevice.h
-                            </javahOutputFilePath>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
