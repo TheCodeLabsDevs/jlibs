@@ -4,8 +4,9 @@ import de.tobias.midi.device.MidiDevice;
 import de.tobias.midi.device.MidiDeviceInfo;
 import de.tobias.midi.device.MidiDeviceManager;
 import de.tobias.midi.device.java.JavaDeviceManager;
-import de.tobias.midi.device.mac.MacMidiDeviceManager;
 import de.tobias.utils.util.OS;
+import uk.co.xfactorylibrarians.coremidi4j.CoreMidiDeviceProvider;
+import uk.co.xfactorylibrarians.coremidi4j.CoreMidiException;
 
 public class Midi implements AutoCloseable
 {
@@ -34,12 +35,16 @@ public class Midi implements AutoCloseable
 	{
 		if(OS.isMacOS() && useNative)
 		{
-			midiDeviceManager = new MacMidiDeviceManager();
+			try
+			{
+				CoreMidiDeviceProvider.isLibraryLoaded();
+			}
+			catch(CoreMidiException e)
+			{
+				throw new RuntimeException(e);
+			}
 		}
-		else
-		{
-			midiDeviceManager = new JavaDeviceManager();
-		}
+		midiDeviceManager = new JavaDeviceManager();
 	}
 
 	public MidiDeviceInfo[] getMidiDevices()
