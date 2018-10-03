@@ -8,21 +8,15 @@ import de.tobias.utils.util.ImageUtils;
 import de.tobias.utils.util.OS;
 import javafx.scene.image.Image;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 public class MacNativeApplication extends NativeApplication {
 
 	private static boolean loaded = false;
 
-	public static void loadNativeLibrary() {
+	private static void loadNativeLibrary() {
 		if (!loaded && OS.isMacOS()) {
-			try {
-				Path path = NativeLoader.copy("libUtilsNative.dylib", "libraries", MacNativeApplication.class);
-				System.load(path.toString());
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
+			NativeLoader.load("libUtilsNative.dylib", "libraries", MacNativeApplication.class);
 			loaded = !loaded;
 		}
 	}
