@@ -2,8 +2,10 @@ package de.tobias.utils.ui;
 
 import de.tobias.utils.util.ColorUtils;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -11,7 +13,7 @@ public class Alerts {
 
 	private static Alerts sharedInstance;
 
-	public static Alerts shared() {
+	public static Alerts getInstance() {
 		if (sharedInstance == null) {
 			sharedInstance = new Alerts();
 		}
@@ -46,10 +48,10 @@ public class Alerts {
 		this.defaultBaseColor = defaultBaseColor;
 	}
 
-	public Alert createAlert(Alert.AlertType alertType, String title, String message) {
+	public Alert createAlert(AlertType alertType, String title, String message) {
 		Alert alert = new Alert(alertType);
 		if (title != null) {
-			alert.setHeaderText(title);
+			alert.setTitle(title);
 		}
 
 		if (defaultHeaderText != null) {
@@ -57,10 +59,11 @@ public class Alerts {
 		}
 
 		if (defaultBaseColor != null) {
-			alert.getDialogPane().setStyle("-fx-base: " + ColorUtils.toRGBHex(defaultBaseColor));
+			alert.getDialogPane().setStyle("-fx-base: " + ColorUtils.toRGBHexWithoutOpacity(defaultBaseColor));
 		}
 
 		alert.setContentText(message);
+		alert.initModality(Modality.WINDOW_MODAL);
 		if (defaultIcon != null) {
 			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 			stage.getIcons().add(defaultIcon);
@@ -70,13 +73,13 @@ public class Alerts {
 		return alert;
 	}
 
-	public Alert createAlert(Alert.AlertType alertType, String title, String message, Window owner) {
+	public Alert createAlert(AlertType alertType, String title, String message, Window owner) {
 		Alert alert = createAlert(alertType, title, message);
 		alert.initOwner(owner);
 		return alert;
 	}
 
-	public Alert createAlert(Alert.AlertType alertType, String title, String headerText, String message, Window owner) {
+	public Alert createAlert(AlertType alertType, String title, String headerText, String message, Window owner) {
 		Alert alert = createAlert(alertType, title, message);
 		alert.setHeaderText(headerText);
 		alert.initOwner(owner);

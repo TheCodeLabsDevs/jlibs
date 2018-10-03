@@ -63,10 +63,10 @@ public final class ApplicationUtils {
 	}
 
 	/**
-	 * Get Apllication. If the main application is null, this returns the shared
+	 * Get Application. If the main application is null, this returns the shared
 	 * application.
 	 *
-	 * @return
+	 * @return App
 	 */
 	public static App getApplication() {
 		if (mainApplication == null) {

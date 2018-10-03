@@ -173,7 +173,7 @@ public class NVC implements Alertable {
 			return;
 		}
 
-		Alert alert = Alerts.shared().createAlert(AlertType.ERROR, null, message);
+		Alert alert = Alerts.getInstance().createAlert(AlertType.ERROR, null, message);
 		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
 		alert.initModality(Modality.WINDOW_MODAL);
 		alert.showAndWait();
@@ -185,7 +185,7 @@ public class NVC implements Alertable {
 			return;
 		}
 
-		Alert alert = Alerts.shared().createAlert(AlertType.INFORMATION, header, message);
+		Alert alert = Alerts.getInstance().createAlert(AlertType.INFORMATION, header, message);
 		alert.initModality(Modality.WINDOW_MODAL);
 		stageContainer.ifPresent(nvcStage -> alert.initOwner(nvcStage.getStage()));
 		alert.showAndWait();
