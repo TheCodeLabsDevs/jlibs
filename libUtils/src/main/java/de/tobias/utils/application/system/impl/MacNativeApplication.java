@@ -1,29 +1,35 @@
-package de.tobias.utils.util.mac;
+package de.tobias.utils.application.system.impl;
 
+import de.tobias.utils.application.system.NativeApplication;
 import de.tobias.utils.util.ImageUtils;
 import javafx.scene.image.Image;
 
 import java.nio.file.Path;
 
-public class NativeApplication {
+public class MacNativeApplication extends NativeApplication {
 
-	public static void setDockIcon(Image image) {
+	@Override
+	public void setDockIcon(Image image) {
 		setDockIcon(ImageUtils.imageToByteArray(image));
 	}
 
-	public static void setDockIconBadge(int i) {
+	@Override
+	public void setDockIconBadge(int i) {
 		setDockIconBadge_N(i);
 	}
 
-	public static void setDockIconHidden(boolean hidden) {
+	@Override
+	public void setDockIconHidden(boolean hidden) {
 		setDockIconHidden_N(hidden);
 	}
 
-	public static void setAppearance(boolean darkAqua) {
+	@Override
+	public void setAppearance(boolean darkAqua) {
 		setAppearance_N(darkAqua);
 	}
 
-	public static void showFileInFileViewer(Path path) {
+	@Override
+	public void showFileInFileViewer(Path path) {
 		showFileInFileViewer_N(path.toString());
 	}
 

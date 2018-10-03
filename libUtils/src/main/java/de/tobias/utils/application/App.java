@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class App {
+public final class App {
 
 	/**
 	 * Main Class for the application
@@ -84,7 +84,7 @@ public class App {
 	/**
 	 * Create a new app with app information
 	 *
-	 * @param info
+	 * @param info app Info
 	 */
 	public App(ApplicationInfo info) {
 		appInfo = info;

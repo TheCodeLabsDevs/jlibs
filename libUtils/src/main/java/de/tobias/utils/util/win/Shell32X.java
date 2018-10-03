@@ -1,8 +1,5 @@
 package de.tobias.utils.util.win;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
@@ -13,6 +10,9 @@ import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 import com.sun.jna.platform.win32.WinReg.HKEY;
 import com.sun.jna.win32.W32APIOptions;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This class allows on windows to use the UAC, to run an exe file with higher permissions.
@@ -59,7 +59,7 @@ public interface Shell32X extends Shell32 {
 
 	boolean ShellExecuteEx(SHELLEXECUTEINFO lpExecInfo);
 
-	public static class SHELLEXECUTEINFO extends Structure {
+	class SHELLEXECUTEINFO extends Structure {
 		/*
 		 * DWORD cbSize; ULONG fMask; HWND hwnd; LPCTSTR lpVerb; LPCTSTR lpFile; LPCTSTR lpParameters; LPCTSTR lpDirectory; int nShow;
 		 * HINSTANCE hInstApp; LPVOID lpIDList; LPCTSTR lpClass; HKEY hkeyClass; DWORD dwHotKey; union { HANDLE hIcon; HANDLE hMonitor; }
@@ -87,8 +87,8 @@ public interface Shell32X extends Shell32 {
 		public HANDLE hProcess;
 
 		protected List<String> getFieldOrder() {
-			return Arrays.asList(new String[] { "cbSize", "fMask", "hwnd", "lpVerb", "lpFile", "lpParameters", "lpDirectory", "nShow",
-					"hInstApp", "lpIDList", "lpClass", "hKeyClass", "dwHotKey", "hMonitor", "hProcess", });
+			return Arrays.asList("cbSize", "fMask", "hwnd", "lpVerb", "lpFile", "lpParameters", "lpDirectory", "nShow",
+					"hInstApp", "lpIDList", "lpClass", "hKeyClass", "dwHotKey", "hMonitor", "hProcess");
 		}
 	}
 
