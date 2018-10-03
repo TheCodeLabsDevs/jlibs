@@ -65,7 +65,7 @@ public class Logger
 
 	public static void appInfo(String appName, String versionName, String versionCode, String versionDate)
 	{
-		log(LogLevel.INFO, appName + " - v" + versionName + " - (versioncode: " + versionCode + ") from " + versionDate + ")");
+		log(LogLevel.INFO, appName + " - v" + versionName + " - (versioncode: " + versionCode + " from " + versionDate + ")");
 	}
 
 

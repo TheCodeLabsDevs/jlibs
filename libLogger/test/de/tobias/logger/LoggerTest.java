@@ -11,5 +11,6 @@ public class LoggerTest {
 		Logger.log(LogLevel.TRACE, "Test");
 		System.out.println("binopmü");
 		System.out.print("ibnomp");
+		Logger.appInfo("Sample Project", "1.0.0", "1", "01.01.1970");
 	}
 }
