@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F6240B5320C2821A003756FF /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = F62CAB7520C202E800DB3354 /* Utils.m */; };
-		F6240B5420C2821A003756FF /* AwakeUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = F6F5E88420C2051A00CB4FF2 /* AwakeUtils.c */; };
+		F6240B5420C2821A003756FF /* AwakeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5E88420C2051A00CB4FF2 /* AwakeUtils.m */; };
 		F6240B5520C2821A003756FF /* NativeApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5E88520C2051A00CB4FF2 /* NativeApplication.m */; };
 		F6452AA320C3EFD700A2EFF6 /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = F62CAB7420C202E800DB3354 /* Utils.h */; };
 		F6452AA920C4050200A2EFF6 /* de_tobias_utils_util_mac_NativeApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = F6452AA620C4050100A2EFF6 /* de_tobias_utils_util_mac_NativeApplication.h */; };
@@ -34,7 +34,7 @@
 		F6452AA720C4050100A2EFF6 /* de_tobias_utils_util_SystemUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = de_tobias_utils_util_SystemUtils.h; path = ../../../libUtils/target/jni/libUtils/include/de_tobias_utils_util_SystemUtils.h; sourceTree = "<group>"; };
 		F6452AA820C4050100A2EFF6 /* de_tobias_utils_util_mac_AwakeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = de_tobias_utils_util_mac_AwakeUtils.h; path = ../../../libUtils/target/jni/libUtils/include/de_tobias_utils_util_mac_AwakeUtils.h; sourceTree = "<group>"; };
 		F6F5E86F20C2050800CB4FF2 /* libUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libUtils.h; sourceTree = "<group>"; };
-		F6F5E88420C2051A00CB4FF2 /* AwakeUtils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AwakeUtils.c; sourceTree = "<group>"; };
+		F6F5E88420C2051A00CB4FF2 /* AwakeUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwakeUtils.m; sourceTree = "<group>"; };
 		F6F5E88520C2051A00CB4FF2 /* NativeApplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeApplication.m; sourceTree = "<group>"; };
 		F6F5E89120C2057200CB4FF2 /* libUtilsNative.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libUtilsNative.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -75,7 +75,7 @@
 				F6452AA720C4050100A2EFF6 /* de_tobias_utils_util_SystemUtils.h */,
 				F62CAB7420C202E800DB3354 /* Utils.h */,
 				F62CAB7520C202E800DB3354 /* Utils.m */,
-				F6F5E88420C2051A00CB4FF2 /* AwakeUtils.c */,
+				F6F5E88420C2051A00CB4FF2 /* AwakeUtils.m */,
 				F6F5E88520C2051A00CB4FF2 /* NativeApplication.m */,
 				F62CAB5F20C1E53E00DB3354 /* jni */,
 				F6F5E86F20C2050800CB4FF2 /* libUtils.h */,
@@ -187,7 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6240B5320C2821A003756FF /* Utils.m in Sources */,
-				F6240B5420C2821A003756FF /* AwakeUtils.c in Sources */,
+				F6240B5420C2821A003756FF /* AwakeUtils.m in Sources */,
 				F6240B5520C2821A003756FF /* NativeApplication.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

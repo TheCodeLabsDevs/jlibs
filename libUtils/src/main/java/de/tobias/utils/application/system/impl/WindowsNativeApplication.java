@@ -1,13 +1,43 @@
 package de.tobias.utils.application.system.impl;
 
+import com.sun.jna.WString;
+import com.sun.jna.platform.win32.Kernel32;
+import com.sun.jna.platform.win32.Kernel32Util;
 import de.tobias.utils.application.system.NativeApplication;
 import de.tobias.utils.application.system.NativeFeatureNotSupported;
+import de.tobias.utils.util.win.Shell32X;
+import de.tobias.utils.util.win.User32X;
 import javafx.scene.image.Image;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
 public class WindowsNativeApplication extends NativeApplication {
+
+	// http://stackoverflow.com/questions/11041509/elevating-a-processbuilder-process-via-uac
+	@Override
+	public void executeAsAdministrator(String command, String args) {
+		Shell32X.SHELLEXECUTEINFO execInfo = new Shell32X.SHELLEXECUTEINFO();
+		execInfo.lpFile = new WString(command);
+		if (args != null)
+			execInfo.lpParameters = new WString(args);
+		execInfo.nShow = Shell32X.SW_SHOWDEFAULT;
+		execInfo.fMask = Shell32X.SEE_MASK_NOCLOSEPROCESS;
+		execInfo.lpVerb = new WString("runas");
+		boolean result = Shell32X.INSTANCE.ShellExecuteEx(execInfo);
+
+		if (!result) {
+			int lastError = Kernel32.INSTANCE.GetLastError();
+			String errorMessage = Kernel32Util.formatMessageFromLastErrorCode(lastError);
+			throw new RuntimeException(
+					"Error performing elevation: " + lastError + ": " + errorMessage + " (apperror=" + execInfo.hInstApp + ")");
+		}
+	}
+
+	@Override
+	public boolean isTouchInputAvailable() {
+		return User32X.isTouchAvailable();
+	}
 
 	@Override
 	@NativeFeatureNotSupported

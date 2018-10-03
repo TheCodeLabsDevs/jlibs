@@ -13,7 +13,7 @@ public enum NativeFeature {
 		this.methodName = methodName;
 	}
 
-	public String getMethodName() {
+	String getMethodName() {
 		return methodName;
 	}
 }

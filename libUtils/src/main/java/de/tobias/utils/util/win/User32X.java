@@ -9,8 +9,8 @@ public interface User32X extends User32 {
 	User32X INSTANCE = (User32X) Native.loadLibrary("user32", User32X.class, W32APIOptions.UNICODE_OPTIONS);
 
 	int GetSystemMetrics(int nIndex);
-	
-	public static boolean isTouchAvailable() {
+
+	static boolean isTouchAvailable() {
 		return User32X.INSTANCE.GetSystemMetrics(95) > 0;
 	}
 }

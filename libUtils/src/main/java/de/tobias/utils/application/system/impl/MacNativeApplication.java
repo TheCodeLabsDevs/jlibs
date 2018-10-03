@@ -1,12 +1,25 @@
 package de.tobias.utils.application.system.impl;
 
 import de.tobias.utils.application.system.NativeApplication;
+import de.tobias.utils.application.system.NativeFeatureNotSupported;
 import de.tobias.utils.util.ImageUtils;
 import javafx.scene.image.Image;
 
 import java.nio.file.Path;
 
 public class MacNativeApplication extends NativeApplication {
+
+	@Override
+	@NativeFeatureNotSupported
+	public void executeAsAdministrator(String command, String args) {
+
+	}
+
+	@Override
+	@NativeFeatureNotSupported
+	public boolean isTouchInputAvailable() {
+		return false;
+	}
 
 	@Override
 	public void setDockIcon(Image image) {

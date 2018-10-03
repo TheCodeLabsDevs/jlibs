@@ -1,6 +1,7 @@
 package de.tobias.utils.application.system;
 
 import de.tobias.utils.application.system.impl.MacNativeApplication;
+import de.tobias.utils.application.system.impl.WindowsNativeApplication;
 import de.tobias.utils.util.OS;
 import javafx.scene.image.Image;
 
@@ -15,13 +16,10 @@ public abstract class NativeApplication {
 		if (shared == null) {
 			switch (OS.getType()) {
 				case Windows:
-					shared = null;
+					shared = new WindowsNativeApplication();
 					break;
 				case MacOSX:
 					shared = new MacNativeApplication();
-					break;
-				default:
-					shared = null;
 					break;
 			}
 		}
@@ -41,11 +39,9 @@ public abstract class NativeApplication {
 
 	// Awake
 
-	// Run as Admin
+	public abstract void executeAsAdministrator(String command, String args);
 
-	// Explorer/Finder
-
-	// isTouch
+	public abstract boolean isTouchInputAvailable();
 
 	public abstract void setDockIcon(Image image);
 
