@@ -1,29 +1,11 @@
 package de.tobias.utils.util;
 
-import de.tobias.utils.application.NativeLoader;
-import de.tobias.utils.io.IOUtils;
-import javafx.scene.image.Image;
-
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class SystemUtils {
-
-	private static boolean loaded = false;
-
-	public static void loadNativeLibrary() {
-		if (!loaded && OS.isMacOS()) {
-			try {
-				NativeLoader.copy("libUtilsNative.dylib", "libraries", SystemUtils.class);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-			loaded = !loaded;
-		}
-	}
 
 	public static Path getApplicationSupportDirectoryPath(String name) {
 		switch (OS.getType()) {
@@ -62,12 +44,5 @@ public class SystemUtils {
 	public static boolean isRootUser() {
 		return System.getenv().get("USER").equalsIgnoreCase("root");
 	}
-
-	// File Icon
-	public static Image getImageForFile(Path file) {
-		return new Image(IOUtils.byteArrayToInputStream(getImageForFile_N(file.toString())));
-	}
-
-	private static native byte[] getImageForFile_N(String path);
 
 }

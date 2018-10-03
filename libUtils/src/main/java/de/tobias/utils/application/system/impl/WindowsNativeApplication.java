@@ -78,4 +78,9 @@ public class WindowsNativeApplication extends NativeApplication {
 		}
 
 	}
+
+	@Override
+	public Image getImageForFile(Path file) {
+		return null;
+	}
 }

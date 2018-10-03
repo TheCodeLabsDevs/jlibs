@@ -52,4 +52,6 @@ public abstract class NativeApplication {
 	public abstract void setAppearance(boolean darkAqua);
 
 	public abstract void showFileInFileViewer(Path path);
+
+	public abstract Image getImageForFile(Path file);
 }

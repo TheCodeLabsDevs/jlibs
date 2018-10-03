@@ -1,13 +1,35 @@
 package de.tobias.utils.application.system.impl;
 
+import de.tobias.utils.application.NativeLoader;
 import de.tobias.utils.application.system.NativeApplication;
 import de.tobias.utils.application.system.NativeFeatureNotSupported;
+import de.tobias.utils.io.IOUtils;
 import de.tobias.utils.util.ImageUtils;
+import de.tobias.utils.util.OS;
 import javafx.scene.image.Image;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
 public class MacNativeApplication extends NativeApplication {
+
+	private static boolean loaded = false;
+
+	public static void loadNativeLibrary() {
+		if (!loaded && OS.isMacOS()) {
+			try {
+				Path path = NativeLoader.copy("libUtilsNative.dylib", "libraries", MacNativeApplication.class);
+				System.load(path.toString());
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			loaded = !loaded;
+		}
+	}
+
+	public MacNativeApplication() {
+		loadNativeLibrary();
+	}
 
 	@Override
 	@NativeFeatureNotSupported
@@ -23,7 +45,7 @@ public class MacNativeApplication extends NativeApplication {
 
 	@Override
 	public void setDockIcon(Image image) {
-		setDockIcon(ImageUtils.imageToByteArray(image));
+		setDockIcon_N(ImageUtils.imageToByteArray(image));
 	}
 
 	@Override
@@ -46,11 +68,16 @@ public class MacNativeApplication extends NativeApplication {
 		showFileInFileViewer_N(path.toString());
 	}
 
+	@Override
+	public Image getImageForFile(Path file) {
+		return new Image(IOUtils.byteArrayToInputStream(getImageForFile_N(file.toString())));
+	}
+
 	/*
 	 Native methods
 	 */
 
-	private static native void setDockIcon(byte[] image);
+	private static native void setDockIcon_N(byte[] image);
 
 	private static native void setDockIconBadge_N(int i);
 
@@ -59,4 +86,6 @@ public class MacNativeApplication extends NativeApplication {
 	private static native void setAppearance_N(boolean darkAqua);
 
 	private static native void showFileInFileViewer_N(String file);
+
+	private static native byte[] getImageForFile_N(String path);
 }
