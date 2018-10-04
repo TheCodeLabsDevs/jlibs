@@ -1,0 +1,412 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F60F20DC19DC8DAB00742BFC /* de_tobias_systemtray_SystemTray.h in Headers */ = {isa = PBXBuildFile; fileRef = F60F20C019DC8DAB00742BFC /* de_tobias_systemtray_SystemTray.h */; };
+		F60F20DD19DC8DAB00742BFC /* de_tobias_systemtray_SystemTrayItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F60F20C119DC8DAB00742BFC /* de_tobias_systemtray_SystemTrayItem.h */; };
+		F60F20E319DC8DAB00742BFC /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = F60F20C719DC8DAB00742BFC /* Menu.m */; };
+		F60F20E419DC8DAB00742BFC /* MenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F60F20C819DC8DAB00742BFC /* MenuItem.m */; };
+		F60F20E519DC8DAB00742BFC /* SubMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F60F20C919DC8DAB00742BFC /* SubMenu.m */; };
+		F60F20E619DC8DAB00742BFC /* SystemTray.m in Sources */ = {isa = PBXBuildFile; fileRef = F60F20CA19DC8DAB00742BFC /* SystemTray.m */; };
+		F60F20E719DC8DAB00742BFC /* SystemTrayItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F60F20CB19DC8DAB00742BFC /* SystemTrayItem.m */; };
+		F60F20E819DC8DAB00742BFC /* SystemTrayNative.h in Headers */ = {isa = PBXBuildFile; fileRef = F60F20CC19DC8DAB00742BFC /* SystemTrayNative.h */; };
+		F60F20E919DC8DAB00742BFC /* SystemTrayNative.m in Sources */ = {isa = PBXBuildFile; fileRef = F60F20CD19DC8DAB00742BFC /* SystemTrayNative.m */; };
+		F60F20EA19DC8DAB00742BFC /* TUMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = F60F20CE19DC8DAB00742BFC /* TUMenu.h */; };
+		F60F20EB19DC8DAB00742BFC /* TUMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F60F20CF19DC8DAB00742BFC /* TUMenu.m */; };
+		F60F20EC19DC8DAB00742BFC /* TUMenuItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F60F20D019DC8DAB00742BFC /* TUMenuItem.h */; };
+		F60F20ED19DC8DAB00742BFC /* TUMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F60F20D119DC8DAB00742BFC /* TUMenuItem.m */; };
+		F60F20EE19DC8DAB00742BFC /* TUSubMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = F60F20D219DC8DAB00742BFC /* TUSubMenu.h */; };
+		F60F20EF19DC8DAB00742BFC /* TUSubMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F60F20D319DC8DAB00742BFC /* TUSubMenu.m */; };
+		F60F20F019DC8DAB00742BFC /* TUSystemTrayItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F60F20D419DC8DAB00742BFC /* TUSystemTrayItem.h */; };
+		F60F20F119DC8DAB00742BFC /* TUSystemTrayItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F60F20D519DC8DAB00742BFC /* TUSystemTrayItem.m */; };
+		F6A8751A19E708D10012EE59 /* TUNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = F6A8751819E708D10012EE59 /* TUNotification.h */; };
+		F6A8751B19E708D10012EE59 /* TUNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A8751919E708D10012EE59 /* TUNotification.m */; };
+		F6B21E3819DEAC0700EBB614 /* de_tobias_systemtray_menu_Menu.h in Headers */ = {isa = PBXBuildFile; fileRef = F6B21E3419DEAC0700EBB614 /* de_tobias_systemtray_menu_Menu.h */; };
+		F6B21E3919DEAC0700EBB614 /* de_tobias_systemtray_menu_MenuItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F6B21E3519DEAC0700EBB614 /* de_tobias_systemtray_menu_MenuItem.h */; };
+		F6B21E3A19DEAC0700EBB614 /* de_tobias_systemtray_menu_SubMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = F6B21E3619DEAC0700EBB614 /* de_tobias_systemtray_menu_SubMenu.h */; };
+		F6CD85D819DEF777000EEAB0 /* classfile_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = F6CD85D019DEF777000EEAB0 /* classfile_constants.h */; };
+		F6CD85D919DEF777000EEAB0 /* jawt_md.h in Headers */ = {isa = PBXBuildFile; fileRef = F6CD85D119DEF777000EEAB0 /* jawt_md.h */; };
+		F6CD85DA19DEF777000EEAB0 /* jawt.h in Headers */ = {isa = PBXBuildFile; fileRef = F6CD85D219DEF777000EEAB0 /* jawt.h */; };
+		F6CD85DB19DEF777000EEAB0 /* jdwpTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = F6CD85D319DEF777000EEAB0 /* jdwpTransport.h */; };
+		F6CD85DC19DEF777000EEAB0 /* jni_md.h in Headers */ = {isa = PBXBuildFile; fileRef = F6CD85D419DEF777000EEAB0 /* jni_md.h */; };
+		F6CD85DD19DEF777000EEAB0 /* jni.h in Headers */ = {isa = PBXBuildFile; fileRef = F6CD85D519DEF777000EEAB0 /* jni.h */; };
+		F6CD85DE19DEF777000EEAB0 /* jvmti.h in Headers */ = {isa = PBXBuildFile; fileRef = F6CD85D619DEF777000EEAB0 /* jvmti.h */; };
+		F6CD85DF19DEF777000EEAB0 /* jvmticmlr.h in Headers */ = {isa = PBXBuildFile; fileRef = F6CD85D719DEF777000EEAB0 /* jvmticmlr.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F60F20AB19DC8D9400742BFC /* libSystemTrayOSX.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSystemTrayOSX.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		F60F20C019DC8DAB00742BFC /* de_tobias_systemtray_SystemTray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = de_tobias_systemtray_SystemTray.h; sourceTree = "<group>"; };
+		F60F20C119DC8DAB00742BFC /* de_tobias_systemtray_SystemTrayItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = de_tobias_systemtray_SystemTrayItem.h; sourceTree = "<group>"; };
+		F60F20C719DC8DAB00742BFC /* Menu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Menu.m; sourceTree = "<group>"; };
+		F60F20C819DC8DAB00742BFC /* MenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItem.m; sourceTree = "<group>"; };
+		F60F20C919DC8DAB00742BFC /* SubMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubMenu.m; sourceTree = "<group>"; };
+		F60F20CA19DC8DAB00742BFC /* SystemTray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemTray.m; sourceTree = "<group>"; };
+		F60F20CB19DC8DAB00742BFC /* SystemTrayItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemTrayItem.m; sourceTree = "<group>"; };
+		F60F20CC19DC8DAB00742BFC /* SystemTrayNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemTrayNative.h; sourceTree = "<group>"; };
+		F60F20CD19DC8DAB00742BFC /* SystemTrayNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemTrayNative.m; sourceTree = "<group>"; };
+		F60F20CE19DC8DAB00742BFC /* TUMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUMenu.h; sourceTree = "<group>"; };
+		F60F20CF19DC8DAB00742BFC /* TUMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUMenu.m; sourceTree = "<group>"; };
+		F60F20D019DC8DAB00742BFC /* TUMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUMenuItem.h; sourceTree = "<group>"; };
+		F60F20D119DC8DAB00742BFC /* TUMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUMenuItem.m; sourceTree = "<group>"; };
+		F60F20D219DC8DAB00742BFC /* TUSubMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUSubMenu.h; sourceTree = "<group>"; };
+		F60F20D319DC8DAB00742BFC /* TUSubMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUSubMenu.m; sourceTree = "<group>"; };
+		F60F20D419DC8DAB00742BFC /* TUSystemTrayItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUSystemTrayItem.h; sourceTree = "<group>"; };
+		F60F20D519DC8DAB00742BFC /* TUSystemTrayItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUSystemTrayItem.m; sourceTree = "<group>"; };
+		F6A8751819E708D10012EE59 /* TUNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUNotification.h; sourceTree = "<group>"; };
+		F6A8751919E708D10012EE59 /* TUNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUNotification.m; sourceTree = "<group>"; };
+		F6B21E3419DEAC0700EBB614 /* de_tobias_systemtray_menu_Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = de_tobias_systemtray_menu_Menu.h; sourceTree = "<group>"; };
+		F6B21E3519DEAC0700EBB614 /* de_tobias_systemtray_menu_MenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = de_tobias_systemtray_menu_MenuItem.h; sourceTree = "<group>"; };
+		F6B21E3619DEAC0700EBB614 /* de_tobias_systemtray_menu_SubMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = de_tobias_systemtray_menu_SubMenu.h; sourceTree = "<group>"; };
+		F6CD85D019DEF777000EEAB0 /* classfile_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = classfile_constants.h; sourceTree = "<group>"; };
+		F6CD85D119DEF777000EEAB0 /* jawt_md.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jawt_md.h; sourceTree = "<group>"; };
+		F6CD85D219DEF777000EEAB0 /* jawt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jawt.h; sourceTree = "<group>"; };
+		F6CD85D319DEF777000EEAB0 /* jdwpTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jdwpTransport.h; sourceTree = "<group>"; };
+		F6CD85D419DEF777000EEAB0 /* jni_md.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jni_md.h; sourceTree = "<group>"; };
+		F6CD85D519DEF777000EEAB0 /* jni.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jni.h; sourceTree = "<group>"; };
+		F6CD85D619DEF777000EEAB0 /* jvmti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jvmti.h; sourceTree = "<group>"; };
+		F6CD85D719DEF777000EEAB0 /* jvmticmlr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jvmticmlr.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F60F20A819DC8D9400742BFC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F60F20A219DC8D9400742BFC = {
+			isa = PBXGroup;
+			children = (
+				F60F20AD19DC8D9400742BFC /* SystemTrayOSX */,
+				F60F20AC19DC8D9400742BFC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F60F20AC19DC8D9400742BFC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F60F20AB19DC8D9400742BFC /* libSystemTrayOSX.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F60F20AD19DC8D9400742BFC /* SystemTrayOSX */ = {
+			isa = PBXGroup;
+			children = (
+				F6CD85E019DEF77C000EEAB0 /* jni */,
+				F60F20F319DC8DC800742BFC /* java */,
+				F60F20F419DC8DDB00742BFC /* Cocoa */,
+				F60F20CC19DC8DAB00742BFC /* SystemTrayNative.h */,
+				F60F20CD19DC8DAB00742BFC /* SystemTrayNative.m */,
+			);
+			path = SystemTrayOSX;
+			sourceTree = "<group>";
+		};
+		F60F20F319DC8DC800742BFC /* java */ = {
+			isa = PBXGroup;
+			children = (
+				F6B21E3419DEAC0700EBB614 /* de_tobias_systemtray_menu_Menu.h */,
+				F6B21E3519DEAC0700EBB614 /* de_tobias_systemtray_menu_MenuItem.h */,
+				F6B21E3619DEAC0700EBB614 /* de_tobias_systemtray_menu_SubMenu.h */,
+				F60F20C019DC8DAB00742BFC /* de_tobias_systemtray_SystemTray.h */,
+				F60F20C119DC8DAB00742BFC /* de_tobias_systemtray_SystemTrayItem.h */,
+				F60F20C719DC8DAB00742BFC /* Menu.m */,
+				F60F20C819DC8DAB00742BFC /* MenuItem.m */,
+				F60F20C919DC8DAB00742BFC /* SubMenu.m */,
+				F60F20CA19DC8DAB00742BFC /* SystemTray.m */,
+				F60F20CB19DC8DAB00742BFC /* SystemTrayItem.m */,
+			);
+			name = java;
+			sourceTree = "<group>";
+		};
+		F60F20F419DC8DDB00742BFC /* Cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				F60F20CE19DC8DAB00742BFC /* TUMenu.h */,
+				F60F20CF19DC8DAB00742BFC /* TUMenu.m */,
+				F60F20D019DC8DAB00742BFC /* TUMenuItem.h */,
+				F60F20D119DC8DAB00742BFC /* TUMenuItem.m */,
+				F60F20D219DC8DAB00742BFC /* TUSubMenu.h */,
+				F60F20D319DC8DAB00742BFC /* TUSubMenu.m */,
+				F60F20D419DC8DAB00742BFC /* TUSystemTrayItem.h */,
+				F60F20D519DC8DAB00742BFC /* TUSystemTrayItem.m */,
+				F6A8751819E708D10012EE59 /* TUNotification.h */,
+				F6A8751919E708D10012EE59 /* TUNotification.m */,
+			);
+			name = Cocoa;
+			sourceTree = "<group>";
+		};
+		F6CD85E019DEF77C000EEAB0 /* jni */ = {
+			isa = PBXGroup;
+			children = (
+				F6CD85D019DEF777000EEAB0 /* classfile_constants.h */,
+				F6CD85D119DEF777000EEAB0 /* jawt_md.h */,
+				F6CD85D219DEF777000EEAB0 /* jawt.h */,
+				F6CD85D319DEF777000EEAB0 /* jdwpTransport.h */,
+				F6CD85D419DEF777000EEAB0 /* jni_md.h */,
+				F6CD85D519DEF777000EEAB0 /* jni.h */,
+				F6CD85D619DEF777000EEAB0 /* jvmti.h */,
+				F6CD85D719DEF777000EEAB0 /* jvmticmlr.h */,
+			);
+			name = jni;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		F60F20A919DC8D9400742BFC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F6CD85DB19DEF777000EEAB0 /* jdwpTransport.h in Headers */,
+				F6B21E3819DEAC0700EBB614 /* de_tobias_systemtray_menu_Menu.h in Headers */,
+				F6B21E3919DEAC0700EBB614 /* de_tobias_systemtray_menu_MenuItem.h in Headers */,
+				F60F20E819DC8DAB00742BFC /* SystemTrayNative.h in Headers */,
+				F6CD85DA19DEF777000EEAB0 /* jawt.h in Headers */,
+				F60F20F019DC8DAB00742BFC /* TUSystemTrayItem.h in Headers */,
+				F6CD85DD19DEF777000EEAB0 /* jni.h in Headers */,
+				F6B21E3A19DEAC0700EBB614 /* de_tobias_systemtray_menu_SubMenu.h in Headers */,
+				F6CD85DE19DEF777000EEAB0 /* jvmti.h in Headers */,
+				F60F20DC19DC8DAB00742BFC /* de_tobias_systemtray_SystemTray.h in Headers */,
+				F6CD85D919DEF777000EEAB0 /* jawt_md.h in Headers */,
+				F6CD85DF19DEF777000EEAB0 /* jvmticmlr.h in Headers */,
+				F60F20DD19DC8DAB00742BFC /* de_tobias_systemtray_SystemTrayItem.h in Headers */,
+				F60F20EE19DC8DAB00742BFC /* TUSubMenu.h in Headers */,
+				F6CD85D819DEF777000EEAB0 /* classfile_constants.h in Headers */,
+				F60F20EA19DC8DAB00742BFC /* TUMenu.h in Headers */,
+				F60F20EC19DC8DAB00742BFC /* TUMenuItem.h in Headers */,
+				F6A8751A19E708D10012EE59 /* TUNotification.h in Headers */,
+				F6CD85DC19DEF777000EEAB0 /* jni_md.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		F60F20AA19DC8D9400742BFC /* SystemTrayOSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F60F20B619DC8D9400742BFC /* Build configuration list for PBXNativeTarget "SystemTrayOSX" */;
+			buildPhases = (
+				F60F20A719DC8D9400742BFC /* Sources */,
+				F60F20A819DC8D9400742BFC /* Frameworks */,
+				F60F20A919DC8D9400742BFC /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SystemTrayOSX;
+			productName = SystemTrayOSX;
+			productReference = F60F20AB19DC8D9400742BFC /* libSystemTrayOSX.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F60F20A319DC8D9400742BFC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = Tobias;
+				TargetAttributes = {
+					F60F20AA19DC8D9400742BFC = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = F60F20A619DC8D9400742BFC /* Build configuration list for PBXProject "SystemTrayOSX" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F60F20A219DC8D9400742BFC;
+			productRefGroup = F60F20AC19DC8D9400742BFC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F60F20AA19DC8D9400742BFC /* SystemTrayOSX */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F60F20A719DC8D9400742BFC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F60F20E619DC8DAB00742BFC /* SystemTray.m in Sources */,
+				F60F20E919DC8DAB00742BFC /* SystemTrayNative.m in Sources */,
+				F60F20EF19DC8DAB00742BFC /* TUSubMenu.m in Sources */,
+				F6A8751B19E708D10012EE59 /* TUNotification.m in Sources */,
+				F60F20E319DC8DAB00742BFC /* Menu.m in Sources */,
+				F60F20EB19DC8DAB00742BFC /* TUMenu.m in Sources */,
+				F60F20ED19DC8DAB00742BFC /* TUMenuItem.m in Sources */,
+				F60F20F119DC8DAB00742BFC /* TUSystemTrayItem.m in Sources */,
+				F60F20E419DC8DAB00742BFC /* MenuItem.m in Sources */,
+				F60F20E519DC8DAB00742BFC /* SubMenu.m in Sources */,
+				F60F20E719DC8DAB00742BFC /* SystemTrayItem.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F60F20B419DC8D9400742BFC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F60F20B519DC8D9400742BFC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F60F20B719DC8D9400742BFC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = "";
+				INFOPLIST_PREPROCESS = NO;
+				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
+				INSTALL_PATH = /;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SystemTrayOSX",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F60F20B819DC8D9400742BFC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = "";
+				INFOPLIST_PREPROCESS = NO;
+				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
+				INSTALL_PATH = /;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SystemTrayOSX",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F60F20A619DC8D9400742BFC /* Build configuration list for PBXProject "SystemTrayOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F60F20B419DC8D9400742BFC /* Debug */,
+				F60F20B519DC8D9400742BFC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F60F20B619DC8D9400742BFC /* Build configuration list for PBXNativeTarget "SystemTrayOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F60F20B719DC8D9400742BFC /* Debug */,
+				F60F20B819DC8D9400742BFC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F60F20A319DC8D9400742BFC /* Project object */;
+}
