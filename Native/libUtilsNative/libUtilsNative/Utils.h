@@ -9,14 +9,13 @@
 #import <AppKit/Appkit.h>
 #include <jni.h>
 
-long getID(JNIEnv* , jobject);
-bool isSameClass(const char *, JNIEnv*, jobject);
-
+long getID(JNIEnv*, jobject);
+bool isSameClass(const char*, JNIEnv*, jobject);
 
 @interface NSImage (Java)
-+ (NSImage*) getImageFromJava:(jbyteArray) image env:(JNIEnv*) env;
++ (NSImage*)getImageFromJava:(jbyteArray)image env:(JNIEnv*)env;
 @end
 
 @interface NSString (Java)
-+ (NSString*) stringFromJava: (jstring) string env: (JNIEnv*) env;
++ (NSString*)stringFromJava:(jstring)string env:(JNIEnv*)env;
 @end
