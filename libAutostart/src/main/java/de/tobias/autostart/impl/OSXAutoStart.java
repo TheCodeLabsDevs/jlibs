@@ -39,7 +39,7 @@ public class OSXAutoStart implements Autostart {
 	public void add(String name, File src) throws IOException {
 		File output = new File(root, name + ".plist");
 
-		InputStream in = getClass().getClassLoader().getResourceAsStream("de/tobias/assets/OSXTemplate.plist");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("libraries/OSXTemplate.plist");
 
 		String value = read(in).replace("{path}", src.getAbsolutePath()).replace("{name}", name)
 				.replace("{dir}", src.getParent());
@@ -54,8 +54,7 @@ public class OSXAutoStart implements Autostart {
 		File output = new File(root, name + ".plist");
 
 		if (output.exists())
-			if (read(output).contains(src.getAbsolutePath()))
-				return true;
+			return read(output).contains(src.getAbsolutePath());
 		return false;
 	}
 
@@ -74,7 +73,7 @@ public class OSXAutoStart implements Autostart {
 
 		String tmp;
 		while ((tmp = reader.readLine()) != null) {
-			builder.append(tmp + "\n");
+			builder.append(tmp).append("\n");
 		}
 		return builder.toString();
 	}

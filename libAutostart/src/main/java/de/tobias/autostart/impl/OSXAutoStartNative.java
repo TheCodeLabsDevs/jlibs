@@ -34,7 +34,7 @@ public class OSXAutoStartNative implements Autostart {
 	
 	private void load() {
 		if (!loaded) {
-			NativeLoader.load("AutoStart", "de/tobias/autostart/assets/", OSXAutoStartNative.class);
+			NativeLoader.load("AutoStart", "libraries/", OSXAutoStartNative.class);
 			loaded = !loaded;
 		}
 	}

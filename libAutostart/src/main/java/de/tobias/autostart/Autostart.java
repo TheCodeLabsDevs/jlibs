@@ -23,7 +23,7 @@ public interface Autostart {
 	 * @see #add(String, Path)
 	 */
 	@Deprecated
-	public default void add(String name, File src) throws Exception {
+	default void add(String name, File src) throws Exception {
 
 	}
 
@@ -34,7 +34,7 @@ public interface Autostart {
 	 * @param src
 	 * @throws Exception
 	 */
-	public default void add(String name, Path src) throws Exception {
+	default void add(String name, Path src) throws Exception {
 		add(name, src.toFile());
 	}
 
@@ -51,7 +51,7 @@ public interface Autostart {
 	 * @see #isAutostart(String, Path)
 	 */
 	@Deprecated
-	public default boolean isAutostart(String name, File src) throws Exception {
+	default boolean isAutostart(String name, File src) throws Exception {
 		return false;
 	}
 
@@ -66,7 +66,7 @@ public interface Autostart {
 	 * @throws Exception
 	 *             Mögliche IOException oder ähnliches
 	 */
-	public default boolean isAutostart(String name, Path src) throws Exception {
+	default boolean isAutostart(String name, Path src) throws Exception {
 		return isAutostart(name, src.toFile());
 	}
 
@@ -78,12 +78,12 @@ public interface Autostart {
 	 * @throws Exception
 	 *             Mögliche IOException oder ähnliches
 	 */
-	public void removeAutostart(String name) throws Exception;
+	void removeAutostart(String name) throws Exception;
 
 	/**
 	 * Identifiziert die Implementation mit einem Namen
 	 * 
 	 * @return name
 	 */
-	public String name();
+	String name();
 }
