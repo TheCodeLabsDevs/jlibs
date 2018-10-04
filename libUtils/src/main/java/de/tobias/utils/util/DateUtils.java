@@ -10,7 +10,7 @@ public class DateUtils {
 
 	public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-	public static LocalDate parse(String input) throws ParseException {
+	public static LocalDate parseDate(String input) throws ParseException {
 		input = input.replace(" ", "");
 		Date date = dateFormat.parse(input);
 		return toLocalDate(date);
