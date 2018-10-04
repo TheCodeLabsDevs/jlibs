@@ -8,11 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		F6240B5320C2821A003756FF /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = F62CAB7520C202E800DB3354 /* Utils.m */; };
-		F6240B5420C2821A003756FF /* AwakeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5E88420C2051A00CB4FF2 /* AwakeUtils.m */; };
 		F6240B5520C2821A003756FF /* de_tobias_utils_util_mac_MacNativeApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5E88520C2051A00CB4FF2 /* de_tobias_utils_util_mac_MacNativeApplication.m */; };
 		F6452AA320C3EFD700A2EFF6 /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = F62CAB7420C202E800DB3354 /* Utils.h */; };
 		F6CD4C222164E1C500E0F12D /* de_tobias_utils_util_mac_MacNativeApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = F6CD4C1F2164E1C500E0F12D /* de_tobias_utils_util_mac_MacNativeApplication.h */; };
-		F6CD4C242164E1C500E0F12D /* de_tobias_utils_util_mac_AwakeUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = F6CD4C212164E1C500E0F12D /* de_tobias_utils_util_mac_AwakeUtils.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,9 +28,7 @@
 		F62CAB7520C202E800DB3354 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		F62CAB7720C203DA00DB3354 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		F6CD4C1F2164E1C500E0F12D /* de_tobias_utils_util_mac_MacNativeApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = de_tobias_utils_util_mac_MacNativeApplication.h; path = ../../../../libUtils/target/jni/libUtils/include/de_tobias_utils_util_mac_MacNativeApplication.h; sourceTree = "<group>"; };
-		F6CD4C212164E1C500E0F12D /* de_tobias_utils_util_mac_AwakeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = de_tobias_utils_util_mac_AwakeUtils.h; path = ../../../../libUtils/target/jni/libUtils/include/de_tobias_utils_util_mac_AwakeUtils.h; sourceTree = "<group>"; };
 		F6F5E86F20C2050800CB4FF2 /* libUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libUtils.h; sourceTree = "<group>"; };
-		F6F5E88420C2051A00CB4FF2 /* AwakeUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwakeUtils.m; sourceTree = "<group>"; };
 		F6F5E88520C2051A00CB4FF2 /* de_tobias_utils_util_mac_MacNativeApplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = de_tobias_utils_util_mac_MacNativeApplication.m; sourceTree = "<group>"; };
 		F6F5E89120C2057200CB4FF2 /* libUtilsNative.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libUtilsNative.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -72,7 +68,6 @@
 				F6CD4C252164E1C900E0F12D /* Source */,
 				F62CAB7420C202E800DB3354 /* Utils.h */,
 				F62CAB7520C202E800DB3354 /* Utils.m */,
-				F6F5E88420C2051A00CB4FF2 /* AwakeUtils.m */,
 				F62CAB5F20C1E53E00DB3354 /* jni */,
 				F6F5E86F20C2050800CB4FF2 /* libUtils.h */,
 			);
@@ -115,7 +110,6 @@
 		F6CD4C1E2164E1B900E0F12D /* Header */ = {
 			isa = PBXGroup;
 			children = (
-				F6CD4C212164E1C500E0F12D /* de_tobias_utils_util_mac_AwakeUtils.h */,
 				F6CD4C1F2164E1C500E0F12D /* de_tobias_utils_util_mac_MacNativeApplication.h */,
 			);
 			path = Header;
@@ -138,7 +132,6 @@
 			files = (
 				F6452AA320C3EFD700A2EFF6 /* Utils.h in Headers */,
 				F6CD4C222164E1C500E0F12D /* de_tobias_utils_util_mac_MacNativeApplication.h in Headers */,
-				F6CD4C242164E1C500E0F12D /* de_tobias_utils_util_mac_AwakeUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,7 +192,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6240B5320C2821A003756FF /* Utils.m in Sources */,
-				F6240B5420C2821A003756FF /* AwakeUtils.m in Sources */,
 				F6240B5520C2821A003756FF /* de_tobias_utils_util_mac_MacNativeApplication.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

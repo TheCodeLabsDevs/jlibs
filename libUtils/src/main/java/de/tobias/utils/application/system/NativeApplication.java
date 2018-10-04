@@ -38,6 +38,7 @@ public abstract class NativeApplication {
 	}
 
 	// Awake
+	public abstract void preventSystemSleep(boolean on);
 
 	public abstract void executeAsAdministrator(String command, String args);
 

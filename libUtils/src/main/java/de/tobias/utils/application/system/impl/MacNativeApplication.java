@@ -26,6 +26,11 @@ public class MacNativeApplication extends NativeApplication {
 	}
 
 	@Override
+	public void preventSystemSleep(boolean on) {
+		preventSystemSleep_N(on);
+	}
+
+	@Override
 	@NativeFeatureNotSupported
 	public void executeAsAdministrator(String command, String args) {
 
@@ -70,6 +75,8 @@ public class MacNativeApplication extends NativeApplication {
 	/*
 	 Native methods
 	 */
+
+	private static native void preventSystemSleep_N(boolean on);
 
 	private static native void setDockIcon_N(byte[] image);
 

@@ -22,19 +22,6 @@
                 <version>1.0.6</version>
                 <executions>
                     <execution>
-                        <id>de.tobias.utils.util.mac.AwakeUtils</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>javah</goal>
-                        </goals>
-                        <configuration>
-                            <javahClass>de.tobias.utils.util.mac.AwakeUtils</javahClass>
-                            <javahOutputFilePath>
-                                ${project.basedir}/target/jni/libUtils/include/de_tobias_utils_util_mac_AwakeUtils.h
-                            </javahOutputFilePath>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>de.tobias.utils.application.system.impl.MacNativeApplication</id>
                         <phase>compile</phase>
                         <goals>

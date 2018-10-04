@@ -14,6 +14,15 @@ import java.nio.file.Path;
 
 public class WindowsNativeApplication extends NativeApplication {
 
+	@Override
+	public void preventSystemSleep(boolean on) {
+		if (on) {
+			de.tobias.utils.util.win.Kernel32.INSTANCE.SetThreadExecutionState(de.tobias.utils.util.win.Kernel32.ES_CONTINUOUS | de.tobias.utils.util.win.Kernel32.ES_DISPLAY_REQUIRED | de.tobias.utils.util.win.Kernel32.ES_SYSTEM_REQUIRED);
+		} else {
+			de.tobias.utils.util.win.Kernel32.INSTANCE.SetThreadExecutionState(de.tobias.utils.util.win.Kernel32.ES_CONTINUOUS);
+		}
+	}
+
 	// http://stackoverflow.com/questions/11041509/elevating-a-processbuilder-process-via-uac
 	@Override
 	public void executeAsAdministrator(String command, String args) {
@@ -76,7 +85,6 @@ public class WindowsNativeApplication extends NativeApplication {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	@Override

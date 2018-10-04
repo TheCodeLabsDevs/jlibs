@@ -7,10 +7,26 @@
 //
 
 #import <AppKit/AppKit.h>
+#import <IOKit/pwr_mgt/IOPMLib.h>
+
 #import "de_tobias_utils_util_mac_MacNativeApplication.h"
 #import "Utils.h"
 
-JNIEXPORT void JNICALL Java_de_tobias_utils_application_system_impl_MacNativeApplication_setDockIconHidden_1N (JNIEnv * e, jclass class, jboolean hidden) {
+IOReturn success;
+IOPMAssertionID assertionID;
+
+JNIEXPORT void JNICALL Java_de_tobias_utils_application_system_impl_MacNativeApplication_preventSystemSleep_1N (JNIEnv * env, jclass cls, jboolean on) {
+    if (on) {
+        CFStringRef reasonForActivity = CFSTR("Program is still active");
+        success = IOPMAssertionCreateWithName(kIOPMAssertPreventUserIdleDisplaySleep, kIOPMAssertionLevelOn, *&reasonForActivity, &assertionID);
+    } else {
+        if (success == kIOReturnSuccess) {
+            success = IOPMAssertionRelease(assertionID);
+        }
+    }
+}
+
+JNIEXPORT void JNICALL Java_de_tobias_utils_application_system_impl_MacNativeApplication_setDockIconHidden_1N (JNIEnv * env, jclass class, jboolean hidden) {
     if (hidden) {
         [NSApp setActivationPolicy: NSApplicationActivationPolicyProhibited];
     } else {
@@ -23,7 +39,7 @@ JNIEXPORT void JNICALL Java_de_tobias_utils_application_system_impl_MacNativeApp
     [NSApp setApplicationIconImage:image];
 }
 
-JNIEXPORT void JNICALL Java_de_tobias_utils_application_system_impl_MacNativeApplication_setDockIconBadge_1N (JNIEnv * e, jclass class, jint i) {
+JNIEXPORT void JNICALL Java_de_tobias_utils_application_system_impl_MacNativeApplication_setDockIconBadge_1N (JNIEnv * env, jclass class, jint i) {
     if (i != 0) {
         [[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%i", i]];
     } else {
