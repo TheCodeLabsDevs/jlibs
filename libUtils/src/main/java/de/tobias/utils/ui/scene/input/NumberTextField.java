@@ -1,4 +1,4 @@
-package de.tobias.utils.ui.scene;
+package de.tobias.utils.ui.scene.input;
 
 import javafx.scene.control.TextField;
 
