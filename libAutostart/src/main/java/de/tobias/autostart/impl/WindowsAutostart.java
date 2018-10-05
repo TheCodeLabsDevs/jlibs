@@ -1,13 +1,8 @@
 package de.tobias.autostart.impl;
 
-import java.io.File;
-import java.util.List;
-
 import de.tobias.autostart.Autostart;
-import at.jta.Key;
-import at.jta.NotSupportedOSException;
-import at.jta.RegistryErrorException;
-import at.jta.Regor;
+
+import java.io.File;
 
 /**
  * Default Autostartimplementation für Windows. Eintrage werden in der Registry
@@ -18,11 +13,14 @@ import at.jta.Regor;
  */
 public class WindowsAutostart implements Autostart {
 
+	/*
 	private Regor registry;
 	private final String keyname;
 	private final Key key;
+	*/
 
 	public WindowsAutostart() {
+		/*
 		try {
 			registry = new Regor();
 		} catch (RegistryErrorException | NotSupportedOSException e) {
@@ -31,6 +29,7 @@ public class WindowsAutostart implements Autostart {
 			keyname = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
 			key = new Key(Regor._HKEY_CURRENT_USER, keyname);
 		}
+		*/
 	}
 	
 	@Override
@@ -42,8 +41,10 @@ public class WindowsAutostart implements Autostart {
 	 * Fügt einen Value zum Key hinzu.
 	 */
 	@Override
-	public void add(String name, File src) throws RegistryErrorException {
+	public void add(String name, File src) {
+		/*
 		registry.saveValue(key, name, src.getAbsolutePath());
+		*/
 	}
 
 	/**
@@ -51,7 +52,8 @@ public class WindowsAutostart implements Autostart {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean isAutostart(String name, File src) throws RegistryErrorException {
+	public boolean isAutostart(String name, File src) {
+		/*
 		List<Object> keys = registry.listKeys(key);
 		if (keys.contains(name)) {
 			List<Object> values = registry.listValueNames(key);
@@ -59,6 +61,7 @@ public class WindowsAutostart implements Autostart {
 				return true;
 			}
 		}
+		*/
 		return false;
 	}
 
@@ -66,8 +69,10 @@ public class WindowsAutostart implements Autostart {
 	 * Löscht Entry aus dem Key.
 	 */
 	@Override
-	public void removeAutostart(String name) throws RegistryErrorException {
+	public void removeAutostart(String name) {
+		/*
 		registry.deleteEntry(key, name);
+		*/
 	}
 
 }

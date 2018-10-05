@@ -6,22 +6,16 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>libAutostart</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
 
         <libUtils.version>1.7.1</libUtils.version>
-        <Regor.version>1.0.0</Regor.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>at.jta</groupId>
-            <artifactId>Regor</artifactId>
-            <version>${Regor.version}</version>
-        </dependency>
         <dependency>
             <groupId>de.tobias</groupId>
             <artifactId>libUtils</artifactId>
