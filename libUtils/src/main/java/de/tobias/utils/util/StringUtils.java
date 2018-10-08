@@ -26,6 +26,33 @@ public class StringUtils {
 	}
 
 	/**
+	 * Generates a SHA-512 Hash from the given String with the given salt
+	 *
+	 * @param input String - text to hash
+	 * @param salt  String - salt
+	 * @return String - hashed String
+	 */
+	public static String sha512(String input, String salt) {
+		String hashed = null;
+
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-512");
+			md.update(input.getBytes(StandardCharsets.UTF_8));
+			byte[] bytes = md.digest(salt.getBytes(StandardCharsets.UTF_8));
+			StringBuilder sb = new StringBuilder();
+			for (byte aByte : bytes) {
+				sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
+			}
+			hashed = sb.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return hashed;
+	}
+
+
+	/**
 	 * Erstellt einen Hashwert von einem String mit der SHA-1 Methode
 	 * 
 	 * @param string
