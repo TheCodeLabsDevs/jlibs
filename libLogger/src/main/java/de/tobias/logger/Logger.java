@@ -19,6 +19,7 @@ public class Logger
 
 	private static LogLevelFilter levelFilter;
 	private static List<LogFilter> filters;
+	private static FileOutputOption fileOutputOption;
 
 	private static Path baseDir;
 	private static ConsoleStream outputStream;
@@ -134,6 +135,8 @@ public class Logger
 
 				System.setOut(outputStream);
 				System.setErr(errorStream);
+
+				Logger.fileOutputOption = fileOutputOption;
 			}
 			catch(IOException e)
 			{
@@ -274,4 +277,45 @@ public class Logger
 	{
 		return loggerConfig;
 	}
+
+	public static void deleteLogfile()
+	{
+		try
+		{
+			Files.deleteIfExists(getOutPath());
+			Files.deleteIfExists(getErrPath());
+		}
+		catch(IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static void clearLogFile()
+	{
+		FileOutputOption oldFileOutputOption = Logger.fileOutputOption;
+		setFileOutput(FileOutputOption.DISABLED);
+
+		try
+		{
+			Path outLog = getOutPath();
+			if(Files.exists(outLog))
+			{
+				Files.write(outLog, new byte[0]);
+			}
+			Path errorLog = getOutPath();
+			if(Files.exists(errorLog))
+			{
+				Files.write(errorLog, new byte[0]);
+			}
+		}
+		catch(IOException e)
+		{
+			error("Can't clear log file(s)");
+			e.printStackTrace();
+		}
+		setFileOutput(oldFileOutputOption);
+
+	}
+
 }
