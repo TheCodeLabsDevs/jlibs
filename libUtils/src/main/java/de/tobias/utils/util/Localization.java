@@ -1,6 +1,6 @@
 package de.tobias.utils.util;
 
-import de.tobias.logger.Logger;
+import de.tobias.utils.logger.LoggerBridge;
 
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -31,7 +31,7 @@ public class Localization {
 			throw new NullPointerException("Delegate is null. Use: Localization.setDelegate()");
 		}
 		bundle = loadBundle(delegate.getBaseResource(), Localization.class.getClassLoader());
-		Logger.debug("Loaded localization bundle: {0} for language: {1}", bundle.getBaseBundleName(), bundle.getLocale());
+		LoggerBridge.debug("Loaded localization bundle: " + bundle.getBaseBundleName() + " for language: " + bundle.getLocale());
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class Localization {
 			if (bundle.containsKey(key))
 				return bundle.getString(key);
 			else {
-				System.err.println("Resource Not Found: " + key);
+				LoggerBridge.error("Resource Not Found: " + key);
 				return key;
 			}
 		else
@@ -90,13 +90,13 @@ public class Localization {
 						}
 						index++;
 					} else {
-						System.err.println("Args invalid: " + key);
+						LoggerBridge.error("Args invalid: " + key);
 						break;
 					}
 				}
 				return message;
 			} else {
-				System.err.println("Resource Not Found: " + key);
+				LoggerBridge.error("Resource Not Found: " + key);
 				return key;
 			}
 		else
@@ -116,7 +116,7 @@ public class Localization {
 		if (bundle.containsKey(key)) {
 			return bundle.getString(key);
 		} else {
-			System.err.println("Unknown key for ResourceBundle: " + key);
+			LoggerBridge.error("Unknown key for ResourceBundle: " + key);
 			return key;
 		}
 	}
@@ -134,7 +134,7 @@ public class Localization {
 		if (bundle.containsKey(key)) {
 			return MessageFormat.format(bundle.getString(key), args);
 		} else {
-			System.err.println("Unknown key for ResourceBundle: " + key);
+			LoggerBridge.error("Unknown key for ResourceBundle: " + key);
 			return key;
 		}
 	}

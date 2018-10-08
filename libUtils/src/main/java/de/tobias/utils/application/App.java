@@ -1,12 +1,12 @@
 package de.tobias.utils.application;
 
-import de.tobias.logger.Logger;
 import de.tobias.utils.application.container.BackupInfo;
 import de.tobias.utils.application.container.FileContainer;
 import de.tobias.utils.application.container.PathType;
 import de.tobias.utils.application.remote.RemoteResource;
 import de.tobias.utils.application.remote.RemoteResourceHandler;
 import de.tobias.utils.application.remote.RemoteResourceType;
+import de.tobias.utils.logger.LoggerBridge;
 import de.tobias.utils.settings.Storage;
 import de.tobias.utils.settings.StorageTypes;
 import de.tobias.utils.settings.UserDefaults;
@@ -302,11 +302,7 @@ public final class App {
 	}
 
 	private void println(String string) {
-		if (Logger.isInitialized()) {
-			Logger.info(string);
-		} else {
-			System.out.println(string);
-		}
+		LoggerBridge.debug(string);
 	}
 
 	public FileContainer getContainer() {

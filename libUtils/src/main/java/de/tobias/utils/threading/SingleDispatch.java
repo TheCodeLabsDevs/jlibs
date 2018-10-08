@@ -1,7 +1,7 @@
 package de.tobias.utils.threading;
 
-import de.tobias.logger.Logger;
 import de.tobias.utils.application.ApplicationUtils;
+import de.tobias.utils.logger.LoggerBridge;
 
 import java.util.concurrent.*;
 
@@ -47,11 +47,7 @@ public class SingleDispatch {
 			}
 		};
 
-		if (Logger.isInitialized()) {
-			Logger.debug("Start SingleDispatch");
-		} else {
-			System.out.println("Start SingleDispatch");
-		}
+		LoggerBridge.debug("Start SingleDispatch");
 	}
 
 	private static int task = 0;
@@ -63,13 +59,7 @@ public class SingleDispatch {
 		}
 		task++;
 		if (ApplicationUtils.getApplication().isDebug()) {
-
-			final String text = "Submit " + task + " task";
-			if (Logger.isInitialized()) {
-				Logger.trace(text);
-			} else {
-				System.out.println(text);
-			}
+			LoggerBridge.trace("Submit " + task + " task");
 		}
 		executorService.submit(runnable, null);
 	}
@@ -77,11 +67,7 @@ public class SingleDispatch {
 	public static void shutdown() {
 		if (executorService != null) {
 			executorService.shutdown();
-			if (Logger.isInitialized()) {
-				Logger.debug("Stop SingleDispatch");
-			} else {
-				System.out.println("Stop SingleDispatch");
-			}
+			LoggerBridge.debug("Stop SingleDispatch");
 			executorService = null;
 		}
 	}

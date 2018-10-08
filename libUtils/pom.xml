@@ -4,7 +4,7 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>libUtils</artifactId>
-    <version>1.7.1</version>
+    <version>1.7.3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,7 +19,6 @@
         <snakeyaml.version>1.19</snakeyaml.version>
         <YAMLStorage.version>1.0.0</YAMLStorage.version>
         <libStorage.version>1.4.1</libStorage.version>
-        <libLogger.version>1.3.9</libLogger.version>
     </properties>
 
     <dependencies>
@@ -90,11 +89,6 @@
             <groupId>de.tobias</groupId>
             <artifactId>libStorage</artifactId>
             <version>${libStorage.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.tobias</groupId>
-            <artifactId>libLogger</artifactId>
-            <version>${libLogger.version}</version>
         </dependency>
     </dependencies>
 
