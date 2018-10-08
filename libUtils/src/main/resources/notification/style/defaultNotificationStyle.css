@@ -1,0 +1,23 @@
+/* notification */
+.notification-background {
+	-fx-background-color: linear-gradient(#EFEFEF, #D9D9D9);
+	-fx-border-color: #B5B5B5;
+	-border-radius: 5px;
+	-fx-background-radius: 5px;
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 11, 0.0, 0, 3);
+}
+
+.notification-button {
+	-fx-font-weight: bold;
+	-fx-background-color: transparent;
+	-fx-font-size: 19px
+}
+
+.notification-label-title {
+	-fx-font-weight: bold;
+	-fx-font-size: 16px;
+}
+
+.notification-label-description {
+	-fx-font-size: 17px;
+}
