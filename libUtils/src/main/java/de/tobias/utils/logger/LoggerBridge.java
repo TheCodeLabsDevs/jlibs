@@ -21,7 +21,24 @@ public class LoggerBridge {
 		}
 	}
 
-	public static void error(Object obj) {
+	public static void info(Object obj) {
+		if (isLoggerAvailable()) {
+			log(obj, "INFO");
+		} else {
+			System.out.println(obj);
+		}
+	}
+
+    public static void warning(Object obj) {
+        if (isLoggerAvailable()) {
+            log(obj, "WARNING");
+        } else {
+            System.out.println(obj);
+        }
+    }
+
+
+    public static void error(Object obj) {
 		if (isLoggerAvailable()) {
 			log(obj, "ERROR");
 		} else {
@@ -29,14 +46,23 @@ public class LoggerBridge {
 		}
 	}
 
+	public static void fatal(Object obj) {
+		if (isLoggerAvailable()) {
+			log(obj, "FATAL");
+		} else {
+			System.err.println(obj);
+		}
+	}
+
+
 	private static void log(Object obj, String level) {
 		try {
 			Class<?> loggerClass = Class.forName("de.tobias.logger.Logger");
 			Class loggerLevelClass = Class.forName("de.tobias.logger.LogLevel");
 
-			Object logLevel = Enum.valueOf(loggerLevelClass, level);
+			@SuppressWarnings("unchecked") Object logLevel = Enum.valueOf(loggerLevelClass, level);
 			Method logMethod = loggerClass.getDeclaredMethod("log", loggerLevelClass, Object.class, Object[].class);
-			logMethod.invoke(null, logLevel, obj);
+			logMethod.invoke(null, logLevel, obj, new Object[0]);
 		} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
