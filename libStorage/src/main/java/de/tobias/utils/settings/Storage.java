@@ -19,6 +19,7 @@ public class Storage {
         storageHandlerMap = new HashMap<>();
 
         storageHandlerMap.put(StorageTypes.YAML, new YAMLHandler());
+        storageHandlerMap.put(StorageTypes.JSON, new JsonHandler());
         storageHandlerMap.put(StorageTypes.PROPERTIES, new PropertiesHandler());
     }
 

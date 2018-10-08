@@ -15,6 +15,7 @@
         <guava.version>23.3-jre</guava.version>
         <snakeyaml.version>1.19</snakeyaml.version>
         <YAMLStorage.version>1.0.0</YAMLStorage.version>
+        <gson.version>2.8.5</gson.version>
     </properties>
 
     <dependencies>
@@ -28,6 +29,12 @@
                     <artifactId>jaxen</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
         </dependency>
 
         <dependency>
