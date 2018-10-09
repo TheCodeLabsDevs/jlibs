@@ -20,7 +20,7 @@ public class WindowsNativeApplication extends NativeApplication {
 	private static boolean loaded = false;
 
 	private static void loadNativeLibrary() {
-		if (!loaded && OS.isWindows()) {
+		if (!loaded && OS.isWindows() && OS.getArch() == OS.OSArch.x86) {
 			NativeLoader.load("SystemUtilsWindows.dll", "libraries", WindowsNativeApplication.class);
 			loaded = !loaded;
 		}
@@ -105,7 +105,11 @@ public class WindowsNativeApplication extends NativeApplication {
 
 	@Override
 	public Image getImageForFile(Path file) {
-		return new Image(IOUtils.byteArrayToInputStream(getImageForFile_N(file.toString())));
+		if (OS.getArch() == OS.OSArch.x86) {
+			return new Image(IOUtils.byteArrayToInputStream(getImageForFile_N(file.toString())));
+		} else {
+			return null;
+		}
 	}
 
 	private static native byte[] getImageForFile_N(String path);
