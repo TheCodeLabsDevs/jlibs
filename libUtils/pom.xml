@@ -120,6 +120,19 @@
                             </javahOutputFilePath>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>de.tobias.utils.application.system.impl.WindowsNativeApplication</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>javah</goal>
+                        </goals>
+                        <configuration>
+                            <javahClass>de.tobias.utils.application.system.impl.WindowsNativeApplication</javahClass>
+                            <javahOutputFilePath>
+                                ${project.basedir}/target/jni/libUtils/include/de_tobias_utils_util_mac_WindowsNativeApplication.h
+                            </javahOutputFilePath>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

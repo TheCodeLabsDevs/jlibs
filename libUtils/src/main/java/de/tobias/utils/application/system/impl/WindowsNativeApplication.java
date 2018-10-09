@@ -3,8 +3,11 @@ package de.tobias.utils.application.system.impl;
 import com.sun.jna.WString;
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.Kernel32Util;
+import de.tobias.utils.application.NativeLoader;
 import de.tobias.utils.application.system.NativeApplication;
 import de.tobias.utils.application.system.NativeFeatureNotSupported;
+import de.tobias.utils.io.IOUtils;
+import de.tobias.utils.util.OS;
 import de.tobias.utils.util.win.Shell32X;
 import de.tobias.utils.util.win.User32X;
 import javafx.scene.image.Image;
@@ -13,6 +16,19 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public class WindowsNativeApplication extends NativeApplication {
+
+	private static boolean loaded = false;
+
+	private static void loadNativeLibrary() {
+		if (!loaded && OS.isWindows()) {
+			NativeLoader.load("SystemUtilsWindows.dll", "libraries", WindowsNativeApplication.class);
+			loaded = !loaded;
+		}
+	}
+
+	public WindowsNativeApplication() {
+		loadNativeLibrary();
+	}
 
 	@Override
 	public void preventSystemSleep(boolean on) {
@@ -89,6 +105,9 @@ public class WindowsNativeApplication extends NativeApplication {
 
 	@Override
 	public Image getImageForFile(Path file) {
-		return null;
+		return new Image(IOUtils.byteArrayToInputStream(getImageForFile_N(file.toString())));
 	}
+
+	private static native byte[] getImageForFile_N(String path);
+
 }

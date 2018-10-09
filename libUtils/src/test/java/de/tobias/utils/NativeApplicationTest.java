@@ -18,7 +18,7 @@ public class NativeApplicationTest extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		final Path file = Paths.get("/Users/tobias/Downloads/Überweisungsdaten.pdf");
+		final Path file = Paths.get("D:/Exploror_Error.png");
 		Image image = NativeApplication.sharedInstance().getImageForFile(file);
 		ImageView imageView = new ImageView(image);
 		primaryStage.setScene(new Scene(new VBox(imageView)));
