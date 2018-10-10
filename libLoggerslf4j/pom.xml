@@ -6,12 +6,12 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>libLogger-slf4j</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 
     <properties>
         <java.version>1.8</java.version>
 
-        <libLogger.version>1.3.9</libLogger.version>
+        <libLogger.version>1.3.10</libLogger.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
     </properties>
 
