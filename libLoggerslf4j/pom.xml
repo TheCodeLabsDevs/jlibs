@@ -6,7 +6,7 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>libLogger-slf4j</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
 
     <properties>
         <java.version>1.8</java.version>

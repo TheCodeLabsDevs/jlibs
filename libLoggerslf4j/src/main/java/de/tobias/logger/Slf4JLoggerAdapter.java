@@ -288,7 +288,8 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void error(String s, Throwable throwable)
 	{
-
+		de.tobias.logger.Logger.error(s);
+		de.tobias.logger.Logger.error(throwable);
 	}
 
 	public boolean isErrorEnabled(Marker marker)
