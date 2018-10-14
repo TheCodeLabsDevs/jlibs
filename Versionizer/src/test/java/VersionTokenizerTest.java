@@ -1,4 +1,4 @@
-import de.tobias.versionizer.model.VersionTokenizer;
+import de.thecodelabs.versionizer.model.VersionTokenizer;
 
 public class VersionTokenizerTest
 {

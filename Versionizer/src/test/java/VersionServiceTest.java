@@ -1,6 +1,6 @@
-import de.tobias.versionizer.VersionizerItem;
-import de.tobias.versionizer.model.Version;
-import de.tobias.versionizer.service.VersionService;
+import de.thecodelabs.versionizer.VersionizerItem;
+import de.thecodelabs.versionizer.model.Version;
+import de.thecodelabs.versionizer.service.VersionService;
 
 import java.util.Arrays;
 

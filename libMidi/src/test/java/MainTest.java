@@ -1,9 +1,9 @@
 import com.google.gson.Gson;
-import de.tobias.midi.Mapping;
-import de.tobias.midi.Midi;
-import de.tobias.midi.action.ActionRegistry;
-import de.tobias.midi.device.MidiDeviceInfo;
-import de.tobias.midi.serialize.MappingSerializer;
+import de.thecodelabs.midi.Mapping;
+import de.thecodelabs.midi.Midi;
+import de.thecodelabs.midi.action.ActionRegistry;
+import de.thecodelabs.midi.device.MidiDeviceInfo;
+import de.thecodelabs.midi.serialize.MappingSerializer;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;

@@ -1,7 +1,7 @@
-import de.tobias.midi.action.Action;
-import de.tobias.midi.action.ActionHandler;
-import de.tobias.midi.event.KeyEvent;
-import de.tobias.midi.feedback.FeedbackType;
+import de.thecodelabs.midi.action.Action;
+import de.thecodelabs.midi.action.ActionHandler;
+import de.thecodelabs.midi.event.KeyEvent;
+import de.thecodelabs.midi.feedback.FeedbackType;
 
 public class EimerActionHandler extends ActionHandler
 {
