@@ -4,36 +4,61 @@ import de.thecodelabs.versionizer.VersionizerItem;
 import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.model.Version;
 import de.thecodelabs.versionizer.model.VersionTokenizer;
+import de.tobias.utils.io.IOUtils;
 import org.jfrog.artifactory.client.Artifactory;
 import org.jfrog.artifactory.client.ArtifactoryClientBuilder;
+import org.jfrog.artifactory.client.DownloadableArtifact;
 import org.jfrog.artifactory.client.model.Folder;
 import org.jfrog.artifactory.client.model.Item;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class VersionService
 {
-	public Version[] getVersions(VersionizerItem item)
+	private VersionizerItem versionizerItem;
+	private Artifactory artifactory;
+
+	public VersionService(VersionizerItem versionizerItem)
 	{
-		Artifactory artifactory = ArtifactoryClientBuilder.create()
-				.setUrl(item.getArtifactoryUrl())
+		this.versionizerItem = versionizerItem;
+
+		artifactory = ArtifactoryClientBuilder.create()
+				.setUrl(versionizerItem.getArtifactoryUrl())
 				.build();
+	}
 
+	@Override
+	protected void finalize() throws Throwable
+	{
+		super.finalize();
+		close();
+	}
+
+	public void close()
+	{
+		if(this.artifactory != null)
+		{
+			this.artifactory.close();
+		}
+	}
+
+	public Version[] getVersions()
+	{
 		List<Version> versionList = new LinkedList<>();
-		versionList.addAll(getVersionsByRepository(artifactory, item, item.getReleaseRepository()));
-		versionList.addAll(getVersionsByRepository(artifactory, item, item.getSnapshotRepository()));
-
-		artifactory.close();
+		versionList.addAll(getVersionsByRepository(artifactory, versionizerItem.getReleaseRepository()));
+		versionList.addAll(getVersionsByRepository(artifactory, versionizerItem.getSnapshotRepository()));
 
 		return versionList.toArray(new Version[0]);
 	}
 
-	private List<Version> getVersionsByRepository(Artifactory artifactory, VersionizerItem item, String repository)
+	private List<Version> getVersionsByRepository(Artifactory artifactory, String repository)
 	{
 		final Folder folder = artifactory.repository(repository)
-				.folder(item.getGroupId() + "/" + item.getArtifactId())
+				.folder(versionizerItem.getGroupId() + "/" + versionizerItem.getArtifactId())
 				.info();
 
 		List<Version> versionList = new LinkedList<>();
@@ -48,16 +73,12 @@ public class VersionService
 		return versionList;
 	}
 
-	public List<RemoteFile> listFilesForVersion(VersionizerItem item, Version version)
+	public List<RemoteFile> listFilesForVersion(Version version)
 	{
 		List<RemoteFile> remoteFiles = new ArrayList<>();
 
-		Artifactory artifactory = ArtifactoryClientBuilder.create()
-				.setUrl(item.getArtifactoryUrl())
-				.build();
-
-		final String repositoryPath = item.getRepository(version.isSnapshot());
-		final String folderPath = item.getGroupId() + "/" + item.getArtifactId() + "/" + version.toVersionString();
+		final String repositoryPath = versionizerItem.getRepository(version.isSnapshot());
+		final String folderPath = versionizerItem.getGroupId() + "/" + versionizerItem.getArtifactId() + "/" + version.toVersionString();
 
 		final Folder folder = artifactory
 				.repository(repositoryPath)
@@ -69,12 +90,21 @@ public class VersionService
 			RemoteFile.FileType extension = RemoteFile.FileType.getFileType(child.getName());
 			if(extension != null)
 			{
-				final String path = repositoryPath + "/" + folderPath + child.getUri();
-				RemoteFile remoteFile = new RemoteFile(child.getName(), path, extension);
+				final String path = folderPath + child.getUri();
+				RemoteFile remoteFile = new RemoteFile(version, child.getName(), path, extension);
 				remoteFiles.add(remoteFile);
 			}
 		}
 
 		return remoteFiles;
+	}
+
+	public void downloadRemoteFile(RemoteFile remoteFile, Path destination) throws IOException
+	{
+		final DownloadableArtifact downloadableArtifact = artifactory
+				.repository(versionizerItem.getRepository(remoteFile.getVersion().isSnapshot()))
+				.download(remoteFile.getPath());
+
+		IOUtils.copy(downloadableArtifact.doDownload(), destination);
 	}
 }

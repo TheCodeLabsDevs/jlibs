@@ -23,18 +23,26 @@ public class RemoteFile implements Comparable<RemoteFile>
 		}
 	}
 
+	private final Version version;
+
 	private final String name;
 	private final String path;
 
 	private final FileType fileType;
 	private final int revision;
 
-	public RemoteFile(String name, String path, FileType fileType)
+	public RemoteFile(Version version, String name, String path, FileType fileType)
 	{
+		this.version = version;
 		this.name = name;
 		this.path = path;
 		this.fileType = fileType;
 		this.revision = VersionTokenizer.getRevision(name);
+	}
+
+	public Version getVersion()
+	{
+		return version;
 	}
 
 	public String getName()
