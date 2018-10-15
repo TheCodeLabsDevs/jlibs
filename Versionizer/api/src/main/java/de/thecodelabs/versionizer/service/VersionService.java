@@ -8,10 +8,14 @@ import de.tobias.utils.io.IOUtils;
 import org.jfrog.artifactory.client.Artifactory;
 import org.jfrog.artifactory.client.ArtifactoryClientBuilder;
 import org.jfrog.artifactory.client.DownloadableArtifact;
+import org.jfrog.artifactory.client.model.File;
 import org.jfrog.artifactory.client.model.Folder;
 import org.jfrog.artifactory.client.model.Item;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -101,10 +105,20 @@ public class VersionService
 
 	public void downloadRemoteFile(RemoteFile remoteFile, Path destination) throws IOException
 	{
+		final String repository = versionizerItem.getRepository(remoteFile.getVersion().isSnapshot());
+
+		final File fileInfo = artifactory
+				.repository(repository)
+				.file(remoteFile.getPath())
+				.info();
+
 		final DownloadableArtifact downloadableArtifact = artifactory
-				.repository(versionizerItem.getRepository(remoteFile.getVersion().isSnapshot()))
+				.repository(repository)
 				.download(remoteFile.getPath());
 
-		IOUtils.copy(downloadableArtifact.doDownload(), destination);
+		final InputStream iStr = downloadableArtifact.doDownload();
+		final OutputStream oStr = Files.newOutputStream(destination);
+
+		IOUtils.copy(iStr, oStr, (round) -> System.out.println(round + "/" + fileInfo.getSize()));
 	}
 }

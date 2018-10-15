@@ -75,7 +75,8 @@ public class RemoteFile implements Comparable<RemoteFile>
 	public String toString()
 	{
 		return "RemoteFile{" +
-				"name='" + name + '\'' +
+				"version=" + version +
+				", name='" + name + '\'' +
 				", path='" + path + '\'' +
 				", fileType=" + fileType +
 				", revision=" + revision +
