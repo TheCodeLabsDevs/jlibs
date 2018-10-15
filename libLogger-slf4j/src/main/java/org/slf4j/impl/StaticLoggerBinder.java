@@ -3,17 +3,24 @@ package org.slf4j.impl;
 
 import de.tobias.logger.Slf4JLoggerFactory;
 import org.slf4j.ILoggerFactory;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.slf4j.spi.LoggerFactoryBinder;
+
+import java.util.logging.LogManager;
 
 
 public class StaticLoggerBinder implements LoggerFactoryBinder
 {
+	static
+	{
+		LogManager.getLogManager().reset();
+		SLF4JBridgeHandler.install();
+	}
 
 	/**
 	 * The unique instance of this class.
 	 */
-	private static final StaticLoggerBinder SINGLETON
-			= new StaticLoggerBinder();
+	private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 
 	/**
 	 * Return the singleton of this class.

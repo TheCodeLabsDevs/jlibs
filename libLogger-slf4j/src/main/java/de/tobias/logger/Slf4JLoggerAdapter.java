@@ -23,7 +23,7 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public boolean isTraceEnabled()
 	{
-		return false;
+		return de.tobias.logger.Logger.getLevelFilter().acceptLevel(LogLevel.TRACE) && !disableDebug;
 	}
 
 	public void trace(String s)
@@ -48,7 +48,11 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void trace(String s, Throwable throwable)
 	{
-		de.tobias.logger.Logger.trace(MessageFormatter.format(s, throwable).getMessage());
+		de.tobias.logger.Logger.trace(s);
+		if(throwable != null)
+		{
+			de.tobias.logger.Logger.error(throwable);
+		}
 	}
 
 	public boolean isTraceEnabled(Marker marker)
@@ -78,7 +82,11 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void trace(Marker marker, String s, Throwable throwable)
 	{
-
+		de.tobias.logger.Logger.trace(s);
+		if(throwable != null)
+		{
+			de.tobias.logger.Logger.error(throwable);
+		}
 	}
 
 	public boolean isDebugEnabled()
@@ -108,37 +116,45 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void debug(String s, Throwable throwable)
 	{
-		de.tobias.logger.Logger.debug(MessageFormatter.format(s, throwable).getMessage());
+		de.tobias.logger.Logger.debug(s);
+		if(throwable != null)
+		{
+			de.tobias.logger.Logger.error(throwable);
+		}
 	}
 
 	public boolean isDebugEnabled(Marker marker)
 	{
-		return false;
+		return de.tobias.logger.Logger.getLevelFilter().acceptLevel(LogLevel.DEBUG) && !disableDebug;
 	}
 
 	public void debug(Marker marker, String s)
 	{
-
+		de.tobias.logger.Logger.debug(s);
 	}
 
 	public void debug(Marker marker, String s, Object o)
 	{
-
+		de.tobias.logger.Logger.debug(MessageFormatter.format(s, o).getMessage());
 	}
 
 	public void debug(Marker marker, String s, Object o, Object o1)
 	{
-
+		de.tobias.logger.Logger.debug(MessageFormatter.format(s, o, o1).getMessage());
 	}
 
 	public void debug(Marker marker, String s, Object... objects)
 	{
-
+		de.tobias.logger.Logger.debug(MessageFormatter.format(s, objects).getMessage());
 	}
 
 	public void debug(Marker marker, String s, Throwable throwable)
 	{
-
+		de.tobias.logger.Logger.debug(s);
+		if(throwable != null)
+		{
+			de.tobias.logger.Logger.error(throwable);
+		}
 	}
 
 	public boolean isInfoEnabled()
@@ -168,37 +184,45 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void info(String s, Throwable throwable)
 	{
-
+		de.tobias.logger.Logger.info(s);
+		if(throwable != null)
+		{
+			de.tobias.logger.Logger.error(throwable);
+		}
 	}
 
 	public boolean isInfoEnabled(Marker marker)
 	{
-		return false;
+		return de.tobias.logger.Logger.getLevelFilter().acceptLevel(LogLevel.INFO);
 	}
 
 	public void info(Marker marker, String s)
 	{
-
+		de.tobias.logger.Logger.info(s);
 	}
 
 	public void info(Marker marker, String s, Object o)
 	{
-
+		de.tobias.logger.Logger.info(MessageFormatter.format(s, o).getMessage());
 	}
 
 	public void info(Marker marker, String s, Object o, Object o1)
 	{
-
+		de.tobias.logger.Logger.info(MessageFormatter.format(s, o, o1).getMessage());
 	}
 
 	public void info(Marker marker, String s, Object... objects)
 	{
-
+		de.tobias.logger.Logger.info(MessageFormatter.format(s, objects).getMessage());
 	}
 
 	public void info(Marker marker, String s, Throwable throwable)
 	{
-
+		de.tobias.logger.Logger.info(s);
+		if(throwable != null)
+		{
+			de.tobias.logger.Logger.error(throwable);
+		}
 	}
 
 	public boolean isWarnEnabled()
@@ -228,37 +252,45 @@ public class Slf4JLoggerAdapter implements Logger
 
 	public void warn(String s, Throwable throwable)
 	{
-
+		de.tobias.logger.Logger.warning(s);
+		if(throwable != null)
+		{
+			de.tobias.logger.Logger.error(throwable);
+		}
 	}
 
 	public boolean isWarnEnabled(Marker marker)
 	{
-		return false;
+		return de.tobias.logger.Logger.getLevelFilter().acceptLevel(LogLevel.WARNING);
 	}
 
 	public void warn(Marker marker, String s)
 	{
-
+		de.tobias.logger.Logger.warning(s);
 	}
 
 	public void warn(Marker marker, String s, Object o)
 	{
-
+		de.tobias.logger.Logger.warning(MessageFormatter.format(s, o).getMessage());
 	}
 
 	public void warn(Marker marker, String s, Object o, Object o1)
 	{
-
+		de.tobias.logger.Logger.warning(MessageFormatter.format(s, o, o1).getMessage());
 	}
 
 	public void warn(Marker marker, String s, Object... objects)
 	{
-
+		de.tobias.logger.Logger.warning(MessageFormatter.format(s, objects).getMessage());
 	}
 
 	public void warn(Marker marker, String s, Throwable throwable)
 	{
-
+		de.tobias.logger.Logger.warning(s);
+		if(throwable != null)
+		{
+			de.tobias.logger.Logger.error(throwable);
+		}
 	}
 
 	public boolean isErrorEnabled()
@@ -289,36 +321,43 @@ public class Slf4JLoggerAdapter implements Logger
 	public void error(String s, Throwable throwable)
 	{
 		de.tobias.logger.Logger.error(s);
-		de.tobias.logger.Logger.error(throwable);
+		if(throwable != null)
+		{
+			de.tobias.logger.Logger.error(throwable);
+		}
 	}
 
 	public boolean isErrorEnabled(Marker marker)
 	{
-		return false;
+		return de.tobias.logger.Logger.getLevelFilter().acceptLevel(LogLevel.ERROR);
 	}
 
 	public void error(Marker marker, String s)
 	{
-
+		de.tobias.logger.Logger.error(s);
 	}
 
 	public void error(Marker marker, String s, Object o)
 	{
-
+		de.tobias.logger.Logger.error(MessageFormatter.format(s, o).getMessage());
 	}
 
 	public void error(Marker marker, String s, Object o, Object o1)
 	{
-
+		de.tobias.logger.Logger.error(MessageFormatter.format(s, o, o1).getMessage());
 	}
 
 	public void error(Marker marker, String s, Object... objects)
 	{
-
+		de.tobias.logger.Logger.error(MessageFormatter.format(s, objects).getMessage());
 	}
 
 	public void error(Marker marker, String s, Throwable throwable)
 	{
-
+		de.tobias.logger.Logger.error(s);
+		if(throwable != null)
+		{
+			de.tobias.logger.Logger.error(throwable);
+		}
 	}
 }
