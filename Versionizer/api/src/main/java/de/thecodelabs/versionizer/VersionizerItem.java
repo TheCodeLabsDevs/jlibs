@@ -41,6 +41,14 @@ public class VersionizerItem
 		this.snapshotRepository = snapshotRepository;
 	}
 
+	public String getRepository(boolean snapshot) {
+		if (snapshot) {
+			return snapshotRepository;
+		} else {
+			return releaseRepository;
+		}
+	}
+
 	public String getGroupId()
 	{
 		return groupId;

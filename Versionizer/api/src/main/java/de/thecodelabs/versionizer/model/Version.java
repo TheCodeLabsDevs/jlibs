@@ -75,9 +75,9 @@ public class Version implements Comparable
 						}
 						else if(snapshot & !v2.snapshot)
 						{
-							return -1; // v2 is newer (no snapshot
+							return -1; // v2 is newer (no snapshot)
 						}
-						else if(!snapshot & v2.snapshot)
+						else
 						{
 							return 1;
 						}

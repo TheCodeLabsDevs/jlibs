@@ -22,4 +22,16 @@ public class VersionTokenizer
 		}
 		return null;
 	}
+
+	public static int getRevision(String value)
+	{
+		final Pattern pattern = Pattern.compile("\\w*-[\\d.]*-[\\d]{8}.[\\d]{6}-(\\d).[\\w]*");
+		final Matcher matcher = pattern.matcher(value);
+
+		if(matcher.find())
+		{
+			return Integer.valueOf(matcher.group(1));
+		}
+		return 0;
+	}
 }

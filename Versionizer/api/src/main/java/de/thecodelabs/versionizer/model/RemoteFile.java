@@ -1,0 +1,76 @@
+package de.thecodelabs.versionizer.model;
+
+import de.tobias.utils.io.PathUtils;
+
+public class RemoteFile implements Comparable<RemoteFile>
+{
+	public enum FileType
+	{
+		JAR, EXE, ZIP;
+
+		public static FileType getFileType(String fileName)
+		{
+			switch(PathUtils.getFileExtension(fileName))
+			{
+				case "jar":
+					return JAR;
+				case "zip":
+					return ZIP;
+				case "exe":
+					return EXE;
+			}
+			return null;
+		}
+	}
+
+	private final String name;
+	private final String path;
+
+	private final FileType fileType;
+	private final int revision;
+
+	public RemoteFile(String name, String path, FileType fileType)
+	{
+		this.name = name;
+		this.path = path;
+		this.fileType = fileType;
+		this.revision = VersionTokenizer.getRevision(name);
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public String getPath()
+	{
+		return path;
+	}
+
+	public FileType getFileType()
+	{
+		return fileType;
+	}
+
+	public int getRevision()
+	{
+		return revision;
+	}
+
+	@Override
+	public int compareTo(RemoteFile o)
+	{
+		return Integer.compare(revision, o.revision);
+	}
+
+	@Override
+	public String toString()
+	{
+		return "RemoteFile{" +
+				"name='" + name + '\'' +
+				", path='" + path + '\'' +
+				", fileType=" + fileType +
+				", revision=" + revision +
+				'}';
+	}
+}

@@ -1,3 +1,5 @@
+package de.thecodelabs.versionizer;
+
 import de.thecodelabs.versionizer.model.VersionTokenizer;
 
 public class VersionTokenizerTest

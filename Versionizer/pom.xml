@@ -7,11 +7,29 @@
     <groupId>de.thecodelabs</groupId>
     <artifactId>Versionizer</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>api</module>
+        <module>gui</module>
+    </modules>
 
     <properties>
         <artifactory-java-client-services.version>2.6.2</artifactory-java-client-services.version>
         <gson.version>2.8.5</gson.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>de.thecodelabs</groupId>
+                <artifactId>jlibs</artifactId>
+                <version>2.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -30,6 +48,15 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.tobias</groupId>
+            <artifactId>libLogger-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.tobias</groupId>
+            <artifactId>libUtils</artifactId>
         </dependency>
     </dependencies>
 
