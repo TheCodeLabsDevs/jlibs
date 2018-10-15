@@ -43,7 +43,7 @@ public class VersionServiceTest
 		RemoteFile file = versionService.listFilesForVersion(version).get(0);
 		try
 		{
-			versionService.downloadRemoteFile(version, file, Paths.get("download.jar"));
+			versionService.downloadRemoteFile(file, Paths.get("download.jar"));
 		}
 		catch(IOException e)
 		{
