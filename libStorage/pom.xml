@@ -11,7 +11,7 @@
     <properties>
         <java.version>1.8</java.version>
 
-        <dom4j.version>2.1.0</dom4j.version>
+        <dom4j.version>2.1.1</dom4j.version>
         <guava.version>23.3-jre</guava.version>
         <snakeyaml.version>1.19</snakeyaml.version>
         <YAMLStorage.version>1.0.0</YAMLStorage.version>
