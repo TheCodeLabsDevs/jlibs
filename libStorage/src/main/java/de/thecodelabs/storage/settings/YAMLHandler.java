@@ -1,5 +1,7 @@
 package de.thecodelabs.storage.settings;
 
+import de.thecodelabs.storage.settings.annotation.Key;
+import de.thecodelabs.storage.settings.annotation.Required;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 

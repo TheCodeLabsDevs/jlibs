@@ -1,4 +1,4 @@
-package de.thecodelabs.storage.settings;
+package de.thecodelabs.storage.settings.annotation;
 
 import java.lang.annotation.*;
 

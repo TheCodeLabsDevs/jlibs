@@ -1,11 +1,12 @@
-package de.thecodelabs.storage.settings;
+package de.thecodelabs.storage.settings.annotation;
 
 import java.lang.annotation.*;
 
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FilePath {
+public @interface FilePath
+{
     /**
      * File path for the file
      *
@@ -13,5 +14,5 @@ public @interface FilePath {
      */
     String value();
 
-    boolean absolut() default false;
+    boolean absolute() default false;
 }

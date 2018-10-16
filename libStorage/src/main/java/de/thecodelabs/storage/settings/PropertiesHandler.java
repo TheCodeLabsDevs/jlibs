@@ -1,5 +1,8 @@
 package de.thecodelabs.storage.settings;
 
+import de.thecodelabs.storage.settings.annotation.Key;
+import de.thecodelabs.storage.settings.annotation.Required;
+
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

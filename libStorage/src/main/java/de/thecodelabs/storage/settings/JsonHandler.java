@@ -4,6 +4,7 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import de.thecodelabs.storage.settings.annotation.Key;
 
 import java.io.IOException;
 import java.io.InputStream;
