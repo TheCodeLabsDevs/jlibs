@@ -1,6 +1,6 @@
-package de.tobias.logger;
+package de.thecodelabs.logger;
 
-import de.tobias.utils.settings.Key;
+import de.thecodelabs.storage.settings.annotation.Key;
 
 public class LoggerConfig {
 

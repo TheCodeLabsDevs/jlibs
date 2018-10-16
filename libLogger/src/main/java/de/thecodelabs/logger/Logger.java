@@ -1,7 +1,7 @@
-package de.tobias.logger;
+package de.thecodelabs.logger;
 
-import de.tobias.utils.settings.Storage;
-import de.tobias.utils.settings.StorageTypes;
+import de.thecodelabs.storage.settings.Storage;
+import de.thecodelabs.storage.settings.StorageTypes;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.io.*;

@@ -6,7 +6,7 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>jlibs</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -14,14 +14,14 @@
 
         <libAutostart.version>1.0.1</libAutostart.version>
         <libGoogle.version>1.0.1</libGoogle.version>
-        <libLogger.version>1.3.10</libLogger.version>
-        <libLogger-slf4j.version>1.0.6</libLogger-slf4j.version>
-        <libMidi.version>2.0.0</libMidi.version>
-        <libNetwork.version>2.0.0</libNetwork.version>
-        <libStorage.version>2.0.0</libStorage.version>
+        <libLogger.version>2.0.0</libLogger.version>
+        <libLogger-slf4j.version>2.0.0</libLogger-slf4j.version>
+        <libMidi.version>2.0.1</libMidi.version>
+        <libNetwork.version>2.0.1</libNetwork.version>
+        <libStorage.version>2.1.0</libStorage.version>
         <libSwitcher.version>1.0.0</libSwitcher.version>
         <libSystemTray.version>1.0.0</libSystemTray.version>
-        <libUtils.version>1.7.4</libUtils.version>
+        <libUtils.version>1.7.5</libUtils.version>
         <Versionizer.version>1.0.0-SNAPSHOT</Versionizer.version>
     </properties>
 
@@ -38,12 +38,12 @@
                 <version>${libGoogle.version}</version>
             </dependency>
             <dependency>
-                <groupId>de.tobias</groupId>
+                <groupId>de.thecodelabs</groupId>
                 <artifactId>libLogger</artifactId>
                 <version>${libLogger.version}</version>
             </dependency>
             <dependency>
-                <groupId>de.tobias</groupId>
+                <groupId>de.thecodelabs</groupId>
                 <artifactId>libLogger-slf4j</artifactId>
                 <version>${libLogger-slf4j.version}</version>
             </dependency>

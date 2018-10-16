@@ -19,6 +19,7 @@ import java.util.Objects;
 
 public class Storage
 {
+	private static final String UTILS_PACKAGE = "de.tobias.utils.application";
 
 	private static Map<StorageType, StorageHandler> storageHandlerMap;
 
@@ -133,9 +134,9 @@ public class Storage
 				return Paths.get(filePath);
 			}
 
-			Class<?> appClass = Class.forName("de.tobias.utils.application.App");
-			Class pathTypeClass = Class.forName("de.tobias.utils.application.container.PathType");
-			Class<?> appUtilsClass = Class.forName("de.tobias.utils.application.ApplicationUtils");
+			Class<?> appClass = Class.forName(UTILS_PACKAGE + ".App");
+			Class pathTypeClass = Class.forName(UTILS_PACKAGE + ".container.PathType");
+			Class<?> appUtilsClass = Class.forName(UTILS_PACKAGE + ".ApplicationUtils");
 			final Method getApplication = appUtilsClass.getMethod("getApplication");
 			final Object app = getApplication.invoke(null);
 

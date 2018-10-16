@@ -1,6 +1,6 @@
 package de.tobias.utils.help;
 
-import de.tobias.utils.XMLUtils;
+import de.thecodelabs.storage.XMLUtils;
 import de.tobias.utils.application.ApplicationUtils;
 import de.tobias.utils.application.container.PathType;
 import de.tobias.utils.help.elements.HelpCategory;

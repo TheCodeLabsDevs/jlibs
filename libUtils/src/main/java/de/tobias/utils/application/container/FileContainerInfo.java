@@ -1,7 +1,7 @@
 package de.tobias.utils.application.container;
 
-import de.tobias.utils.settings.Key;
-import de.tobias.utils.settings.Required;
+import de.thecodelabs.storage.settings.annotation.Key;
+import de.thecodelabs.storage.settings.annotation.Required;
 
 import java.util.ArrayList;
 import java.util.List;

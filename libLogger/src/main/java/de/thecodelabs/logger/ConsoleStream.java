@@ -1,4 +1,4 @@
-package de.tobias.logger;
+package de.thecodelabs.logger;
 
 import java.io.IOException;
 import java.io.PrintStream;

@@ -1,5 +1,8 @@
 package de.tobias.utils.application;
 
+import de.thecodelabs.storage.settings.Storage;
+import de.thecodelabs.storage.settings.StorageTypes;
+import de.thecodelabs.storage.settings.UserDefaults;
 import de.tobias.utils.application.container.BackupInfo;
 import de.tobias.utils.application.container.FileContainer;
 import de.tobias.utils.application.container.PathType;
@@ -7,9 +10,6 @@ import de.tobias.utils.application.remote.RemoteResource;
 import de.tobias.utils.application.remote.RemoteResourceHandler;
 import de.tobias.utils.application.remote.RemoteResourceType;
 import de.tobias.utils.logger.LoggerBridge;
-import de.tobias.utils.settings.Storage;
-import de.tobias.utils.settings.StorageTypes;
-import de.tobias.utils.settings.UserDefaults;
 import de.tobias.utils.util.StringUtils;
 import javafx.application.Application;
 import org.dom4j.DocumentException;

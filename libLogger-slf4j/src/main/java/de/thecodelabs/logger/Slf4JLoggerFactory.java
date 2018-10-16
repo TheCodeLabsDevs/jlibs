@@ -1,4 +1,4 @@
-package de.tobias.logger;
+package de.thecodelabs.logger;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;

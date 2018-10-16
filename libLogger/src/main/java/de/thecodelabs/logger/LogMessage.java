@@ -1,4 +1,4 @@
-package de.tobias.logger;
+package de.thecodelabs.logger;
 
 import java.text.SimpleDateFormat;
 

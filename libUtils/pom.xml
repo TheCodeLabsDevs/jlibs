@@ -4,10 +4,13 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>libUtils</artifactId>
-    <version>1.7.4</version>
+    <version>1.7.5</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <jlibs.version>2.0.1</jlibs.version>
+
         <commons-net.version>3.6</commons-net.version>
         <controlsfx.version>8.40.14</controlsfx.version>
         <jna.version>4.1.0</jna.version>
@@ -18,8 +21,19 @@
         <guava.version>23.3-jre</guava.version>
         <snakeyaml.version>1.19</snakeyaml.version>
         <YAMLStorage.version>1.0.0</YAMLStorage.version>
-        <libStorage.version>1.4.1</libStorage.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>de.thecodelabs</groupId>
+                <artifactId>jlibs</artifactId>
+                <version>${jlibs.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -86,9 +100,8 @@
             <version>${YAMLStorage.version}</version>
         </dependency>
         <dependency>
-            <groupId>de.tobias</groupId>
+            <groupId>de.thecodelabs</groupId>
             <artifactId>libStorage</artifactId>
-            <version>${libStorage.version}</version>
         </dependency>
     </dependencies>
 

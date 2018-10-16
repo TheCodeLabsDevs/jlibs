@@ -1,7 +1,7 @@
 package de.tobias.utils.application;
 
-import de.tobias.utils.settings.Key;
-import de.tobias.utils.settings.Required;
+import de.thecodelabs.storage.settings.annotation.Key;
+import de.thecodelabs.storage.settings.annotation.Required;
 import org.bukkit.configuration.MemorySection;
 
 public class ApplicationInfo {

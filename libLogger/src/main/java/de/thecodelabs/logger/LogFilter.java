@@ -1,4 +1,4 @@
-package de.tobias.logger;
+package de.thecodelabs.logger;
 
 
 public interface LogFilter {

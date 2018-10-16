@@ -1,11 +1,11 @@
 package de.tobias.utils.application.container;
 
+import de.thecodelabs.storage.settings.Storage;
+import de.thecodelabs.storage.settings.StorageTypes;
 import de.tobias.utils.application.App;
 import de.tobias.utils.application.ApplicationInfo;
 import de.tobias.utils.io.FileUtils;
 import de.tobias.utils.io.PathUtils;
-import de.tobias.utils.settings.Storage;
-import de.tobias.utils.settings.StorageTypes;
 import de.tobias.utils.util.SystemUtils;
 
 import java.io.IOException;

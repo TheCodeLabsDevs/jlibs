@@ -1,6 +1,6 @@
 package de.thecodelabs.net;
 
-import de.tobias.logger.Logger;
+import de.thecodelabs.logger.Logger;
 
 import java.io.IOException;
 import java.net.*;
