@@ -107,7 +107,12 @@ public class WindowsNativeApplication extends NativeApplication
 	@Override
 	public Image getImageForFile(Path file) {
 		if (OS.getArch() == OS.OSArch.x86) {
-			return new Image(IOUtils.byteArrayToInputStream(getImageForFile_N(file.toString())));
+			byte[] bytes = getImageForFile_N(file.toString());
+			if (bytes != null) {
+				return new Image(IOUtils.byteArrayToInputStream(bytes));
+			} else {
+				return null;
+			}
 		} else {
 			return null;
 		}
