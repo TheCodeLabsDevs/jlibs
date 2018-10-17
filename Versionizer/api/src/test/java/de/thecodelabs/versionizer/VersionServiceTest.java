@@ -3,7 +3,7 @@ package de.thecodelabs.versionizer;
 import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.model.Version;
 import de.thecodelabs.versionizer.service.VersionService;
-import de.tobias.logger.Logger;
+import de.thecodelabs.logger.Logger;
 
 import java.io.IOException;
 import java.nio.file.Paths;
