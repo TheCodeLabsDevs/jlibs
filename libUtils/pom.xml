@@ -142,7 +142,7 @@
                         <configuration>
                             <javahClass>de.thecodelabs.utils.application.system.impl.WindowsNativeApplication</javahClass>
                             <javahOutputFilePath>
-                                ${project.basedir}/target/jni/libUtils/include/de_thecodelabss_utils_util_mac_WindowsNativeApplication.h
+                                ${project.basedir}/target/jni/libUtils/include/de_thecodelabs_utils_util_mac_WindowsNativeApplication.h
                             </javahOutputFilePath>
                         </configuration>
                     </execution>
