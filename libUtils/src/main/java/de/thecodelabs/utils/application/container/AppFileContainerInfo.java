@@ -6,7 +6,8 @@ import de.thecodelabs.storage.settings.annotation.Required;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileContainerInfo {
+public class AppFileContainerInfo
+{
 
 	@Key
 	@Required

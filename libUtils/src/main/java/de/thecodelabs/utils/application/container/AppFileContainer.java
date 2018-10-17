@@ -12,18 +12,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class FileContainer {
+public class AppFileContainer
+{
 
 	private String containerName = "Java File Container";
 
-	private FileContainerInfo containerInfo;
+	private AppFileContainerInfo containerInfo;
 	private Path containerPath;
 	private Path containerInfoPath;
 
 	private ApplicationInfo info;
 	private App app;
 
-	public FileContainer(App app) {
+	public AppFileContainer(App app) {
 		this.app = app;
 		this.info = app.getInfo();
 		if (app.getInfo().getBasePath() != null && !app.getInfo().getBasePath().isEmpty()) {
@@ -34,19 +35,19 @@ public class FileContainer {
 		updatePath();
 
 		if (Files.exists(containerInfoPath)) {
-			containerInfo = Storage.load(containerInfoPath, StorageTypes.YAML, FileContainerInfo.class);
+			containerInfo = Storage.load(containerInfoPath, StorageTypes.YAML, AppFileContainerInfo.class);
 		} else {
-			containerInfo = new FileContainerInfo();
+			containerInfo = new AppFileContainerInfo();
 			saveInformation();
 		}
 
 		PathUtils.createDirectoriesIfNotExists(containerPath);
 	}
 
-	public FileContainer(String bundleIdentifier) {
+	public AppFileContainer(String bundleIdentifier) {
 		containerPath = SystemUtils.getApplicationSupportDirectoryPath(containerName, bundleIdentifier);
 		containerInfoPath = getPath("container.yml", PathType.ROOT);
-		containerInfo = Storage.load(containerInfoPath, StorageTypes.YAML, FileContainerInfo.class);
+		containerInfo = Storage.load(containerInfoPath, StorageTypes.YAML, AppFileContainerInfo.class);
 	}
 
 	public void updatePath() {
@@ -83,7 +84,7 @@ public class FileContainer {
 		return getFolder(PathType.BACKUP).resolve(Long.toString(time)).resolve(containerPath.relativize(path));
 	}
 
-	public FileContainerInfo getContainerInfo() {
+	public AppFileContainerInfo getContainerInfo() {
 		return containerInfo;
 	}
 

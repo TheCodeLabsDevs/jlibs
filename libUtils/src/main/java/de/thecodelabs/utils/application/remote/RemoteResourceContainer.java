@@ -6,11 +6,12 @@ import de.thecodelabs.utils.application.App;
 import java.io.IOException;
 import java.net.URL;
 
-public class RemoteResourceHandler {
+public class RemoteResourceContainer
+{
 
 	private App app;
 
-	public RemoteResourceHandler(App app) {
+	public RemoteResourceContainer(App app) {
 		this.app = app;
 	}
 

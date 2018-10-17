@@ -73,10 +73,10 @@ public class ZipFile {
 		}
 	}
 
-	public InputStream inputStream(Path path) throws IOException {
+	public InputStream inputStream(String path) throws IOException {
 		if (mode == FileMode.READ) {
 			for (ZipEntry e : Collections.list(zipFile.entries())) {
-				if (e.getName().equals(path.toFile().toString())) {
+				if (e.getName().equals(path)) {
 					return zipFile.getInputStream(e);
 				}
 			}

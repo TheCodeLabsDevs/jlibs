@@ -3,11 +3,13 @@ package de.thecodelabs.utils.application;
 import de.thecodelabs.storage.settings.Storage;
 import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.storage.settings.UserDefaults;
+import de.thecodelabs.utils.application.classpath.ClasspathResource;
+import de.thecodelabs.utils.application.classpath.ClasspathResourceContainer;
 import de.thecodelabs.utils.application.container.BackupInfo;
-import de.thecodelabs.utils.application.container.FileContainer;
+import de.thecodelabs.utils.application.container.AppFileContainer;
 import de.thecodelabs.utils.application.container.PathType;
 import de.thecodelabs.utils.application.remote.RemoteResource;
-import de.thecodelabs.utils.application.remote.RemoteResourceHandler;
+import de.thecodelabs.utils.application.remote.RemoteResourceContainer;
 import de.thecodelabs.utils.application.remote.RemoteResourceType;
 import de.thecodelabs.utils.logger.LoggerBridge;
 import de.thecodelabs.utils.util.StringUtils;
@@ -38,8 +40,9 @@ public final class App {
 	/**
 	 * File Container for the bundle
 	 */
-	private FileContainer container;
-	private RemoteResourceHandler remoteResourceHandler;
+	private AppFileContainer container;
+	private RemoteResourceContainer remoteResourceContainer;
+	private ClasspathResourceContainer classpathResourceContainer;
 
 	/**
 	 * show debug messages in the console
@@ -88,8 +91,9 @@ public final class App {
 	 */
 	public App(ApplicationInfo info) {
 		appInfo = info;
-		container = new FileContainer(this);
-		remoteResourceHandler = new RemoteResourceHandler(this);
+		container = new AppFileContainer(this);
+		remoteResourceContainer = new RemoteResourceContainer(this);
+		classpathResourceContainer = new ClasspathResourceContainer();
 	}
 
 	/**
@@ -131,12 +135,20 @@ public final class App {
 		return container.getPath(childPath.toString(), type);
 	}
 
-	public RemoteResourceHandler getRemoteResources() {
-		return remoteResourceHandler;
+	public RemoteResourceContainer getRemoteResources() {
+		return remoteResourceContainer;
 	}
 
 	public RemoteResource getRemoteResource(RemoteResourceType remoteResourceType, String... more) {
 		return getRemoteResources().get(remoteResourceType, more);
+	}
+
+	public ClasspathResourceContainer getClasspathResourceContainer() {
+		return classpathResourceContainer;
+	}
+
+	public ClasspathResource getClasspathResource(String... name) {
+		return getClasspathResourceContainer().get(name);
 	}
 
 	public boolean isDebug() {
@@ -285,7 +297,7 @@ public final class App {
 		if (!debug)
 			backupFiles();
 
-		// FileContainer hat noch alte Versionnummer des Bundles
+		// AppFileContainer hat noch alte Versionnummer des Bundles
 		long oldVersion = container.getContainerInfo().getBuild();
 		long newVersion = appInfo.getBuild();
 
@@ -305,7 +317,7 @@ public final class App {
 		LoggerBridge.debug(string);
 	}
 
-	public FileContainer getContainer() {
+	public AppFileContainer getContainer() {
 		return container;
 	}
 
