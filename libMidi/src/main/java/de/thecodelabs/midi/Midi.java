@@ -4,7 +4,7 @@ import de.thecodelabs.midi.device.MidiDevice;
 import de.thecodelabs.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.device.MidiDeviceManager;
 import de.thecodelabs.midi.device.java.JavaDeviceManager;
-import de.tobias.utils.util.OS;
+import de.thecodelabs.utils.util.OS;
 import uk.co.xfactorylibrarians.coremidi4j.CoreMidiDeviceProvider;
 import uk.co.xfactorylibrarians.coremidi4j.CoreMidiException;
 

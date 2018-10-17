@@ -1,6 +1,6 @@
 package de.thecodelabs.versionizer.model;
 
-import de.tobias.utils.io.PathUtils;
+import de.thecodelabs.utils.io.PathUtils;
 
 public class RemoteFile implements Comparable<RemoteFile>
 {

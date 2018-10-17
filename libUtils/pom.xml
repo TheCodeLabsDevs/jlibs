@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.tobias</groupId>
+    <groupId>de.thecodelabs</groupId>
     <artifactId>libUtils</artifactId>
-    <version>1.7.5</version>
+    <version>2.0.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -121,28 +121,28 @@
                 <version>1.0.6</version>
                 <executions>
                     <execution>
-                        <id>de.tobias.utils.application.system.impl.MacNativeApplication</id>
+                        <id>de.thecodelabs.utils.application.system.impl.MacNativeApplication</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>javah</goal>
                         </goals>
                         <configuration>
-                            <javahClass>de.tobias.utils.application.system.impl.MacNativeApplication</javahClass>
+                            <javahClass>de.thecodelabs.utils.application.system.impl.MacNativeApplication</javahClass>
                             <javahOutputFilePath>
-                                ${project.basedir}/target/jni/libUtils/include/de_tobias_utils_util_mac_MacNativeApplication.h
+                                ${project.basedir}/target/jni/libUtils/include/de_thecodelabs_utils_util_mac_MacNativeApplication.h
                             </javahOutputFilePath>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>de.tobias.utils.application.system.impl.WindowsNativeApplication</id>
+                        <id>de.thecodelabs.utils.application.system.impl.WindowsNativeApplication</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>javah</goal>
                         </goals>
                         <configuration>
-                            <javahClass>de.tobias.utils.application.system.impl.WindowsNativeApplication</javahClass>
+                            <javahClass>de.thecodelabs.utils.application.system.impl.WindowsNativeApplication</javahClass>
                             <javahOutputFilePath>
-                                ${project.basedir}/target/jni/libUtils/include/de_tobias_utils_util_mac_WindowsNativeApplication.h
+                                ${project.basedir}/target/jni/libUtils/include/de_thecodelabss_utils_util_mac_WindowsNativeApplication.h
                             </javahOutputFilePath>
                         </configuration>
                     </execution>
