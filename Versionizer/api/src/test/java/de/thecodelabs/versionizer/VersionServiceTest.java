@@ -25,8 +25,7 @@ public class VersionServiceTest
 
 		VersionService versionService = new VersionService(versionizerItem);
 
-		Version[] versions = versionService.getVersions();
-		Arrays.sort(versions);
+		List<Version> versions = versionService.getVersions();
 
 		for(Version version : versions)
 		{
@@ -39,7 +38,7 @@ public class VersionServiceTest
 			}
 		}
 
-		final Version version = versions[versions.length - 1];
+		final Version version = versions.get(versions.size() - 1);
 		RemoteFile file = versionService.listFilesForVersion(version).get(0);
 		try
 		{

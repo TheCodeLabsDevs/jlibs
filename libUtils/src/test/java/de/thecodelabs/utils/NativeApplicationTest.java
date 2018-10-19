@@ -1,5 +1,6 @@
-package de.tobias.utils;
+package de.thecodelabs.utils;
 
+import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.system.NativeApplication;
 import javafx.application.Application;
 import javafx.scene.Scene;

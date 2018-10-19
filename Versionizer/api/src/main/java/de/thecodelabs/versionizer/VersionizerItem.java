@@ -1,72 +1,32 @@
 package de.thecodelabs.versionizer;
 
+import de.thecodelabs.versionizer.config.Build;
+import de.thecodelabs.versionizer.config.Repository;
+
+import java.util.List;
+
 public class VersionizerItem
 {
-	private String artifactoryUrl;
-	private String releaseRepository;
-	private String snapshotRepository;
-
-	private String groupId;
-	private String artifactId;
+	private Repository repository;
+	private List<Build> buildList;
 
 	private String executablePath;
 
-	public String getArtifactoryUrl()
+	public VersionizerItem(Repository repository, List<Build> buildList, String executablePath)
 	{
-		return artifactoryUrl;
+		this.repository = repository;
+		this.buildList = buildList;
+		this.executablePath = executablePath;
 	}
 
-	public void setArtifactoryUrl(String artifactoryUrl)
+	public Repository getRepository()
 	{
-		this.artifactoryUrl = artifactoryUrl;
+		return repository;
 	}
 
-	public String getReleaseRepository()
+	public List<Build> getBuildList()
 	{
-		return releaseRepository;
-	}
-
-	public void setReleaseRepository(String releaseRepository)
-	{
-		this.releaseRepository = releaseRepository;
-	}
-
-	public String getSnapshotRepository()
-	{
-		return snapshotRepository;
-	}
-
-	public void setSnapshotRepository(String snapshotRepository)
-	{
-		this.snapshotRepository = snapshotRepository;
-	}
-
-	public String getRepository(boolean snapshot) {
-		if (snapshot) {
-			return snapshotRepository;
-		} else {
-			return releaseRepository;
-		}
-	}
-
-	public String getGroupId()
-	{
-		return groupId;
-	}
-
-	public void setGroupId(String groupId)
-	{
-		this.groupId = groupId;
-	}
-
-	public String getArtifactId()
-	{
-		return artifactId;
-	}
-
-	public void setArtifactId(String artifactId)
-	{
-		this.artifactId = artifactId;
+		return buildList;
 	}
 
 	public String getExecutablePath()

@@ -39,7 +39,7 @@ public class ExternalClasspathResourceContainer
 	private final Path archiveFile;
 	private final ZipFile zipFile;
 
-	public ExternalClasspathResourceContainer(Path archiveFile, ZipFile zipFile)
+	private ExternalClasspathResourceContainer(Path archiveFile, ZipFile zipFile)
 	{
 		this.archiveFile = archiveFile;
 		this.zipFile = zipFile;

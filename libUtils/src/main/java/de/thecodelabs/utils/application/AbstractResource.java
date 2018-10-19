@@ -31,7 +31,7 @@ public abstract class AbstractResource
 		return new String(getAsByteArray(), charset);
 	}
 
-	public <T> T getAsSerializedObject(StorageType storageType, Class<T> clazz) {
+	public <T> T deserialize(StorageType storageType, Class<T> clazz) {
 		return Storage.load(getInputStream(), storageType, clazz);
 	}
 

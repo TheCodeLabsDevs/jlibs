@@ -1,10 +1,10 @@
 package de.thecodelabs.versionizer.service;
 
+import de.thecodelabs.utils.io.IOUtils;
 import de.thecodelabs.versionizer.VersionizerItem;
+import de.thecodelabs.versionizer.config.Build;
 import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.model.Version;
-import de.thecodelabs.versionizer.model.VersionTokenizer;
-import de.thecodelabs.utils.io.IOUtils;
 import org.jfrog.artifactory.client.Artifactory;
 import org.jfrog.artifactory.client.ArtifactoryClientBuilder;
 import org.jfrog.artifactory.client.DownloadableArtifact;
@@ -31,7 +31,7 @@ public class VersionService
 		this.versionizerItem = versionizerItem;
 
 		artifactory = ArtifactoryClientBuilder.create()
-				.setUrl(versionizerItem.getArtifactoryUrl())
+				.setUrl(versionizerItem.getRepository().getUrl())
 				.build();
 	}
 
@@ -50,19 +50,21 @@ public class VersionService
 		}
 	}
 
-	public Version[] getVersions()
+	public List<Version> getVersions(Build build)
 	{
 		List<Version> versionList = new LinkedList<>();
-		versionList.addAll(getVersionsByRepository(artifactory, versionizerItem.getReleaseRepository()));
-		versionList.addAll(getVersionsByRepository(artifactory, versionizerItem.getSnapshotRepository()));
+		versionList.addAll(getVersionsByRepository(artifactory, versionizerItem.getRepository().getRepositoryNameReleases(), build));
+		versionList.addAll(getVersionsByRepository(artifactory, versionizerItem.getRepository().getRepositoryNameSnapshots(), build));
 
-		return versionList.toArray(new Version[0]);
+		versionList.sort(Version::compareTo);
+
+		return versionList;
 	}
 
-	private List<Version> getVersionsByRepository(Artifactory artifactory, String repository)
+	private List<Version> getVersionsByRepository(Artifactory artifactory, String repository, Build build)
 	{
 		final Folder folder = artifactory.repository(repository)
-				.folder(versionizerItem.getGroupId() + "/" + versionizerItem.getArtifactId())
+				.folder(build.getGroupId() + "/" + build.getArtifactId())
 				.info();
 
 		List<Version> versionList = new LinkedList<>();
@@ -70,7 +72,7 @@ public class VersionService
 		{
 			if(child.isFolder())
 			{
-				final Version version = VersionTokenizer.getVersion(child.getName());
+				final Version version = VersionTokenizer.getVersion(build, child.getName());
 				versionList.add(version);
 			}
 		}
@@ -79,10 +81,11 @@ public class VersionService
 
 	public List<RemoteFile> listFilesForVersion(Version version)
 	{
+		final Build build = version.getBuild();
 		List<RemoteFile> remoteFiles = new ArrayList<>();
 
-		final String repositoryPath = versionizerItem.getRepository(version.isSnapshot());
-		final String folderPath = versionizerItem.getGroupId() + "/" + versionizerItem.getArtifactId() + "/" + version.toVersionString();
+		final String repositoryPath = versionizerItem.getRepository().getRepository(version.isSnapshot());
+		final String folderPath = build.getGroupId() + "/" + build.getArtifactId() + "/" + version.toVersionString();
 
 		final Folder folder = artifactory
 				.repository(repositoryPath)
@@ -105,7 +108,7 @@ public class VersionService
 
 	public void downloadRemoteFile(RemoteFile remoteFile, Path destination) throws IOException
 	{
-		final String repository = versionizerItem.getRepository(remoteFile.getVersion().isSnapshot());
+		final String repository = versionizerItem.getRepository().getRepository(remoteFile.getVersion().isSnapshot());
 
 		final File fileInfo = artifactory
 				.repository(repository)
@@ -119,6 +122,6 @@ public class VersionService
 		final InputStream iStr = downloadableArtifact.doDownload();
 		final OutputStream oStr = Files.newOutputStream(destination);
 
-		IOUtils.copy(iStr, oStr, (round) -> System.out.println(round + "/" + fileInfo.getSize()));
+		IOUtils.copy(iStr, oStr, (passed) -> System.out.println(passed + "/" + fileInfo.getSize()));
 	}
 }

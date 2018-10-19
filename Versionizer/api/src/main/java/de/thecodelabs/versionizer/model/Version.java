@@ -1,19 +1,29 @@
 package de.thecodelabs.versionizer.model;
 
+import de.thecodelabs.versionizer.config.Build;
+
 public class Version implements Comparable
 {
+	private final Build build;
+
 	private final int major;
 	private final int minor;
 	private final int fix;
 
 	private final boolean snapshot;
 
-	public Version(int major, int minor, int fix, boolean snapshot)
+	public Version(Build build, int major, int minor, int fix, boolean snapshot)
 	{
+		this.build = build;
 		this.major = major;
 		this.minor = minor;
 		this.fix = fix;
 		this.snapshot = snapshot;
+	}
+
+	public Build getBuild()
+	{
+		return build;
 	}
 
 	public int getMajor()

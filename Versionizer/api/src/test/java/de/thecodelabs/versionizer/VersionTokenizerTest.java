@@ -1,6 +1,6 @@
 package de.thecodelabs.versionizer;
 
-import de.thecodelabs.versionizer.model.VersionTokenizer;
+import de.thecodelabs.versionizer.service.VersionTokenizer;
 
 public class VersionTokenizerTest
 {

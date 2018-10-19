@@ -1,14 +1,16 @@
-package de.thecodelabs.versionizer.model;
+package de.thecodelabs.versionizer.service;
+
+import de.thecodelabs.versionizer.config.Build;
+import de.thecodelabs.versionizer.model.Version;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class VersionTokenizer
 {
-
-	public static Version getVersion(String value)
+	public static Version getVersion(Build build, String value)
 	{
-		final Pattern pattern = Pattern.compile("(\\d).(\\d).(\\d)(-SNAPSHOT)?");
+		final Pattern pattern = Pattern.compile("(\\d+).(\\d+).(\\d+)(-SNAPSHOT)?");
 		final Matcher matcher = pattern.matcher(value);
 
 		if(matcher.find())
@@ -18,7 +20,7 @@ public class VersionTokenizer
 			final int fix = Integer.valueOf(matcher.group(3));
 			final boolean snapshot = matcher.group(4) != null;
 
-			return new Version(major, minor, fix, snapshot);
+			return new Version(build, major, minor, fix, snapshot);
 		}
 		return null;
 	}
