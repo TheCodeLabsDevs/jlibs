@@ -18,7 +18,7 @@
         <libLogger-slf4j.version>2.0.0</libLogger-slf4j.version>
         <libMidi.version>2.0.1</libMidi.version>
         <libNetwork.version>2.0.1</libNetwork.version>
-        <libStorage.version>2.1.0</libStorage.version>
+        <libStorage.version>2.1.1</libStorage.version>
         <libSwitcher.version>1.0.0</libSwitcher.version>
         <libSystemTray.version>1.0.0</libSystemTray.version>
         <libUtils.version>2.0.0</libUtils.version>

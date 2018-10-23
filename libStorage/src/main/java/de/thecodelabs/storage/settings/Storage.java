@@ -7,15 +7,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class Storage
 {
@@ -74,10 +71,10 @@ public class Storage
 	@SuppressWarnings({"JavaReflectionInvocation", "unchecked"})
 	public static <T> T load(StorageType type, Class<T> clazz)
 	{
-		Path config = getPath(clazz);
-		if(config != null)
+		InputStream inputStream = getInputStream(clazz);
+		if(inputStream != null)
 		{
-			return load(config, type, clazz);
+			return load(inputStream, type, clazz);
 		}
 		else
 		{
@@ -97,7 +94,7 @@ public class Storage
 
 	public static <T> void save(StorageType type, T value)
 	{
-		final Path path = getPath(value.getClass());
+		final Path path = getFilePath(value.getClass());
 
 		if(path != null)
 		{
@@ -105,12 +102,18 @@ public class Storage
 		}
 	}
 
-	private static <T> Path getPath(Class<T> clazz)
+	private static <T> InputStream getInputStream(Class<T> clazz)
 	{
-		Path config;
 		if(clazz.isAnnotationPresent(FilePath.class))
 		{
-			return getFilePath(clazz);
+			try
+			{
+				return Files.newInputStream(getFilePath(clazz));
+			}
+			catch(IOException e)
+			{
+				throw new RuntimeException(e);
+			}
 		}
 		else if(clazz.isAnnotationPresent(Classpath.class))
 		{
@@ -150,19 +153,10 @@ public class Storage
 		}
 	}
 
-	private static <T> Path getClasspath(Class<T> clazz)
+	private static <T> InputStream getClasspath(Class<T> clazz)
 	{
 		final Classpath annotation = clazz.getAnnotation(Classpath.class);
 		final String filePath = annotation.value();
-
-		final URL resource = clazz.getClassLoader().getResource(filePath);
-		try
-		{
-			return Paths.get(Objects.requireNonNull(resource).toURI());
-		}
-		catch(URISyntaxException | NullPointerException e)
-		{
-			throw new RuntimeException(e);
-		}
+		return clazz.getClassLoader().getResourceAsStream(filePath);
 	}
 }

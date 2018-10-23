@@ -1,13 +1,15 @@
 package de.thecodelabs.versionizer;
 
+import de.thecodelabs.logger.Logger;
+import de.thecodelabs.versionizer.config.Build;
+import de.thecodelabs.versionizer.config.Repository;
 import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.model.Version;
 import de.thecodelabs.versionizer.service.VersionService;
-import de.thecodelabs.logger.Logger;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class VersionServiceTest
@@ -16,16 +18,18 @@ public class VersionServiceTest
 	{
 		Logger.init(Paths.get("./"));
 
-		VersionizerItem versionizerItem = new VersionizerItem();
-		versionizerItem.setArtifactoryUrl("https://maven.thecodelabs.de/artifactory");
-		versionizerItem.setGroupId("de/tobias");
-		versionizerItem.setArtifactId("libMidi");
-		versionizerItem.setReleaseRepository("TheCodeLabs-release");
-		versionizerItem.setSnapshotRepository("TheCodeLabs-snapshots");
+		final Repository repository = new Repository();
+		final Build build = new Build();
+		VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(build), null);
+		repository.setUrl("https://maven.thecodelabs.de/artifactory");
+		build.setGroupId("de/tobias");
+		build.setArtifactId("libMidi");
+		repository.setRepositoryNameReleases("TheCodeLabs-release");
+		repository.setRepositoryNameSnapshots("TheCodeLabs-snapshots");
 
 		VersionService versionService = new VersionService(versionizerItem);
 
-		List<Version> versions = versionService.getVersions();
+		List<Version> versions = versionService.getVersions(build);
 
 		for(Version version : versions)
 		{

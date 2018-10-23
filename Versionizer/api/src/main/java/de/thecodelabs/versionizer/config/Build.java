@@ -28,6 +28,21 @@ public class Build
 		return version;
 	}
 
+	public void setArtifactId(String artifactId)
+	{
+		this.artifactId = artifactId;
+	}
+
+	public void setGroupId(String groupId)
+	{
+		this.groupId = groupId;
+	}
+
+	public void setVersion(String version)
+	{
+		this.version = version;
+	}
+
 	@Override
 	public String toString()
 	{
@@ -37,4 +52,6 @@ public class Build
 				", version='" + version + '\'' +
 				'}';
 	}
+
+
 }

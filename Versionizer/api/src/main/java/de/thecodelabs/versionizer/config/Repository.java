@@ -36,4 +36,19 @@ public class Repository
 			return repositoryNameReleases;
 		}
 	}
+
+	public void setUrl(String url)
+	{
+		this.url = url;
+	}
+
+	public void setRepositoryNameReleases(String repositoryNameReleases)
+	{
+		this.repositoryNameReleases = repositoryNameReleases;
+	}
+
+	public void setRepositoryNameSnapshots(String repositoryNameSnapshots)
+	{
+		this.repositoryNameSnapshots = repositoryNameSnapshots;
+	}
 }
