@@ -2,8 +2,8 @@ package de.tobias.updater.client;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import de.tobias.utils.util.OS;
-import de.tobias.utils.util.SystemUtils;
+import de.thecodelabs.utils.util.OS;
+import de.thecodelabs.utils.util.SystemUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

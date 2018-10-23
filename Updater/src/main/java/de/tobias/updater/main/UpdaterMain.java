@@ -4,9 +4,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import de.thecodelabs.utils.ui.Alerts;
+import de.thecodelabs.utils.util.StringUtils;
 import de.tobias.updater.viewcontroller.UpdateViewController;
-import de.tobias.utils.ui.Alerts;
-import de.tobias.utils.util.StringUtils;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -29,7 +29,7 @@ public class UpdaterMain extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		String parameter = StringUtils.build(getParameters().getRaw(), " ");
 		if (parameter.isEmpty()) {
-			Alert alert = Alerts.shared().createAlert(Alert.AlertType.ERROR, "Initialize Error", "No Parameter defined");
+			Alert alert = Alerts.getInstance().createAlert(Alert.AlertType.ERROR, "Initialize Error", "No Parameter defined");
 			alert.showAndWait();
 			Platform.exit();
 			return;
