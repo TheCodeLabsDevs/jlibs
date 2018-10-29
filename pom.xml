@@ -6,7 +6,7 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>jlibs</artifactId>
-    <version>2.0.2</version>
+    <version>2.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -21,7 +21,7 @@
         <libStorage.version>2.1.1</libStorage.version>
         <libSwitcher.version>1.0.0</libSwitcher.version>
         <libSystemTray.version>1.0.0</libSystemTray.version>
-        <libUtils.version>2.0.0</libUtils.version>
+        <libUtils.version>2.0.1</libUtils.version>
         <Versionizer.version>1.0.0-SNAPSHOT</Versionizer.version>
     </properties>
 

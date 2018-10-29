@@ -4,11 +4,11 @@ import de.thecodelabs.utils.application.AbstractResource;
 
 import java.io.InputStream;
 
-public class ExternalClasspathResource extends AbstractResource
+public class ExternalJarResource extends AbstractResource
 {
 	private final InputStream inputStream;
 
-	ExternalClasspathResource(InputStream inputStream)
+	ExternalJarResource(InputStream inputStream)
 	{
 		this.inputStream = inputStream;
 	}
