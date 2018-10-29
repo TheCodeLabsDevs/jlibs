@@ -1,10 +1,10 @@
 package de.thecodelabs.versionizer.model;
 
-import de.thecodelabs.versionizer.config.Build;
+import de.thecodelabs.versionizer.config.Artifact;
 
 public class Version implements Comparable
 {
-	private final Build build;
+	private final Artifact artifact;
 
 	private final int major;
 	private final int minor;
@@ -12,18 +12,18 @@ public class Version implements Comparable
 
 	private final boolean snapshot;
 
-	public Version(Build build, int major, int minor, int fix, boolean snapshot)
+	public Version(Artifact artifact, int major, int minor, int fix, boolean snapshot)
 	{
-		this.build = build;
+		this.artifact = artifact;
 		this.major = major;
 		this.minor = minor;
 		this.fix = fix;
 		this.snapshot = snapshot;
 	}
 
-	public Build getBuild()
+	public Artifact getArtifact()
 	{
-		return build;
+		return artifact;
 	}
 
 	public int getMajor()
@@ -54,6 +54,10 @@ public class Version implements Comparable
 			version += "-SNAPSHOT";
 		}
 		return version;
+	}
+
+	public boolean isNewerTo(Version version) {
+		return this.compareTo(version) > 0;
 	}
 
 	@Override

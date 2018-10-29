@@ -4,7 +4,7 @@ import de.thecodelabs.storage.settings.annotation.Classpath;
 import de.thecodelabs.storage.settings.annotation.Key;
 
 @Classpath("build.properties")
-public class Build
+public class Artifact
 {
 	@Key("build.artifactId")
 	private String artifactId;
@@ -20,7 +20,7 @@ public class Build
 
 	public String getGroupId()
 	{
-		return groupId;
+		return groupId.replace(".", "/");
 	}
 
 	public String getVersion()
@@ -46,7 +46,7 @@ public class Build
 	@Override
 	public String toString()
 	{
-		return "Build{" +
+		return "Artifact{" +
 				"artifactId='" + artifactId + '\'' +
 				", groupId='" + groupId + '\'' +
 				", version='" + version + '\'' +

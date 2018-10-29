@@ -1,7 +1,7 @@
 package de.thecodelabs.versionizer;
 
 import de.thecodelabs.logger.Logger;
-import de.thecodelabs.versionizer.config.Build;
+import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.config.Repository;
 import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.model.Version;
@@ -19,11 +19,11 @@ public class VersionServiceTest
 		Logger.init(Paths.get("./"));
 
 		final Repository repository = new Repository();
-		final Build build = new Build();
+		final Artifact build = new Artifact();
 		VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(build), null);
 		repository.setUrl("https://maven.thecodelabs.de/artifactory");
-		build.setGroupId("de/tobias");
-		build.setArtifactId("libMidi");
+		build.setGroupId("de.thecodelabs.versionizer");
+		build.setArtifactId("gui");
 		repository.setRepositoryNameReleases("TheCodeLabs-release");
 		repository.setRepositoryNameSnapshots("TheCodeLabs-snapshots");
 
@@ -41,16 +41,16 @@ public class VersionServiceTest
 				System.out.println("\t\t" + remoteFile);
 			}
 		}
-
-		final Version version = versions.get(versions.size() - 1);
-		RemoteFile file = versionService.listFilesForVersion(version).get(0);
-		try
-		{
-			versionService.downloadRemoteFile(file, Paths.get("download.jar"));
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
+//
+//		final Version version = versions.get(versions.size() - 1);
+//		RemoteFile file = versionService.listFilesForVersion(version).get(0);
+//		try
+//		{
+//			versionService.downloadRemoteFile(file, Paths.get("download.jar"));
+//		}
+//		catch(IOException e)
+//		{
+//			e.printStackTrace();
+//		}
 	}
 }

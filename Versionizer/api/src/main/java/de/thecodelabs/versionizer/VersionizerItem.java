@@ -1,6 +1,6 @@
 package de.thecodelabs.versionizer;
 
-import de.thecodelabs.versionizer.config.Build;
+import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.config.Repository;
 
 import java.util.List;
@@ -8,14 +8,14 @@ import java.util.List;
 public class VersionizerItem
 {
 	private Repository repository;
-	private List<Build> buildList;
+	private List<Artifact> artifactList;
 
 	private String executablePath;
 
-	public VersionizerItem(Repository repository, List<Build> buildList, String executablePath)
+	public VersionizerItem(Repository repository, List<Artifact> buildList, String executablePath)
 	{
 		this.repository = repository;
-		this.buildList = buildList;
+		this.artifactList = buildList;
 		this.executablePath = executablePath;
 	}
 
@@ -24,9 +24,9 @@ public class VersionizerItem
 		return repository;
 	}
 
-	public List<Build> getBuildList()
+	public List<Artifact> getArtifacts()
 	{
-		return buildList;
+		return artifactList;
 	}
 
 	public String getExecutablePath()
