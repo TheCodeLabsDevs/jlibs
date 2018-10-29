@@ -5,6 +5,7 @@ import de.thecodelabs.utils.application.container.PathType;
 import de.thecodelabs.versionizer.model.RemoteFile;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,6 @@ public class JarUpdateStrategy extends UpdateStrategy
 	@Override
 	protected Optional<RemoteFile> getSuitableRemoteFile(List<RemoteFile> remoteFiles)
 	{
-		return remoteFiles.stream().filter(file -> file.getFileType() == RemoteFile.FileType.JAR).findFirst();
+		return remoteFiles.stream().filter(file -> file.getFileType() == RemoteFile.FileType.JAR).max(Comparator.comparingInt(RemoteFile::getRevision));
 	}
 }
