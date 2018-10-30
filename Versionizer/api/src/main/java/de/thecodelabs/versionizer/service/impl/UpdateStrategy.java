@@ -52,13 +52,20 @@ public abstract class UpdateStrategy
 		{
 			return false;
 		}
+
 		ExternalJarContainer container = ExternalJarContainer.getExternalJar(versionizerPath);
 		Repository repository = container.get("versionizer/repository.yml").deserialize(StorageTypes.YAML, Repository.class);
 		Artifact artifact = container.get("versionizer/build.properties").deserialize(StorageTypes.PROPERTIES, Artifact.class);
+		VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(artifact), null);
+
+
+		VersionService versionService = new VersionService(versionizerItem);
+		final Version latestVersion = versionService.getLatestVersion(artifact);
 
 		container.close();
+		versionService.close();
 
-		return fetchCurrentVersion(repository, artifact).isNewerThen(VersionTokenizer.getVersion(artifact));
+		return latestVersion.isNewerThen(VersionTokenizer.getVersion(artifact));
 	}
 
 	private void downloadVersionizerFile(UpdateService.InteractionType type) throws IOException
@@ -91,12 +98,6 @@ public abstract class UpdateStrategy
 					"Versionizer file not found on artifactory"
 			);
 		}
-	}
-
-	public Version fetchCurrentVersion(Repository repository, Artifact artifact)
-	{
-		VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(artifact), null);
-		VersionService versionService = new VersionService(versionizerItem);
-		return versionService.getLatestVersion(artifact);
+		versionService.close();
 	}
 }

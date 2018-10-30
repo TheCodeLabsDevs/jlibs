@@ -9,6 +9,9 @@ import de.thecodelabs.versionizer.service.impl.JarUpdateStrategy;
 import de.thecodelabs.versionizer.service.impl.UpdateStrategy;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,9 +30,17 @@ public class UpdateService
 		HEADLESS
 	}
 
+	public enum RunPrivilages {
+		ADMIN,
+		USER
+	}
+
 	private VersionizerItem versionizerItem;
 	private UpdateStrategy updateStrategy;
+	private VersionService versionService;
+
 	private InteractionType interactionType;
+	private RunPrivilages runPrivilages;
 
 	private Map<Artifact, Version> remoteVersions;
 
@@ -39,6 +50,13 @@ public class UpdateService
 
 		this.versionizerItem = item;
 		this.interactionType = interactionType;
+
+		if (Files.isWritable(Paths.get(versionizerItem.getExecutablePath()))) {
+			this.runPrivilages = RunPrivilages.USER;
+		} else {
+			this.runPrivilages = RunPrivilages.ADMIN;
+		}
+
 		switch(strategy)
 		{
 			case JAR:
@@ -51,6 +69,8 @@ public class UpdateService
 				updateStrategy = new AppUpdateStrategy();
 				break;
 		}
+
+		this.versionService = new VersionService(versionizerItem);
 	}
 
 	public static UpdateService startVersionizer(VersionizerItem versionizerItem, Strategy strategy, InteractionType interactionType)
@@ -71,7 +91,7 @@ public class UpdateService
 	{
 		for(Artifact artifact : versionizerItem.getArtifacts())
 		{
-			remoteVersions.put(artifact, updateStrategy.fetchCurrentVersion(versionizerItem.getRepository(), artifact));
+			remoteVersions.put(artifact, versionService.getLatestVersion(artifact));
 		}
 	}
 
@@ -106,4 +126,7 @@ public class UpdateService
 		}
 	}
 
+	public void runVersionizerInstance() {
+		Path path  = updateStrategy.getUpdaterPath(interactionType);
+	}
 }
