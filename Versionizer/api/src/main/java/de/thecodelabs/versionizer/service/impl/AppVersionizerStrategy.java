@@ -10,12 +10,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public class JarUpdateStrategy extends UpdateStrategy
+public class AppVersionizerStrategy extends VersionizerStrategy
 {
 	@Override
 	public Path getUpdaterPath(UpdateService.InteractionType type)
 	{
-		return ApplicationUtils.getSharedApplication().getPath(PathType.DOWNLOAD, type.name(),"Versionizer.jar");
+		return ApplicationUtils.getSharedApplication().getPath(PathType.DOWNLOAD, type.name(), "Versionizer.jar");
 	}
 
 	@Override

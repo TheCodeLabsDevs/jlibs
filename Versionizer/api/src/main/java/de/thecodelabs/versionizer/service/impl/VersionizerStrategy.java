@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class UpdateStrategy
+public abstract class VersionizerStrategy
 {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(UpdateService.class);

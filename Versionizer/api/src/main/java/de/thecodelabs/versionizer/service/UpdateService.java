@@ -3,10 +3,10 @@ package de.thecodelabs.versionizer.service;
 import de.thecodelabs.versionizer.VersionizerItem;
 import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.model.Version;
-import de.thecodelabs.versionizer.service.impl.AppUpdateStrategy;
-import de.thecodelabs.versionizer.service.impl.ExeUpdateStrategy;
-import de.thecodelabs.versionizer.service.impl.JarUpdateStrategy;
-import de.thecodelabs.versionizer.service.impl.UpdateStrategy;
+import de.thecodelabs.versionizer.service.impl.AppVersionizerStrategy;
+import de.thecodelabs.versionizer.service.impl.ExeVersionizerStrategy;
+import de.thecodelabs.versionizer.service.impl.JarVersionizerStrategy;
+import de.thecodelabs.versionizer.service.impl.VersionizerStrategy;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,7 +36,7 @@ public class UpdateService
 	}
 
 	private VersionizerItem versionizerItem;
-	private UpdateStrategy updateStrategy;
+	private VersionizerStrategy updateStrategy;
 	private VersionService versionService;
 
 	private InteractionType interactionType;
@@ -60,13 +60,13 @@ public class UpdateService
 		switch(strategy)
 		{
 			case JAR:
-				updateStrategy = new JarUpdateStrategy();
+				updateStrategy = new JarVersionizerStrategy();
 				break;
 			case EXE:
-				updateStrategy = new ExeUpdateStrategy();
+				updateStrategy = new ExeVersionizerStrategy();
 				break;
 			case APP:
-				updateStrategy = new AppUpdateStrategy();
+				updateStrategy = new AppVersionizerStrategy();
 				break;
 		}
 

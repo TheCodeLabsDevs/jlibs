@@ -10,17 +10,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public class AppUpdateStrategy extends UpdateStrategy
+public class ExeVersionizerStrategy extends VersionizerStrategy
 {
 	@Override
 	public Path getUpdaterPath(UpdateService.InteractionType type)
 	{
-		return ApplicationUtils.getSharedApplication().getPath(PathType.DOWNLOAD, type.name(), "Versionizer.jar");
+		return ApplicationUtils.getSharedApplication().getPath(PathType.DOWNLOAD, type.name(), "Versionizer.exe");
 	}
 
 	@Override
 	protected Optional<RemoteFile> getSuitableRemoteFile(List<RemoteFile> remoteFiles)
 	{
-		return remoteFiles.stream().filter(file -> file.getFileType() == RemoteFile.FileType.JAR).max(Comparator.comparingInt(RemoteFile::getRevision));
+		return remoteFiles.stream().filter(file -> file.getFileType() == RemoteFile.FileType.EXE).max(Comparator.comparingInt(RemoteFile::getRevision));
 	}
 }
