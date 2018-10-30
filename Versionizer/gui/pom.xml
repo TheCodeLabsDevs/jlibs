@@ -12,7 +12,7 @@
     <artifactId>gui</artifactId>
 
     <properties>
-
+        <project.mainClass>de.thecodelabs.versionizer.VersionizerGuiMain</project.mainClass>
     </properties>
 
     <dependencies>
@@ -30,5 +30,34 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>build/${project.version}</outputDirectory>
+                    <finalName>${project.artifactId}-v${project.version}</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <archive>
+                        <manifest>
+                            <mainClass>${project.mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
     </build>
 </project>

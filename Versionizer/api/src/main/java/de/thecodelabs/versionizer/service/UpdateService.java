@@ -10,7 +10,6 @@ import de.thecodelabs.versionizer.service.impl.VersionizerStrategy;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +29,8 @@ public class UpdateService
 		HEADLESS
 	}
 
-	public enum RunPrivilages {
+	public enum RunPrivileges
+	{
 		ADMIN,
 		USER
 	}
@@ -40,7 +40,7 @@ public class UpdateService
 	private VersionService versionService;
 
 	private InteractionType interactionType;
-	private RunPrivilages runPrivilages;
+	private RunPrivileges runPrivilages;
 
 	private Map<Artifact, Version> remoteVersions;
 
@@ -51,10 +51,20 @@ public class UpdateService
 		this.versionizerItem = item;
 		this.interactionType = interactionType;
 
-		if (Files.isWritable(Paths.get(versionizerItem.getExecutablePath()))) {
-			this.runPrivilages = RunPrivilages.USER;
-		} else {
-			this.runPrivilages = RunPrivilages.ADMIN;
+		if(versionizerItem.getExecutablePath() != null)
+		{
+			if(Files.isWritable(Paths.get(versionizerItem.getExecutablePath())))
+			{
+				this.runPrivilages = RunPrivileges.USER;
+			}
+			else
+			{
+				this.runPrivilages = RunPrivileges.ADMIN;
+			}
+		}
+		else
+		{
+			this.runPrivilages = RunPrivileges.USER;
 		}
 
 		switch(strategy)
@@ -95,17 +105,21 @@ public class UpdateService
 		}
 	}
 
-	public boolean isUpdateAvailable() {
-		if (remoteVersions.isEmpty()) {
+	public boolean isUpdateAvailable()
+	{
+		if(remoteVersions.isEmpty())
+		{
 			fetchCurrentVersion();
 		}
 
 		for(Artifact artifact : versionizerItem.getArtifacts())
 		{
-			if (remoteVersions.containsKey(artifact)) {
+			if(remoteVersions.containsKey(artifact))
+			{
 				final Version localVersion = VersionTokenizer.getVersion(artifact);
 				boolean remoteNewer = remoteVersions.get(artifact).isNewerThen(localVersion);
-				if (remoteNewer) {
+				if(remoteNewer)
+				{
 					return true;
 				}
 			}
@@ -126,7 +140,16 @@ public class UpdateService
 		}
 	}
 
-	public void runVersionizerInstance() {
-		Path path  = updateStrategy.getUpdaterPath(interactionType);
+	public void runVersionizerInstance()
+	{
+		try
+		{
+			updateStrategy.startVersionizer(interactionType, runPrivilages, versionizerItem);
+			System.exit(0);
+		}
+		catch(IOException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 }

@@ -32,6 +32,8 @@ public abstract class VersionizerStrategy
 
 	protected abstract Optional<RemoteFile> getSuitableRemoteFile(List<RemoteFile> remoteFiles);
 
+	public abstract void startVersionizer(UpdateService.InteractionType interactionType, UpdateService.RunPrivileges runPrivileges, VersionizerItem versionizerItem) throws IOException;
+
 	public void downloadVersionizer(UpdateService.InteractionType interactionType) throws IOException
 	{
 		if(!isVersionizerInstalled(interactionType) || isVersionizerUpdateAvailable(interactionType))
