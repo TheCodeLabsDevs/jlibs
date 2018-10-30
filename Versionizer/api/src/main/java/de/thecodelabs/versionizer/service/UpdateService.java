@@ -18,12 +18,20 @@ public class UpdateService
 		APP
 	}
 
+	public enum InteractionType
+	{
+		GUI,
+		HEADLESS
+	}
+
 	private VersionizerItem versionizerItem;
 	private UpdateStrategy updateStrategy;
+	private InteractionType interactionType;
 
-	private UpdateService(VersionizerItem item, Strategy strategy)
+	private UpdateService(VersionizerItem item, Strategy strategy, InteractionType interactionType)
 	{
 		this.versionizerItem = item;
+		this.interactionType = interactionType;
 		switch(strategy)
 		{
 			case JAR:
@@ -38,12 +46,12 @@ public class UpdateService
 		}
 	}
 
-	public static UpdateService startVersionizer(VersionizerItem versionizerItem, Strategy strategy)
+	public static UpdateService startVersionizer(VersionizerItem versionizerItem, Strategy strategy, InteractionType interactionType)
 	{
-		UpdateService updateService = new UpdateService(versionizerItem, strategy);
+		UpdateService updateService = new UpdateService(versionizerItem, strategy, interactionType);
 		try
 		{
-			updateService.updateStrategy.downloadVersionizer();
+			updateService.updateStrategy.downloadVersionizer(interactionType);
 		}
 		catch(IOException e)
 		{

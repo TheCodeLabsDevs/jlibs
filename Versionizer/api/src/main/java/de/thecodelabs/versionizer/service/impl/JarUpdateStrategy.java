@@ -3,6 +3,7 @@ package de.thecodelabs.versionizer.service.impl;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.container.PathType;
 import de.thecodelabs.versionizer.model.RemoteFile;
+import de.thecodelabs.versionizer.service.UpdateService;
 
 import java.nio.file.Path;
 import java.util.Comparator;
@@ -12,9 +13,9 @@ import java.util.Optional;
 public class JarUpdateStrategy extends UpdateStrategy
 {
 	@Override
-	public Path getUpdaterPath()
+	public Path getUpdaterPath(UpdateService.InteractionType type)
 	{
-		return ApplicationUtils.getSharedApplication().getPath(PathType.DOWNLOAD, "Versionizer.jar");
+		return ApplicationUtils.getSharedApplication().getPath(PathType.DOWNLOAD, type.name(),"Versionizer.jar");
 	}
 
 	@Override

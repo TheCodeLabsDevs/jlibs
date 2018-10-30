@@ -12,6 +12,9 @@
     <modules>
         <module>api</module>
         <module>gui</module>
+        <module>spring-service-1</module>
+        <module>spring-service-2</module>
+        <module>headless</module>
     </modules>
 
     <properties>

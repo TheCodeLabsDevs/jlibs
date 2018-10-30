@@ -27,27 +27,28 @@ public abstract class UpdateStrategy
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(UpdateService.class);
 
-	public abstract Path getUpdaterPath();
+	public abstract Path getUpdaterPath(UpdateService.InteractionType type);
 
 	protected abstract Optional<RemoteFile> getSuitableRemoteFile(List<RemoteFile> remoteFiles);
 
-	public void downloadVersionizer() throws IOException
+	public void downloadVersionizer(UpdateService.InteractionType interactionType) throws IOException
 	{
-		if(!isVersionizerInstalled() || isUpdateAvailable())
+		if(!isVersionizerInstalled(interactionType) || isUpdateAvailable(interactionType))
 		{
-			download();
+			download(interactionType);
 		}
 	}
 
-	private boolean isVersionizerInstalled()
+	private boolean isVersionizerInstalled(UpdateService.InteractionType type)
 	{
-		return Files.exists(getUpdaterPath());
+		return Files.exists(getUpdaterPath(type));
 	}
 
-	private boolean isUpdateAvailable()
+	private boolean isUpdateAvailable(UpdateService.InteractionType type)
 	{
-		final Path versionizerPath = getUpdaterPath();
-		if (Files.notExists(versionizerPath)) {
+		final Path versionizerPath = getUpdaterPath(type);
+		if(Files.notExists(versionizerPath))
+		{
 			return false;
 		}
 		ExternalJarContainer container = ExternalJarContainer.getExternalJar(versionizerPath);
@@ -59,16 +60,17 @@ public abstract class UpdateStrategy
 		return isUpdateAvailableForArtifact(repository, artifact);
 	}
 
-	private void download() throws IOException
+	private void download(UpdateService.InteractionType type) throws IOException
 	{
-		final Path versionizerPath = getUpdaterPath();
+		final Path versionizerPath = getUpdaterPath(type);
+		Files.createDirectories(versionizerPath.getParent());
 
 		Repository repository;
 		Artifact build;
 
 		App app = ApplicationUtils.getApplication();
 		repository = app.getClasspathResource("versionizer/repository.yml").deserialize(StorageTypes.YAML, Repository.class);
-		build = app.getClasspathResource("versionizer/build.properties").deserialize(StorageTypes.PROPERTIES, Artifact.class);
+		build = app.getClasspathResource("versionizer/" + type + "-build.properties").deserialize(StorageTypes.PROPERTIES, Artifact.class);
 
 		LOGGER.info("Downloading versionizer using artifact" + build);
 
