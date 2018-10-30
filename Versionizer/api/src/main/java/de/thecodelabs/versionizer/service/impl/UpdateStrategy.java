@@ -11,6 +11,7 @@ import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.model.Version;
 import de.thecodelabs.versionizer.service.UpdateService;
 import de.thecodelabs.versionizer.service.VersionService;
+import de.thecodelabs.versionizer.service.VersionTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,9 +34,9 @@ public abstract class UpdateStrategy
 
 	public void downloadVersionizer(UpdateService.InteractionType interactionType) throws IOException
 	{
-		if(!isVersionizerInstalled(interactionType) || isUpdateAvailable(interactionType))
+		if(!isVersionizerInstalled(interactionType) || isVersionizerUpdateAvailable(interactionType))
 		{
-			download(interactionType);
+			downloadVersionizerFile(interactionType);
 		}
 	}
 
@@ -44,7 +45,7 @@ public abstract class UpdateStrategy
 		return Files.exists(getUpdaterPath(type));
 	}
 
-	private boolean isUpdateAvailable(UpdateService.InteractionType type)
+	private boolean isVersionizerUpdateAvailable(UpdateService.InteractionType type)
 	{
 		final Path versionizerPath = getUpdaterPath(type);
 		if(Files.notExists(versionizerPath))
@@ -57,10 +58,10 @@ public abstract class UpdateStrategy
 
 		container.close();
 
-		return isUpdateAvailableForArtifact(repository, artifact);
+		return fetchCurrentVersion(repository, artifact).isNewerThen(VersionTokenizer.getVersion(artifact));
 	}
 
-	private void download(UpdateService.InteractionType type) throws IOException
+	private void downloadVersionizerFile(UpdateService.InteractionType type) throws IOException
 	{
 		final Path versionizerPath = getUpdaterPath(type);
 		Files.createDirectories(versionizerPath.getParent());
@@ -92,10 +93,10 @@ public abstract class UpdateStrategy
 		}
 	}
 
-	public boolean isUpdateAvailableForArtifact(Repository repository, Artifact artifact)
+	public Version fetchCurrentVersion(Repository repository, Artifact artifact)
 	{
 		VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(artifact), null);
 		VersionService versionService = new VersionService(versionizerItem);
-		return versionService.isUpdateAvailable(artifact);
+		return versionService.getLatestVersion(artifact);
 	}
 }

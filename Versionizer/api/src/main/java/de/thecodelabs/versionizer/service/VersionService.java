@@ -88,7 +88,7 @@ public class VersionService
 	{
 		final Version latestVersion = getLatestVersion(build);
 		final Version localVersion = VersionTokenizer.getVersion(build, build.getVersion());
-		return latestVersion.isNewerTo(localVersion);
+		return latestVersion.isNewerThen(localVersion);
 	}
 
 	private List<Version> getVersionsByRepository(Artifactory artifactory, String repository, Artifact build)

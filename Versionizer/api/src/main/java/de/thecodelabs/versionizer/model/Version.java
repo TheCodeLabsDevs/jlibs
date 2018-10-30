@@ -56,7 +56,7 @@ public class Version implements Comparable
 		return version;
 	}
 
-	public boolean isNewerTo(Version version) {
+	public boolean isNewerThen(Version version) {
 		return this.compareTo(version) > 0;
 	}
 

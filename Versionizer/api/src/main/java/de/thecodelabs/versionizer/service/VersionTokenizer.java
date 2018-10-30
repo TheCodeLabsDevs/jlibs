@@ -8,6 +8,10 @@ import java.util.regex.Pattern;
 
 public class VersionTokenizer
 {
+	public static Version getVersion(Artifact artifact) {
+		return getVersion(artifact, artifact.getVersion());
+	}
+
 	public static Version getVersion(Artifact artifact, String value)
 	{
 		final Pattern pattern = Pattern.compile("(\\d+).(\\d+).(\\d+)(-SNAPSHOT)?");
