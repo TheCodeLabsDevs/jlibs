@@ -1,7 +1,10 @@
 package de.thecodelabs.utils.util;
 
+import de.thecodelabs.utils.logger.LoggerBridge;
+
 import java.io.File;
 import java.net.URISyntaxException;
+import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -27,8 +30,9 @@ public class SystemUtils {
 	public static Path getRunPath() {
 		try {
 			return Paths.get(SystemUtils.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-		} catch (URISyntaxException e) {
-			throw new RuntimeException(e);
+		} catch (URISyntaxException | FileSystemNotFoundException e) {
+			LoggerBridge.debug(e.getMessage());
+			return null;
 		}
 	}
 

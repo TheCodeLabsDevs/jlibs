@@ -4,6 +4,7 @@ import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.utils.application.App;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.external.ExternalJarContainer;
+import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.VersionizerItem;
 import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.config.Repository;
@@ -32,7 +33,7 @@ public abstract class VersionizerStrategy
 
 	protected abstract Optional<RemoteFile> getSuitableRemoteFile(List<RemoteFile> remoteFiles);
 
-	public abstract void startVersionizer(UpdateService.InteractionType interactionType, UpdateService.RunPrivileges runPrivileges, VersionizerItem versionizerItem) throws IOException;
+	public abstract void startVersionizer(UpdateService.InteractionType interactionType, UpdateService.RunPrivileges runPrivileges, UpdateItem updateItem) throws IOException;
 
 	public void downloadVersionizer(UpdateService.InteractionType interactionType) throws IOException
 	{

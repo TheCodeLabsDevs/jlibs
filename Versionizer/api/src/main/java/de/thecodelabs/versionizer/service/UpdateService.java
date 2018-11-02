@@ -1,5 +1,6 @@
 package de.thecodelabs.versionizer.service;
 
+import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.VersionizerItem;
 import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.model.Version;
@@ -11,7 +12,9 @@ import de.thecodelabs.versionizer.service.impl.VersionizerStrategy;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UpdateService
@@ -40,7 +43,7 @@ public class UpdateService
 	private VersionService versionService;
 
 	private InteractionType interactionType;
-	private RunPrivileges runPrivilages;
+	private RunPrivileges runPrivileges;
 
 	private Map<Artifact, Version> remoteVersions;
 
@@ -55,16 +58,16 @@ public class UpdateService
 		{
 			if(Files.isWritable(Paths.get(versionizerItem.getExecutablePath())))
 			{
-				this.runPrivilages = RunPrivileges.USER;
+				this.runPrivileges = RunPrivileges.USER;
 			}
 			else
 			{
-				this.runPrivilages = RunPrivileges.ADMIN;
+				this.runPrivileges = RunPrivileges.ADMIN;
 			}
 		}
 		else
 		{
-			this.runPrivilages = RunPrivileges.USER;
+			this.runPrivileges = RunPrivileges.USER;
 		}
 
 		switch(strategy)
@@ -117,7 +120,8 @@ public class UpdateService
 			if(remoteVersions.containsKey(artifact))
 			{
 				final Version localVersion = VersionTokenizer.getVersion(artifact);
-				boolean remoteNewer = remoteVersions.get(artifact).isNewerThen(localVersion);
+				final Version remoteVersion = remoteVersions.get(artifact);
+				boolean remoteNewer = remoteVersion.isNewerThen(localVersion);
 				if(remoteNewer)
 				{
 					return true;
@@ -132,19 +136,15 @@ public class UpdateService
 		return remoteVersions;
 	}
 
-	public void updateArtifacts()
-	{
-		for(Artifact artifact : versionizerItem.getArtifacts())
-		{
-			System.out.println("Update " + artifact);
-		}
+	public void runVersionizerInstance(UpdateItem.Entry version) {
+		runVersionizerInstance(Collections.singletonList(version));
 	}
 
-	public void runVersionizerInstance()
+	public void runVersionizerInstance(List<UpdateItem.Entry> versions)
 	{
 		try
 		{
-			updateStrategy.startVersionizer(interactionType, runPrivilages, versionizerItem);
+			updateStrategy.startVersionizer(interactionType, runPrivileges, new UpdateItem(versionizerItem, versions));
 			System.exit(0);
 		}
 		catch(IOException e)

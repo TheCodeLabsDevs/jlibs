@@ -2,11 +2,12 @@ package de.thecodelabs.utils.application.container;
 
 import de.thecodelabs.storage.settings.Storage;
 import de.thecodelabs.storage.settings.StorageTypes;
-import de.thecodelabs.utils.application.ApplicationInfo;
-import de.thecodelabs.utils.util.SystemUtils;
 import de.thecodelabs.utils.application.App;
+import de.thecodelabs.utils.application.ApplicationInfo;
 import de.thecodelabs.utils.io.FileUtils;
 import de.thecodelabs.utils.io.PathUtils;
+import de.thecodelabs.utils.logger.LoggerBridge;
+import de.thecodelabs.utils.util.SystemUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,19 +25,24 @@ public class AppFileContainer
 	private ApplicationInfo info;
 	private App app;
 
-	public AppFileContainer(App app) {
+	public AppFileContainer(App app)
+	{
 		this.app = app;
 		this.info = app.getInfo();
-		if (app.getInfo().getBasePath() != null && !app.getInfo().getBasePath().isEmpty()) {
+		if(app.getInfo().getBasePath() != null && !app.getInfo().getBasePath().isEmpty())
+		{
 			this.containerName = app.getInfo().getBasePath();
 		}
 
 
 		updatePath();
 
-		if (Files.exists(containerInfoPath)) {
+		if(Files.exists(containerInfoPath))
+		{
 			containerInfo = Storage.load(containerInfoPath, StorageTypes.YAML, AppFileContainerInfo.class);
-		} else {
+		}
+		else
+		{
 			containerInfo = new AppFileContainerInfo();
 			saveInformation();
 		}
@@ -44,61 +50,96 @@ public class AppFileContainer
 		PathUtils.createDirectoriesIfNotExists(containerPath);
 	}
 
-	public AppFileContainer(String bundleIdentifier) {
+	public AppFileContainer(String bundleIdentifier)
+	{
 		containerPath = SystemUtils.getApplicationSupportDirectoryPath(containerName, bundleIdentifier);
 		containerInfoPath = getPath("container.yml", PathType.ROOT);
 		containerInfo = Storage.load(containerInfoPath, StorageTypes.YAML, AppFileContainerInfo.class);
 	}
 
-	public void updatePath() {
-		if (app.isDebug()) {
+	public void updatePath()
+	{
+		if(app.isDebug())
+		{
 			containerPath = SystemUtils.getApplicationSupportDirectoryPath(containerName, info.getIdentifier() + ".debug");
 			containerInfoPath = getPath("container.yml", PathType.ROOT);
-		} else {
+		}
+		else
+		{
 			containerPath = SystemUtils.getApplicationSupportDirectoryPath(containerName, info.getIdentifier());
 			containerInfoPath = getPath("container.yml", PathType.ROOT);
 		}
 	}
 
-	public Path getPath(String name, PathType pathType) {
+	public Path getPath(String name, PathType pathType)
+	{
 		final Path baseFolder = containerPath.resolve(pathType.getFolder());
-		if (Files.notExists(baseFolder)) {
-			try {
+		if(Files.notExists(baseFolder))
+		{
+			try
+			{
 				Files.createDirectories(baseFolder);
-			} catch (IOException e) {
+			}
+			catch(IOException e)
+			{
 				throw new RuntimeException(e);
 			}
 		}
-		return baseFolder.resolve(name);
+		final Path path = baseFolder.resolve(name);
+		if(Files.notExists(path))
+		{
+			try
+			{
+				Files.createDirectories(path.getParent());
+				LoggerBridge.debug("Create directory at '" + path.getParent().toString() + "'");
+			}
+			catch(IOException e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
+		return path;
 	}
 
-	public Path getFolder(PathType type) {
+	public Path getFolder(PathType type)
+	{
 		return containerPath.resolve(type.getFolder());
 	}
 
-	public Path getContainerPath() {
+	public Path getContainerPath()
+	{
 		return containerPath;
 	}
 
-	public Path getBackupPath(long time, Path path, PathType type) {
+	public Path getBackupPath(long time, Path path, PathType type)
+	{
 		return getFolder(PathType.BACKUP).resolve(Long.toString(time)).resolve(containerPath.relativize(path));
 	}
 
-	public AppFileContainerInfo getContainerInfo() {
+	public AppFileContainerInfo getContainerInfo()
+	{
 		return containerInfo;
 	}
 
-	public void clear() throws IOException {
+	public void clear() throws IOException
+	{
 		FileUtils.deleteDirectory(getContainerPath());
 	}
 
 
-	public void saveInformation() {
+	public void saveInformation()
+	{
 		// Update der Informationen
-		containerInfo.setExecutionPath(SystemUtils.getRunPath().toFile().getAbsolutePath());
+		final Path runPath = SystemUtils.getRunPath();
+		if(runPath != null)
+		{
+			containerInfo.setExecutionPath(runPath.toFile().getAbsolutePath());
+		}
 
-		if (info.getUpdateURL() != null)
+		if(info.getUpdateURL() != null)
+		{
 			containerInfo.setUpdatePath(info.getUpdateURL());
+		}
 
 		containerInfo.setBuild(info.getBuild());
 		containerInfo.setIdentifier(info.getIdentifier());

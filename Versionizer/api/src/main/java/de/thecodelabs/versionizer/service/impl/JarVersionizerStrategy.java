@@ -3,6 +3,7 @@ package de.thecodelabs.versionizer.service.impl;
 import com.google.gson.Gson;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.container.PathType;
+import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.VersionizerItem;
 import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.service.UpdateService;
@@ -28,10 +29,10 @@ public class JarVersionizerStrategy extends VersionizerStrategy
 	}
 
 	@Override
-	public void startVersionizer(UpdateService.InteractionType interactionType, UpdateService.RunPrivileges runPrivileges, VersionizerItem versionizerItem) throws IOException
+	public void startVersionizer(UpdateService.InteractionType interactionType, UpdateService.RunPrivileges runPrivileges, UpdateItem updateItem) throws IOException
 	{
 		Gson gson = new Gson();
-		String json = gson.toJson(versionizerItem);
+		String json = gson.toJson(updateItem);
 
 		final Path updaterPath = getUpdaterPath(interactionType);
 		switch(runPrivileges)
