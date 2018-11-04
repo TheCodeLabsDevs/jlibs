@@ -1,10 +1,10 @@
 package de.tobias.updater.viewcontroller;
 
+import de.thecodelabs.utils.threading.Worker;
+import de.thecodelabs.utils.ui.NVC;
+import de.thecodelabs.utils.util.NumberUtils;
 import de.tobias.updater.Updater;
 import de.tobias.updater.main.UpdateFile;
-import de.tobias.utils.threading.Worker;
-import de.tobias.utils.ui.NVC;
-import de.tobias.utils.util.NumberUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -98,7 +98,7 @@ public class UpdateViewController extends NVC implements Updater.UpdaterListener
 		Platform.runLater(() ->
 		{
 			progressBar.setProgress(value);
-			progressLabel.setText(NumberUtils.numberToString(readSize) + "B" + "/" + NumberUtils.numberToString(size) + "B");
+			progressLabel.setText(NumberUtils.convertBytesToAppropriateFormat(readSize) + "B" + "/" + NumberUtils.convertBytesToAppropriateFormat(size) + "B");
 		});
 	}
 }

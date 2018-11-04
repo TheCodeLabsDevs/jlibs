@@ -1,6 +1,6 @@
 package de.tobias.updater.client;
 
-import de.tobias.utils.settings.Key;
+import de.thecodelabs.storage.settings.annotation.Key;
 
 public class UpdateItem {
 

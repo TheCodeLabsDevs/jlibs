@@ -2,8 +2,8 @@ package de.tobias.autostart.impl;
 
 import java.io.File;
 
+import de.thecodelabs.utils.application.NativeLoader;
 import de.tobias.autostart.Autostart;
-import de.tobias.utils.application.NativeLoader;
 
 public class OSXAutoStartNative implements Autostart {
 

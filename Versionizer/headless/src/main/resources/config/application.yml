@@ -1,0 +1,5 @@
+name: "Versionizer-Headless"
+version: "1.0.0"
+build: 1
+identifier: "de.thecodelabs.versionizer-headless"
+main: "de.thecodelabs.vesionizer.VersionizerHeadlessMain"

@@ -1,13 +1,15 @@
 package de.thecodelabs.versionizer;
 
+import de.thecodelabs.logger.Logger;
+import de.thecodelabs.versionizer.config.Artifact;
+import de.thecodelabs.versionizer.config.Repository;
 import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.model.Version;
 import de.thecodelabs.versionizer.service.VersionService;
-import de.thecodelabs.logger.Logger;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class VersionServiceTest
@@ -16,17 +18,18 @@ public class VersionServiceTest
 	{
 		Logger.init(Paths.get("./"));
 
-		VersionizerItem versionizerItem = new VersionizerItem();
-		versionizerItem.setArtifactoryUrl("https://maven.thecodelabs.de/artifactory");
-		versionizerItem.setGroupId("de/tobias");
-		versionizerItem.setArtifactId("libMidi");
-		versionizerItem.setReleaseRepository("TheCodeLabs-release");
-		versionizerItem.setSnapshotRepository("TheCodeLabs-snapshots");
+		final Repository repository = new Repository();
+		final Artifact build = new Artifact();
+		VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(build), null);
+		repository.setUrl("https://maven.thecodelabs.de/artifactory");
+		build.setGroupId("de.thecodelabs.versionizer");
+		build.setArtifactId("gui");
+		repository.setRepositoryNameReleases("TheCodeLabs-release");
+		repository.setRepositoryNameSnapshots("TheCodeLabs-snapshots");
 
 		VersionService versionService = new VersionService(versionizerItem);
 
-		Version[] versions = versionService.getVersions();
-		Arrays.sort(versions);
+		List<Version> versions = versionService.getVersions(build);
 
 		for(Version version : versions)
 		{
@@ -38,16 +41,16 @@ public class VersionServiceTest
 				System.out.println("\t\t" + remoteFile);
 			}
 		}
-
-		final Version version = versions[versions.length - 1];
-		RemoteFile file = versionService.listFilesForVersion(version).get(0);
-		try
-		{
-			versionService.downloadRemoteFile(file, Paths.get("download.jar"));
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
+//
+//		final Version version = versions.get(versions.size() - 1);
+//		RemoteFile file = versionService.listFilesForVersion(version).get(0);
+//		try
+//		{
+//			versionService.downloadRemoteFile(file, Paths.get("download.jar"));
+//		}
+//		catch(IOException e)
+//		{
+//			e.printStackTrace();
+//		}
 	}
 }

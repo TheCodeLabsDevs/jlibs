@@ -1,5 +1,7 @@
 */.idea/
 */target/
 *.sdf
+*.iml
+*.jar
 Native/AutoStartOSX/AutoStartOSX.xcodeproj/project.xcworkspace/xcuserdata/tobias.xcuserdatad/UserInterfaceState.xcuserstate
 Native/SystemUtilsOSX/SystemUtilsOSX.xcodeproj/project.xcworkspace/xcuserdata/tobias.xcuserdatad/UserInterfaceState.xcuserstate
