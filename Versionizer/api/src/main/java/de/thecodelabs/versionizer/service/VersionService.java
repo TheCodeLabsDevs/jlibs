@@ -81,6 +81,9 @@ public class VersionService
 	public Version getLatestVersion(Artifact build)
 	{
 		final List<Version> versions = getVersions(build);
+		if (versions.isEmpty()) {
+			return null;
+		}
 		return versions.get(versions.size() - 1);
 	}
 

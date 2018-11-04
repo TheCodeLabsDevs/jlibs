@@ -9,7 +9,7 @@ public class IOUtils
 
 	public interface CopyDelegate
 	{
-		void complete(int bytes);
+		void complete(long bytes);
 	}
 
 	/**

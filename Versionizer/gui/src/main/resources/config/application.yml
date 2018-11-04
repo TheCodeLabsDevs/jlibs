@@ -1,0 +1,5 @@
+name: "Versionizer-GUI"
+version: "1.0.0"
+build: 1
+identifier: "de.thecodelabs.versionizer-gui"
+main: "de.thecodelabs.vesionizer.VersionizerGuiMain"

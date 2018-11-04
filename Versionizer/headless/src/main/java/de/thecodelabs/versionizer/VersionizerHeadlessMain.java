@@ -27,15 +27,6 @@ public class VersionizerHeadlessMain
 
 		if(args.length == 1)
 		{
-			try
-			{
-				Files.write(Paths.get("/Users/tobias/Desktop/HEADLESS.txt"), args[0].getBytes());
-			}
-			catch(IOException e)
-			{
-				e.printStackTrace();
-			}
-
 			Gson gson = new Gson();
 			UpdateItem updateItem = gson.fromJson(args[0], UpdateItem.class);
 
@@ -72,7 +63,7 @@ public class VersionizerHeadlessMain
 		}
 	}
 
-	public static void applicationWillStart(App app)
+	private static void applicationWillStart(App app)
 	{
 		Logger.init(ApplicationUtils.getApplication().getPath(PathType.LOG));
 		Logger.setFileOutput(FileOutputOption.COMBINED);
