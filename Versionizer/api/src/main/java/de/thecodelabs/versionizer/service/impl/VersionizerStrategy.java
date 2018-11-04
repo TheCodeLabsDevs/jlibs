@@ -61,12 +61,14 @@ public abstract class VersionizerStrategy
 		Artifact artifact = container.get("versionizer/build.properties").deserialize(StorageTypes.PROPERTIES, Artifact.class);
 		VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(artifact), null);
 
-
 		VersionService versionService = new VersionService(versionizerItem);
 		final Version latestVersion = versionService.getLatestVersion(artifact);
 
 		container.close();
 		versionService.close();
+
+		System.out.println("Remote: " + latestVersion);
+		System.out.println("Local: " + VersionTokenizer.getVersion(artifact));
 
 		return latestVersion.isNewerThen(VersionTokenizer.getVersion(artifact));
 	}

@@ -1,5 +1,6 @@
 package de.thecodelabs.versionizer.service;
 
+import de.thecodelabs.logger.Slf4JLoggerAdapter;
 import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.VersionizerItem;
 import de.thecodelabs.versionizer.config.Artifact;
@@ -91,6 +92,7 @@ public class UpdateService
 		UpdateService updateService = new UpdateService(versionizerItem, strategy, interactionType);
 		try
 		{
+			Slf4JLoggerAdapter.disableSlf4jDebugPrints();
 			updateService.updateStrategy.downloadVersionizer(interactionType);
 		}
 		catch(IOException e)
