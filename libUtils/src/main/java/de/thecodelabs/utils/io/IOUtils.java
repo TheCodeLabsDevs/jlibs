@@ -12,6 +12,10 @@ public class IOUtils
 		void complete(long bytes);
 	}
 
+	public interface CopyControl {
+		boolean interrupt();
+	}
+
 	/**
 	 * Liest die angegebene URL als Bytearray ein
 	 *
@@ -69,6 +73,26 @@ public class IOUtils
 		byte[] buffer = new byte[1024];
 		while((count = iStr.read(buffer)) > 0)
 		{
+			oStr.write(buffer, 0, count);
+			if(delegate != null)
+			{
+				delegate.complete(passedData += count);
+			}
+		}
+	}
+
+	public static void copy(InputStream iStr, OutputStream oStr, CopyDelegate delegate, CopyControl copyControl) throws IOException
+	{
+		int passedData = 0;
+
+		int count;
+		byte[] buffer = new byte[1024];
+		while((count = iStr.read(buffer)) > 0)
+		{
+			if (copyControl != null && copyControl.interrupt()) {
+				break;
+			}
+
 			oStr.write(buffer, 0, count);
 			if(delegate != null)
 			{

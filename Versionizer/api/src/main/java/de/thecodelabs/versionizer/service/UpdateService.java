@@ -136,6 +136,10 @@ public class UpdateService
 		return remoteVersions;
 	}
 
+	public Version getRemoteVersionForArtifact(Artifact artifact) {
+		return remoteVersions.get(artifact);
+	}
+
 	public void runVersionizerInstance(UpdateItem.Entry version) {
 		runVersionizerInstance(Collections.singletonList(version));
 	}

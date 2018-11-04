@@ -4,6 +4,7 @@ import de.thecodelabs.logger.Logger;
 import de.thecodelabs.utils.application.App;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.container.PathType;
+import de.thecodelabs.utils.io.IOUtils;
 import de.thecodelabs.utils.threading.Worker;
 import de.thecodelabs.utils.ui.NVC;
 import de.thecodelabs.utils.util.NumberUtils;
@@ -28,7 +29,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
-public class MainViewController extends NVC
+public class MainViewController extends NVC implements IOUtils.CopyControl
 {
 	@FXML
 	private Label itemLabel;
@@ -40,6 +41,8 @@ public class MainViewController extends NVC
 	private Button cancelButton;
 
 	private UpdateItem updateItem;
+
+	private boolean interruptCopy;
 
 	public MainViewController(Stage stage, UpdateItem item)
 	{
@@ -59,7 +62,13 @@ public class MainViewController extends NVC
 	@FXML
 	void onCancelHandler(ActionEvent event)
 	{
+		interruptCopy = true;
+	}
 
+	@Override
+	public boolean interrupt()
+	{
+		return interruptCopy;
 	}
 
 	private void runUpdateInBackground()
@@ -69,7 +78,6 @@ public class MainViewController extends NVC
 
 		for(UpdateItem.Entry entry : updateItem.getEntryList())
 		{
-
 			Logger.info("Search files for entry: {0}", entry.getVersion().getArtifact());
 			Platform.runLater(() -> itemLabel.setText(entry.getVersion().getArtifact().getArtifactId()));
 
@@ -88,7 +96,13 @@ public class MainViewController extends NVC
 			try
 			{
 				final long maxSize = versionService.getSize(remoteFile);
-				versionService.downloadRemoteFile(remoteFile, downloadPath, (value) -> Platform.runLater(() -> setCurrentProgress(value, maxSize)));
+				versionService.downloadRemoteFile(remoteFile, downloadPath, (value) -> Platform.runLater(() -> setCurrentProgress(value, maxSize)), this);
+
+				if (interruptCopy) {
+					Logger.info("Download interrupted for remote file {0}", entry);
+					break;
+				}
+
 				Logger.info("Download completed for remote file {0}", entry);
 
 				Logger.info("Copy remote file from {0} to {1}", downloadPath, entry.getLocalPath());

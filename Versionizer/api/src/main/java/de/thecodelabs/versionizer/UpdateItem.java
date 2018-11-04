@@ -34,6 +34,16 @@ public class UpdateItem
 		{
 			return fileType;
 		}
+
+		@Override
+		public String toString()
+		{
+			return "Entry{" +
+					"version=" + version +
+					", localPath='" + localPath + '\'' +
+					", fileType=" + fileType +
+					'}';
+		}
 	}
 
 	private final VersionizerItem versionizerItem;

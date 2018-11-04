@@ -156,6 +156,11 @@ public class VersionService
 
 	public void downloadRemoteFile(RemoteFile remoteFile, Path destination, IOUtils.CopyDelegate copyDelegate) throws IOException
 	{
+		downloadRemoteFile(remoteFile, destination, null, null);
+	}
+
+	public void downloadRemoteFile(RemoteFile remoteFile, Path destination, IOUtils.CopyDelegate copyDelegate, IOUtils.CopyControl copyControl) throws IOException
+	{
 		final String repository = versionizerItem.getRepository().getRepository(remoteFile.getVersion().isSnapshot());
 		final DownloadableArtifact downloadableArtifact = artifactory
 				.repository(repository)
@@ -164,6 +169,6 @@ public class VersionService
 		final InputStream iStr = downloadableArtifact.doDownload();
 		final OutputStream oStr = Files.newOutputStream(destination);
 
-		IOUtils.copy(iStr, oStr, copyDelegate);
+		IOUtils.copy(iStr, oStr, copyDelegate, copyControl);
 	}
 }
