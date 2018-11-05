@@ -55,22 +55,6 @@ public class UpdateService
 		this.versionizerItem = item;
 		this.interactionType = interactionType;
 
-		if(versionizerItem.getExecutablePath() != null)
-		{
-			if(Files.isWritable(Paths.get(versionizerItem.getExecutablePath())))
-			{
-				this.runPrivileges = RunPrivileges.USER;
-			}
-			else
-			{
-				this.runPrivileges = RunPrivileges.ADMIN;
-			}
-		}
-		else
-		{
-			this.runPrivileges = RunPrivileges.USER;
-		}
-
 		switch(strategy)
 		{
 			case JAR:
@@ -142,20 +126,23 @@ public class UpdateService
 		return remoteVersions.get(artifact);
 	}
 
-	public void runVersionizerInstance(UpdateItem.Entry version) {
+	public void runVersionizerInstance(UpdateItem.Entry version) throws IOException
+	{
 		runVersionizerInstance(Collections.singletonList(version));
 	}
 
-	public void runVersionizerInstance(List<UpdateItem.Entry> versions)
+	public void runVersionizerInstance(List<UpdateItem.Entry> versions) throws IOException
 	{
-		try
+		final boolean anyAdmin = versions.stream().anyMatch(entry -> !Files.isWritable(Paths.get(entry.getLocalPath())));
+		if(anyAdmin)
 		{
-			updateStrategy.startVersionizer(interactionType, runPrivileges, new UpdateItem(versionizerItem, versions));
-			System.exit(0);
+			this.runPrivileges = RunPrivileges.USER;
 		}
-		catch(IOException e)
+		else
 		{
-			throw new RuntimeException(e);
+			this.runPrivileges = RunPrivileges.ADMIN;
 		}
+
+		updateStrategy.startVersionizer(interactionType, runPrivileges, new UpdateItem(versionizerItem, versions));
 	}
 }
