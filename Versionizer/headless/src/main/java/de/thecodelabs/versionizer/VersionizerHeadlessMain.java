@@ -25,40 +25,42 @@ public class VersionizerHeadlessMain
 		ApplicationUtils.addAppListener(VersionizerHeadlessMain::applicationWillStart);
 		app.start(args);
 
-		if(args.length == 1)
+		if(args.length != 1)
 		{
-			Gson gson = new Gson();
-			UpdateItem updateItem = gson.fromJson(args[0], UpdateItem.class);
+			Logger.error("Invalid arguments");
+			System.exit(0);
+		}
 
-			VersionService versionService = new VersionService(updateItem.getVersionizerItem());
+		UpdateItem updateItem = new Gson().fromJson(args[0], UpdateItem.class);
 
-			for(UpdateItem.Entry entry : updateItem.getEntryList())
+		VersionService versionService = new VersionService(updateItem.getVersionizerItem());
+
+		for(UpdateItem.Entry entry : updateItem.getEntryList())
+		{
+			Logger.info("Search files for entry: {0}", entry.getVersion().getArtifact());
+			final List<RemoteFile> remoteFiles = versionService.listFilesForVersion(entry.getVersion());
+			final Optional<RemoteFile> optionalRemoteFile = remoteFiles.stream().filter(file -> file.getFileType() == entry.getFileType()).findAny();
+			if(!optionalRemoteFile.isPresent())
 			{
-				Logger.info("Search files for entry: {0}", entry.getVersion().getArtifact());
-				final List<RemoteFile> remoteFiles = versionService.listFilesForVersion(entry.getVersion());
-				final Optional<RemoteFile> optionalRemoteFile = remoteFiles.stream().filter(file -> file.getFileType() == entry.getFileType()).findAny();
-				if(!optionalRemoteFile.isPresent())
-				{
-					Logger.warning("No remote file found for entry: {0}", entry.getVersion().getArtifact());
-					continue;
-				}
+				Logger.warning("No remote file found for entry: {0}", entry.getVersion().getArtifact());
+				continue;
+			}
 
-				RemoteFile remoteFile = optionalRemoteFile.get();
-				Logger.info("Start download remote file: {0}", remoteFile);
+			RemoteFile remoteFile = optionalRemoteFile.get();
+			Logger.info("Start downloading remote file: {0}", remoteFile);
 
-				final Path downloadPath = app.getPath(PathType.DOWNLOAD, remoteFile.getPath());
-				try
-				{
-					versionService.downloadRemoteFile(remoteFile, downloadPath);
-					Logger.info("Download completed for remote file {0}", entry);
+			final Path downloadPath = app.getPath(PathType.DOWNLOAD, remoteFile.getPath());
+			try
+			{
+				versionService.downloadRemoteFile(remoteFile, downloadPath);
+				Logger.info("Download completed for remote file {0}", entry);
 
-					Logger.info("Copy remote file from {0} to {1}", downloadPath, entry.getLocalPath());
-					Files.copy(downloadPath, Paths.get(entry.getLocalPath()), StandardCopyOption.REPLACE_EXISTING);
-				}
-				catch(IOException e)
-				{
-					Logger.error(e);
-				}
+				Logger.info("Copy remote file from {0} to {1}", downloadPath, entry.getLocalPath());
+				Files.copy(downloadPath, Paths.get(entry.getLocalPath()), StandardCopyOption.REPLACE_EXISTING);
+			}
+			catch(IOException e)
+			{
+				Logger.error(e);
 			}
 		}
 	}

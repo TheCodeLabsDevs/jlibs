@@ -66,7 +66,8 @@ public class Version implements Comparable
 	public String toString()
 	{
 		return "Version{" +
-				"major=" + major +
+				"artifact=" + artifact +
+				", major=" + major +
 				", minor=" + minor +
 				", fix=" + fix +
 				", snapshot=" + snapshot +
