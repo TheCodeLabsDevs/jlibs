@@ -7,6 +7,7 @@ import de.thecodelabs.utils.application.container.PathType;
 import de.thecodelabs.utils.io.IOUtils;
 import de.thecodelabs.utils.threading.Worker;
 import de.thecodelabs.utils.ui.NVC;
+import de.thecodelabs.utils.ui.NVCStage;
 import de.thecodelabs.utils.util.Localization;
 import de.thecodelabs.utils.util.NumberUtils;
 import de.thecodelabs.versionizer.UpdateItem;
@@ -50,8 +51,12 @@ public class MainViewController extends NVC implements IOUtils.CopyControl
 	public MainViewController(Stage stage, UpdateItem item)
 	{
 		this.updateItem = item;
-		load("view", "Main");
-		applyViewControllerToStage(stage);
+		load("view", "Main", Localization.getBundle());
+		final NVCStage nvcStage = applyViewControllerToStage(stage);
+		nvcStage.addCloseHook(() -> {
+			interruptCopy = true;
+			return true;
+		});
 
 		Worker.runLater(this::runUpdateInBackground);
 	}

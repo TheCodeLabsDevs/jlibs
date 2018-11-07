@@ -19,7 +19,7 @@
       </HBox>
       <HBox alignment="TOP_RIGHT">
          <children>
-            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelHandler" text="Abbrechen" HBox.hgrow="ALWAYS" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelHandler" text="%button.cancel" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </children>
