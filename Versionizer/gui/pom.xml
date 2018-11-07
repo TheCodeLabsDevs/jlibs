@@ -88,6 +88,29 @@
                 </executions>
             </plugin>
         </plugins>
-
     </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>release</id>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-plugins-release</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>snapshots</id>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-plugins-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
 </project>
