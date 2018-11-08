@@ -54,7 +54,6 @@ public class JarVersionizerStrategy extends VersionizerStrategy
 	private void runJar(String json, Path updaterPath) throws IOException
 	{
 		ProcessBuilder builder = new ProcessBuilder("java", "-jar", updaterPath.toAbsolutePath().toString());
-		System.out.println(builder);
 		final Process start = builder.start();
 
 		final OutputStream outputStream = start.getOutputStream();

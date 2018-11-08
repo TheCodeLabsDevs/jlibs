@@ -45,7 +45,7 @@ public class VersionizerGuiMain extends Application implements Localization.Loca
 
 		if (arguments.size() > 0)
 		{
-			final String json = arguments.get(0);
+			final String json = arguments.get(0).replace("$$", "\"");
 			updateItem = gson.fromJson(json, type);
 		} else {
 			updateItem = gson.fromJson(new InputStreamReader(System.in), type);
