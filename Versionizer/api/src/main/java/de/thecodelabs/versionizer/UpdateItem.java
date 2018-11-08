@@ -7,6 +7,8 @@ import java.util.List;
 
 public class UpdateItem
 {
+	public static final int VERSION = 1;
+
 	public static class Entry
 	{
 		private Version version;
@@ -63,5 +65,15 @@ public class UpdateItem
 	public List<Entry> getEntryList()
 	{
 		return versionList;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "UpdateItem{" +
+				"VERSION=" + VERSION +
+				", versionizerItem=" + versionizerItem +
+				", versionList=" + versionList +
+				'}';
 	}
 }

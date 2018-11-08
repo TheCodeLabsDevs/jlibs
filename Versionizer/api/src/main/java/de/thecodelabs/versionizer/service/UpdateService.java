@@ -72,23 +72,10 @@ public class UpdateService
 		this.versionService = new VersionService(versionizerItem);
 	}
 
-	public static void bla(){
-		Logger.info("Bla");
-	}
-
 	public static UpdateService startVersionizer(VersionizerItem versionizerItem, Strategy strategy, InteractionType interactionType)
 	{
-		UpdateService updateService = new UpdateService(versionizerItem, strategy, interactionType);
-		try
-		{
-			Slf4JLoggerAdapter.disableSlf4jDebugPrints();
-			updateService.updateStrategy.downloadVersionizer(interactionType);
-		}
-		catch(IOException e)
-		{
-			throw new RuntimeException(e);
-		}
-		return updateService;
+		Slf4JLoggerAdapter.disableSlf4jDebugPrints();
+		return new UpdateService(versionizerItem, strategy, interactionType);
 	}
 
 	public void fetchCurrentVersion()
@@ -127,7 +114,8 @@ public class UpdateService
 		return remoteVersions;
 	}
 
-	public Version getRemoteVersionForArtifact(Artifact artifact) {
+	public Version getRemoteVersionForArtifact(Artifact artifact)
+	{
 		return remoteVersions.get(artifact);
 	}
 
@@ -138,6 +126,8 @@ public class UpdateService
 
 	public void runVersionizerInstance(List<UpdateItem.Entry> versions) throws IOException
 	{
+		updateStrategy.downloadVersionizer(interactionType);
+
 		final boolean anyAdmin = versions.stream().anyMatch(entry -> !Files.isWritable(Paths.get(entry.getLocalPath())));
 		if(anyAdmin)
 		{
