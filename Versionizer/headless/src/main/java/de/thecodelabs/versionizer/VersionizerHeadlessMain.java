@@ -10,6 +10,7 @@ import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.service.VersionService;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,13 +26,20 @@ public class VersionizerHeadlessMain
 		ApplicationUtils.addAppListener(VersionizerHeadlessMain::applicationWillStart);
 		app.start(args);
 
-		if(args.length != 1)
-		{
-			Logger.error("Invalid arguments");
-			System.exit(0);
-		}
+		final UpdateItem updateItem;
 
-		UpdateItem updateItem = new Gson().fromJson(args[0], UpdateItem.class);
+		final Gson gson = new Gson();
+		final Class<UpdateItem> type = UpdateItem.class;
+
+		if(args.length > 0)
+		{
+			final String json = args[0];
+			updateItem = gson.fromJson(json, type);
+		}
+		else
+		{
+			updateItem = gson.fromJson(new InputStreamReader(System.in), type);
+		}
 
 		VersionService versionService = new VersionService(updateItem.getVersionizerItem());
 

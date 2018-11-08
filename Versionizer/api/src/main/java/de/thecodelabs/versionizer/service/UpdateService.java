@@ -1,5 +1,6 @@
 package de.thecodelabs.versionizer.service;
 
+import de.thecodelabs.logger.Logger;
 import de.thecodelabs.logger.Slf4JLoggerAdapter;
 import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.VersionizerItem;
@@ -67,8 +68,12 @@ public class UpdateService
 				updateStrategy = new AppVersionizerStrategy();
 				break;
 		}
-
+		Logger.info(updateStrategy);
 		this.versionService = new VersionService(versionizerItem);
+	}
+
+	public static void bla(){
+		Logger.info("Bla");
 	}
 
 	public static UpdateService startVersionizer(VersionizerItem versionizerItem, Strategy strategy, InteractionType interactionType)
