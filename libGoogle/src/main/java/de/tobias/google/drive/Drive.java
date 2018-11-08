@@ -8,10 +8,9 @@ import com.google.api.services.drive.Drive.Files.Insert;
 import com.google.api.services.drive.Drive.Files.Update;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.*;
+import de.thecodelabs.utils.io.PathUtils;
 import de.tobias.google.Authentication;
 import de.tobias.google.Service;
-import de.tobias.utils.io.FileUtils;
-import de.tobias.utils.io.PathUtils;
 
 import javax.activation.MimetypesFileTypeMap;
 import java.io.FileOutputStream;

@@ -6,14 +6,14 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>libSwitcher</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <dependencies>
 
     </dependencies>
     <properties>
         <java.version>1.8</java.version>
-        <jlibs.version>2.0.1</jlibs.version>
+        <jlibs.version>2.0.4</jlibs.version>
     </properties>
 
     <dependencyManagement>
