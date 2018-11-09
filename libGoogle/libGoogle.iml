@@ -34,7 +34,7 @@
     <orderEntry type="library" name="Maven: com.google.apis:google-api-services-drive:v2-rev168-1.20.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.apis:google-api-services-youtube:v3-rev135-1.20.0" level="project" />
     <orderEntry type="library" name="Maven: net.minidev:json-smart:1.2" level="project" />
-    <orderEntry type="library" name="Maven: de.thecodelabs:libUtils:2.0.2" level="project" />
+    <orderEntry type="module" module-name="libUtils" />
     <orderEntry type="library" name="Maven: commons-net:commons-net:3.6" level="project" />
     <orderEntry type="library" name="Maven: org.controlsfx:controlsfx:8.40.14" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna:4.1.0" level="project" />

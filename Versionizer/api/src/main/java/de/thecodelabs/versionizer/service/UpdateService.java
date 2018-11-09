@@ -1,7 +1,5 @@
 package de.thecodelabs.versionizer.service;
 
-import de.thecodelabs.logger.Logger;
-import de.thecodelabs.logger.Slf4JLoggerAdapter;
 import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.VersionizerItem;
 import de.thecodelabs.versionizer.config.Artifact;
@@ -12,6 +10,8 @@ import de.thecodelabs.versionizer.service.impl.JarVersionizerStrategy;
 import de.thecodelabs.versionizer.service.impl.VersionizerStrategy;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -68,13 +68,20 @@ public class UpdateService
 				updateStrategy = new AppVersionizerStrategy();
 				break;
 		}
-		Logger.info(updateStrategy);
 		this.versionService = new VersionService(versionizerItem);
 	}
 
 	public static UpdateService startVersionizer(VersionizerItem versionizerItem, Strategy strategy, InteractionType interactionType)
 	{
-		Slf4JLoggerAdapter.disableSlf4jDebugPrints();
+		try
+		{
+			final Class<?> slf4JLoggerAdapter = Class.forName("de.thecodelabs.logger.Slf4JLoggerAdapter");
+			final Method disableSlf4jDebugPrints = slf4JLoggerAdapter.getMethod("disableSlf4jDebugPrints");
+			disableSlf4jDebugPrints.invoke(null);
+		}
+		catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored)
+		{
+		}
 		return new UpdateService(versionizerItem, strategy, interactionType);
 	}
 
