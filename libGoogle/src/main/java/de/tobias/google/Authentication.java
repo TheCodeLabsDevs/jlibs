@@ -10,8 +10,8 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import de.tobias.utils.application.ApplicationUtils;
-import de.tobias.utils.application.container.PathType;
+import de.thecodelabs.utils.application.ApplicationUtils;
+import de.thecodelabs.utils.application.container.PathType;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

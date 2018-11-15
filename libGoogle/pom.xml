@@ -6,7 +6,7 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>libGoogle</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <properties>
         <google-api-client.version>1.23.0</google-api-client.version>
@@ -18,9 +18,20 @@
         <google-api-services-drive.version>v2-rev168-1.20.0</google-api-services-drive.version>
         <google-api-services-youtube.version>v3-rev135-1.20.0</google-api-services-youtube.version>
 
-        <libUtils.version>1.7.0</libUtils.version>
         <java.version>1.8</java.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>de.thecodelabs</groupId>
+                <artifactId>jlibs</artifactId>
+                <version>2.0.4</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -72,9 +83,8 @@
         </dependency>
 
         <dependency>
-            <groupId>de.tobias</groupId>
+            <groupId>de.thecodelabs</groupId>
             <artifactId>libUtils</artifactId>
-            <version>${libUtils.version}</version>
         </dependency>
     </dependencies>
 

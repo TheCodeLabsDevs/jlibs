@@ -170,5 +170,8 @@ public class VersionService
 		final OutputStream oStr = Files.newOutputStream(destination);
 
 		IOUtils.copy(iStr, oStr, copyDelegate, copyControl);
+
+		iStr.close();
+		oStr.close();
 	}
 }

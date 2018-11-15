@@ -2,6 +2,8 @@ package de.thecodelabs.versionizer.model;
 
 import de.thecodelabs.versionizer.config.Artifact;
 
+import java.util.Objects;
+
 public class Version implements Comparable
 {
 	private final Artifact artifact;
@@ -64,7 +66,8 @@ public class Version implements Comparable
 	public String toString()
 	{
 		return "Version{" +
-				"major=" + major +
+				"artifact=" + artifact +
+				", major=" + major +
 				", minor=" + minor +
 				", fix=" + fix +
 				", snapshot=" + snapshot +
@@ -112,5 +115,24 @@ public class Version implements Comparable
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this == o) return true;
+		if(o == null || getClass() != o.getClass()) return false;
+		Version version = (Version) o;
+		return major == version.major &&
+				minor == version.minor &&
+				fix == version.fix &&
+				snapshot == version.snapshot &&
+				Objects.equals(artifact, version.artifact);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(artifact, major, minor, fix, snapshot);
 	}
 }

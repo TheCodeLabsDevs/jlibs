@@ -7,19 +7,33 @@ public class RemoteFile implements Comparable<RemoteFile>
 {
 	public enum FileType
 	{
-		JAR, EXE, ZIP;
+		JAR("jar"),
+		EXE("exe"),
+		ZIP("zip");
+
+		private String fileExtension;
+
+		FileType(String fileExtension)
+		{
+			this.fileExtension = fileExtension;
+		}
+
+		public String getFileExtension()
+		{
+			return fileExtension;
+		}
 
 		public static FileType getFileType(String fileName)
 		{
-			switch(PathUtils.getFileExtension(fileName))
+			String fileExtension = PathUtils.getFileExtension(fileName);
+			for(FileType value : values())
 			{
-				case "jar":
-					return JAR;
-				case "zip":
-					return ZIP;
-				case "exe":
-					return EXE;
+				if(value.getFileExtension().equalsIgnoreCase(fileExtension))
+				{
+					return value;
+				}
 			}
+
 			return null;
 		}
 	}

@@ -7,8 +7,11 @@ import de.thecodelabs.utils.application.container.PathType;
 import de.thecodelabs.utils.io.IOUtils;
 import de.thecodelabs.utils.threading.Worker;
 import de.thecodelabs.utils.ui.NVC;
+import de.thecodelabs.utils.ui.NVCStage;
+import de.thecodelabs.utils.util.Localization;
 import de.thecodelabs.utils.util.NumberUtils;
 import de.thecodelabs.versionizer.UpdateItem;
+import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.service.VersionService;
 import javafx.application.Platform;
@@ -17,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -47,8 +51,12 @@ public class MainViewController extends NVC implements IOUtils.CopyControl
 	public MainViewController(Stage stage, UpdateItem item)
 	{
 		this.updateItem = item;
-		load("view", "Main");
-		applyViewControllerToStage(stage);
+		load("view", "Main", Localization.getBundle());
+		final NVCStage nvcStage = applyViewControllerToStage(stage);
+		nvcStage.addCloseHook(() -> {
+			interruptCopy = true;
+			return true;
+		});
 
 		Worker.runLater(this::runUpdateInBackground);
 	}
@@ -57,6 +65,14 @@ public class MainViewController extends NVC implements IOUtils.CopyControl
 	public void init()
 	{
 		super.init();
+	}
+
+	@Override
+	public void initStage(Stage stage)
+	{
+		stage.setResizable(false);
+		stage.setTitle(Localization.getString("title"));
+		stage.getIcons().add(new Image("icons/icon.png"));
 	}
 
 	@FXML
@@ -78,14 +94,21 @@ public class MainViewController extends NVC implements IOUtils.CopyControl
 
 		for(UpdateItem.Entry entry : updateItem.getEntryList())
 		{
-			Logger.info("Search files for entry: {0}", entry.getVersion().getArtifact());
-			Platform.runLater(() -> itemLabel.setText(entry.getVersion().getArtifact().getArtifactId()));
+			final Artifact artifact = entry.getVersion().getArtifact();
+
+			Logger.info("Search files for entry: {0}", artifact);
+
+			Platform.runLater(() -> {
+				final String artifactId = artifact.getArtifactId();
+				final String infoString = Localization.getString("label.info", artifactId, artifact.getVersion(), entry.getVersion().toVersionString());
+				itemLabel.setText(infoString);
+			});
 
 			final List<RemoteFile> remoteFiles = versionService.listFilesForVersion(entry.getVersion());
 			final Optional<RemoteFile> optionalRemoteFile = remoteFiles.stream().filter(file -> file.getFileType() == entry.getFileType()).findAny();
 			if(!optionalRemoteFile.isPresent())
 			{
-				Logger.warning("No remote file found for entry: {0}", entry.getVersion().getArtifact());
+				Logger.warning("No remote file found for entry: {0}", artifact);
 				continue;
 			}
 
@@ -96,9 +119,12 @@ public class MainViewController extends NVC implements IOUtils.CopyControl
 			try
 			{
 				final long maxSize = versionService.getSize(remoteFile);
-				versionService.downloadRemoteFile(remoteFile, downloadPath, (value) -> Platform.runLater(() -> setCurrentProgress(value, maxSize)), this);
 
-				if (interruptCopy) {
+				final IOUtils.CopyDelegate copyDelegate = (value) -> Platform.runLater(() -> setCurrentProgress(value, maxSize));
+				versionService.downloadRemoteFile(remoteFile, downloadPath, copyDelegate, this);
+
+				if(interruptCopy)
+				{
 					Logger.info("Download interrupted for remote file {0}", entry);
 					break;
 				}
@@ -113,6 +139,12 @@ public class MainViewController extends NVC implements IOUtils.CopyControl
 				Logger.error(e);
 			}
 		}
+		handlePostExecution();
+		System.exit(0);
+	}
+
+	private void handlePostExecution()
+	{
 		String executePath = updateItem.getVersionizerItem().getExecutablePath();
 		if(executePath != null)
 		{
@@ -134,7 +166,6 @@ public class MainViewController extends NVC implements IOUtils.CopyControl
 				e.printStackTrace();
 			}
 		}
-		System.exit(0);
 	}
 
 	private void setCurrentProgress(long value, long max)

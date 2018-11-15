@@ -4,6 +4,7 @@ import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.utils.application.App;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.external.ExternalJarContainer;
+import de.thecodelabs.utils.logger.LoggerBridge;
 import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.VersionizerItem;
 import de.thecodelabs.versionizer.config.Artifact;
@@ -56,21 +57,27 @@ public abstract class VersionizerStrategy
 			return false;
 		}
 
-		ExternalJarContainer container = ExternalJarContainer.getExternalJar(versionizerPath);
-		Repository repository = container.get("versionizer/repository.yml").deserialize(StorageTypes.YAML, Repository.class);
-		Artifact artifact = container.get("versionizer/build.properties").deserialize(StorageTypes.PROPERTIES, Artifact.class);
-		VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(artifact), null);
+		try
+		{
+			ExternalJarContainer container = ExternalJarContainer.getExternalJar(versionizerPath);
+			Repository repository = container.get("versionizer/repository.yml").deserialize(StorageTypes.YAML, Repository.class);
+			Artifact artifact = container.get("versionizer/build.properties").deserialize(StorageTypes.PROPERTIES, Artifact.class);
+			VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(artifact), null);
 
-		VersionService versionService = new VersionService(versionizerItem);
-		final Version latestVersion = versionService.getLatestVersion(artifact);
+			VersionService versionService = new VersionService(versionizerItem);
+			final Version latestVersion = versionService.getLatestVersion(artifact);
 
-		container.close();
-		versionService.close();
+			container.close();
+			versionService.close();
 
-		System.out.println("Remote: " + latestVersion);
-		System.out.println("Local: " + VersionTokenizer.getVersion(artifact));
+			System.out.println("Remote: " + latestVersion);
+			System.out.println("Local: " + VersionTokenizer.getVersion(artifact));
 
-		return latestVersion.isNewerThen(VersionTokenizer.getVersion(artifact));
+			return latestVersion.isNewerThen(VersionTokenizer.getVersion(artifact));
+		} catch (RuntimeException e) {
+			LoggerBridge.warning(e.getMessage());
+			return false;
+		}
 	}
 
 	private void downloadVersionizerFile(UpdateService.InteractionType type) throws IOException

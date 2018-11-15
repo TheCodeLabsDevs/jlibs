@@ -31,7 +31,7 @@ public class VersionTokenizer
 
 	public static int getRevision(String value)
 	{
-		final Pattern pattern = Pattern.compile("\\w*-[\\d.]*-[\\d]{8}.[\\d]{6}-(\\d).[\\w]*");
+		final Pattern pattern = Pattern.compile("\\w*-[\\d.]*-[\\d]{8}.[\\d]{6}-(\\d*).[\\w]*");
 		final Matcher matcher = pattern.matcher(value);
 
 		if(matcher.find())

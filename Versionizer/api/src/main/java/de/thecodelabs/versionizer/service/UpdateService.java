@@ -1,6 +1,5 @@
 package de.thecodelabs.versionizer.service;
 
-import de.thecodelabs.logger.Slf4JLoggerAdapter;
 import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.VersionizerItem;
 import de.thecodelabs.versionizer.config.Artifact;
@@ -11,6 +10,8 @@ import de.thecodelabs.versionizer.service.impl.JarVersionizerStrategy;
 import de.thecodelabs.versionizer.service.impl.VersionizerStrategy;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -55,22 +56,6 @@ public class UpdateService
 		this.versionizerItem = item;
 		this.interactionType = interactionType;
 
-		if(versionizerItem.getExecutablePath() != null)
-		{
-			if(Files.isWritable(Paths.get(versionizerItem.getExecutablePath())))
-			{
-				this.runPrivileges = RunPrivileges.USER;
-			}
-			else
-			{
-				this.runPrivileges = RunPrivileges.ADMIN;
-			}
-		}
-		else
-		{
-			this.runPrivileges = RunPrivileges.USER;
-		}
-
 		switch(strategy)
 		{
 			case JAR:
@@ -83,23 +68,21 @@ public class UpdateService
 				updateStrategy = new AppVersionizerStrategy();
 				break;
 		}
-
 		this.versionService = new VersionService(versionizerItem);
 	}
 
 	public static UpdateService startVersionizer(VersionizerItem versionizerItem, Strategy strategy, InteractionType interactionType)
 	{
-		UpdateService updateService = new UpdateService(versionizerItem, strategy, interactionType);
 		try
 		{
-			Slf4JLoggerAdapter.disableSlf4jDebugPrints();
-			updateService.updateStrategy.downloadVersionizer(interactionType);
+			final Class<?> slf4JLoggerAdapter = Class.forName("de.thecodelabs.logger.Slf4JLoggerAdapter");
+			final Method disableSlf4jDebugPrints = slf4JLoggerAdapter.getMethod("disableSlf4jDebugPrints");
+			disableSlf4jDebugPrints.invoke(null);
 		}
-		catch(IOException e)
+		catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored)
 		{
-			throw new RuntimeException(e);
 		}
-		return updateService;
+		return new UpdateService(versionizerItem, strategy, interactionType);
 	}
 
 	public void fetchCurrentVersion()
@@ -138,24 +121,30 @@ public class UpdateService
 		return remoteVersions;
 	}
 
-	public Version getRemoteVersionForArtifact(Artifact artifact) {
+	public Version getRemoteVersionForArtifact(Artifact artifact)
+	{
 		return remoteVersions.get(artifact);
 	}
 
-	public void runVersionizerInstance(UpdateItem.Entry version) {
+	public void runVersionizerInstance(UpdateItem.Entry version) throws IOException
+	{
 		runVersionizerInstance(Collections.singletonList(version));
 	}
 
-	public void runVersionizerInstance(List<UpdateItem.Entry> versions)
+	public void runVersionizerInstance(List<UpdateItem.Entry> versions) throws IOException
 	{
-		try
+		updateStrategy.downloadVersionizer(interactionType);
+
+		final boolean anyAdmin = versions.stream().anyMatch(entry -> !Files.isWritable(Paths.get(entry.getLocalPath())));
+		if(anyAdmin)
 		{
-			updateStrategy.startVersionizer(interactionType, runPrivileges, new UpdateItem(versionizerItem, versions));
-			System.exit(0);
+			this.runPrivileges = RunPrivileges.USER;
 		}
-		catch(IOException e)
+		else
 		{
-			throw new RuntimeException(e);
+			this.runPrivileges = RunPrivileges.ADMIN;
 		}
+
+		updateStrategy.startVersionizer(interactionType, runPrivileges, new UpdateItem(versionizerItem, versions));
 	}
 }

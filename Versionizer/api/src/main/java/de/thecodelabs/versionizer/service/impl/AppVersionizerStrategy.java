@@ -9,6 +9,7 @@ import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.service.UpdateService;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
@@ -39,16 +40,25 @@ public class AppVersionizerStrategy extends VersionizerStrategy
 		{
 			case ADMIN:
 			{
-				ProcessBuilder builder = new ProcessBuilder("java", "-jar", updaterPath.toAbsolutePath().toString(), json);
-				builder.start();
+				runJar(json, updaterPath);
+				break;
 			}
-			break;
 			case USER:
 			{
-				ProcessBuilder builder = new ProcessBuilder("java", "-jar", updaterPath.toAbsolutePath().toString(), json);
-				builder.start();
+				runJar(json, updaterPath);
+				break;
 			}
-			break;
 		}
+	}
+
+	private void runJar(String json, Path updaterPath) throws IOException
+	{
+		ProcessBuilder builder = new ProcessBuilder("java", "-jar", updaterPath.toAbsolutePath().toString());
+		final Process start = builder.start();
+
+		final OutputStream outputStream = start.getOutputStream();
+		outputStream.write(json.getBytes());
+		outputStream.flush();
+		outputStream.close();
 	}
 }
