@@ -69,4 +69,14 @@ public class ExternalJarContainer
 			throw new RuntimeException(e);
 		}
 	}
+
+	public Path getArchiveFile()
+	{
+		return archiveFile;
+	}
+
+	public ZipFile getZipFile()
+	{
+		return zipFile;
+	}
 }
