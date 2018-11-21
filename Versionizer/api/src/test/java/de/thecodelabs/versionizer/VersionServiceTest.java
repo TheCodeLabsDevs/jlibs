@@ -5,9 +5,9 @@ import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.config.Repository;
 import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.model.Version;
+import de.thecodelabs.versionizer.service.UpdateService;
 import de.thecodelabs.versionizer.service.VersionService;
 
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +27,7 @@ public class VersionServiceTest
 		repository.setRepositoryNameReleases("TheCodeLabs-release");
 		repository.setRepositoryNameSnapshots("TheCodeLabs-snapshots");
 
-		VersionService versionService = new VersionService(versionizerItem);
+		VersionService versionService = new VersionService(versionizerItem, UpdateService.RepositoryType.RELEASE);
 
 		List<Version> versions = versionService.getVersions(build);
 

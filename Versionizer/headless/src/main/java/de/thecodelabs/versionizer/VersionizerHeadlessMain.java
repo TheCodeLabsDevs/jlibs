@@ -33,7 +33,7 @@ public class VersionizerHeadlessMain
 
 		if(args.length > 0)
 		{
-			final String json = args[0];
+			final String json = args[0].replace("$$", "\"");
 			updateItem = gson.fromJson(json, type);
 		}
 		else
@@ -41,7 +41,7 @@ public class VersionizerHeadlessMain
 			updateItem = gson.fromJson(new InputStreamReader(System.in), type);
 		}
 
-		VersionService versionService = new VersionService(updateItem.getVersionizerItem());
+		VersionService versionService = new VersionService(updateItem.getVersionizerItem(), repositoryType);
 
 		for(UpdateItem.Entry entry : updateItem.getEntryList())
 		{
@@ -69,6 +69,25 @@ public class VersionizerHeadlessMain
 			catch(IOException e)
 			{
 				Logger.error(e);
+			}
+		}
+		handlePostExecution(updateItem);
+	}
+
+	private static void handlePostExecution(UpdateItem updateItem)
+	{
+		String executePath = updateItem.getVersionizerItem().getExecutablePath();
+		if(executePath != null)
+		{
+			Logger.info("Handling execution path: {0}", executePath);
+			try
+			{
+				ProcessBuilder builder = new ProcessBuilder("java", "-jar", executePath);
+				builder.start();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
 			}
 		}
 	}

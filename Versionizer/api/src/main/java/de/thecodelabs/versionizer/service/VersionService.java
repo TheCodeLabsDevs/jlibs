@@ -25,14 +25,16 @@ import java.util.List;
 
 public class VersionService
 {
-	public static final Logger LOGGER = LoggerFactory.getLogger(VersionService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(VersionService.class);
 
 	private VersionizerItem versionizerItem;
 	private Artifactory artifactory;
+	private UpdateService.RepositoryType repositoryType;
 
-	public VersionService(VersionizerItem versionizerItem)
+	public VersionService(VersionizerItem versionizerItem, UpdateService.RepositoryType repositoryType)
 	{
 		this.versionizerItem = versionizerItem;
+		this.repositoryType = repositoryType;
 
 		artifactory = ArtifactoryClientBuilder.create()
 				.setUrl(versionizerItem.getRepository().getUrl())
@@ -59,7 +61,10 @@ public class VersionService
 		List<Version> versionList = new LinkedList<>();
 		try
 		{
-			versionList.addAll(getVersionsByRepository(artifactory, versionizerItem.getRepository().getRepositoryNameReleases(), build));
+			if(repositoryType != UpdateService.RepositoryType.SNAPSHOT)
+			{
+				versionList.addAll(getVersionsByRepository(artifactory, versionizerItem.getRepository().getRepositoryNameReleases(), build));
+			}
 		}
 		catch(Exception e)
 		{
@@ -67,7 +72,10 @@ public class VersionService
 		}
 		try
 		{
-			versionList.addAll(getVersionsByRepository(artifactory, versionizerItem.getRepository().getRepositoryNameSnapshots(), build));
+			if(repositoryType != UpdateService.RepositoryType.RELEASE)
+			{
+				versionList.addAll(getVersionsByRepository(artifactory, versionizerItem.getRepository().getRepositoryNameSnapshots(), build));
+			}
 		}
 		catch(Exception e)
 		{
@@ -81,12 +89,14 @@ public class VersionService
 	public Version getLatestVersion(Artifact build)
 	{
 		final List<Version> versions = getVersions(build);
-		if (versions.isEmpty()) {
+		if(versions.isEmpty())
+		{
 			return null;
 		}
 		return versions.get(versions.size() - 1);
 	}
 
+	@SuppressWarnings("unused")
 	public boolean isUpdateAvailable(Artifact build)
 	{
 		final Version latestVersion = getLatestVersion(build);
@@ -154,9 +164,10 @@ public class VersionService
 		downloadRemoteFile(remoteFile, destination, null);
 	}
 
+	@SuppressWarnings("WeakerAccess")
 	public void downloadRemoteFile(RemoteFile remoteFile, Path destination, IOUtils.CopyDelegate copyDelegate) throws IOException
 	{
-		downloadRemoteFile(remoteFile, destination, null, null);
+		downloadRemoteFile(remoteFile, destination, copyDelegate, null);
 	}
 
 	public void downloadRemoteFile(RemoteFile remoteFile, Path destination, IOUtils.CopyDelegate copyDelegate, IOUtils.CopyControl copyControl) throws IOException

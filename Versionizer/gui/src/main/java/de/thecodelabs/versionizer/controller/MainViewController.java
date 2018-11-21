@@ -23,8 +23,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -90,7 +88,7 @@ public class MainViewController extends NVC implements IOUtils.CopyControl
 	private void runUpdateInBackground()
 	{
 		App app = ApplicationUtils.getApplication();
-		VersionService versionService = new VersionService(updateItem.getVersionizerItem());
+		VersionService versionService = new VersionService(updateItem.getVersionizerItem(), repositoryType);
 
 		for(UpdateItem.Entry entry : updateItem.getEntryList())
 		{
@@ -151,15 +149,8 @@ public class MainViewController extends NVC implements IOUtils.CopyControl
 			Logger.info("Handling execution path: {0}", executePath);
 			try
 			{
-				if(executePath.toLowerCase().endsWith(".jar"))
-				{
-					ProcessBuilder builder = new ProcessBuilder("java", "-jar", executePath);
-					builder.start();
-				}
-				else
-				{
-					Desktop.getDesktop().open(new File(executePath));
-				}
+				ProcessBuilder builder = new ProcessBuilder("java", "-jar", executePath);
+				builder.start();
 			}
 			catch(Exception e)
 			{
