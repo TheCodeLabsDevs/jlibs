@@ -13,6 +13,7 @@ import de.thecodelabs.utils.util.NumberUtils;
 import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.model.RemoteFile;
+import de.thecodelabs.versionizer.service.UpdateService;
 import de.thecodelabs.versionizer.service.VersionService;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -88,7 +89,7 @@ public class MainViewController extends NVC implements IOUtils.CopyControl
 	private void runUpdateInBackground()
 	{
 		App app = ApplicationUtils.getApplication();
-		VersionService versionService = new VersionService(updateItem.getVersionizerItem(), repositoryType);
+		VersionService versionService = new VersionService(updateItem.getVersionizerItem(), UpdateService.RepositoryType.ALL);
 
 		for(UpdateItem.Entry entry : updateItem.getEntryList())
 		{

@@ -7,6 +7,7 @@ import de.thecodelabs.utils.application.App;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.container.PathType;
 import de.thecodelabs.versionizer.model.RemoteFile;
+import de.thecodelabs.versionizer.service.UpdateService;
 import de.thecodelabs.versionizer.service.VersionService;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class VersionizerHeadlessMain
 			updateItem = gson.fromJson(new InputStreamReader(System.in), type);
 		}
 
-		VersionService versionService = new VersionService(updateItem.getVersionizerItem(), repositoryType);
+		VersionService versionService = new VersionService(updateItem.getVersionizerItem(), UpdateService.RepositoryType.ALL);
 
 		for(UpdateItem.Entry entry : updateItem.getEntryList())
 		{
