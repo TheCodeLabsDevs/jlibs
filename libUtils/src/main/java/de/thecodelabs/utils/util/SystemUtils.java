@@ -5,13 +5,17 @@ import de.thecodelabs.utils.logger.LoggerBridge;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class SystemUtils {
+public class SystemUtils
+{
 
-	public static Path getApplicationSupportDirectoryPath(String name) {
-		switch (OS.getType()) {
+	public static Path getApplicationSupportDirectoryPath(String name)
+	{
+		switch(OS.getType())
+		{
 			case Windows:
 				return Paths.get(System.getenv("APPDATA"), name);
 			case MacOSX:
@@ -23,29 +27,58 @@ public class SystemUtils {
 		}
 	}
 
-	public static Path getApplicationSupportDirectoryPath(String... name) {
+	public static Path getApplicationSupportDirectoryPath(String... name)
+	{
 		return getApplicationSupportDirectoryPath(StringUtils.build(name, File.separator));
 	}
 
-	public static Path getRunPath() {
-		try {
+	public static Path getRunPath()
+	{
+		try
+		{
 			return Paths.get(SystemUtils.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-		} catch (URISyntaxException | FileSystemNotFoundException e) {
+		}
+		catch(URISyntaxException | FileSystemNotFoundException e)
+		{
 			LoggerBridge.debug(e.getMessage());
 			return null;
 		}
 	}
 
-	public static boolean isJar() {
-		return getRunPath().toString().toLowerCase().endsWith(".jar");
+	public static boolean isJar()
+	{
+		final Path runPath = getRunPath();
+		if(runPath != null)
+		{
+			return runPath.toString().toLowerCase().endsWith(".jar");
+		}
+		else
+		{
+			return false;
+		}
 	}
 
-	public static boolean isExe() {
-		return getRunPath().toString().toLowerCase().endsWith(".exe");
+	public static boolean isExe()
+	{
+		final Path runPath = getRunPath();
+		if(runPath != null)
+		{
+			return runPath.toString().toLowerCase().endsWith(".exe");
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public static boolean isDocker()
+	{
+		return Files.exists(Paths.get("/.dockerenv"));
 	}
 
 	// Linux only
-	public static boolean isRootUser() {
+	public static boolean isRootUser()
+	{
 		return System.getenv().get("USER").equalsIgnoreCase("root");
 	}
 
