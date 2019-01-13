@@ -10,6 +10,11 @@ import java.nio.file.Path;
 
 public abstract class NativeApplication {
 
+	public enum RequestUserAttentionType {
+		CRITICAL_REQUEST,
+		INFORMATIONAL_REQUEST
+	}
+
 	private static NativeApplication shared;
 
 	public static NativeApplication sharedInstance() {
@@ -43,6 +48,10 @@ public abstract class NativeApplication {
 	public abstract void executeAsAdministrator(String command, String args);
 
 	public abstract boolean isTouchInputAvailable();
+
+	public abstract void requestUserAttention(RequestUserAttentionType requestUserAttentionType);
+
+	public abstract void cancelUserAttention();
 
 	public abstract void setDockIcon(Image image);
 

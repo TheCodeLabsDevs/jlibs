@@ -2,74 +2,111 @@ package de.thecodelabs.utils.application.system.impl;
 
 import de.thecodelabs.utils.application.NativeLoader;
 import de.thecodelabs.utils.application.system.NativeApplication;
-import de.thecodelabs.utils.util.ImageUtils;
-import de.thecodelabs.utils.util.OS;
 import de.thecodelabs.utils.application.system.NativeFeatureNotSupported;
 import de.thecodelabs.utils.io.IOUtils;
+import de.thecodelabs.utils.util.ImageUtils;
+import de.thecodelabs.utils.util.OS;
 import javafx.scene.image.Image;
 
 import java.nio.file.Path;
 
 public class MacNativeApplication extends NativeApplication
 {
+	private long userAttentionRequestId = -1;
 
 	private static boolean loaded = false;
 
-	private static void loadNativeLibrary() {
-		if (!loaded && OS.isMacOS()) {
+	private static void loadNativeLibrary()
+	{
+		if(!loaded && OS.isMacOS())
+		{
 			NativeLoader.load("libUtilsNative.dylib", "libraries", MacNativeApplication.class);
 			loaded = !loaded;
 		}
 	}
 
-	public MacNativeApplication() {
+	public MacNativeApplication()
+	{
 		loadNativeLibrary();
 	}
 
 	@Override
-	public void preventSystemSleep(boolean on) {
+	public void preventSystemSleep(boolean on)
+	{
 		preventSystemSleep_N(on);
 	}
 
 	@Override
 	@NativeFeatureNotSupported
-	public void executeAsAdministrator(String command, String args) {
+	public void executeAsAdministrator(String command, String args)
+	{
 
 	}
 
 	@Override
 	@NativeFeatureNotSupported
-	public boolean isTouchInputAvailable() {
+	public boolean isTouchInputAvailable()
+	{
 		return false;
 	}
 
 	@Override
-	public void setDockIcon(Image image) {
+	public void requestUserAttention(RequestUserAttentionType requestUserAttentionType)
+	{
+		if (userAttentionRequestId != -1) {
+			cancelUserAttention();
+		}
+
+		if(requestUserAttentionType == RequestUserAttentionType.INFORMATIONAL_REQUEST)
+		{
+			userAttentionRequestId = requestUserInformationAttention_N();
+		}
+		else if(requestUserAttentionType == RequestUserAttentionType.CRITICAL_REQUEST)
+		{
+			userAttentionRequestId = requestUserCriticalAttention_N();
+		}
+	}
+
+	@Override
+	public void cancelUserAttention()
+	{
+		cancelUserAttention_N(userAttentionRequestId);
+		userAttentionRequestId = -1;
+	}
+
+	@Override
+	public void setDockIcon(Image image)
+	{
 		setDockIcon_N(ImageUtils.imageToByteArray(image));
 	}
 
 	@Override
-	public void setDockIconBadge(int i) {
+	public void setDockIconBadge(int i)
+	{
 		setDockIconBadge_N(i);
 	}
 
 	@Override
-	public void setDockIconHidden(boolean hidden) {
+	public void setDockIconHidden(boolean hidden)
+	{
 		setDockIconHidden_N(hidden);
 	}
 
 	@Override
-	public void setAppearance(boolean darkAqua) {
+	public void setAppearance(boolean darkAqua)
+	{
 		setAppearance_N(darkAqua);
 	}
 
 	@Override
-	public void showFileInFileViewer(Path path) {
+	public void showFileInFileViewer(Path path)
+	{
 		showFileInFileViewer_N(path.toString());
 	}
 
 	@Override
-	public Image getImageForFile(Path file) {
+	public Image getImageForFile(Path file)
+	{
 		return new Image(IOUtils.byteArrayToInputStream(getImageForFile_N(file.toString())));
 	}
 
@@ -78,6 +115,12 @@ public class MacNativeApplication extends NativeApplication
 	 */
 
 	private static native void preventSystemSleep_N(boolean on);
+
+	private static native long requestUserInformationAttention_N();
+
+	private static native long requestUserCriticalAttention_N();
+
+	private static native void cancelUserAttention_N(long id);
 
 	private static native void setDockIcon_N(byte[] image);
 

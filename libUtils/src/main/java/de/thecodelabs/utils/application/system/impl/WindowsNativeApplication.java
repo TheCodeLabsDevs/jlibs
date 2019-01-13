@@ -67,6 +67,20 @@ public class WindowsNativeApplication extends NativeApplication
 
 	@Override
 	@NativeFeatureNotSupported
+	public void requestUserAttention(RequestUserAttentionType requestUserAttentionType)
+	{
+
+	}
+
+	@Override
+	@NativeFeatureNotSupported
+	public void cancelUserAttention()
+	{
+
+	}
+
+	@Override
+	@NativeFeatureNotSupported
 	public void setDockIcon(Image image) {
 
 	}
