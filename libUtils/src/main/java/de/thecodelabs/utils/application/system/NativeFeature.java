@@ -5,6 +5,7 @@ public enum NativeFeature {
 	DOCK_BADGE("setDockIconBadge"),
 	DOCK_HIDDEN("setDockIconHidden"),
 	APPEARANCE("setAppearance"),
+	USER_ATTENTION("requestUserAttention"),
 	FILE_IN_FILEVIEW("showFileInFileViewer");
 
 	private String methodName;

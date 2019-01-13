@@ -34,6 +34,12 @@ public class UpdateService
 		HEADLESS
 	}
 
+	public enum RepositoryType {
+		RELEASE,
+		SNAPSHOT,
+		ALL
+	}
+
 	public enum RunPrivileges
 	{
 		ADMIN,
@@ -46,15 +52,17 @@ public class UpdateService
 
 	private InteractionType interactionType;
 	private RunPrivileges runPrivileges;
+	private RepositoryType repositoryType;
 
 	private Map<Artifact, Version> remoteVersions;
 
-	private UpdateService(VersionizerItem item, Strategy strategy, InteractionType interactionType)
+	private UpdateService(VersionizerItem item, Strategy strategy, InteractionType interactionType, RepositoryType repositoryType)
 	{
 		this.remoteVersions = new HashMap<>();
 
 		this.versionizerItem = item;
 		this.interactionType = interactionType;
+		this.repositoryType = repositoryType;
 
 		switch(strategy)
 		{
@@ -68,10 +76,10 @@ public class UpdateService
 				updateStrategy = new AppVersionizerStrategy();
 				break;
 		}
-		this.versionService = new VersionService(versionizerItem);
+		this.versionService = new VersionService(versionizerItem, repositoryType);
 	}
 
-	public static UpdateService startVersionizer(VersionizerItem versionizerItem, Strategy strategy, InteractionType interactionType)
+	public static UpdateService startVersionizer(VersionizerItem versionizerItem, Strategy strategy, InteractionType interactionType, RepositoryType repositoryType)
 	{
 		try
 		{
@@ -82,7 +90,7 @@ public class UpdateService
 		catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored)
 		{
 		}
-		return new UpdateService(versionizerItem, strategy, interactionType);
+		return new UpdateService(versionizerItem, strategy, interactionType, repositoryType);
 	}
 
 	public void fetchCurrentVersion()

@@ -64,7 +64,7 @@ public abstract class VersionizerStrategy
 			Artifact artifact = container.get("versionizer/build.properties").deserialize(StorageTypes.PROPERTIES, Artifact.class);
 			VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(artifact), null);
 
-			VersionService versionService = new VersionService(versionizerItem);
+			VersionService versionService = new VersionService(versionizerItem, UpdateService.RepositoryType.RELEASE);
 			final Version latestVersion = versionService.getLatestVersion(artifact);
 
 			container.close();
@@ -95,7 +95,7 @@ public abstract class VersionizerStrategy
 		LOGGER.info("Downloading versionizer using artifact" + build);
 
 		VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(build), versionizerPath.toString());
-		VersionService versionService = new VersionService(versionizerItem);
+		VersionService versionService = new VersionService(versionizerItem, UpdateService.RepositoryType.RELEASE);
 
 		final Version latestVersion = versionService.getLatestVersion(build);
 		final List<RemoteFile> remoteFiles = versionService.listFilesForVersion(latestVersion);

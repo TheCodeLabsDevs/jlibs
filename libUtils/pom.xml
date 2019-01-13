@@ -4,7 +4,7 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>libUtils</artifactId>
-    <version>2.0.4</version>
+    <version>2.0.8</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -13,14 +13,10 @@
 
         <commons-net.version>3.6</commons-net.version>
         <controlsfx.version>8.40.14</controlsfx.version>
-        <jna.version>4.1.0</jna.version>
-        <jna-platform.version>4.1.0</jna-platform.version>
+        <jna.version>5.1.0</jna.version>
+        <jna-platform.version>5.1.0</jna-platform.version>
         <dom4j.version>2.1.1</dom4j.version>
         <gagawa.version>1.0.1</gagawa.version>
-        <gson.version>2.8.5</gson.version>
-        <guava.version>23.3-jre</guava.version>
-        <snakeyaml.version>1.19</snakeyaml.version>
-        <YAMLStorage.version>1.0.0</YAMLStorage.version>
     </properties>
 
     <dependencyManagement>
@@ -77,28 +73,6 @@
             <version>${gagawa.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>${gson.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>${snakeyaml.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.tobias</groupId>
-            <artifactId>YAMLStorage</artifactId>
-            <version>${YAMLStorage.version}</version>
-        </dependency>
         <dependency>
             <groupId>de.thecodelabs</groupId>
             <artifactId>libStorage</artifactId>

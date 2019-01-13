@@ -9,7 +9,7 @@ import com.sun.jna.ptr.LongByReference;
 
 public interface Kernel32 extends Library {
 
-	Kernel32 INSTANCE = (Kernel32) Native.loadLibrary("kernel32", Kernel32.class);
+	Kernel32 INSTANCE = Native.load("kernel32", Kernel32.class);
 	Kernel32 SYNC_INSTANCE = (Kernel32) Native.synchronizedLibrary(INSTANCE);
 
 	int GetShortPathNameW(WString lpszLongPath, char[] lpdzShortPath, int cchBuffer);

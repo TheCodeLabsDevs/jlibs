@@ -6,7 +6,7 @@ import com.sun.jna.win32.W32APIOptions;
 
 public interface User32X extends User32 {
 
-	User32X INSTANCE = (User32X) Native.loadLibrary("user32", User32X.class, W32APIOptions.UNICODE_OPTIONS);
+	User32X INSTANCE = Native.load("user32", User32X.class, W32APIOptions.UNICODE_OPTIONS);
 
 	int GetSystemMetrics(int nIndex);
 

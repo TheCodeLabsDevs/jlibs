@@ -7,6 +7,7 @@ import de.thecodelabs.utils.application.App;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.container.PathType;
 import de.thecodelabs.versionizer.model.RemoteFile;
+import de.thecodelabs.versionizer.service.UpdateService;
 import de.thecodelabs.versionizer.service.VersionService;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class VersionizerHeadlessMain
 
 		if(args.length > 0)
 		{
-			final String json = args[0];
+			final String json = args[0].replace("$$", "\"");
 			updateItem = gson.fromJson(json, type);
 		}
 		else
@@ -41,7 +42,7 @@ public class VersionizerHeadlessMain
 			updateItem = gson.fromJson(new InputStreamReader(System.in), type);
 		}
 
-		VersionService versionService = new VersionService(updateItem.getVersionizerItem());
+		VersionService versionService = new VersionService(updateItem.getVersionizerItem(), UpdateService.RepositoryType.ALL);
 
 		for(UpdateItem.Entry entry : updateItem.getEntryList())
 		{
@@ -69,6 +70,25 @@ public class VersionizerHeadlessMain
 			catch(IOException e)
 			{
 				Logger.error(e);
+			}
+		}
+		handlePostExecution(updateItem);
+	}
+
+	private static void handlePostExecution(UpdateItem updateItem)
+	{
+		String executePath = updateItem.getVersionizerItem().getExecutablePath();
+		if(executePath != null)
+		{
+			Logger.info("Handling execution path: {0}", executePath);
+			try
+			{
+				ProcessBuilder builder = new ProcessBuilder("java", "-jar", executePath);
+				builder.start();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
 			}
 		}
 	}
