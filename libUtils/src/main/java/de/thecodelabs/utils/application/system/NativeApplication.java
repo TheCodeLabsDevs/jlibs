@@ -4,6 +4,7 @@ import de.thecodelabs.utils.util.OS;
 import de.thecodelabs.utils.application.system.impl.MacNativeApplication;
 import de.thecodelabs.utils.application.system.impl.WindowsNativeApplication;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 import java.lang.reflect.Method;
 import java.nio.file.Path;
@@ -52,6 +53,10 @@ public abstract class NativeApplication {
 	public abstract void requestUserAttention(RequestUserAttentionType requestUserAttentionType);
 
 	public abstract void cancelUserAttention();
+
+	public abstract void requestUserAttentionByStage(Stage stage);
+
+	public abstract void cancelUserAttentionByStage(Stage stage);
 
 	public abstract void setDockIcon(Image image);
 

@@ -7,6 +7,7 @@ import de.thecodelabs.utils.io.IOUtils;
 import de.thecodelabs.utils.util.ImageUtils;
 import de.thecodelabs.utils.util.OS;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 import java.nio.file.Path;
 
@@ -68,10 +69,22 @@ public class MacNativeApplication extends NativeApplication
 	}
 
 	@Override
+	@NativeFeatureNotSupported
+	public void requestUserAttentionByStage(Stage stage)
+	{
+	}
+
+	@Override
 	public void cancelUserAttention()
 	{
 		cancelUserAttention_N(userAttentionRequestId);
 		userAttentionRequestId = -1;
+	}
+
+	@Override
+	@NativeFeatureNotSupported
+	public void cancelUserAttentionByStage(Stage stage)
+	{
 	}
 
 	@Override
