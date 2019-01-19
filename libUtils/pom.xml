@@ -4,7 +4,7 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>libUtils</artifactId>
-    <version>2.0.8</version>
+    <version>2.0.9</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -114,7 +114,8 @@
                             <goal>javah</goal>
                         </goals>
                         <configuration>
-                            <javahClass>de.thecodelabs.utils.application.system.impl.WindowsNativeApplication</javahClass>
+                            <javahClass>de.thecodelabs.utils.application.system.impl.WindowsNativeApplication
+                            </javahClass>
                             <javahOutputFilePath>
                                 ${project.basedir}/target/jni/libUtils/include/de_thecodelabs_utils_util_mac_WindowsNativeApplication.h
                             </javahOutputFilePath>

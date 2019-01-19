@@ -1,19 +1,12 @@
 package de.thecodelabs.utils;
 
 import de.thecodelabs.utils.application.system.NativeApplication;
-import de.thecodelabs.utils.application.system.NativeApplication.RequestUserAttentionType;
 import de.thecodelabs.utils.threading.Worker;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static de.thecodelabs.utils.application.system.NativeApplication.RequestUserAttentionType.*;
 
@@ -30,12 +23,12 @@ public class NativeApplicationTest extends Application
 		Worker.runLater(() -> {
 			try
 			{
-				Thread.sleep(2000);
+				Thread.sleep(10000);
 				System.out.println("Start");
-				Platform.runLater(() -> NativeApplication.sharedInstance().requestUserAttention(INFORMATIONAL_REQUEST));
+				Platform.runLater(() -> NativeApplication.sharedInstance().requestUserAttentionByStage(primaryStage));
 				Thread.sleep(10000);
 				System.out.println("Stop");
-				Platform.runLater(() -> NativeApplication.sharedInstance().cancelUserAttention());
+				Platform.runLater(() -> NativeApplication.sharedInstance().cancelUserAttentionByStage(primaryStage));
 			}
 			catch(InterruptedException e)
 			{
