@@ -4,7 +4,7 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>versionizer-maven-plugin</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>maven-plugin</packaging>
 
     <name>versionizer-maven-plugin</name>
@@ -16,7 +16,7 @@
     </organization>
 
     <properties>
-        <jlibs.version>2.0.3</jlibs.version>
+        <jlibs.version>2.0.5</jlibs.version>
 
         <maven-plugin-api.version>2.0</maven-plugin-api.version>
         <maven-plugin-annotations.version>3.6.0</maven-plugin-annotations.version>
