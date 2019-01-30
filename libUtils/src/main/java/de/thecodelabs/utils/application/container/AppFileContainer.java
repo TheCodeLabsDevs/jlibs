@@ -86,7 +86,7 @@ public class AppFileContainer
 			}
 		}
 		final Path path = baseFolder.resolve(name);
-		if(Files.notExists(path))
+		if(Files.notExists(path.getParent()))
 		{
 			try
 			{
