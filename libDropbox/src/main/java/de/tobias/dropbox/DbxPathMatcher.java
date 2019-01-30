@@ -8,7 +8,7 @@ public class DbxPathMatcher implements PathMatcher {
 
 	private Pattern pattern;
 
-	public DbxPathMatcher(String syntaxAndInput) {
+	DbxPathMatcher(String syntaxAndInput) {
 		pattern = Pattern.compile(syntaxAndInput);
 	}
 

@@ -6,11 +6,11 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>libDropbox</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <properties>
         <java.version>1.8</java.version>
-        <dropbox-core-sdk.version>3.0.10</dropbox-core-sdk.version>
+        <dropbox-core-sdk.version>3.0.11</dropbox-core-sdk.version>
     </properties>
 
     <dependencies>
@@ -26,12 +26,22 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

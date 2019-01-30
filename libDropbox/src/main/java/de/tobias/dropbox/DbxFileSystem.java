@@ -85,13 +85,14 @@ public class DbxFileSystem extends FileSystem {
 
 	@Override
 	public Path getPath(String first, String... more) {
-		String path = first;
+		StringBuilder path = new StringBuilder(first);
 		if (more.length != 0) {
-			for (int i = 0; i < more.length; i++) {
-				path += getSeparator() + more[i];
+			for(String s : more)
+			{
+				path.append(getSeparator()).append(s);
 			}
 		}
-		return new DbxPath(path, this);
+		return new DbxPath(path.toString(), this);
 	}
 
 	@Override
@@ -105,7 +106,8 @@ public class DbxFileSystem extends FileSystem {
 	}
 
 	@Override
-	public WatchService newWatchService() throws IOException {
+	public WatchService newWatchService()
+	{
 		throw new UnsupportedOperationException();
 	}
 
