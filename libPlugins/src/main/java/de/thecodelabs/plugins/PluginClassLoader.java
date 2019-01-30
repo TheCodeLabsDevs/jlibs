@@ -15,6 +15,10 @@
  */
 package de.thecodelabs.plugins;
 
+import de.thecodelabs.storage.settings.Storage;
+import de.thecodelabs.storage.settings.StorageTypes;
+import de.thecodelabs.utils.logger.LoggerBridge;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -31,7 +35,10 @@ public class PluginClassLoader extends URLClassLoader
 {
 
 	private static final String JAVA_PACKAGE_PREFIX = "java.";
+
 	private boolean loaded;
+	private PluginDescriptor pluginDescriptor;
+	private Plugin pluginInstance;
 
 	public PluginClassLoader(URL[] urls)
 	{
@@ -137,5 +144,41 @@ public class PluginClassLoader extends URLClassLoader
 	public void setLoaded(boolean loaded)
 	{
 		this.loaded = loaded;
+	}
+
+	public void loadPlugin()
+	{
+		final URL resource = this.getResource("plugin.yml");
+		if(resource == null)
+		{
+			return;
+		}
+		try
+		{
+			pluginDescriptor = Storage.load(resource.openStream(), StorageTypes.YAML, PluginDescriptor.class);
+			final Class<?> aClass = this.loadClass(pluginDescriptor.getMain());
+
+			LoggerBridge.debug("Loading plugin: " + pluginDescriptor.getName() + ", version: " + pluginDescriptor.getVersion() + " (" + pluginDescriptor.getBuild() + ")");
+
+			// Load plugin main class
+			pluginInstance = (Plugin) aClass.newInstance();
+			pluginInstance.startup();
+
+			this.setLoaded(true);
+		}
+		catch(IOException | ClassNotFoundException | InstantiationException | IllegalAccessException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	public Plugin getPluginInstance()
+	{
+		return pluginInstance;
+	}
+
+	public PluginDescriptor getPluginDescriptor()
+	{
+		return pluginDescriptor;
 	}
 }

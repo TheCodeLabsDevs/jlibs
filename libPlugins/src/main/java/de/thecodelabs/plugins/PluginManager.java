@@ -1,9 +1,6 @@
 package de.thecodelabs.plugins;
 
-import de.thecodelabs.storage.settings.Storage;
-import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.utils.io.PathUtils;
-import de.thecodelabs.utils.logger.LoggerBridge;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -12,6 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PluginManager
 {
@@ -34,11 +33,13 @@ public class PluginManager
 
 	private List<PluginClassLoader> pluginClassLoaders;
 
-	public void addFolder(Path path) {
+	public void addFolder(Path path)
+	{
 		try
 		{
 			Files.newDirectoryStream(path).forEach(file -> {
-				if (PathUtils.getFileExtension(file).equalsIgnoreCase("jar")) {
+				if(PathUtils.getFileExtension(file).equalsIgnoreCase("jar"))
+				{
 					addFile(file);
 				}
 			});
@@ -62,40 +63,37 @@ public class PluginManager
 		}
 	}
 
+	public List<Plugin> getPlugins()
+	{
+		return pluginClassLoaders.stream().map(PluginClassLoader::getPluginInstance).collect(Collectors.toList());
+	}
+
+	public PluginDescriptor getPluginDescriptor(Plugin plugin)
+	{
+		final Optional<PluginClassLoader> loaderOptional = pluginClassLoaders.stream().filter(loader -> loader.getPluginInstance() == plugin).findFirst();
+		return loaderOptional.map(PluginClassLoader::getPluginDescriptor).orElse(null);
+	}
+
 	public void loadPlugins()
 	{
 		for(PluginClassLoader pluginClassLoader : pluginClassLoaders)
 		{
 			if(!pluginClassLoader.isLoaded())
 			{
-				loadPlugin(pluginClassLoader);
+				pluginClassLoader.loadPlugin();
 			}
 		}
 	}
 
-	private void loadPlugin(PluginClassLoader pluginClassLoader)
+	public void shutdown()
 	{
-		final URL resource = pluginClassLoader.getResource("plugin.yml");
-		if(resource == null)
+		for(PluginClassLoader pluginClassLoader : pluginClassLoaders)
 		{
-			return;
+			if(pluginClassLoader.isLoaded())
+			{
+				pluginClassLoader.getPluginInstance().shutdown();
+			}
 		}
-		try
-		{
-			final PluginDescriptor pluginDescriptor = Storage.load(resource.openStream(), StorageTypes.YAML, PluginDescriptor.class);
-			final Class<?> aClass = pluginClassLoader.loadClass(pluginDescriptor.getMain());
-
-			LoggerBridge.debug("Loading plugin: " + pluginDescriptor.getName() + ", version: " + pluginDescriptor.getVersion() + " (" + pluginDescriptor.getBuild() + ")");
-
-			// Load plugin main class
-			Plugin plugin = (Plugin) aClass.newInstance();
-			plugin.startup();
-
-			pluginClassLoader.setLoaded(true);
-		}
-		catch(IOException | ClassNotFoundException | InstantiationException | IllegalAccessException e)
-		{
-			throw new RuntimeException(e);
-		}
+		pluginClassLoaders.clear();
 	}
 }
