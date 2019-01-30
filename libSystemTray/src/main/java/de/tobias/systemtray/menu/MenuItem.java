@@ -1,8 +1,8 @@
 package de.tobias.systemtray.menu;
 
+import de.thecodelabs.utils.util.ImageUtils;
 import de.tobias.systemtray.ActionListener;
 import de.tobias.systemtray.Utilities;
-import de.tobias.utils.util.ImageUtils;
 import javafx.scene.image.Image;
 
 import java.io.IOException;

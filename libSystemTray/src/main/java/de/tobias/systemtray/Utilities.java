@@ -1,25 +1,16 @@
 package de.tobias.systemtray;
 
-import de.tobias.utils.application.NativeLoader;
-import de.tobias.utils.util.ImageUtils;
+import de.thecodelabs.utils.application.NativeLoader;
+import de.thecodelabs.utils.util.ImageUtils;
 import javafx.scene.image.Image;
 
 import java.io.IOException;
 
-public class Utilities extends NativeLoader {
+public class Utilities extends NativeLoader
+{
 
 	static {
-		load("SystemTray", "", Utilities.class, new Thread() {
-			@Override
-			public void run() {
-				SystemTray.startUp_N();
-			}
-		}, new Thread() {
-			@Override
-			public void run() {
-				SystemTray.tearDown_N();
-			}
-		});
+		load("SystemTray", "", Utilities.class, new Thread(SystemTray::startUp_N), new Thread(SystemTray::tearDown_N));
 	}
 
 	private static long id = 0;
