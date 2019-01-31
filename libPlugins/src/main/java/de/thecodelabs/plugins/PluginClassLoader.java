@@ -19,21 +19,12 @@ import de.thecodelabs.storage.settings.Storage;
 import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.utils.logger.LoggerBridge;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-/**
- * One instance of this class should be created by plugin manager for every available plug-in.
- * By default, this class loader is a Parent Last ClassLoader - it loads the classes from the plugin's jars
- * before delegating to the parent class loader.
- *
- * @author Decebal Suiu
- */
 public class PluginClassLoader extends URLClassLoader
 {
-
 	private static final String JAVA_PACKAGE_PREFIX = "java.";
 
 	private boolean loaded;
@@ -51,79 +42,48 @@ public class PluginClassLoader extends URLClassLoader
 		super.addURL(url);
 	}
 
-	public void addFile(File file)
-	{
-		try
-		{
-			addURL(file.getCanonicalFile().toURI().toURL());
-		}
-		catch(IOException e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
-
-	/**
-	 * By default, it uses a child first delegation model rather than the standard parent first.
-	 * If the requested class cannot be found in this class loader, the parent class loader will be consulted
-	 * via the standard {@link ClassLoader#loadClass(String)} mechanism.
-	 */
 	@Override
 	public Class<?> loadClass(String className) throws ClassNotFoundException
 	{
 		synchronized(getClassLoadingLock(className))
 		{
-			// first check whether it's a system class, delegate to the system loader
 			if(className.startsWith(JAVA_PACKAGE_PREFIX))
 			{
 				return findSystemClass(className);
 			}
 
-			// if the class is part of the plugin engine use parent class loader
 			if(className.startsWith("de.thecodelabs.plugins"))
 			{
 				return getParent().loadClass(className);
 			}
 
-			// second check whether it's already been loaded
 			Class<?> loadedClass = findLoadedClass(className);
 			if(loadedClass != null)
 			{
 				return loadedClass;
 			}
 
-			// try to load from parent
 			try
 			{
 				return super.loadClass(className);
 			}
-			catch(ClassCastException e)
+			catch(ClassCastException ignored)
 			{
-				// try next step
 			}
 
-			// nope, try to load locally
 			try
 			{
 				loadedClass = findClass(className);
 				return loadedClass;
 			}
-			catch(ClassNotFoundException e)
+			catch(ClassNotFoundException ignored)
 			{
-				// try next step
 			}
 
 			throw new ClassNotFoundException(className);
 		}
 	}
 
-	/**
-	 * Load the named resource from this plugin.
-	 * By default, this implementation checks the plugin's classpath first then delegates to the parent.
-	 *
-	 * @param name the name of the resource.
-	 * @return the URL to the resource, {@code null} if the resource was not found.
-	 */
 	@Override
 	public URL getResource(String name)
 	{
@@ -151,8 +111,10 @@ public class PluginClassLoader extends URLClassLoader
 		final URL resource = this.getResource("plugin.yml");
 		if(resource == null)
 		{
+			LoggerBridge.debug("Missing plugin.yml in " + getURLs()[0]);
 			return;
 		}
+
 		try
 		{
 			pluginDescriptor = Storage.load(resource.openStream(), StorageTypes.YAML, PluginDescriptor.class);

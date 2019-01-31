@@ -65,7 +65,7 @@ public class PluginManager
 
 	public List<Plugin> getPlugins()
 	{
-		return pluginClassLoaders.stream().map(PluginClassLoader::getPluginInstance).collect(Collectors.toList());
+		return pluginClassLoaders.stream().filter(PluginClassLoader::isLoaded).map(PluginClassLoader::getPluginInstance).collect(Collectors.toList());
 	}
 
 	public PluginDescriptor getPluginDescriptor(Plugin plugin)
