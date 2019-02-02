@@ -89,8 +89,10 @@ public class LoggerBridge
 			Class loggerLevelClass = Class.forName(LOGGER_PACKAGE + ".LogLevel");
 
 			@SuppressWarnings("unchecked") Object logLevel = Enum.valueOf(loggerLevelClass, level);
-			Method logMethod = loggerClass.getDeclaredMethod("log", loggerLevelClass, Object.class, Object[].class);
-			logMethod.invoke(null, logLevel, obj, new Object[0]);
+			Method logMethod = loggerClass.getDeclaredMethod("log", loggerLevelClass, StackTraceElement.class, Object.class, Object[].class);
+			final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+			logMethod.invoke(null, logLevel, stackTrace[4], obj, new Object[0]);
 		}
 		catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e)
 		{

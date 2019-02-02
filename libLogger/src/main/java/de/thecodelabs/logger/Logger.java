@@ -171,10 +171,15 @@ public class Logger
 	 */
 	public static void log(LogLevel level, Object any, Object... args)
 	{
-		log(true, level, any, args);
+		log(true, level, null, any, args);
 	}
 
-	static void log(boolean newLine, LogLevel level, Object any, Object... args)
+	public static void log(LogLevel level, StackTraceElement element, Object any, Object... args)
+	{
+		log(true, level, element, any, args);
+	}
+
+	static void log(boolean newLine, LogLevel level, StackTraceElement element, Object any, Object... args)
 	{
 		if(!initialized)
 		{
@@ -184,16 +189,18 @@ public class Logger
 		if(levelFilter.acceptLevel(level))
 		{
 
-			StackTraceElement element = null;
-			final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-
-			for(int i = 2; i < stackTrace.length; i++)
+			if (element == null)
 			{
-				StackTraceElement current = stackTrace[i];
-				if(!current.getClassName().contains(Logger.class.getPackage().getName()) && !current.getClassName().startsWith("java"))
+				final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+				for(int i = 2; i < stackTrace.length; i++)
 				{
-					element = current;
-					break;
+					StackTraceElement current = stackTrace[i];
+					if(!current.getClassName().contains(Logger.class.getPackage().getName()) && !current.getClassName().startsWith("java"))
+					{
+						element = current;
+						break;
+					}
 				}
 			}
 
