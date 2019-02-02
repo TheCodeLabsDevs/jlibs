@@ -16,6 +16,8 @@ import java.nio.file.Path;
 public class AppFileContainer
 {
 
+	private static final String CONTAINER_YML = "container.yml";
+
 	private String containerName = "Java File Container";
 
 	private AppFileContainerInfo containerInfo;
@@ -53,7 +55,7 @@ public class AppFileContainer
 	public AppFileContainer(String bundleIdentifier)
 	{
 		containerPath = SystemUtils.getApplicationSupportDirectoryPath(containerName, bundleIdentifier);
-		containerInfoPath = getPath("container.yml", PathType.ROOT);
+		containerInfoPath = getPath(CONTAINER_YML, PathType.ROOT);
 		containerInfo = Storage.load(containerInfoPath, StorageTypes.YAML, AppFileContainerInfo.class);
 	}
 
@@ -71,7 +73,7 @@ public class AppFileContainer
 		}
 	}
 
-	public Path getPath(String name, PathType pathType)
+	public Path getPath(String name, ContainerPathType pathType)
 	{
 		final Path baseFolder = containerPath.resolve(pathType.getFolder());
 		if(Files.notExists(baseFolder))
@@ -101,7 +103,7 @@ public class AppFileContainer
 		return path;
 	}
 
-	public Path getFolder(PathType type)
+	public Path getFolder(ContainerPathType type)
 	{
 		return containerPath.resolve(type.getFolder());
 	}

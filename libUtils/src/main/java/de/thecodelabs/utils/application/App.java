@@ -5,8 +5,9 @@ import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.storage.settings.UserDefaults;
 import de.thecodelabs.utils.application.classpath.ClasspathResource;
 import de.thecodelabs.utils.application.classpath.ClasspathResourceContainer;
-import de.thecodelabs.utils.application.container.BackupInfo;
 import de.thecodelabs.utils.application.container.AppFileContainer;
+import de.thecodelabs.utils.application.container.BackupInfo;
+import de.thecodelabs.utils.application.container.ContainerPathType;
 import de.thecodelabs.utils.application.container.PathType;
 import de.thecodelabs.utils.application.remote.RemoteResource;
 import de.thecodelabs.utils.application.remote.RemoteResourceContainer;
@@ -26,7 +27,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public final class App {
+public final class App
+{
 
 	/**
 	 * Main Class for the application
@@ -71,14 +73,17 @@ public final class App {
 	 *
 	 * @param mainClass main app class
 	 */
-	public App(Class<?> mainClass) {
+	public App(Class<?> mainClass)
+	{
 		this(Storage.load(Objects.requireNonNull(getInputStreamForApplicationFile(mainClass)), StorageTypes.YAML, ApplicationInfo.class));
 		this.mainClass = mainClass;
 	}
 
-	private static InputStream getInputStreamForApplicationFile(Class<?> mainClass) {
+	private static InputStream getInputStreamForApplicationFile(Class<?> mainClass)
+	{
 		InputStream inputStream = mainClass.getClassLoader().getResourceAsStream("application.yml");
-		if (inputStream == null) {
+		if(inputStream == null)
+		{
 			inputStream = mainClass.getClassLoader().getResourceAsStream("config/application.yml");
 		}
 		return inputStream;
@@ -89,7 +94,8 @@ public final class App {
 	 *
 	 * @param info app Info
 	 */
-	public App(ApplicationInfo info) {
+	public App(ApplicationInfo info)
+	{
 		appInfo = info;
 		container = new AppFileContainer(this);
 		remoteResourceContainer = new RemoteResourceContainer(this);
@@ -101,15 +107,18 @@ public final class App {
 	 *
 	 * @return Infos
 	 */
-	public ApplicationInfo getInfo() {
+	public ApplicationInfo getInfo()
+	{
 		return appInfo;
 	}
 
-	public UserDefaults getUserDefaults() {
+	public UserDefaults getUserDefaults()
+	{
 		return userDefaults;
 	}
 
-	public String[] getArgs() {
+	public String[] getArgs()
+	{
 		return args;
 	}
 
@@ -120,38 +129,45 @@ public final class App {
 	 * @param childPath path
 	 * @return full path
 	 */
-	public Path getPath(PathType type, String... childPath) {
-		return getPath(Paths.get(StringUtils.build(childPath, File.separator)), type);
+	public Path getPath(ContainerPathType type, String... childPath)
+	{
+		return getPath(StringUtils.build(childPath, File.separator), type);
 	}
 
 	/**
 	 * Get a path for a type of file
 	 *
-	 * @param childPath path
-	 * @param type      file type
+	 * @param path path
+	 * @param type file type
 	 * @return full path
 	 */
-	public Path getPath(Path childPath, PathType type) {
-		return container.getPath(childPath.toString(), type);
+	public Path getPath(String path, ContainerPathType type)
+	{
+		return container.getPath(path, type);
 	}
 
-	public RemoteResourceContainer getRemoteResources() {
+	public RemoteResourceContainer getRemoteResources()
+	{
 		return remoteResourceContainer;
 	}
 
-	public RemoteResource getRemoteResource(RemoteResourceType remoteResourceType, String... more) {
+	public RemoteResource getRemoteResource(RemoteResourceType remoteResourceType, String... more)
+	{
 		return getRemoteResources().get(remoteResourceType, more);
 	}
 
-	public ClasspathResourceContainer getClasspathResourceContainer() {
+	public ClasspathResourceContainer getClasspathResourceContainer()
+	{
 		return classpathResourceContainer;
 	}
 
-	public ClasspathResource getClasspathResource(String... name) {
+	public ClasspathResource getClasspathResource(String... name)
+	{
 		return getClasspathResourceContainer().get(name);
 	}
 
-	public boolean isDebug() {
+	public boolean isDebug()
+	{
 		return debug;
 	}
 
@@ -160,16 +176,21 @@ public final class App {
 	 *
 	 * @param debug show
 	 */
-	public void setDebugging(boolean debug) {
+	public void setDebugging(boolean debug)
+	{
 		this.debug = debug;
 	}
 
 	@SuppressWarnings("unchecked")
-	public void start(String[] args) {
+	public void start(String[] args)
+	{
 		this.args = args;
-		if (args != null) {
-			if (args.length != 0) {
-				if (Arrays.binarySearch(args, "--debug") >= 0) {
+		if(args != null)
+		{
+			if(args.length != 0)
+			{
+				if(Arrays.binarySearch(args, "--debug") >= 0)
+				{
 					debug = true;
 					container.updatePath();
 				}
@@ -182,58 +203,75 @@ public final class App {
 
 		// Load Natives
 		Path nativeFolder = getPath(PathType.NATIVE_LIBRARY);
-		try {
-			if (Files.exists(nativeFolder)) {
-				for (Path item : Files.newDirectoryStream(nativeFolder)) {
-					if (NativeLoader.isNativeLibraryFile(item)) {
+		try
+		{
+			if(Files.exists(nativeFolder))
+			{
+				for(Path item : Files.newDirectoryStream(nativeFolder))
+				{
+					if(NativeLoader.isNativeLibraryFile(item))
+					{
 						loadNativeLibrary(item);
 						println("Load Native Library: " + item);
 					}
 				}
 			}
-		} catch (IOException e1) {
+		}
+		catch(IOException e1)
+		{
 			e1.printStackTrace();
 		}
 
 		// Update
-		if (checkLocalUpdate())
+		if(checkLocalUpdate())
 			updateFiles();
 
 		// Save container information
 		container.saveInformation();
 
 		// Load User Defaults
-		try {
+		try
+		{
 			userDefaults = UserDefaults.load(getPath(PathType.CONFIGURATION, "UserDefaults.xml"));
 			Runtime.getRuntime().addShutdownHook(new Thread(() ->
 			{
-				try {
+				try
+				{
 					userDefaults.save(getPath(PathType.CONFIGURATION, "UserDefaults.xml"));
-				} catch (Exception e) {
+				}
+				catch(Exception e)
+				{
 					e.printStackTrace();
 				}
 			}));
-		} catch (ClassNotFoundException | DocumentException | IOException e) {
+		}
+		catch(ClassNotFoundException | DocumentException | IOException e)
+		{
 			e.printStackTrace();
 		}
 
 		// JavaFX App öffnen (wenn vorhanden)
-		if (mainClass.getSuperclass().equals(Application.class)) {
+		if(mainClass.getSuperclass().equals(Application.class))
+		{
 			Application.launch((Class<? extends Application>) mainClass, args);
 		}
 	}
 
-	private void printAppDetails() {
+	private void printAppDetails()
+	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Launching App: ").append(appInfo.getName());
 
-		if (appInfo.getVersion() != null) {
+		if(appInfo.getVersion() != null)
+		{
 			stringBuilder.append(", version: ").append(appInfo.getVersion());
 		}
-		if (appInfo.getBuild() > 0) {
+		if(appInfo.getBuild() > 0)
+		{
 			stringBuilder.append(", build: ").append(appInfo.getBuild());
 		}
-		if (appInfo.getAuthor() != null) {
+		if(appInfo.getAuthor() != null)
+		{
 			stringBuilder.append(", date: ").append(appInfo.getDate());
 		}
 
@@ -245,46 +283,62 @@ public final class App {
 	 *
 	 * @param path full path to the library
 	 */
-	public void loadNativeLibrary(Path path) {
-		try {
+	public void loadNativeLibrary(Path path)
+	{
+		try
+		{
 			System.load(path.toString());
-		} catch (Exception e) {
+		}
+		catch(Exception e)
+		{
 			System.err.println("Unable to load native library " + path + " for reason: " + e.getMessage());
 		}
 	}
 
-	private boolean checkLocalUpdate() {
+	private boolean checkLocalUpdate()
+	{
 		long oldVersion = container.getContainerInfo().getBuild();
 		long newVersion = appInfo.getBuild();
-		if (newVersion > oldVersion) {
+		if(newVersion > oldVersion)
+		{
 			println("Update container from: " + oldVersion + " to: " + newVersion);
 			return true;
 		}
 		return false;
 	}
 
-	private void backupFiles() {
+	private void backupFiles()
+	{
 		long time = System.currentTimeMillis();
 
-		for (PathType type : PathType.values()) {
-			if (type.shouldBackup()) {
+		for(PathType type : PathType.values())
+		{
+			if(type.shouldBackup())
+			{
 				Path folder = container.getFolder(type);
-				if (Files.exists(folder)) {
+				if(Files.exists(folder))
+				{
 					Path backupPath = container.getBackupPath(time, folder, type);
-					try {
+					try
+					{
 						Files.createDirectories(backupPath);
 
 						Stream<Path> allFilesPathStream = Files.walk(folder);
 						allFilesPathStream.forEach(t -> {
-							try {
+							try
+							{
 								String destinationPath = t.toString().replace(folder.toString(), backupPath.toString());
 								Files.copy(t, Paths.get(destinationPath));
-							} catch (IOException ignored) {
+							}
+							catch(IOException ignored)
+							{
 							}
 						});
 						allFilesPathStream.close();
 
-					} catch (IOException e) {
+					}
+					catch(IOException e)
+					{
 						e.printStackTrace();
 					}
 				}
@@ -293,8 +347,9 @@ public final class App {
 		container.getContainerInfo().getBackups().add(new BackupInfo(time, container.getContainerInfo().getBuild()));
 	}
 
-	private void updateFiles() {
-		if (!debug)
+	private void updateFiles()
+	{
+		if(!debug)
 			backupFiles();
 
 		// AppFileContainer hat noch alte Versionnummer des Bundles
@@ -303,9 +358,12 @@ public final class App {
 
 		ApplicationUtils.getUpdateServices().forEach(service ->
 		{
-			try {
+			try
+			{
 				service.update(this, oldVersion, newVersion);
-			} catch (Exception e) {
+			}
+			catch(Exception e)
+			{
 				e.printStackTrace();
 			}
 		});
@@ -313,19 +371,23 @@ public final class App {
 		oldVersionNumber = oldVersion;
 	}
 
-	private void println(String string) {
+	private void println(String string)
+	{
 		LoggerBridge.debug(string);
 	}
 
-	public AppFileContainer getContainer() {
+	public AppFileContainer getContainer()
+	{
 		return container;
 	}
 
-	public boolean isUpdated() {
+	public boolean isUpdated()
+	{
 		return isUpdated;
 	}
 
-	public long getOldVersionNumber() {
+	public long getOldVersionNumber()
+	{
 		return oldVersionNumber;
 	}
 }
