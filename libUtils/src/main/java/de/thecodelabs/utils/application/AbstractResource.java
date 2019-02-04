@@ -2,6 +2,7 @@ package de.thecodelabs.utils.application;
 
 import de.thecodelabs.storage.settings.Storage;
 import de.thecodelabs.storage.settings.StorageType;
+import de.thecodelabs.utils.application.container.ContainerPathType;
 import de.thecodelabs.utils.application.container.PathType;
 import de.thecodelabs.utils.io.IOUtils;
 
@@ -35,7 +36,7 @@ public abstract class AbstractResource
 		return Storage.load(getInputStream(), storageType, clazz);
 	}
 
-	public void copy(PathType pathType, String childPath) {
+	public void copy(ContainerPathType pathType, String childPath) {
 		Path path = ApplicationUtils.getApplication().getPath(pathType, childPath);
 		try {
 			IOUtils.copy(getInputStream(), path);
@@ -44,7 +45,7 @@ public abstract class AbstractResource
 		}
 	}
 
-	public void safeCopy(PathType pathType, String childPath) {
+	public void safeCopy(ContainerPathType pathType, String childPath) {
 		Path downloadPath = ApplicationUtils.getApplication().getPath(PathType.DOWNLOAD, childPath);
 		Path path = ApplicationUtils.getApplication().getPath(pathType, childPath);
 		try {

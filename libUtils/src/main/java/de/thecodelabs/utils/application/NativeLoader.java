@@ -1,9 +1,9 @@
 package de.thecodelabs.utils.application;
 
-import de.thecodelabs.utils.util.OS;
 import de.thecodelabs.utils.application.container.PathType;
 import de.thecodelabs.utils.io.IOUtils;
 import de.thecodelabs.utils.io.PathUtils;
+import de.thecodelabs.utils.util.OS;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +42,7 @@ public class NativeLoader {
 						filename = basename + "Windows.dll";
 						break;
 					case MacOSX:
-						filename = "lib" + basename + "OSX.dylib";
+						filename = "lib" + basename + ".dylib";
 						break;
 					case Linux:
 						filename = "lib" + basename + "Linux.so";
