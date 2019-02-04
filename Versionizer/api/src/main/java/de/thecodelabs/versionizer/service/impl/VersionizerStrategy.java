@@ -4,9 +4,7 @@ import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.utils.application.App;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.external.ExternalJarContainer;
-import de.thecodelabs.utils.logger.LoggerBridge;
 import de.thecodelabs.versionizer.UpdateItem;
-import de.thecodelabs.versionizer.VersionizerItem;
 import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.config.Repository;
 import de.thecodelabs.versionizer.model.RemoteFile;
@@ -19,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
@@ -34,7 +33,9 @@ public abstract class VersionizerStrategy
 
 	protected abstract Optional<RemoteFile> getSuitableRemoteFile(List<RemoteFile> remoteFiles);
 
-	public abstract void startVersionizer(UpdateService.InteractionType interactionType, UpdateService.RunPrivileges runPrivileges, UpdateItem updateItem) throws IOException;
+	public abstract void startVersionizer(UpdateService.InteractionType interactionType,
+										  UpdateService.RunPrivileges runPrivileges,
+										  UpdateItem updateItem) throws IOException;
 
 	public void downloadVersionizer(UpdateService.InteractionType interactionType) throws IOException
 	{
@@ -61,21 +62,23 @@ public abstract class VersionizerStrategy
 		{
 			ExternalJarContainer container = ExternalJarContainer.getExternalJar(versionizerPath);
 			Repository repository = container.get("versionizer/repository.yml").deserialize(StorageTypes.YAML, Repository.class);
-			Artifact artifact = container.get("versionizer/build.properties").deserialize(StorageTypes.PROPERTIES, Artifact.class);
-			VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(artifact), null);
+			Artifact artifact = container.get("versionizer/build.json").deserialize(StorageTypes.JSON, Artifact.class);
 
-			VersionService versionService = new VersionService(versionizerItem, UpdateService.RepositoryType.RELEASE);
-			final Version latestVersion = versionService.getLatestVersion(artifact);
+			VersionService versionService = new VersionService(repository, UpdateService.RepositoryType.RELEASE);
+			final Version remoteVersion = versionService.getLatestVersion(artifact);
+			final Version localVersion = VersionTokenizer.getVersion(artifact);
 
 			container.close();
 			versionService.close();
 
-			System.out.println("Remote: " + latestVersion);
-			System.out.println("Local: " + VersionTokenizer.getVersion(artifact));
+			LOGGER.debug("Versionizer Remote: " + remoteVersion);
+			LOGGER.debug("Versionizer Local: " + localVersion);
 
-			return latestVersion.isNewerThen(VersionTokenizer.getVersion(artifact));
-		} catch (RuntimeException e) {
-			LoggerBridge.warning(e.getMessage());
+			return remoteVersion.isNewerThen(localVersion);
+		}
+		catch(RuntimeException e)
+		{
+			LOGGER.warn(e.getMessage());
 			return false;
 		}
 	}
@@ -90,12 +93,11 @@ public abstract class VersionizerStrategy
 
 		App app = ApplicationUtils.getApplication();
 		repository = app.getClasspathResource("versionizer/repository.yml").deserialize(StorageTypes.YAML, Repository.class);
-		build = app.getClasspathResource("versionizer/" + type + "-build.properties").deserialize(StorageTypes.PROPERTIES, Artifact.class);
+		build = app.getClasspathResource("versionizer/" + type + "-build.json").deserialize(StorageTypes.JSON, Artifact.class);
 
 		LOGGER.info("Downloading versionizer using artifact" + build);
 
-		VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(build), versionizerPath.toString());
-		VersionService versionService = new VersionService(versionizerItem, UpdateService.RepositoryType.RELEASE);
+		VersionService versionService = new VersionService(repository, UpdateService.RepositoryType.RELEASE);
 
 		final Version latestVersion = versionService.getLatestVersion(build);
 		final List<RemoteFile> remoteFiles = versionService.listFilesForVersion(latestVersion);
@@ -106,10 +108,24 @@ public abstract class VersionizerStrategy
 		}
 		else
 		{
-			throw new FileNotFoundException(
-					"Versionizer file not found on artifactory"
-			);
+			throw new FileNotFoundException("Versionizer file not found on artifactory");
 		}
 		versionService.close();
+	}
+
+	protected void exec(String path, String json) throws IOException
+	{
+		exec(Collections.singletonList(path), json);
+	}
+
+	protected void exec(List<String> command, String json) throws IOException
+	{
+		ProcessBuilder builder = new ProcessBuilder(command);
+		final Process start = builder.start();
+
+		final OutputStream outputStream = start.getOutputStream();
+		outputStream.write(json.getBytes());
+		outputStream.flush();
+		outputStream.close();
 	}
 }

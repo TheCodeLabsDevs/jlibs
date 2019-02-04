@@ -3,7 +3,8 @@ package de.thecodelabs.versionizer;
 import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.config.Repository;
 
-import java.util.Collections;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VersionizerItem
@@ -13,16 +14,11 @@ public class VersionizerItem
 
 	private String executablePath;
 
-	public VersionizerItem(Repository repository, List<Artifact> buildList, String executablePath)
+	public VersionizerItem(Repository repository, String executablePath)
 	{
 		this.repository = repository;
-		this.artifactList = buildList;
+		this.artifactList = new ArrayList<>();
 		this.executablePath = executablePath;
-	}
-
-	public VersionizerItem(Repository repository, Artifact artifact, String executablePath)
-	{
-		this(repository, Collections.singletonList(artifact), executablePath);
 	}
 
 	public Repository getRepository()
@@ -33,6 +29,11 @@ public class VersionizerItem
 	public List<Artifact> getArtifacts()
 	{
 		return artifactList;
+	}
+
+	public void addArtifact(Artifact artifact, Path localPath) {
+		artifact.setLocalPath(localPath);
+		artifactList.add(artifact);
 	}
 
 	public String getExecutablePath()

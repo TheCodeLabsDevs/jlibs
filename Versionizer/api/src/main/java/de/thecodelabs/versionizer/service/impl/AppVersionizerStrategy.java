@@ -4,13 +4,12 @@ import com.google.gson.Gson;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.container.PathType;
 import de.thecodelabs.versionizer.UpdateItem;
-import de.thecodelabs.versionizer.VersionizerItem;
 import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.service.UpdateService;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -53,12 +52,6 @@ public class AppVersionizerStrategy extends VersionizerStrategy
 
 	private void runJar(String json, Path updaterPath) throws IOException
 	{
-		ProcessBuilder builder = new ProcessBuilder("java", "-jar", updaterPath.toAbsolutePath().toString());
-		final Process start = builder.start();
-
-		final OutputStream outputStream = start.getOutputStream();
-		outputStream.write(json.getBytes());
-		outputStream.flush();
-		outputStream.close();
+		exec(Arrays.asList("java", "-jar", updaterPath.toAbsolutePath().toString()), json);
 	}
 }

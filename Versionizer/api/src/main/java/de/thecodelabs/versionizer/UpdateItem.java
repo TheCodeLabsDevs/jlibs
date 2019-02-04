@@ -12,14 +12,11 @@ public class UpdateItem
 	public static class Entry
 	{
 		private Version version;
-		private String localPath;
 		private RemoteFile.FileType fileType;
 
-		public Entry(Version version, String localPath, RemoteFile.FileType fileType)
+		public Entry(Version version)
 		{
 			this.version = version;
-			this.localPath = localPath;
-			this.fileType = fileType;
 		}
 
 		public Version getVersion()
@@ -27,14 +24,14 @@ public class UpdateItem
 			return version;
 		}
 
-		public String getLocalPath()
-		{
-			return localPath;
-		}
-
 		public RemoteFile.FileType getFileType()
 		{
 			return fileType;
+		}
+
+		public void setFileType(RemoteFile.FileType fileType)
+		{
+			this.fileType = fileType;
 		}
 
 		@Override
@@ -42,7 +39,6 @@ public class UpdateItem
 		{
 			return "Entry{" +
 					"version=" + version +
-					", localPath='" + localPath + '\'' +
 					", fileType=" + fileType +
 					'}';
 		}

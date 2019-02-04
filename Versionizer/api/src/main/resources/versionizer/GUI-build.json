@@ -1,0 +1,6 @@
+{
+    "build.artifactId": "gui",
+    "build.groupId": "de.thecodelabs.versionizer",
+    "build.version": "1.1.0",
+    "build.type": "RUNTIME"
+}

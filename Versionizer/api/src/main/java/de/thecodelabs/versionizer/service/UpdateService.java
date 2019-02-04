@@ -1,8 +1,10 @@
 package de.thecodelabs.versionizer.service;
 
+import de.thecodelabs.utils.util.SystemUtils;
 import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.VersionizerItem;
 import de.thecodelabs.versionizer.config.Artifact;
+import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.model.Version;
 import de.thecodelabs.versionizer.service.impl.AppVersionizerStrategy;
 import de.thecodelabs.versionizer.service.impl.ExeVersionizerStrategy;
@@ -13,11 +15,12 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UpdateService
 {
@@ -34,7 +37,8 @@ public class UpdateService
 		HEADLESS
 	}
 
-	public enum RepositoryType {
+	public enum RepositoryType
+	{
 		RELEASE,
 		SNAPSHOT,
 		ALL
@@ -47,12 +51,10 @@ public class UpdateService
 	}
 
 	private VersionizerItem versionizerItem;
-	private VersionizerStrategy updateStrategy;
 	private VersionService versionService;
 
+	private VersionizerStrategy updateStrategy;
 	private InteractionType interactionType;
-	private RunPrivileges runPrivileges;
-	private RepositoryType repositoryType;
 
 	private Map<Artifact, Version> remoteVersions;
 
@@ -62,7 +64,6 @@ public class UpdateService
 
 		this.versionizerItem = item;
 		this.interactionType = interactionType;
-		this.repositoryType = repositoryType;
 
 		switch(strategy)
 		{
@@ -76,7 +77,12 @@ public class UpdateService
 				updateStrategy = new AppVersionizerStrategy();
 				break;
 		}
-		this.versionService = new VersionService(versionizerItem, repositoryType);
+		this.versionService = new VersionService(versionizerItem.getRepository(), repositoryType);
+	}
+
+	public static UpdateService startVersionizer(VersionizerItem versionizerItem, Strategy strategy, InteractionType interactionType)
+	{
+		return startVersionizer(versionizerItem, strategy, interactionType, RepositoryType.RELEASE);
 	}
 
 	public static UpdateService startVersionizer(VersionizerItem versionizerItem, Strategy strategy, InteractionType interactionType, RepositoryType repositoryType)
@@ -95,10 +101,8 @@ public class UpdateService
 
 	public void fetchCurrentVersion()
 	{
-		for(Artifact artifact : versionizerItem.getArtifacts())
-		{
-			remoteVersions.put(artifact, versionService.getLatestVersion(artifact));
-		}
+		remoteVersions.clear();
+		versionizerItem.getArtifacts().forEach(artifact -> remoteVersions.put(artifact, versionService.getLatestVersion(artifact)));
 	}
 
 	public boolean isUpdateAvailable()
@@ -114,8 +118,7 @@ public class UpdateService
 			{
 				final Version localVersion = VersionTokenizer.getVersion(artifact);
 				final Version remoteVersion = remoteVersions.get(artifact);
-				boolean remoteNewer = remoteVersion.isNewerThen(localVersion);
-				if(remoteNewer)
+				if(remoteVersion.isNewerThen(localVersion))
 				{
 					return true;
 				}
@@ -139,20 +142,81 @@ public class UpdateService
 		runVersionizerInstance(Collections.singletonList(version));
 	}
 
-	public void runVersionizerInstance(List<UpdateItem.Entry> versions) throws IOException
+	public void runVersionizerInstance(List<UpdateItem.Entry> entries) throws IOException
 	{
 		updateStrategy.downloadVersionizer(interactionType);
+		RunPrivileges runPrivileges = getRunPrivileges(entries);
+		prepareFileTypes(entries);
+		updateStrategy.startVersionizer(interactionType, runPrivileges, new UpdateItem(versionizerItem, entries));
+	}
 
-		final boolean anyAdmin = versions.stream().anyMatch(entry -> !Files.isWritable(Paths.get(entry.getLocalPath())));
+	private RunPrivileges getRunPrivileges(List<UpdateItem.Entry> entries)
+	{
+		final boolean anyAdmin = entries.stream()
+				.map(entry -> entry.getVersion().getArtifact().getLocalPath())
+				.anyMatch(path -> !Files.isWritable(path));
+
+		RunPrivileges runPrivileges;
 		if(anyAdmin)
 		{
-			this.runPrivileges = RunPrivileges.USER;
+			runPrivileges = RunPrivileges.USER;
 		}
 		else
 		{
-			this.runPrivileges = RunPrivileges.ADMIN;
+			runPrivileges = RunPrivileges.ADMIN;
 		}
+		return runPrivileges;
+	}
 
-		updateStrategy.startVersionizer(interactionType, runPrivileges, new UpdateItem(versionizerItem, versions));
+	private void prepareFileTypes(List<UpdateItem.Entry> entries)
+	{
+		for(UpdateItem.Entry entry : entries)
+		{
+			if(entry.getFileType() == null)
+			{
+				switch(entry.getVersion().getArtifact().getArtifactType())
+				{
+					case RUNTIME:
+						if(SystemUtils.isJar())
+						{
+							entry.setFileType(RemoteFile.FileType.JAR);
+						}
+						else if(SystemUtils.isExe())
+						{
+							entry.setFileType(RemoteFile.FileType.EXE);
+						}
+						break;
+					case PLUGIN:
+						entry.setFileType(RemoteFile.FileType.JAR);
+				}
+			}
+		}
+	}
+
+	public void addArtifact(Artifact artifact, Path localPath)
+	{
+		this.versionizerItem.addArtifact(artifact, localPath);
+	}
+
+	public void removeArtifact(Artifact artifact)
+	{
+		this.versionizerItem.getArtifacts().remove(artifact);
+	}
+
+	public List<Artifact> getArtifacts()
+	{
+		return this.versionizerItem.getArtifacts();
+	}
+
+	public List<UpdateItem.Entry> getAllLatestVersionEntries()
+	{
+		return getArtifacts().stream()
+				.map(artifact -> new UpdateItem.Entry(getRemoteVersionForArtifact(artifact)))
+				.collect(Collectors.toList());
+	}
+
+	public void setRepositoryType(RepositoryType repositoryType)
+	{
+		this.versionService.setRepositoryType(repositoryType);
 	}
 }

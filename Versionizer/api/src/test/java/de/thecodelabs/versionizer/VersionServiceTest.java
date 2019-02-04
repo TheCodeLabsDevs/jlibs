@@ -9,7 +9,6 @@ import de.thecodelabs.versionizer.service.UpdateService;
 import de.thecodelabs.versionizer.service.VersionService;
 
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 
 public class VersionServiceTest
@@ -20,16 +19,15 @@ public class VersionServiceTest
 
 		final Repository repository = new Repository();
 		final Artifact build = new Artifact();
-		VersionizerItem versionizerItem = new VersionizerItem(repository, Collections.singletonList(build), null);
 		repository.setUrl("https://maven.thecodelabs.de/artifactory");
 		build.setGroupId("de.thecodelabs.versionizer");
 		build.setArtifactId("gui");
 		repository.setRepositoryNameReleases("TheCodeLabs-release");
 		repository.setRepositoryNameSnapshots("TheCodeLabs-snapshots");
 
-		VersionService versionService = new VersionService(versionizerItem, UpdateService.RepositoryType.RELEASE);
+		VersionService versionService = new VersionService(repository, UpdateService.RepositoryType.RELEASE);
 
-		List<Version> versions = versionService.getVersions(build);
+		List<Version> versions = versionService.getVersionsSorted(build);
 
 		for(Version version : versions)
 		{

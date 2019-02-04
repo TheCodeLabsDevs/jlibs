@@ -9,7 +9,6 @@ import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.service.UpdateService;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
@@ -45,13 +44,7 @@ public class ExeVersionizerStrategy extends VersionizerStrategy
 			break;
 			case USER:
 			{
-				ProcessBuilder builder = new ProcessBuilder(updaterPath.toAbsolutePath().toString());
-				final Process start = builder.start();
-
-				final OutputStream outputStream = start.getOutputStream();
-				outputStream.write(json.getBytes());
-				outputStream.flush();
-				outputStream.close();
+				exec(updaterPath.toAbsolutePath().toString(), json);
 			}
 			break;
 		}
