@@ -4,6 +4,7 @@ import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.utils.application.App;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.external.ExternalJarContainer;
+import de.thecodelabs.utils.logger.LoggerBridge;
 import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.config.Repository;
@@ -120,6 +121,8 @@ public abstract class VersionizerStrategy
 
 	protected void exec(List<String> command, String json) throws IOException
 	{
+		LoggerBridge.debug("Exec: " + command);
+
 		ProcessBuilder builder = new ProcessBuilder(command);
 		final Process start = builder.start();
 

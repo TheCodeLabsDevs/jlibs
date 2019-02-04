@@ -5,6 +5,7 @@ import de.thecodelabs.storage.settings.annotation.Key;
 import de.thecodelabs.storage.settings.annotation.Required;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 @Classpath("build.json")
@@ -28,7 +29,7 @@ public class Artifact
 	@Key("build.type")
 	private ArtifactType artifactType = ArtifactType.RUNTIME;
 
-	private Path localPath;
+	private String localPath;
 
 	public String getArtifactId()
 	{
@@ -72,12 +73,12 @@ public class Artifact
 
 	public Path getLocalPath()
 	{
-		return localPath;
+		return Paths.get(localPath);
 	}
 
 	public void setLocalPath(Path localPath)
 	{
-		this.localPath = localPath;
+		this.localPath = localPath.toString();
 	}
 
 	@Override

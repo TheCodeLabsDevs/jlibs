@@ -1,5 +1,6 @@
 package de.thecodelabs.versionizer.service;
 
+import de.thecodelabs.utils.logger.LoggerBridge;
 import de.thecodelabs.utils.util.SystemUtils;
 import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.VersionizerItem;
@@ -144,9 +145,12 @@ public class UpdateService
 
 	public void runVersionizerInstance(List<UpdateItem.Entry> entries) throws IOException
 	{
+		LoggerBridge.debug("Start checking versionizer");
 		updateStrategy.downloadVersionizer(interactionType);
 		RunPrivileges runPrivileges = getRunPrivileges(entries);
+		LoggerBridge.debug("Versionizer run privilege: " + runPrivileges);
 		prepareFileTypes(entries);
+		LoggerBridge.debug("Start running versionizer");
 		updateStrategy.startVersionizer(interactionType, runPrivileges, new UpdateItem(versionizerItem, entries));
 	}
 

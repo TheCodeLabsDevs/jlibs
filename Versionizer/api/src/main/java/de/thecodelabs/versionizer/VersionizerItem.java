@@ -31,9 +31,13 @@ public class VersionizerItem
 		return artifactList;
 	}
 
-	public void addArtifact(Artifact artifact, Path localPath) {
-		artifact.setLocalPath(localPath);
-		artifactList.add(artifact);
+	public void addArtifact(Artifact artifact, Path localPath)
+	{
+		if(!artifactList.contains(artifact))
+		{
+			artifact.setLocalPath(localPath);
+			artifactList.add(artifact);
+		}
 	}
 
 	public String getExecutablePath()
