@@ -27,7 +27,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
@@ -89,7 +88,7 @@ public class MainViewController extends NVC implements IOUtils.CopyControl
 	private void runUpdateInBackground()
 	{
 		App app = ApplicationUtils.getApplication();
-		VersionService versionService = new VersionService(updateItem.getVersionizerItem(), UpdateService.RepositoryType.ALL);
+		VersionService versionService = new VersionService(updateItem.getVersionizerItem().getRepository(), UpdateService.RepositoryType.ALL);
 
 		for(UpdateItem.Entry entry : updateItem.getEntryList())
 		{
@@ -130,8 +129,8 @@ public class MainViewController extends NVC implements IOUtils.CopyControl
 
 				Logger.info("Download completed for remote file {0}", entry);
 
-				Logger.info("Copy remote file from {0} to {1}", downloadPath, entry.getLocalPath());
-				Files.copy(downloadPath, Paths.get(entry.getLocalPath()), StandardCopyOption.REPLACE_EXISTING);
+				Logger.info("Copy remote file from {0} to {1}", downloadPath, artifact.getLocalPath());
+				Files.copy(downloadPath, artifact.getLocalPath(), StandardCopyOption.REPLACE_EXISTING);
 			}
 			catch(IOException e)
 			{
