@@ -46,6 +46,7 @@ public class DocumentationConvertMojo extends AbstractMojo
 			if(srcFile.exists())
 			{
 				File desFile = new File(mavenProject.getBuild().getDirectory(), specs + ".html");
+				desFile.getParentFile().mkdirs();
 
 				final InputStream template = getClass().getClassLoader().getResourceAsStream("specs-template.html");
 
