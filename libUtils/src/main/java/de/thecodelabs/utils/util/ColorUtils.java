@@ -45,4 +45,19 @@ public class ColorUtils
 		}
 	}
 
+	public static Color getAppropriateTextColor(de.thecodelabs.utils.util.Color color)
+	{
+		// Counting the perceptive luminance - human eye favors green color...
+		double a = 1 - (0.299 * color.getRed() + 0.587 * color.getGreen() + 0.114 * color.getBlue()) / 255;
+
+		if(a < 0.5)
+		{
+			return Color.BLACK;
+		}
+		else
+		{
+			return Color.WHITE;
+		}
+	}
+
 }
