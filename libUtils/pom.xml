@@ -4,7 +4,7 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>libUtils</artifactId>
-    <version>2.0.12</version>
+    <version>2.0.13</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,6 +17,7 @@
         <jna-platform.version>5.1.0</jna-platform.version>
         <dom4j.version>2.1.1</dom4j.version>
         <gagawa.version>1.0.1</gagawa.version>
+        <junit.version>4.12</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -76,6 +77,12 @@
         <dependency>
             <groupId>de.thecodelabs</groupId>
             <artifactId>libStorage</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
         </dependency>
     </dependencies>
 
