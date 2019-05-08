@@ -58,4 +58,34 @@ public class ColorTest
 		assertEquals(255, color.getBlue());
 		assertEquals(1, color.getAlpha());
 	}
+
+	@Test
+	public void floatValues()
+	{
+		final Color color = new Color(0.5f, 0.5f, 0.5f);
+		assertEquals(127, color.getRed());
+		assertEquals(127, color.getGreen());
+		assertEquals(127, color.getBlue());
+		assertEquals(255, color.getAlpha());
+	}
+
+	@Test
+	public void floatValuesAlpha()
+	{
+		final Color color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+		assertEquals(127, color.getRed());
+		assertEquals(127, color.getGreen());
+		assertEquals(127, color.getBlue());
+		assertEquals(127, color.getAlpha());
+	}
+
+	@Test
+	public void constants()
+	{
+		final Color color = Color.WHITE;
+		assertEquals(255, color.getRed());
+		assertEquals(255, color.getGreen());
+		assertEquals(255, color.getBlue());
+		assertEquals(255, color.getAlpha());
+	}
 }
