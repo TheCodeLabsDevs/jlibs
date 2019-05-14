@@ -158,12 +158,12 @@ public class Color
 
 	public String toRGBHexWithoutOpacity()
 	{
-		return ColorUtils.toRGBHexWithoutOpacity(this);
+		return ColorUtilsNonJavaFX.toRGBHexWithoutOpacity(this);
 	}
 
 	public String toRGBHex()
 	{
-		return ColorUtils.toRGBHex(this);
+		return ColorUtilsNonJavaFX.toRGBHex(this);
 	}
 
 	public static final Color TRANSPARENT = new Color(0f, 0f, 0f, 0f);
