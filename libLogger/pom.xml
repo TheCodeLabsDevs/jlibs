@@ -1,28 +1,29 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>de.thecodelabs</groupId>
-	<artifactId>libLogger</artifactId>
-    <version>2.0.4</version>
+    <groupId>de.thecodelabs</groupId>
+    <artifactId>libLogger</artifactId>
+    <version>2.1.0</version>
 
-	<properties>
-		<java.version>1.8</java.version>
+    <properties>
+        <java.version>12</java.version>
 
         <jansi.version>1.17.1</jansi.version>
-		<jlibs.version>2.0.5</jlibs.version>
-	</properties>
+        <jlibs.version>2.1.0</jlibs.version>
+    </properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>de.thecodelabs</groupId>
-				<artifactId>jlibs</artifactId>
-				<version>${jlibs.version}</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>de.thecodelabs</groupId>
+                <artifactId>jlibs</artifactId>
+                <version>${jlibs.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -36,60 +37,71 @@
         </dependency>
     </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.1.0</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <configuration>
+                            <release>12</release>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>base-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>module-info.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <release>8</release>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-	<distributionManagement>
-		<repository>
-			<id>release</id>
-			<name>TheCodeLabs-releases</name>
-			<url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-release</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>TheCodeLabs-snapshots</name>
-			<url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>release</id>
+            <name>TheCodeLabs-releases</name>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-release</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>TheCodeLabs-snapshots</name>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
-	<repositories>
-		<repository>
-			<id>release</id>
-			<url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-release</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>snapshots</id>
-			<url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-snapshots</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>release</id>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-release</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <url>https://maven.thecodelabs.de/artifactory/TheCodeLabs-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

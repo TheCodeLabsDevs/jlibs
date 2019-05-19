@@ -6,24 +6,43 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>YamlStorage</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
 
     <properties>
         <java.version>8</java.version>
 
         <commons-lang.version>2.6</commons-lang.version>
         <snakeyaml.version>1.23</snakeyaml.version>
-        <guava.version>27.0.1-jre</guava.version>
+        <guava.version>27.1-jre</guava.version>
     </properties>
 
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <configuration>
+                            <release>12</release>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>base-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>module-info.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>8</release>
                 </configuration>
             </plugin>
             <plugin>

@@ -1,4 +1,4 @@
-package de.thecodelabs.storage;
+package de.thecodelabs.utils.util;
 
 import javafx.scene.paint.Color;
 import org.dom4j.Element;
