@@ -11,6 +11,34 @@ import java.nio.file.Paths;
 
 public class SystemUtils
 {
+	public interface SystemFileHook
+	{
+		boolean isFileType();
+	}
+
+	private static SystemFileHook isJarHook = () -> {
+		final Path runPath = getRunPath();
+		if(runPath != null)
+		{
+			return runPath.toString().toLowerCase().endsWith(".jar");
+		}
+		else
+		{
+			return false;
+		}
+	};
+
+	private static SystemFileHook isExeHook = () -> {
+		final Path runPath = getRunPath();
+		if(runPath != null)
+		{
+			return runPath.toString().toLowerCase().endsWith(".exe");
+		}
+		else
+		{
+			return false;
+		}
+	};
 
 	public static Path getApplicationSupportDirectoryPath(String name)
 	{
@@ -47,28 +75,32 @@ public class SystemUtils
 
 	public static boolean isJar()
 	{
-		final Path runPath = getRunPath();
-		if(runPath != null)
-		{
-			return runPath.toString().toLowerCase().endsWith(".jar");
-		}
-		else
-		{
-			return false;
-		}
+		return isJarHook.isFileType();
 	}
 
 	public static boolean isExe()
 	{
-		final Path runPath = getRunPath();
-		if(runPath != null)
-		{
-			return runPath.toString().toLowerCase().endsWith(".exe");
-		}
-		else
-		{
-			return false;
-		}
+		return isExeHook.isFileType();
+	}
+
+	public static SystemFileHook getIsJarHook()
+	{
+		return isJarHook;
+	}
+
+	public static void setIsJarHook(SystemFileHook isJarHook)
+	{
+		SystemUtils.isJarHook = isJarHook;
+	}
+
+	public static SystemFileHook getIsExeHook()
+	{
+		return isExeHook;
+	}
+
+	public static void setIsExeHook(SystemFileHook isExeHook)
+	{
+		SystemUtils.isExeHook = isExeHook;
 	}
 
 	public static boolean isDocker()
