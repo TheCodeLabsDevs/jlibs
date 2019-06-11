@@ -7,6 +7,7 @@ import de.thecodelabs.utils.application.App;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.container.PathType;
 import de.thecodelabs.utils.util.Localization;
+import de.thecodelabs.utils.util.StringUtils;
 import de.thecodelabs.versionizer.controller.MainViewController;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -43,11 +44,14 @@ public class VersionizerGuiMain extends Application implements Localization.Loca
 		final List<String> arguments = getParameters().getRaw();
 		final Class<UpdateItem> type = UpdateItem.class;
 
-		if (arguments.size() > 0)
+		if(!arguments.isEmpty())
 		{
-			final String json = arguments.get(0).replace("$$", "\"");
+			String input = StringUtils.build(arguments);
+			final String json = input.replace("$$", "\"");
 			updateItem = gson.fromJson(json, type);
-		} else {
+		}
+		else
+		{
 			updateItem = gson.fromJson(new InputStreamReader(System.in), type);
 		}
 		MainViewController mainViewController = new MainViewController(primaryStage, updateItem);

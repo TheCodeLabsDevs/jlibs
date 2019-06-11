@@ -6,6 +6,7 @@ import de.thecodelabs.logger.Logger;
 import de.thecodelabs.utils.application.App;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.container.PathType;
+import de.thecodelabs.utils.util.StringUtils;
 import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.service.UpdateService;
@@ -34,7 +35,8 @@ public class VersionizerHeadlessMain
 
 		if(args.length > 0)
 		{
-			final String json = args[0].replace("$$", "\"");
+			String input = StringUtils.build(args);
+			final String json = input.replace("$$", "\"");
 			updateItem = gson.fromJson(json, type);
 		}
 		else
