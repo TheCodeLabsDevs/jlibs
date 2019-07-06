@@ -1,9 +1,9 @@
 package de.tobias.autostart.impl;
 
-import java.io.File;
-
 import de.thecodelabs.utils.application.NativeLoader;
 import de.tobias.autostart.Autostart;
+
+import java.nio.file.Path;
 
 public class OSXAutoStartNative implements Autostart {
 
@@ -11,19 +11,19 @@ public class OSXAutoStartNative implements Autostart {
 
 	@Override
 	public String name() {
-		return "native os x";
+		return "MacOSNative";
 	}
 
 	@Override
-	public void add(String name, File src) throws Exception {
+	public void add(String name, Path src) throws Exception {
 		load();
-		add_N(src.getAbsolutePath());
+		add_N(src.toAbsolutePath().toString());
 	}
 
 	@Override
-	public boolean isAutostart(String name, File src) throws Exception {
+	public boolean isAutostart(String name, Path src) throws Exception {
 		load();
-		return isAutoStart_N(src.getAbsolutePath());
+		return isAutoStart_N(src.toAbsolutePath().toString());
 	}
 
 	@Override
