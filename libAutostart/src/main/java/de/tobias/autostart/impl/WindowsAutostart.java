@@ -6,7 +6,6 @@ import com.github.sarxos.winreg.WindowsRegistry;
 import de.tobias.autostart.Autostart;
 
 import java.nio.file.Path;
-import java.util.List;
 
 /**
  * Default Autostartimplementation für Windows. Eintrage werden in der Registry
@@ -50,17 +49,13 @@ public class WindowsAutostart implements Autostart
 	@Override
 	public boolean isAutostart(String name, Path src) throws RegistryException
 	{
-		List<String> keys = registry.readStringSubKeys(HKey.HKCU, keyname);
+		String value = registry.readString(HKey.HKCU, keyname, name);
 
-		if(keys.contains(name))
-		{
-			String values = registry.readString(HKey.HKCU, keyname, name);
-			if(values.contains(src.toAbsolutePath().toString()))
-			{
-				return true;
-			}
+		if (value == null) {
+			return false;
 		}
-		return false;
+
+		return value.contains(src.toAbsolutePath().toString());
 	}
 
 	/**
