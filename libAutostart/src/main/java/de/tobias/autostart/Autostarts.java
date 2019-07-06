@@ -3,7 +3,6 @@ package de.tobias.autostart;
 import de.thecodelabs.utils.util.OS;
 import de.tobias.autostart.impl.LinuxAutoStart;
 import de.tobias.autostart.impl.OSXAutoStart;
-import de.tobias.autostart.impl.OSXAutoStartNative;
 import de.tobias.autostart.impl.WindowsAutostart;
 
 import java.util.HashMap;
@@ -30,7 +29,6 @@ public class Autostarts
 
 			// Default Implementation
 			addAutostartImplementation(new OSXAutoStart());
-			addAutostartImplementation(new OSXAutoStartNative());
 			addAutostartImplementation(new WindowsAutostart());
 			addAutostartImplementation(new LinuxAutoStart());
 
