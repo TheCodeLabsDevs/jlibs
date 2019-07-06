@@ -7,7 +7,7 @@
     <groupId>de.thecodelabs</groupId>
     <artifactId>libPlugins</artifactId>
     <packaging>pom</packaging>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
 
     <modules>
         <module>libPlugins-core</module>
@@ -33,12 +33,12 @@
             <dependency>
                 <groupId>de.thecodelabs</groupId>
                 <artifactId>libPlugins-core</artifactId>
-                <version>${pom.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>de.thecodelabs</groupId>
                 <artifactId>libPlugins-versionizer</artifactId>
-                <version>${pom.version}</version>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
