@@ -19,9 +19,9 @@ public class MainTest
 			Gson gson = MappingSerializer.getSerializer();
 			Mapping mapping = gson.fromJson(Files.newBufferedReader(Paths.get("midi.json")), Mapping.class);
 
+			Midi.setUseNative(true);
 			Mapping.setCurrentMapping(mapping);
 
-			Midi.setUseNative(false);
 			Midi.getInstance().openDevice(new MidiDeviceInfo("PD 12", "PD 12", ""), Midi.Mode.INPUT, Midi.Mode.OUTPUT);
 		}
 		catch(Exception e)

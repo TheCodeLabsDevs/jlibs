@@ -7,7 +7,6 @@ import de.thecodelabs.midi.device.MidiDevice;
 import de.thecodelabs.midi.device.MidiDeviceInfo;
 
 import javax.sound.midi.*;
-import java.util.Arrays;
 
 public class JavaMidiDevice extends MidiDevice implements Receiver
 {
@@ -35,7 +34,6 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 			{
 				final byte[] payload = midiEvent.getPayload();
 				ShortMessage message = new ShortMessage(midiEvent.getMidiCommand().getMidiValue() + midiEvent.getChannel(), payload[0], payload[1]);
-				System.out.println("Send: " + Arrays.toString(message.getMessage()));
 				internalOutputDevice.getReceiver().send(message, -1);
 			}
 			catch(InvalidMidiDataException | MidiUnavailableException e)

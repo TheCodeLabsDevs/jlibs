@@ -45,37 +45,33 @@ public class MidiCommandHandler
 
 	public void handleCommand(MidiCommand midiCommand)
 	{
-		try
+		if(!removableList.isEmpty())
 		{
-
 			for(MidiListener listener : removableList)
 			{
 				midiListenerList.remove(listener);
 			}
 			removableList.clear();
+		}
 
-			for(MidiListener midiListener : midiListenerList)
+		for(MidiListener midiListener : midiListenerList)
+		{
+			if(!midiCommand.isConsumed())
 			{
-				if(!midiCommand.isConsumed())
-				{
-					midiListener.onMidiMessage(midiCommand);
-				}
-			}
-
-			if(midiCommand.getMidiCommand() != MidiCommandType.SYSTEM_EXCLUSIVE && !midiCommand.isConsumed())
-			{
-				int key = midiCommand.getPayload()[0];
-				int velocity = midiCommand.getPayload()[1];
-
-				KeyEventType type = velocity > 0 ? KeyEventType.DOWN : KeyEventType.UP;
-				KeyEvent keyEvent = new KeyEvent(KeyType.MIDI, type, key);
-
-				KeyEventDispatcher.dispatchEvent(keyEvent);
+				midiListener.onMidiMessage(midiCommand);
 			}
 		}
-		catch(Exception e)
+
+		if(midiCommand.getMidiCommand() != MidiCommandType.SYSTEM_EXCLUSIVE && !midiCommand.isConsumed())
+
 		{
-			e.printStackTrace();
+			int key = midiCommand.getPayload()[0];
+			int velocity = midiCommand.getPayload()[1];
+
+			KeyEventType type = velocity > 0 ? KeyEventType.DOWN : KeyEventType.UP;
+			KeyEvent keyEvent = new KeyEvent(KeyType.MIDI, type, key);
+
+			KeyEventDispatcher.dispatchEvent(keyEvent);
 		}
 	}
 }

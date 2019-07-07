@@ -10,9 +10,7 @@ import de.thecodelabs.midi.mapping.KeyboardKey;
 import de.thecodelabs.midi.mapping.MidiKey;
 import javafx.scene.input.KeyCode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Mapping
 {
@@ -21,7 +19,8 @@ public class Mapping
 		KeyEventDispatcher.registerKeyEventHandler(new ActionKeyHandler());
 	}
 
-	private transient static Mapping currentMapping;
+	private static Mapping currentMapping;
+	private Map<Integer, Action> midiCache = new HashMap<>();
 
 	public static Mapping getCurrentMapping()
 	{
@@ -100,32 +99,38 @@ public class Mapping
 
 	public Action getActionForMidiKey(int key)
 	{
-		for(Action action : actions)
+		if(midiCache.containsKey(key))
 		{
-			for(MidiKey actionKey : action.getKeysForType(MidiKey.class))
+			final Action action = midiCache.get(key);
+			// Validate cache entry
+			if(action.getKeysForType(MidiKey.class).parallelStream().anyMatch(k -> k.getValue() == key))
 			{
-				if(actionKey.getValue() == key)
-				{
-					return action;
-				}
+				return action;
 			}
 		}
-		return null;
+
+		final Action action = actions.parallelStream()
+				.filter(a ->
+						a.getKeysForType(MidiKey.class).parallelStream()
+								.anyMatch(actionKey -> actionKey.getValue() == key)
+				)
+				.findFirst().orElse(null);
+
+		if(action != null)
+		{
+			midiCache.put(key, action);
+		}
+		return action;
 	}
 
 	public Action getActionForKeyboardKey(KeyCode key)
 	{
-		for(Action action : actions)
-		{
-			for(KeyboardKey actionKey : action.getKeysForType(KeyboardKey.class))
-			{
-				if(actionKey.getCode() == key)
-				{
-					return action;
-				}
-			}
-		}
-		return null;
+		return actions.parallelStream()
+				.filter(action ->
+						action.getKeysForType(KeyboardKey.class).parallelStream()
+								.anyMatch(actionKey -> actionKey.getCode() == key)
+				)
+				.findFirst().orElse(null);
 	}
 
 	public List<Action> getActionsForType(String type)
@@ -144,7 +149,7 @@ public class Mapping
 	public Action getFirstActionOrCreateForType(String type)
 	{
 		final List<Action> actions = Mapping.getCurrentMapping().getActionsForType(type);
-		if(actions.size() == 0)
+		if(actions.isEmpty())
 		{
 			final Action action = new Action(type);
 			Mapping.getCurrentMapping().addAction(action);
@@ -155,7 +160,7 @@ public class Mapping
 
 	public Optional<MidiKey> getFirstMidiKeyForAction(Action action)
 	{
-		if(action.getKeys().size() > 0)
+		if(!action.getKeys().isEmpty())
 		{
 			return action.getKeys().stream().filter(key -> key instanceof MidiKey).map(key -> (MidiKey) key).findAny();
 		}
@@ -167,7 +172,7 @@ public class Mapping
 
 	public Optional<KeyboardKey> getFirstKeyboardKeyForAction(Action action)
 	{
-		if(action.getKeys().size() > 0)
+		if(!action.getKeys().isEmpty())
 		{
 			return action.getKeys().stream().filter(key -> key instanceof KeyboardKey).map(key -> (KeyboardKey) key).findAny();
 		}

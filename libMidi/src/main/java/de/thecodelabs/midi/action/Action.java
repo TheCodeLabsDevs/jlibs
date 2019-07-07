@@ -46,7 +46,7 @@ public class Action
 
 	public <T extends Key> List<T> getKeysForType(Class<T> clazz)
 	{
-		return keys.stream().filter(key -> key.getClass().isAssignableFrom(clazz)).map(clazz::cast).collect(Collectors.toList());
+		return keys.parallelStream().filter(key -> key.getClass().isAssignableFrom(clazz)).map(clazz::cast).collect(Collectors.toList());
 	}
 
 	public void setKeys(List<Key> keys)

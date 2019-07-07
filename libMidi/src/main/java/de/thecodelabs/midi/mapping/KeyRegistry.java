@@ -1,6 +1,6 @@
 package de.thecodelabs.midi.mapping;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class KeyRegistry
@@ -19,7 +19,7 @@ public class KeyRegistry
 		return instance;
 	}
 
-	private Map<KeyType, Class<? extends Key>> types = new HashMap<>();
+	private Map<KeyType, Class<? extends Key>> types = new EnumMap<>(KeyType.class);
 
 	public Class<? extends Key> getType(KeyType type)
 	{
@@ -33,11 +33,11 @@ public class KeyRegistry
 
 	public KeyType getIdentifier(Class<? extends Key> clazz)
 	{
-		for(KeyType type : types.keySet())
+		for(Map.Entry<KeyType, Class<? extends Key>> type : types.entrySet())
 		{
-			if(types.get(type).equals(clazz))
+			if(type.getValue().equals(clazz))
 			{
-				return type;
+				return type.getKey();
 			}
 		}
 		return null;
