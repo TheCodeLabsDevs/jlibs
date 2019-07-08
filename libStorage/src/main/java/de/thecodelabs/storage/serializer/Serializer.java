@@ -12,6 +12,10 @@ import java.io.FileOutputStream;
  */
 public class Serializer
 {
+	private Serializer()
+	{
+	}
+
 	/**
 	 * Saves the given byte[] in to a file
 	 *
@@ -21,9 +25,10 @@ public class Serializer
 	 */
 	public static void serializeToFile(String path, byte[] data) throws Exception
 	{
-		BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(path));
-		stream.write(data);
-		stream.close();
+		try(BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(path)))
+		{
+			stream.write(data);
+		}
 	}
 
 	/**
@@ -35,12 +40,13 @@ public class Serializer
 	 */
 	public static byte[] deserializeFromFile(String path) throws Exception
 	{
-		byte[] buffer = null;
+		byte[] buffer;
 
-		BufferedInputStream stream = new BufferedInputStream(new FileInputStream(path));
-		buffer = new byte[stream.available()];
-		stream.read(buffer);
-		stream.close();
+		try(BufferedInputStream stream = new BufferedInputStream(new FileInputStream(path)))
+		{
+			buffer = new byte[stream.available()];
+			stream.read(buffer);
+		}
 
 		return buffer;
 	}

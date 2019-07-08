@@ -68,7 +68,6 @@ public class Storage
 		}
 	}
 
-	@SuppressWarnings({"JavaReflectionInvocation", "unchecked"})
 	public static <T> T load(StorageType type, Class<T> clazz)
 	{
 		InputStream inputStream = getInputStream(clazz);

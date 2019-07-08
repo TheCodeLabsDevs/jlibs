@@ -13,46 +13,56 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 
-public class UserDefaults {
-
+public class UserDefaults
+{
 	private HashMap<String, Object> data = new HashMap<>();
 
 	private static HashMap<Class<? extends Object>, Serializer<? extends Object>> dataLoaders = new HashMap<>();
 
-	public interface Serializer<T extends Object> {
+	public interface Serializer<T>
+	{
 
 		T get(Element element);
 
 		void set(Object t, Element element);
 	}
 
-	public UserDefaults() {}
+	public UserDefaults()
+	{
+	}
 
-	public Object getData(String key) {
+	public Object getData(String key)
+	{
 		return data.get(key);
 	}
 
-	public void setData(String key, Object data) {
+	public void setData(String key, Object data)
+	{
 		this.data.put(key, data);
 	}
 
-	public void clearData(String key) {
+	public void clearData(String key)
+	{
 		data.remove(key);
 	}
 
-	public void clear() {
+	public void clear()
+	{
 		data.clear();
 	}
 
-	public static UserDefaults load(Path path) throws DocumentException, IOException, ClassNotFoundException {
+	public static UserDefaults load(Path path) throws DocumentException, IOException
+	{
 		UserDefaults defaults = new UserDefaults();
 
-		if (Files.exists(path)) {
+		if(Files.exists(path))
+		{
 			SAXReader reader = new SAXReader();
 			Document document = reader.read(Files.newInputStream(path));
 
 			Element root = document.getRootElement();
-			for (Object item : root.elements("item")) {
+			for(Object item : root.elements("item"))
+			{
 				Element itemElement = (Element) item;
 				String key = itemElement.attributeValue("key");
 
@@ -63,46 +73,71 @@ public class UserDefaults {
 		return defaults;
 	}
 
-	public static Object loadElement(Element itemElement) {
+	public static Object loadElement(Element itemElement)
+	{
 		String type = itemElement.attributeValue("type");
 
 		Class<?> clazz = null;
-		try {
+		try
+		{
 			clazz = Class.forName(type);
-		} catch (Exception e) {
-			for (Class<?> loaderClass : dataLoaders.keySet()) {
-				if (loaderClass.getName().equals(type)) {
+		}
+		catch(Exception e)
+		{
+			for(Class<?> loaderClass : dataLoaders.keySet())
+			{
+				if(loaderClass.getName().equals(type))
+				{
 					clazz = loaderClass;
 				}
 			}
 		}
 
-		if (clazz == Integer.class || clazz == Integer.TYPE) {
+		if(clazz == Integer.class || clazz == Integer.TYPE)
+		{
 			String data = itemElement.attributeValue("data");
 			return Integer.valueOf(data);
-		} else if (clazz == Long.class || clazz == Long.TYPE) {
+		}
+		else if(clazz == Long.class || clazz == Long.TYPE)
+		{
 			String data = itemElement.attributeValue("data");
 			return Long.valueOf(data);
-		} else if (clazz == Short.class || clazz == Short.TYPE) {
+		}
+		else if(clazz == Short.class || clazz == Short.TYPE)
+		{
 			String data = itemElement.attributeValue("data");
 			return Short.valueOf(data);
-		} else if (clazz == Byte.class || clazz == Byte.TYPE) {
+		}
+		else if(clazz == Byte.class || clazz == Byte.TYPE)
+		{
 			String data = itemElement.attributeValue("data");
 			return Byte.valueOf(data);
-		} else if (clazz == Float.class || clazz == Float.TYPE) {
+		}
+		else if(clazz == Float.class || clazz == Float.TYPE)
+		{
 			String data = itemElement.attributeValue("data");
 			return Float.valueOf(data);
-		} else if (clazz == Double.class || clazz == Double.TYPE) {
+		}
+		else if(clazz == Double.class || clazz == Double.TYPE)
+		{
 			String data = itemElement.attributeValue("data");
 			return Double.valueOf(data);
-		} else if (clazz == Boolean.class || clazz == Boolean.TYPE) {
+		}
+		else if(clazz == Boolean.class || clazz == Boolean.TYPE)
+		{
 			String data = itemElement.attributeValue("data");
 			return Boolean.valueOf(data);
-		} else if (clazz == String.class) {
+		}
+		else if(clazz == String.class)
+		{
 			return itemElement.attributeValue("data");
-		} else {
-			for (Class<?> loaderClass : dataLoaders.keySet()) {
-				if (loaderClass.getName().equals(type)) {
+		}
+		else
+		{
+			for(Class<?> loaderClass : dataLoaders.keySet())
+			{
+				if(loaderClass.getName().equals(type))
+				{
 					return dataLoaders.get(loaderClass).get(itemElement);
 				}
 			}
@@ -110,15 +145,18 @@ public class UserDefaults {
 		return null;
 	}
 
-	public void save(Path path) throws IOException {
+	public void save(Path path) throws IOException
+	{
 		Document document = DocumentHelper.createDocument();
 		Element root = document.addElement("UserDefaults");
-		for (String key : data.keySet()) {
+		for(String key : data.keySet())
+		{
 			Element itemElement = root.addElement("item");
 			save(itemElement, data.get(key), key);
 
 		}
-		if (Files.notExists(path)) {
+		if(Files.notExists(path))
+		{
 			Files.createDirectories(path.getParent());
 			Files.createFile(path);
 		}
@@ -127,32 +165,53 @@ public class UserDefaults {
 		writer.close();
 	}
 
-	public static void save(Element itemElement, Object t, String key) {
-		if (t != null) {
+	public static void save(Element itemElement, Object t, String key)
+	{
+		if(t != null)
+		{
 			Class<?> clazz = t.getClass();
 
 			itemElement.addAttribute("key", key);
 			itemElement.addAttribute("type", clazz.getName());
 
-			if (clazz == Integer.class || clazz == Integer.TYPE) {
+			if(clazz == Integer.class || clazz == Integer.TYPE)
+			{
 				itemElement.addAttribute("data", t.toString());
-			} else if (clazz == Long.class || clazz == Long.TYPE) {
+			}
+			else if(clazz == Long.class || clazz == Long.TYPE)
+			{
 				itemElement.addAttribute("data", t.toString());
-			} else if (clazz == Short.class || clazz == Short.TYPE) {
+			}
+			else if(clazz == Short.class || clazz == Short.TYPE)
+			{
 				itemElement.addAttribute("data", t.toString());
-			} else if (clazz == Byte.class || clazz == Byte.TYPE) {
+			}
+			else if(clazz == Byte.class || clazz == Byte.TYPE)
+			{
 				itemElement.addAttribute("data", t.toString());
-			} else if (clazz == Float.class || clazz == Float.TYPE) {
+			}
+			else if(clazz == Float.class || clazz == Float.TYPE)
+			{
 				itemElement.addAttribute("data", t.toString());
-			} else if (clazz == Double.class || clazz == Double.TYPE) {
+			}
+			else if(clazz == Double.class || clazz == Double.TYPE)
+			{
 				itemElement.addAttribute("data", t.toString());
-			} else if (clazz == Boolean.class || clazz == Boolean.TYPE) {
+			}
+			else if(clazz == Boolean.class || clazz == Boolean.TYPE)
+			{
 				itemElement.addAttribute("data", t.toString());
-			} else if (clazz == String.class) {
+			}
+			else if(clazz == String.class)
+			{
 				itemElement.addAttribute("data", t.toString());
-			} else {
-				for (Class<?> loaderClass : dataLoaders.keySet()) {
-					if (loaderClass.getName().equals(clazz.getName())) {
+			}
+			else
+			{
+				for(Class<?> loaderClass : dataLoaders.keySet())
+				{
+					if(loaderClass.getName().equals(clazz.getName()))
+					{
 						dataLoaders.get(loaderClass).set(t, itemElement);
 					}
 				}
@@ -160,7 +219,8 @@ public class UserDefaults {
 		}
 	}
 
-	public static <T> void registerLoader(Serializer<T> loader, Class<T> clazz) {
+	public static <T> void registerLoader(Serializer<T> loader, Class<T> clazz)
+	{
 		dataLoaders.put(clazz, loader);
 	}
 }
