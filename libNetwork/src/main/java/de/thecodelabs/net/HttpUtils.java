@@ -1,26 +1,32 @@
 package de.thecodelabs.net;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-public class HttpUtils {
+public class HttpUtils
+{
 
-	public static String sendPostRequest(String addr, HashMap<String, String> args) throws IOException {
-		StringBuilder body = new StringBuilder();
-		int i = 0;
-		for (String key : args.keySet()) {
-			body.append(key).append("=").append(URLEncoder.encode(args.get(key), "UTF-8"));
-			if (i + 1 < args.size()) {
-				body.append("&");
-			}
-			i++;
+	private HttpUtils()
+	{
+	}
+
+	private static String urlEncodeUTF8(String s) {
+		try {
+			return URLEncoder.encode(s, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new UnsupportedOperationException(e);
 		}
+	}
+
+	public static String sendPostRequest(String addr, Map<String, String> args) throws IOException
+	{
+		final String body = args.entrySet().stream()
+				.map(entry -> String.format("%s=%s", urlEncodeUTF8(entry.getKey()), urlEncodeUTF8(entry.getValue())))
+				.collect(Collectors.joining("&"));
 
 		URL url = new URL(addr);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -32,13 +38,14 @@ public class HttpUtils {
 		connection.setRequestProperty("Content-Length", String.valueOf(body.length()));
 
 		OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-		writer.write(body.toString());
+		writer.write(body);
 		writer.flush();
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		StringBuilder builder = new StringBuilder();
 
-		for (String line; (line = reader.readLine()) != null; ) {
+		for(String line; (line = reader.readLine()) != null; )
+		{
 			builder.append(line);
 			builder.append("\n");
 		}

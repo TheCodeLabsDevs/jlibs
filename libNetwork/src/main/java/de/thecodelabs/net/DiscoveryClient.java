@@ -6,9 +6,12 @@ import java.io.IOException;
 import java.net.*;
 import java.util.Enumeration;
 
+/**
+ * This class broadcasts data packages on a specific port to receive a response from a server.
+ */
+@SuppressWarnings("unused")
 public class DiscoveryClient
 {
-
 	private int port = 0;
 	private String messageKey = "UNDEFINED";
 
