@@ -44,6 +44,16 @@ public class Action
 		return keys;
 	}
 
+	public void addKey(Key key)
+	{
+		this.keys.add(key);
+	}
+
+	public void removeKey(Key key)
+	{
+		this.keys.remove(key);
+	}
+
 	public <T extends Key> List<T> getKeysForType(Class<T> clazz)
 	{
 		return keys.parallelStream().filter(key -> key.getClass().isAssignableFrom(clazz)).map(clazz::cast).collect(Collectors.toList());
@@ -72,6 +82,16 @@ public class Action
 	public void setPayload(Map<String, String> payload)
 	{
 		this.payload = payload;
+	}
+
+	public void addPayloadEntry(String key, String value)
+	{
+		this.payload.put(key, value);
+	}
+
+	public void removePayloadEntry(String key)
+	{
+		this.payload.remove(key);
 	}
 
 	@Override

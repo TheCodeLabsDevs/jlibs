@@ -20,7 +20,6 @@ public class Mapping
 	}
 
 	private static Mapping currentMapping;
-	private Map<Integer, Action> midiCache = new HashMap<>();
 
 	public static Mapping getCurrentMapping()
 	{
@@ -32,6 +31,7 @@ public class Mapping
 		Mapping.currentMapping = currentMapping;
 	}
 
+	private Map<Integer, Action> midiCache = new HashMap<>();
 	private List<Action> actions;
 
 	public Mapping()

@@ -1,11 +1,9 @@
-import com.google.gson.Gson;
 import de.thecodelabs.midi.Mapping;
 import de.thecodelabs.midi.Midi;
 import de.thecodelabs.midi.action.ActionRegistry;
 import de.thecodelabs.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.serialize.MappingSerializer;
 
-import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class MainTest
@@ -15,9 +13,7 @@ public class MainTest
 		try
 		{
 			ActionRegistry.registerActionHandler(new EimerActionHandler());
-
-			Gson gson = MappingSerializer.getSerializer();
-			Mapping mapping = gson.fromJson(Files.newBufferedReader(Paths.get("midi.json")), Mapping.class);
+			Mapping mapping = MappingSerializer.load(Paths.get("midi.json"));
 
 			Midi.setUseNative(true);
 			Mapping.setCurrentMapping(mapping);
