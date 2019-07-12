@@ -241,13 +241,13 @@ public final class App
 				}
 				catch(Exception e)
 				{
-					e.printStackTrace();
+					LoggerBridge.error(e);
 				}
 			}));
 		}
-		catch(ClassNotFoundException | DocumentException | IOException e)
+		catch(DocumentException | IOException e)
 		{
-			e.printStackTrace();
+			LoggerBridge.error(e);
 		}
 
 		// JavaFX App öffnen (wenn vorhanden)
