@@ -1,11 +1,12 @@
 package de.thecodelabs.midi.device.java;
 
-import de.thecodelabs.midi.Midi;
 import de.thecodelabs.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.device.MidiDeviceManager;
+import de.thecodelabs.midi.midi.Midi;
 
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
 import java.util.stream.Stream;
 
 public class JavaDeviceManager implements MidiDeviceManager
@@ -18,7 +19,7 @@ public class JavaDeviceManager implements MidiDeviceManager
 	}
 
 	@Override
-	public JavaMidiDevice openDevice(MidiDeviceInfo deviceInfo, Midi.Mode... modes) throws Exception
+	public JavaMidiDevice openDevice(MidiDeviceInfo deviceInfo, Midi.Mode... modes) throws MidiUnavailableException
 	{
 		final JavaMidiDevice javaMidiDevice = new JavaMidiDevice(deviceInfo);
 		javaMidiDevice.lookupMidiDevice(deviceInfo, modes);

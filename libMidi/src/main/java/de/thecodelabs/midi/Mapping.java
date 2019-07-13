@@ -1,16 +1,14 @@
 package de.thecodelabs.midi;
 
 import de.thecodelabs.midi.action.Action;
-import de.thecodelabs.midi.action.ActionHandler;
 import de.thecodelabs.midi.action.ActionKeyHandler;
-import de.thecodelabs.midi.action.ActionRegistry;
 import de.thecodelabs.midi.event.KeyEventDispatcher;
-import de.thecodelabs.midi.feedback.FeedbackType;
 import de.thecodelabs.midi.mapping.KeyboardKey;
 import de.thecodelabs.midi.mapping.MidiKey;
 import javafx.scene.input.KeyCode;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Mapping
 {
@@ -32,6 +30,7 @@ public class Mapping
 	}
 
 	private UUID id;
+	private String name;
 	private List<Action> actions;
 
 	public Mapping()
@@ -53,6 +52,16 @@ public class Mapping
 	public UUID getId()
 	{
 		return id;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 
 	public void addAction(Action action)
@@ -78,43 +87,9 @@ public class Mapping
 		return actions;
 	}
 
-	public void showFeedback()
-	{
-		for(Action action : getActions())
-		{
-			ActionHandler handler = ActionRegistry.getActionHandler(action.getActionType());
-			final FeedbackType currentFeedbackType = handler.getCurrentFeedbackType(action);
-
-			for(MidiKey key : action.getKeysForType(MidiKey.class))
-			{
-				key.sendFeedback(currentFeedbackType);
-			}
-		}
-	}
-
-	// TODO Extract special launchpad commands
-	public void clearFeedback()
-	{
-		final int maxMainKeyNumber = 89;
-
-		for(byte i = 11; i <= maxMainKeyNumber; i++)
-		{
-			// Node_On = 144
-			MidiCommand midiCommand = new MidiCommand(MidiCommandType.NOTE_ON, i, (byte) 0);
-			Midi.getInstance().sendMessage(midiCommand);
-		}
-
-		// Obere Reihe an Tasten
-		final int liveKeyMin = 104;
-		final int liveKeyMax = 111;
-
-		for(byte i = liveKeyMin; i <= liveKeyMax; i++)
-		{
-			// Control_Change = 176
-			MidiCommand midiCommand = new MidiCommand(MidiCommandType.CONTROL_CHANGE, i, (byte) 0);
-			Midi.getInstance().sendMessage(midiCommand);
-		}
-	}
+	/*
+	Get Actions
+	 */
 
 	private transient Map<Integer, Action> midiCache = new HashMap<>();
 
@@ -156,34 +131,28 @@ public class Mapping
 
 	public List<Action> getActionsForType(String type)
 	{
-		List<Action> result = new ArrayList<>();
-		for(Action action : actions)
-		{
-			if(action.getActionType().equals(type))
-			{
-				result.add(action);
-			}
-		}
-		return result;
+		return actions.parallelStream()
+				.filter(a -> a.getActionType().equals(type))
+				.collect(Collectors.toList());
 	}
 
 	public Action getFirstActionOrCreateForType(String type)
 	{
-		final List<Action> actions = Mapping.getCurrentMapping().getActionsForType(type);
-		if(actions.isEmpty())
+		final List<Action> actionList = Mapping.getCurrentMapping().getActionsForType(type);
+		if(actionList.isEmpty())
 		{
 			final Action action = new Action(type);
 			Mapping.getCurrentMapping().addAction(action);
 			return action;
 		}
-		return actions.get(0);
+		return actionList.get(0);
 	}
 
 	public Optional<MidiKey> getFirstMidiKeyForAction(Action action)
 	{
 		if(!action.getKeys().isEmpty())
 		{
-			return action.getKeys().stream().filter(key -> key instanceof MidiKey).map(key -> (MidiKey) key).findAny();
+			return action.getKeys().parallelStream().filter(key -> key instanceof MidiKey).map(key -> (MidiKey) key).findAny();
 		}
 		else
 		{
@@ -195,7 +164,7 @@ public class Mapping
 	{
 		if(!action.getKeys().isEmpty())
 		{
-			return action.getKeys().stream().filter(key -> key instanceof KeyboardKey).map(key -> (KeyboardKey) key).findAny();
+			return action.getKeys().parallelStream().filter(key -> key instanceof KeyboardKey).map(key -> (KeyboardKey) key).findAny();
 		}
 		else
 		{
@@ -219,6 +188,14 @@ public class Mapping
 			action.getKeys().add(newKey);
 			return newKey;
 		});
+	}
+
+	public Optional<Action> getActionForTypeWithPayload(String type, Map<String, String> payload)
+	{
+		return actions.parallelStream()
+				.filter(action -> action.getActionType().equals(type))
+				.filter(action -> action.getPayload().entrySet().containsAll(payload.entrySet()))
+				.findFirst();
 	}
 
 	@Override

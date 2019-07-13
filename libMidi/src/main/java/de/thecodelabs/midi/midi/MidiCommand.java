@@ -1,4 +1,4 @@
-package de.thecodelabs.midi;
+package de.thecodelabs.midi.midi;
 
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;

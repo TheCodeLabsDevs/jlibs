@@ -1,8 +1,5 @@
 package de.thecodelabs.midi.mapping;
 
-import de.thecodelabs.midi.Midi;
-import de.thecodelabs.midi.MidiCommand;
-import de.thecodelabs.midi.MidiCommandType;
 import de.thecodelabs.midi.feedback.Feedback;
 import de.thecodelabs.midi.feedback.FeedbackType;
 
@@ -14,6 +11,7 @@ public class MidiKey extends Key
 
 	private Feedback defaultFeedback;
 	private Feedback eventFeedback;
+	private Feedback warningFeedback;
 
 	public MidiKey()
 	{
@@ -26,9 +24,15 @@ public class MidiKey extends Key
 
 	public MidiKey(byte value, Feedback defaultFeedback, Feedback eventFeedback)
 	{
+		this(value, defaultFeedback, eventFeedback, null);
+	}
+
+	public MidiKey(byte value, Feedback defaultFeedback, Feedback eventFeedback, Feedback warningFeedback)
+	{
 		this.value = value;
 		this.defaultFeedback = defaultFeedback;
 		this.eventFeedback = eventFeedback;
+		this.warningFeedback = warningFeedback;
 	}
 
 	@Override
@@ -67,10 +71,21 @@ public class MidiKey extends Key
 		this.eventFeedback = eventFeedback;
 	}
 
+	public Feedback getWarningFeedback()
+	{
+		return warningFeedback;
+	}
+
+	public void setWarningFeedback(Feedback warningFeedback)
+	{
+		this.warningFeedback = warningFeedback;
+	}
+
 	@Override
 	public Feedback getFeedbackForType(FeedbackType feedbackType)
 	{
-		if (feedbackType == null) {
+		if(feedbackType == null)
+		{
 			return null;
 		}
 
@@ -82,18 +97,10 @@ public class MidiKey extends Key
 				return defaultFeedback;
 			case EVENT:
 				return eventFeedback;
+			case WARNING:
+				return warningFeedback;
 		}
 		return null;
-	}
-
-	public void sendFeedback(FeedbackType feedbackType)
-	{
-		Feedback feedback = getFeedbackForType(feedbackType);
-		if(feedback != null)
-		{
-			MidiCommand midiCommand = new MidiCommand(MidiCommandType.NOTE_ON, getValue(), feedback.getValue());
-			Midi.getInstance().sendMessage(midiCommand);
-		}
 	}
 
 	@Override

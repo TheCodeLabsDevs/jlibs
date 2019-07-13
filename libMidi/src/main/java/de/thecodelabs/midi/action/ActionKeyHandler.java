@@ -1,14 +1,13 @@
 package de.thecodelabs.midi.action;
 
 import de.thecodelabs.midi.Mapping;
-import de.thecodelabs.midi.Midi;
 import de.thecodelabs.midi.event.KeyEvent;
 import de.thecodelabs.midi.event.KeyEventHandler;
 import de.thecodelabs.midi.event.KeyEventType;
 import de.thecodelabs.midi.feedback.FeedbackType;
-import de.thecodelabs.midi.mapping.Key;
 import de.thecodelabs.midi.mapping.KeyType;
 import de.thecodelabs.midi.mapping.MidiKey;
+import de.thecodelabs.midi.midi.Midi;
 import javafx.scene.input.KeyCode;
 
 public class ActionKeyHandler implements KeyEventHandler
@@ -59,14 +58,8 @@ public class ActionKeyHandler implements KeyEventHandler
 
 		if(Midi.getInstance().getDevice().isModeSupported(Midi.Mode.OUTPUT))
 		{
-			for(Key key : action.getKeys())
-			{
-				if(key instanceof MidiKey)
-				{
-					MidiKey midiKey = (MidiKey) key;
-					midiKey.sendFeedback(feedbackType);
-				}
-			}
+			for(MidiKey key : action.getKeysForType(MidiKey.class))
+				Midi.getInstance().sendFeedback(key, feedbackType);
 		}
 	}
 }

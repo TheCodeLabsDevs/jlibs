@@ -47,7 +47,7 @@ public class MappingSerializer
 		return gson.toJson(mapping);
 	}
 
-	private static Gson getSerializer()
+	static Gson getSerializer()
 	{
 		return new GsonBuilder()
 				.registerTypeAdapter(Key.class, new KeySerializer())

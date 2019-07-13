@@ -1,4 +1,4 @@
-package de.thecodelabs.midi;
+package de.thecodelabs.midi.midi;
 
 import de.thecodelabs.midi.event.KeyEvent;
 import de.thecodelabs.midi.event.KeyEventDispatcher;

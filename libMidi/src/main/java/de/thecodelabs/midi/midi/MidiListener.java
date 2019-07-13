@@ -1,4 +1,4 @@
-package de.thecodelabs.midi;
+package de.thecodelabs.midi.midi;
 
 public interface MidiListener
 {

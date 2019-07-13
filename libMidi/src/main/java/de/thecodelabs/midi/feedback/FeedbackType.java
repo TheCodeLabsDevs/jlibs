@@ -4,5 +4,6 @@ public enum FeedbackType
 {
 	NONE,
 	DEFAULT,
-	EVENT
+	EVENT,
+	WARNING
 }

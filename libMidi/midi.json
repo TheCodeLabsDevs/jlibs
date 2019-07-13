@@ -9,8 +9,12 @@
                         "value": 45
                     },
                     "eventFeedback": {
+                        "channel": 2,
+                        "value": 57
+                    },
+                    "warningFeedback": {
                         "channel": 1,
-                        "value": 46
+                        "value": 45
                     },
                     "type": "MIDI"
                 }

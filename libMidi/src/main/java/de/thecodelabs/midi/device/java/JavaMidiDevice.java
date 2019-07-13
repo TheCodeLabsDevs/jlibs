@@ -1,10 +1,10 @@
 package de.thecodelabs.midi.device.java;
 
-import de.thecodelabs.midi.Midi;
-import de.thecodelabs.midi.MidiCommand;
-import de.thecodelabs.midi.MidiCommandHandler;
 import de.thecodelabs.midi.device.MidiDevice;
 import de.thecodelabs.midi.device.MidiDeviceInfo;
+import de.thecodelabs.midi.midi.Midi;
+import de.thecodelabs.midi.midi.MidiCommand;
+import de.thecodelabs.midi.midi.MidiCommandHandler;
 
 import javax.sound.midi.*;
 

@@ -1,7 +1,7 @@
 package de.thecodelabs.midi.device;
 
-import de.thecodelabs.midi.Midi;
-import de.thecodelabs.midi.MidiCommand;
+import de.thecodelabs.midi.midi.Midi;
+import de.thecodelabs.midi.midi.MidiCommand;
 
 public abstract class MidiDevice
 {
