@@ -15,6 +15,19 @@ public class Feedback
 		this.value = value;
 	}
 
+	public static Feedback copy(Feedback feedback)
+	{
+		if(feedback == null)
+		{
+			return null;
+		}
+
+		Feedback copy = new Feedback();
+		copy.value = feedback.value;
+		copy.channel = feedback.channel;
+		return copy;
+	}
+
 	public byte getChannel()
 	{
 		return channel;

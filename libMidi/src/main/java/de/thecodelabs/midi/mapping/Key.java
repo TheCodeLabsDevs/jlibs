@@ -8,4 +8,6 @@ public abstract class Key
 	public abstract KeyType getType();
 
 	public abstract Feedback getFeedbackForType(FeedbackType feedbackType);
+
+	public abstract Key copy();
 }

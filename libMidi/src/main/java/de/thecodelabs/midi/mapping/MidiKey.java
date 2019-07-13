@@ -104,6 +104,17 @@ public class MidiKey extends Key
 	}
 
 	@Override
+	public Key copy()
+	{
+		MidiKey copy = new MidiKey();
+		copy.value = value;
+		copy.defaultFeedback = Feedback.copy(defaultFeedback);
+		copy.eventFeedback = Feedback.copy(eventFeedback);
+		copy.warningFeedback = Feedback.copy(warningFeedback);
+		return copy;
+	}
+
+	@Override
 	public boolean equals(Object o)
 	{
 		if(this == o) return true;

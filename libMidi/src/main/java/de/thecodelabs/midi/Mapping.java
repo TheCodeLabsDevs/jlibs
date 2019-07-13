@@ -3,6 +3,7 @@ package de.thecodelabs.midi;
 import de.thecodelabs.midi.action.Action;
 import de.thecodelabs.midi.action.ActionKeyHandler;
 import de.thecodelabs.midi.event.KeyEventDispatcher;
+import de.thecodelabs.midi.mapping.Key;
 import de.thecodelabs.midi.mapping.KeyboardKey;
 import de.thecodelabs.midi.mapping.MidiKey;
 import javafx.scene.input.KeyCode;
@@ -47,6 +48,21 @@ public class Mapping
 	{
 		this.id = id;
 		this.actions = actions;
+	}
+
+	public Mapping(Mapping clone)
+	{
+		this.id = UUID.randomUUID();
+		this.name = clone.name;
+
+		this.actions = clone.actions.parallelStream()
+				.map(i -> {
+					final Action action = new Action(i.getActionType());
+					i.getPayload().forEach(action::addPayloadEntry);
+					i.getKeys().forEach(Key::copy);
+					return action;
+				})
+				.collect(Collectors.toList());
 	}
 
 	public UUID getId()

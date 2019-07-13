@@ -54,6 +54,15 @@ public class KeyboardKey extends Key
 	}
 
 	@Override
+	public Key copy()
+	{
+		KeyboardKey copy = new KeyboardKey();
+		copy.code = code;
+		copy.key = key;
+		return copy;
+	}
+
+	@Override
 	public boolean equals(Object o)
 	{
 		if(this == o) return true;
