@@ -49,6 +49,12 @@ public class Mapping
 		this.actions.add(action);
 	}
 
+	public void addUniqueAction(Action action) {
+		if (!actions.contains(action)) {
+			actions.add(action);
+		}
+	}
+
 	public void removeAction(Action action)
 	{
 		this.actions.remove(action);

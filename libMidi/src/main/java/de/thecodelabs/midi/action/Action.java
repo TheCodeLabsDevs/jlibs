@@ -2,10 +2,7 @@ package de.thecodelabs.midi.action;
 
 import de.thecodelabs.midi.mapping.Key;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Action
@@ -96,6 +93,23 @@ public class Action
 	public void removePayloadEntry(String key)
 	{
 		this.payload.remove(key);
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this == o) return true;
+		if(!(o instanceof Action)) return false;
+		Action action = (Action) o;
+		return Objects.equals(keys, action.keys) &&
+				Objects.equals(actionType, action.actionType) &&
+				Objects.equals(payload, action.payload);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(keys, actionType, payload);
 	}
 
 	@Override
