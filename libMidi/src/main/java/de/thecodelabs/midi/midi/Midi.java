@@ -81,6 +81,11 @@ public class Midi implements AutoCloseable
 		return device;
 	}
 
+	public MidiFeedbackTranscript getFeedbackTranscript()
+	{
+		return feedbackTranscript;
+	}
+
 	public void openDevice(MidiDeviceInfo deviceInfo, Mode... modes) throws MidiUnavailableException
 	{
 		if(modes == null || modes.length == 0)

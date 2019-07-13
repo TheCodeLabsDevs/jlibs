@@ -1,6 +1,6 @@
 package de.thecodelabs.midi.feedback;
 
-public class Feedback
+public class Feedback implements FeedbackValue
 {
 	private byte channel;
 	private byte value;
