@@ -79,6 +79,10 @@ public class Action
 		return payload;
 	}
 
+	public String getPayload(String key) {
+		return payload.get(key);
+	}
+
 	public void setPayload(Map<String, String> payload)
 	{
 		this.payload = payload;
