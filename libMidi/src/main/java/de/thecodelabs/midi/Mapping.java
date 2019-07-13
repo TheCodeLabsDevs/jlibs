@@ -31,7 +31,7 @@ public class Mapping
 		Mapping.currentMapping = currentMapping;
 	}
 
-	private Map<Integer, Action> midiCache = new HashMap<>();
+	private UUID id;
 	private List<Action> actions;
 
 	public Mapping()
@@ -41,7 +41,18 @@ public class Mapping
 
 	public Mapping(List<Action> actions)
 	{
+		this(UUID.randomUUID(), actions);
+	}
+
+	public Mapping(UUID id, List<Action> actions)
+	{
+		this.id = id;
 		this.actions = actions;
+	}
+
+	public UUID getId()
+	{
+		return id;
 	}
 
 	public void addAction(Action action)
@@ -49,8 +60,10 @@ public class Mapping
 		this.actions.add(action);
 	}
 
-	public void addUniqueAction(Action action) {
-		if (!actions.contains(action)) {
+	public void addUniqueAction(Action action)
+	{
+		if(!actions.contains(action))
+		{
 			actions.add(action);
 		}
 	}
@@ -102,6 +115,8 @@ public class Mapping
 			Midi.getInstance().sendMessage(midiCommand);
 		}
 	}
+
+	private transient Map<Integer, Action> midiCache = new HashMap<>();
 
 	public Action getActionForMidiKey(int key)
 	{
