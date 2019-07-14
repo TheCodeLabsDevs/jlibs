@@ -46,7 +46,8 @@ public class LocalizationSingleTest implements Localization.LocalizationDelegate
 	@Test
 	public void getStringFromExtended()
 	{
-		final String string = Localization.getString("strings.extended");
-		assertNotEquals("Extended String", string);
+		String key = "strings.extended";
+		final String string = Localization.getString(key);
+		assertEquals(key, string);
 	}
 }

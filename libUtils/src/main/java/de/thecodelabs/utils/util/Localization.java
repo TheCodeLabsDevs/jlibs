@@ -5,9 +5,6 @@ import de.thecodelabs.utils.logger.LoggerBridge;
 import java.text.MessageFormat;
 import java.util.*;
 
-/**
- * @author tobias
- */
 public class Localization
 {
 
@@ -15,17 +12,11 @@ public class Localization
 
 	private static List<ResourceBundle> bundles;
 
-	/**
-	 * @param delegate
-	 */
 	public static void setDelegate(LocalizationDelegate delegate)
 	{
 		Localization.delegate = delegate;
 	}
 
-	/**
-	 *
-	 */
 	public static void load()
 	{
 		if(delegate == null)
@@ -61,27 +52,20 @@ public class Localization
 		return bundle;
 	}
 
-	/**
-	 * @param name
-	 * @param loader
-	 * @return
-	 */
 	public static ResourceBundle loadBundle(String name, ClassLoader loader)
 	{
-		Locale locale = delegate != null ? delegate.getLocale() : Locale.GERMAN;
+		Locale locale = delegate == null ? Locale.ENGLISH : delegate.getLocale();
 		try
 		{
 			return ResourceBundle.getBundle(name, locale, loader);
 		}
 		catch(MissingResourceException e)
 		{
-			return ResourceBundle.getBundle(name, Locale.GERMAN, loader);
+			return ResourceBundle.getBundle(name, Locale.ENGLISH, loader);
 		}
 	}
 
-	/**
-	 * @return
-	 */
+	@Deprecated
 	public static ResourceBundle getBundle()
 	{
 		if(bundles.isEmpty())
@@ -96,7 +80,10 @@ public class Localization
 		return bundles;
 	}
 
-	private static Optional<ResourceBundle> getResourceBundleForLocalKey(String key)
+	/**
+	 * Returns the resource bundle containing the specified key (if existing).
+	 */
+	private static Optional<ResourceBundle> getResourceBundleForLocalizationKey(String key)
 	{
 		if(bundles == null)
 		{
@@ -107,12 +94,11 @@ public class Localization
 	}
 
 	/**
-	 * @param key
-	 * @return
+	 * Gets the localized message for the given key or returns the key itself if the key is not existing in any bundle.
 	 */
 	private static String getRawString(String key)
 	{
-		final Optional<ResourceBundle> bundleOptional = getResourceBundleForLocalKey(key);
+		final Optional<ResourceBundle> bundleOptional = getResourceBundleForLocalizationKey(key);
 		if(bundleOptional.isPresent())
 		{
 			ResourceBundle bundle = bundleOptional.get();
@@ -125,11 +111,6 @@ public class Localization
 		}
 	}
 
-	/**
-	 * @param message
-	 * @param args
-	 * @return
-	 */
 	private static String formatStringReplace(String message, Object... args)
 	{
 		int index = 0;
@@ -174,7 +155,6 @@ public class Localization
 
 	public interface LocalizationDelegate
 	{
-
 		Locale getLocale();
 
 		default String getBaseResource()
