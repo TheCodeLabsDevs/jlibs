@@ -12,8 +12,6 @@ public class ColorResources
 
 	private static ColorResources instance;
 
-	private Map<String, String> colors;
-
 	private ColorResources()
 	{
 		properties = new Properties();
@@ -36,7 +34,8 @@ public class ColorResources
 		return instance;
 	}
 
-	public String getColor(String key) {
+	public String getColor(String key)
+	{
 		return properties.getProperty(key);
 	}
 }
