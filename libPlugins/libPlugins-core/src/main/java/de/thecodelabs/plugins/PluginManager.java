@@ -14,16 +14,16 @@ import java.util.stream.Collectors;
 
 public class PluginManager
 {
-
-	private static PluginManager mInstance;
+	private static final String JAR = "jar";
+	private static PluginManager instance;
 
 	public static PluginManager getInstance()
 	{
-		if(mInstance == null)
+		if(instance == null)
 		{
-			mInstance = new PluginManager();
+			instance = new PluginManager();
 		}
-		return mInstance;
+		return instance;
 	}
 
 	private PluginManager()
@@ -38,7 +38,7 @@ public class PluginManager
 		try
 		{
 			Files.newDirectoryStream(path).forEach(file -> {
-				if(PathUtils.getFileExtension(file).equalsIgnoreCase("jar"))
+				if(PathUtils.getFileExtension(file).equalsIgnoreCase(JAR))
 				{
 					addFile(file);
 				}
@@ -65,12 +65,17 @@ public class PluginManager
 
 	public List<Plugin> getPlugins()
 	{
-		return pluginClassLoaders.stream().filter(PluginClassLoader::isLoaded).map(PluginClassLoader::getPluginInstance).collect(Collectors.toList());
+		return pluginClassLoaders.stream()
+				.filter(PluginClassLoader::isLoaded)
+				.map(PluginClassLoader::getPluginInstance)
+				.collect(Collectors.toList());
 	}
 
 	public PluginDescriptor getPluginDescriptor(Plugin plugin)
 	{
-		final Optional<PluginClassLoader> loaderOptional = pluginClassLoaders.stream().filter(loader -> loader.getPluginInstance() == plugin).findFirst();
+		final Optional<PluginClassLoader> loaderOptional = pluginClassLoaders.stream()
+				.filter(loader -> loader.getPluginInstance() == plugin)
+				.findFirst();
 		return loaderOptional.map(PluginClassLoader::getPluginDescriptor).orElse(null);
 	}
 
