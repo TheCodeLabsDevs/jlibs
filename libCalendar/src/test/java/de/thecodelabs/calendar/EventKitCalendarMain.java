@@ -5,7 +5,7 @@ import de.thecodelabs.calendar.eventapi.MacEventProvider;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-public class CalendarMain
+public class EventKitCalendarMain
 {
 	public static void main(String[] args)
 	{
