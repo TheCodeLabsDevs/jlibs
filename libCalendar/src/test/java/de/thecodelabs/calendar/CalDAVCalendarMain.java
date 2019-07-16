@@ -1,17 +1,17 @@
 package de.thecodelabs.calendar;
 
-import de.thecodelabs.calendar.ical.ICalProvider;
+import de.thecodelabs.calendar.caldav.CalDavProvider;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-public class ICalKitCalendarMain
+public class CalDAVCalendarMain
 {
 	public static void main(String[] args) throws MalformedURLException
 	{
-		CalendarService.setCalendarProvider(new ICalProvider(new URL("https://calendar.google.com/calendar/ical/karatebestensee%40gmail.com/private-b00fbfa99ebaa84726c71408c22ed1ab/basic.ics")));
+		String password = args[0];
+		CalendarService.setCalendarProvider(new CalDavProvider("owncloud.thecodelabs.de", 443, "https", "tobias", password, "/remote.php/dav/calendars/tobias/personal/"));
 
 		final CalendarProvider provider = CalendarService.getCalendarProvider();
 		final EventCalendar[] eventCalendars = provider.queryCalendars();

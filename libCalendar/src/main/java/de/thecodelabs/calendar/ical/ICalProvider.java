@@ -14,6 +14,7 @@ import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.Period;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.property.Location;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -66,15 +67,7 @@ public class ICalProvider implements CalendarProvider
 			{
 				if(component instanceof VEvent)
 				{
-					VEvent event = (VEvent) component;
-
-					String title = event.getSummary().getValue();
-					String place = event.getLocation().getValue();
-
-					LocalDateTime eventStartTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(event.getStartDate().getDate().getTime()), ZoneId.systemDefault());
-					LocalDateTime eventEndTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(event.getEndDate().getDate().getTime()), ZoneId.systemDefault());
-
-					Event e = new Event(null, title, place, eventStartTime, eventEndTime);
+					Event e = getEvent((VEvent) component);
 					events.add(e);
 				}
 			}
@@ -84,6 +77,18 @@ public class ICalProvider implements CalendarProvider
 			throw new RuntimeException(e);
 		}
 		return events.toArray(new Event[0]);
+	}
+
+	public static Event getEvent(VEvent event)
+	{
+		String title = event.getSummary().getValue();
+		final Location location = event.getLocation();
+		String place = location != null ? location.getValue() : null;
+
+		LocalDateTime eventStartTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(event.getStartDate().getDate().getTime()), ZoneId.systemDefault());
+		LocalDateTime eventEndTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(event.getEndDate().getDate().getTime()), ZoneId.systemDefault());
+
+		return new Event(null, title, place, eventStartTime, eventEndTime);
 	}
 
 	@Override
