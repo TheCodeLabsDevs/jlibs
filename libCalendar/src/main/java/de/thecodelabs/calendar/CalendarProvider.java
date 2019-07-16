@@ -1,12 +1,12 @@
 package de.thecodelabs.calendar;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface CalendarProvider
 {
 	EventCalendar[] queryCalendars();
 
-	Event[] queryEvents(LocalDate startDate, LocalDate endDate);
+	Event[] queryEvents(LocalDateTime startDateTime, LocalDateTime endDateTime);
 
-	Event[] queryEvents(LocalDate startDate, LocalDate endDate, String calendar);
+	Event[] queryEvents(LocalDateTime startDateTime, LocalDateTime endDateTime, String calendar);
 }

@@ -2,6 +2,9 @@ package de.thecodelabs.calendar;
 
 import de.thecodelabs.calendar.eventapi.MacEventProvider;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+
 public class CalendarMain
 {
 	public static void main(String[] args)
@@ -14,5 +17,8 @@ public class CalendarMain
 		{
 			System.out.println(eventCalendar);
 		}
+
+		final Event[] events = provider.queryEvents(LocalDateTime.now(), LocalDateTime.now().plusDays(1));
+		System.out.println(Arrays.toString(events));
 	}
 }
