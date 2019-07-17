@@ -8,5 +8,5 @@ public interface CalendarProvider
 
 	Event[] queryEvents(LocalDateTime startDateTime, LocalDateTime endDateTime);
 
-	Event[] queryEvents(LocalDateTime startDateTime, LocalDateTime endDateTime, String calendar);
+	Event[] queryEvents(LocalDateTime startDateTime, LocalDateTime endDateTime, String... calendar);
 }

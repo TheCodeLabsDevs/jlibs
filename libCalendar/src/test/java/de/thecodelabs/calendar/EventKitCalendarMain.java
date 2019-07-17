@@ -18,7 +18,7 @@ public class EventKitCalendarMain
 			System.out.println(eventCalendar);
 		}
 
-		final Event[] events = provider.queryEvents(LocalDateTime.now(), LocalDateTime.now().plusDays(1));
+		final Event[] events = provider.queryEvents(LocalDateTime.now(), LocalDateTime.now().plusDays(1), "Kalender", "Studium");
 		System.out.println(Arrays.toString(events));
 	}
 }

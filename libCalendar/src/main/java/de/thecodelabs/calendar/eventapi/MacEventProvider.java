@@ -42,7 +42,7 @@ public class MacEventProvider implements CalendarProvider
 	}
 
 	@Override
-	public Event[] queryEvents(LocalDateTime startDateTime, LocalDateTime endDateTime, String calendar)
+	public Event[] queryEvents(LocalDateTime startDateTime, LocalDateTime endDateTime, String... calendar)
 	{
 		return queryEventApi(startDateTime.getDayOfMonth(), startDateTime.getMonthValue(), startDateTime.getYear(), startDateTime.getHour(), startDateTime.getMinute(),
 				endDateTime.getDayOfMonth(), endDateTime.getMonthValue(), endDateTime.getYear(), endDateTime.getHour(), endDateTime.getMinute(), calendar);
@@ -51,8 +51,5 @@ public class MacEventProvider implements CalendarProvider
 	private native EventCalendar[] queryCalendarApi();
 
 	private native Event[] queryEventApi(int startDate, int startMonth, int startYear, int startHour, int startMinute,
-										 int endDate, int endMonth, int endYear, int endHour, int endMinute);
-
-	private native Event[] queryEventApi(int startDate, int startMonth, int startYear, int startHour, int startMinute,
-										 int endDate, int endMonth, int endYear, int endHour, int endMinute, String calendar);
+										 int endDate, int endMonth, int endYear, int endHour, int endMinute, String... calendar);
 }

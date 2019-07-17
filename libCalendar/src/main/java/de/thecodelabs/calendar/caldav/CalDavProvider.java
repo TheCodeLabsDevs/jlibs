@@ -106,7 +106,7 @@ public class CalDavProvider implements CalendarProvider
 	}
 
 	@Override
-	public Event[] queryEvents(LocalDateTime startDateTime, LocalDateTime endDateTime, String calendar)
+	public Event[] queryEvents(LocalDateTime startDateTime, LocalDateTime endDateTime, String... calendar)
 	{
 		return new Event[0];
 	}

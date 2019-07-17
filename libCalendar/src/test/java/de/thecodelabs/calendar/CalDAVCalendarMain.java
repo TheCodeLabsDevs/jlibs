@@ -20,7 +20,7 @@ public class CalDAVCalendarMain
 			System.out.println(eventCalendar);
 		}
 
-		final Event[] events = provider.queryEvents(LocalDateTime.now().minusDays(60), LocalDateTime.now().plusDays(1));
+		final Event[] events = provider.queryEvents(LocalDateTime.now(), LocalDateTime.now().plusDays(1));
 		System.out.println(Arrays.toString(events));
 	}
 }

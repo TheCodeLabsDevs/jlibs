@@ -92,7 +92,7 @@ public class ICalProvider implements CalendarProvider
 	}
 
 	@Override
-	public Event[] queryEvents(LocalDateTime startDateTime, LocalDateTime endDateTime, String calendar)
+	public Event[] queryEvents(LocalDateTime startDateTime, LocalDateTime endDateTime, String... calendar)
 	{
 		return queryEvents(startDateTime, endDateTime);
 	}
