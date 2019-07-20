@@ -51,6 +51,7 @@ public class MappingSerializer
 	{
 		return new GsonBuilder()
 				.registerTypeAdapter(Key.class, new KeySerializer())
+				.setPrettyPrinting()
 				.create();
 	}
 }
