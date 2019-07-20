@@ -1,5 +1,9 @@
 package de.thecodelabs.midi.mapping;
 
+import de.thecodelabs.midi.feedback.Feedback;
+import de.thecodelabs.midi.feedback.FeedbackType;
+
+import java.lang.reflect.Constructor;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -46,5 +50,18 @@ public class KeyRegistry
 	public void register(KeyType type, Class<? extends Key> clazz)
 	{
 		this.types.put(type, clazz);
+	}
+
+	public Key createInstance(KeyType keyType, FeedbackType... feedbackTypes) throws ReflectiveOperationException
+	{
+		final Class<? extends Key> aClass = getType(keyType);
+		final Constructor<? extends Key> constructor = aClass.getConstructor();
+
+		final Key key = constructor.newInstance();
+		for(FeedbackType feedbackType : feedbackTypes)
+		{
+			key.setFeedbackForType(feedbackType, new Feedback());
+		}
+		return key;
 	}
 }

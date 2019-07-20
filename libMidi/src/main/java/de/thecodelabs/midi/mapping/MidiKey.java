@@ -104,6 +104,23 @@ public class MidiKey extends Key
 	}
 
 	@Override
+	public void setFeedbackForType(FeedbackType type, Feedback feedback)
+	{
+		switch(type)
+		{
+			case DEFAULT:
+				defaultFeedback = feedback;
+				break;
+			case EVENT:
+				eventFeedback = feedback;
+				break;
+			case WARNING:
+				warningFeedback = feedback;
+				break;
+		}
+	}
+
+	@Override
 	public Key copy()
 	{
 		MidiKey copy = new MidiKey();

@@ -54,6 +54,11 @@ public class KeyboardKey extends Key
 	}
 
 	@Override
+	public void setFeedbackForType(FeedbackType type, Feedback feedback)
+	{
+	}
+
+	@Override
 	public Key copy()
 	{
 		KeyboardKey copy = new KeyboardKey();

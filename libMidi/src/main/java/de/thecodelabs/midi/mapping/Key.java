@@ -9,5 +9,7 @@ public abstract class Key
 
 	public abstract Feedback getFeedbackForType(FeedbackType feedbackType);
 
+	public abstract void setFeedbackForType(FeedbackType type, Feedback feedback);
+
 	public abstract Key copy();
 }
