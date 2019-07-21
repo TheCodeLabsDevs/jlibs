@@ -1,6 +1,7 @@
 package de.thecodelabs.utils.util;
 
 import de.thecodelabs.utils.logger.LoggerBridge;
+import de.thecodelabs.utils.util.localization.MultipleResourceBundle;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -10,12 +11,12 @@ public class Localization
 
 	private static LocalizationDelegate delegate;
 
-	private static List<ResourceBundle> bundles;
-
 	public static void setDelegate(LocalizationDelegate delegate)
 	{
 		Localization.delegate = delegate;
 	}
+
+	private static MultipleResourceBundle bundle;
 
 	public static void load()
 	{
@@ -23,7 +24,7 @@ public class Localization
 		{
 			throw new NullPointerException("Delegate is null. Use: Localization.setDelegate()");
 		}
-		bundles = new ArrayList<>();
+		List<ResourceBundle> bundles = new ArrayList<>();
 
 		if(delegate.useMultipleResourceBundles())
 		{
@@ -43,6 +44,7 @@ public class Localization
 
 			bundles.add(loadResourceBundle(baseResource));
 		}
+		Localization.bundle = new MultipleResourceBundle(bundles);
 	}
 
 	private static ResourceBundle loadResourceBundle(String base)
@@ -65,32 +67,9 @@ public class Localization
 		}
 	}
 
-	@Deprecated
 	public static ResourceBundle getBundle()
 	{
-		if(bundles.isEmpty())
-		{
-			throw new RuntimeException("No ResourceBundles available");
-		}
-		return bundles.get(0);
-	}
-
-	public static List<ResourceBundle> getBundles()
-	{
-		return bundles;
-	}
-
-	/**
-	 * Returns the resource bundle containing the specified key (if existing).
-	 */
-	private static Optional<ResourceBundle> getResourceBundleForLocalizationKey(String key)
-	{
-		if(bundles == null)
-		{
-			LoggerBridge.debug("Localization is not initialized");
-			return Optional.empty();
-		}
-		return bundles.stream().filter(resourceBundle -> resourceBundle.containsKey(key)).findAny();
+		return bundle;
 	}
 
 	/**
@@ -98,10 +77,8 @@ public class Localization
 	 */
 	private static String getRawString(String key)
 	{
-		final Optional<ResourceBundle> bundleOptional = getResourceBundleForLocalizationKey(key);
-		if(bundleOptional.isPresent())
+		if(bundle.containsKey(key))
 		{
-			ResourceBundle bundle = bundleOptional.get();
 			return bundle.getString(key);
 		}
 		else
