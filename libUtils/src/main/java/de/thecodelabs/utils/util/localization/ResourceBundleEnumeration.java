@@ -8,7 +8,6 @@ import java.util.Set;
 // https://github.com/dueni/faces-ext/blob/master/resourcebundle/src/main/java/ch/dueni/util/ResourceBundleEnumeration.java
 public class ResourceBundleEnumeration implements Enumeration<String>
 {
-
 	private Set<String> set;
 	private Iterator<String> iterator;
 	private Enumeration<String> enumeration;

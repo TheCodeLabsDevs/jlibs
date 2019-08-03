@@ -10,10 +10,23 @@ public class MultipleResourceBundle extends ResourceBundle
 	{
 		for(ResourceBundle bundle : resourceBundles)
 		{
-			for(String key : bundle.keySet())
-			{
-				values.put(key, bundle.getString(key));
-			}
+			addResourceBundle(bundle);
+		}
+	}
+
+	public MultipleResourceBundle(MultipleResourceBundle oldList, ResourceBundle... resourceBundles) {
+		values = oldList.values;
+		for(ResourceBundle bundle : resourceBundles)
+		{
+			addResourceBundle(bundle);
+		}
+	}
+
+	private void addResourceBundle(ResourceBundle bundle)
+	{
+		for(String key : bundle.keySet())
+		{
+			values.put(key, bundle.getString(key));
 		}
 	}
 

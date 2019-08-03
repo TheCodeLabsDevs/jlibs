@@ -50,6 +50,17 @@ public class Localization
 		Localization.formatter = delegate.messageFormatter();
 	}
 
+	public static void addResourceBundle(String name, ClassLoader loader) {
+		addResourceBundle(loadBundle(name, loader));
+	}
+
+	public static void addResourceBundle(ResourceBundle resourceBundle)
+	{
+		bundle = new MultipleResourceBundle(bundle, resourceBundle);
+		LoggerBridge.debug("Clear ResourceBundle Cache");
+		ResourceBundle.clearCache(Localization.class.getClassLoader());
+	}
+
 	private static ResourceBundle loadResourceBundle(String base)
 	{
 		ResourceBundle bundle = loadBundle(base, Localization.class.getClassLoader());
