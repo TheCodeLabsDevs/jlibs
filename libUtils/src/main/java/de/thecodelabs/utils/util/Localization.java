@@ -1,15 +1,17 @@
 package de.thecodelabs.utils.util;
 
 import de.thecodelabs.utils.logger.LoggerBridge;
+import de.thecodelabs.utils.util.localization.LocalizationMessageFormatter;
 import de.thecodelabs.utils.util.localization.MultipleResourceBundle;
+import de.thecodelabs.utils.util.localization.formatter.CustomMessageFormatter;
 
-import java.text.MessageFormat;
 import java.util.*;
 
 public class Localization
 {
 
 	private static LocalizationDelegate delegate;
+	private static LocalizationMessageFormatter formatter;
 
 	public static void setDelegate(LocalizationDelegate delegate)
 	{
@@ -45,6 +47,7 @@ public class Localization
 			bundles.add(loadResourceBundle(baseResource));
 		}
 		Localization.bundle = new MultipleResourceBundle(bundles);
+		Localization.formatter = delegate.messageFormatter();
 	}
 
 	private static ResourceBundle loadResourceBundle(String base)
@@ -88,47 +91,11 @@ public class Localization
 		}
 	}
 
-	private static String formatStringReplace(String message, Object... args)
-	{
-		int index = 0;
-		while(message.contains("{}"))
-		{
-			if(args.length > index)
-			{
-				if(args[index] != null)
-				{
-					message = message.replaceFirst("\\{\\}", args[index].toString());
-				}
-				else
-				{
-					message = message.replaceFirst("\\{\\}", "null");
-				}
-				index++;
-			}
-			else
-			{
-				LoggerBridge.error("Args invalid: " + message);
-				break;
-			}
-		}
-		return message;
-	}
-
 	public static String getString(String key, Object... args)
 	{
 		final String message = getRawString(key);
-
-		// Use old method
-		if(!delegate.useMessageFormatter())
-		{
-			return formatStringReplace(message, args);
-		}
-		else
-		{
-			return MessageFormat.format(message, args);
-		}
+		return formatter.format(message, args);
 	}
-
 
 	public interface LocalizationDelegate
 	{
@@ -149,9 +116,9 @@ public class Localization
 			return false;
 		}
 
-		default boolean useMessageFormatter()
+		default LocalizationMessageFormatter messageFormatter()
 		{
-			return false;
+			return new CustomMessageFormatter();
 		}
 	}
 }

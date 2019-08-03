@@ -1,6 +1,8 @@
 package de.thecodelabs.utils.localization;
 
 import de.thecodelabs.utils.util.Localization;
+import de.thecodelabs.utils.util.localization.LocalizationMessageFormatter;
+import de.thecodelabs.utils.util.localization.formatter.JavaMessageFormatter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,9 +34,9 @@ public class LocalizationMultipleFormatTest implements Localization.Localization
 	}
 
 	@Override
-	public boolean useMessageFormatter()
+	public LocalizationMessageFormatter messageFormatter()
 	{
-		return true;
+		return new JavaMessageFormatter();
 	}
 
 	@Before
