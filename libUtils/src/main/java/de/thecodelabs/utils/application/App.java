@@ -20,6 +20,7 @@ import org.dom4j.DocumentException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,7 +30,6 @@ import java.util.stream.Stream;
 
 public final class App
 {
-
 	/**
 	 * Main Class for the application
 	 */
@@ -251,9 +251,17 @@ public final class App
 		}
 
 		// JavaFX App öffnen (wenn vorhanden)
-		if(mainClass.getSuperclass().equals(Application.class))
+		try
 		{
-			Application.launch((Class<? extends Application>) mainClass, args);
+			Class applicationClass = Class.forName("javafx.application.Application");
+			if (mainClass.getSuperclass().equals(applicationClass))
+			{
+				final Method launchMethod = applicationClass.getMethod("launch", Class.class, String[].class);
+				launchMethod.invoke(null, mainClass, args);
+			}
+		}
+		catch (ReflectiveOperationException ignored)
+		{
 		}
 	}
 
