@@ -54,6 +54,7 @@ public class MidiCommandHandler
 			removableList.clear();
 		}
 
+		// Handle midi event in external listeners
 		for(MidiListener midiListener : midiListenerList)
 		{
 			if(!midiCommand.isConsumed())
@@ -62,8 +63,8 @@ public class MidiCommandHandler
 			}
 		}
 
+		// Handle midi event in internal action system
 		if(midiCommand.getMidiCommand() != MidiCommandType.SYSTEM_EXCLUSIVE && !midiCommand.isConsumed())
-
 		{
 			int key = midiCommand.getPayload()[0];
 			int velocity = midiCommand.getPayload()[1];

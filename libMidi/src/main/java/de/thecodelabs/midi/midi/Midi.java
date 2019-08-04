@@ -132,14 +132,6 @@ public class Midi implements AutoCloseable
 		}
 	}
 
-	/*
-	Feedback feedback = key.getFeedbackForType(feedbackType);
-	if(feedback != null)
-	{
-		MidiCommand midiCommand = new MidiCommand(MidiCommandType.NOTE_ON, key.getValue(), feedback.getValue());
-		Midi.getInstance().sendMessage(midiCommand);
-	}
-	 */
 	public void sendFeedback(MidiKey key, FeedbackType feedbackType)
 	{
 		if(feedbackTranscript != null)
@@ -148,27 +140,6 @@ public class Midi implements AutoCloseable
 		}
 	}
 
-	/*
-	final int maxMainKeyNumber = 89;
-
-	for(byte i = 11; i <= maxMainKeyNumber; i++)
-	{
-		// Node_On = 144
-		MidiCommand midiCommand = new MidiCommand(MidiCommandType.NOTE_ON, i, (byte) 0);
-		Midi.getInstance().sendMessage(midiCommand);
-	}
-
-	// Obere Reihe an Tasten
-	final int liveKeyMin = 104;
-	final int liveKeyMax = 111;
-
-	for(byte i = liveKeyMin; i <= liveKeyMax; i++)
-	{
-		// Control_Change = 176
-		MidiCommand midiCommand = new MidiCommand(MidiCommandType.CONTROL_CHANGE, i, (byte) 0);
-		Midi.getInstance().sendMessage(midiCommand);
-	}
-	 */
 	public void clearFeedback()
 	{
 		if(feedbackTranscript != null)

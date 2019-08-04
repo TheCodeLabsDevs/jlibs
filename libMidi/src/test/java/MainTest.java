@@ -3,6 +3,7 @@ import de.thecodelabs.midi.action.ActionRegistry;
 import de.thecodelabs.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.feedback.Feedback;
 import de.thecodelabs.midi.feedback.FeedbackType;
+import de.thecodelabs.midi.feedback.FeedbackValue;
 import de.thecodelabs.midi.mapping.MidiKey;
 import de.thecodelabs.midi.midi.Midi;
 import de.thecodelabs.midi.midi.MidiCommand;
@@ -51,6 +52,12 @@ public class MainTest
 
 			MidiCommand midiCommand = new MidiCommand(MidiCommandType.NOTE_ON, feedback.getChannel(), midiKey.getValue(), feedback.getValue());
 			Midi.getInstance().sendMessage(midiCommand);
+		}
+
+		@Override
+		public FeedbackValue[] getFeedbackValues()
+		{
+			return new FeedbackValue[0];
 		}
 
 		@Override
