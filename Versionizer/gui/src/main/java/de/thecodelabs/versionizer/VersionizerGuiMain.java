@@ -8,6 +8,8 @@ import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.container.PathType;
 import de.thecodelabs.utils.util.Localization;
 import de.thecodelabs.utils.util.StringUtils;
+import de.thecodelabs.utils.util.localization.LocalizationMessageFormatter;
+import de.thecodelabs.utils.util.localization.formatter.JavaMessageFormatter;
 import de.thecodelabs.versionizer.controller.MainViewController;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -59,9 +61,9 @@ public class VersionizerGuiMain extends Application implements Localization.Loca
 	}
 
 	@Override
-	public boolean useMessageFormatter()
+	public LocalizationMessageFormatter messageFormatter()
 	{
-		return true;
+		return new JavaMessageFormatter();
 	}
 
 	@Override
