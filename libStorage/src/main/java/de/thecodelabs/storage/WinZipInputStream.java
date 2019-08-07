@@ -1,6 +1,5 @@
 package de.thecodelabs.storage;
 
-import javax.annotation.Nonnull;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +41,7 @@ public class WinZipInputStream extends FilterInputStream
 	}
 
 	@Override
-	public int read(@Nonnull byte[] b, int off, int len) throws IOException
+	public int read(byte[] b, int off, int len) throws IOException
 	{
 		if(op == ZIP_LOCAL.length)
 			return super.read(b, off, len);

@@ -2,8 +2,7 @@ package de.thecodelabs.storage.settings;
 
 import de.thecodelabs.storage.settings.annotation.Key;
 import de.thecodelabs.storage.settings.annotation.Required;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -11,6 +10,7 @@ import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.Map;
 
 class YAMLHandler implements StorageHandler
 {
@@ -20,7 +20,9 @@ class YAMLHandler implements StorageHandler
 	{
 		try
 		{
-			FileConfiguration cfg = YamlConfiguration.loadConfiguration(stream);
+			Yaml yaml = new Yaml();
+			Map<String, Object> values = yaml.load(stream);
+
 			T serializable = clazz.newInstance();
 
 			for(Field field : clazz.getDeclaredFields())
@@ -32,11 +34,27 @@ class YAMLHandler implements StorageHandler
 					{
 						Key key = field.getAnnotation(Key.class);
 						final String name = key.value().isEmpty() ? field.getName() : key.value();
-						if(cfg.isSet(name))
+
+						String[] nameComponents = name.contains(".") ? name.split("\\.") : new String[]{name};
+						Map<String, Object> depthMap = values;
+						boolean found = false;
+						for(String component : nameComponents)
 						{
-							field.set(serializable, cfg.get(name));
+							if(depthMap.containsKey(component))
+							{
+								if(depthMap.get(component) instanceof Map<?, ?> && !field.getType().equals(Map.class))
+								{
+									//noinspection unchecked
+									depthMap = (Map<String, Object>) depthMap.get(component);
+								}
+								else
+								{
+									field.set(serializable, depthMap.get(component));
+									found = true;
+								}
+							}
 						}
-						else if(field.isAnnotationPresent(Required.class))
+						if(!found && field.isAnnotationPresent(Required.class))
 						{
 							throw new RequiredAttributeException(field);
 						}
@@ -61,7 +79,8 @@ class YAMLHandler implements StorageHandler
 				Files.createDirectories(path.getParent());
 				Files.createFile(path);
 			}
-			FileConfiguration cfg = YamlConfiguration.loadConfiguration(Files.newInputStream(path, StandardOpenOption.READ));
+			Yaml yaml = new Yaml();
+			Map<String, Object> values = yaml.load(Files.newInputStream(path, StandardOpenOption.READ));
 
 			for(Field field : t.getClass().getDeclaredFields())
 			{
@@ -71,10 +90,10 @@ class YAMLHandler implements StorageHandler
 					Key key = field.getAnnotation(Key.class);
 					final String name = key.value().isEmpty() ? field.getName() : key.value();
 
-					cfg.set(name, field.get(t));
+					values.put(name, field.get(t));
 				}
 			}
-			cfg.save(path.toString());
+			yaml.dump(values, Files.newBufferedWriter(path));
 		}
 		catch(Exception e)
 		{
