@@ -3,7 +3,6 @@ package de.thecodelabs.midi.action;
 import de.thecodelabs.midi.Mapping;
 import de.thecodelabs.midi.event.KeyEvent;
 import de.thecodelabs.midi.event.KeyEventHandler;
-import de.thecodelabs.midi.event.KeyEventType;
 import de.thecodelabs.midi.feedback.FeedbackType;
 import de.thecodelabs.midi.mapping.KeyType;
 import de.thecodelabs.midi.mapping.MidiKey;
@@ -32,12 +31,6 @@ public class ActionKeyHandler implements KeyEventHandler
 		if(runOnFxThread && !Platform.isFxApplicationThread())
 		{
 			Platform.runLater(() -> handleKeyEvent(keyEvent));
-			return;
-		}
-
-
-		if(keyEvent.getKeyEventType() != KeyEventType.DOWN)
-		{
 			return;
 		}
 
