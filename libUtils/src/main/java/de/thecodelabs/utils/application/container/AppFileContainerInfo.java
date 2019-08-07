@@ -3,9 +3,6 @@ package de.thecodelabs.utils.application.container;
 import de.thecodelabs.storage.settings.annotation.Key;
 import de.thecodelabs.storage.settings.annotation.Required;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AppFileContainerInfo
 {
 
@@ -23,9 +20,6 @@ public class AppFileContainerInfo
 	private String executionPath;
 	@Key
 	private String updatePath;
-
-	@Key
-	private List<BackupInfo> backups = new ArrayList<>();
 
 	/**
 	 * @return the identifier
@@ -46,10 +40,6 @@ public class AppFileContainerInfo
 	 */
 	public long getBuild() {
 		return build;
-	}
-
-	public List<BackupInfo> getBackups() {
-		return backups;
 	}
 
 	public String getExecutionPath() {

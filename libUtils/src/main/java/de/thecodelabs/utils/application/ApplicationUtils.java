@@ -1,9 +1,7 @@
 package de.thecodelabs.utils.application;
 
-import de.thecodelabs.utils.application.container.BackupInfo;
 import de.thecodelabs.utils.application.update.NativeUpdateService;
 import de.thecodelabs.utils.application.update.UpdateService;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
@@ -24,8 +22,6 @@ public final class ApplicationUtils {
 		appListeners = new ArrayList<>();
 
 		services = new ArrayList<>();
-		ConfigurationSerialization.registerClass(BackupInfo.class);
-
 		services.add(new NativeUpdateService());
 	}
 
