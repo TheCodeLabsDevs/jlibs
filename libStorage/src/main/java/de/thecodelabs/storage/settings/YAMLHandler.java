@@ -10,6 +10,7 @@ import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.HashMap;
 import java.util.Map;
 
 class YAMLHandler implements StorageHandler
@@ -81,6 +82,10 @@ class YAMLHandler implements StorageHandler
 			}
 			Yaml yaml = new Yaml();
 			Map<String, Object> values = yaml.load(Files.newInputStream(path, StandardOpenOption.READ));
+
+			if (values == null) {
+				values = new HashMap<>();
+			}
 
 			for(Field field : t.getClass().getDeclaredFields())
 			{
