@@ -13,6 +13,7 @@ import de.thecodelabs.midi.midi.feedback.MidiFeedbackTranscriptionRegistry;
 import de.thecodelabs.midi.serialize.MappingSerializer;
 
 import java.nio.file.Paths;
+import java.util.Optional;
 
 public class MainTest
 {
@@ -58,6 +59,12 @@ public class MainTest
 		public FeedbackValue[] getFeedbackValues()
 		{
 			return new FeedbackValue[0];
+		}
+
+		@Override
+		public Optional<FeedbackValue> getFeedbackValueOfByte(byte value)
+		{
+			return Optional.empty();
 		}
 
 		@Override
