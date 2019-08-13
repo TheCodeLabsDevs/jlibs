@@ -101,7 +101,7 @@ public class Storage
 		}
 	}
 
-	private static <T> InputStream getInputStream(Class<T> clazz)
+	public static <T> InputStream getInputStream(Class<T> clazz)
 	{
 		if(clazz.isAnnotationPresent(FilePath.class))
 		{
@@ -124,7 +124,7 @@ public class Storage
 		}
 	}
 
-	private static <T> Path getFilePath(Class<T> clazz)
+	public static <T> Path getFilePath(Class<T> clazz)
 	{
 		try
 		{
@@ -152,7 +152,7 @@ public class Storage
 		}
 	}
 
-	private static <T> InputStream getClasspath(Class<T> clazz)
+	public static <T> InputStream getClasspath(Class<T> clazz)
 	{
 		final Classpath annotation = clazz.getAnnotation(Classpath.class);
 		final String filePath = annotation.value();
