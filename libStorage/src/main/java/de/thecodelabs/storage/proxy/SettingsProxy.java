@@ -86,7 +86,7 @@ public class SettingsProxy
 		return (T) instance;
 	}
 
-	public void saveAll()
+	public static void saveAll()
 	{
 		instances.values().forEach(Settings::save);
 	}
