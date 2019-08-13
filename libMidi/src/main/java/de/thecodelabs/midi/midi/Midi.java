@@ -155,6 +155,10 @@ public class Midi implements AutoCloseable
 
 	public boolean isOpen()
 	{
+		if(device == null)
+		{
+			return false;
+		}
 		return device.isOpen();
 	}
 
