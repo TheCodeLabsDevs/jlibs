@@ -1,4 +1,4 @@
-package de.thecodelabs.utils.application.remote;
+package de.thecodelabs.utils.application.resources.remote;
 
 import de.thecodelabs.utils.application.AbstractResource;
 

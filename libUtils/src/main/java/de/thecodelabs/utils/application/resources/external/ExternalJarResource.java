@@ -1,4 +1,4 @@
-package de.thecodelabs.utils.application.external;
+package de.thecodelabs.utils.application.resources.external;
 
 import de.thecodelabs.utils.application.AbstractResource;
 

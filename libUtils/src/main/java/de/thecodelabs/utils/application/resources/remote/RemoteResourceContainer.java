@@ -1,7 +1,7 @@
-package de.thecodelabs.utils.application.remote;
+package de.thecodelabs.utils.application.resources.remote;
 
-import de.thecodelabs.utils.util.StringUtils;
 import de.thecodelabs.utils.application.App;
+import de.thecodelabs.utils.util.StringUtils;
 
 import java.io.IOException;
 import java.net.URL;

@@ -3,7 +3,7 @@ package de.thecodelabs.versionizer.service.impl;
 import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.utils.application.App;
 import de.thecodelabs.utils.application.ApplicationUtils;
-import de.thecodelabs.utils.application.external.ExternalJarContainer;
+import de.thecodelabs.utils.application.resources.external.ExternalJarContainer;
 import de.thecodelabs.utils.logger.LoggerBridge;
 import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.config.Artifact;

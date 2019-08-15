@@ -1,4 +1,4 @@
-package de.thecodelabs.utils.application.classpath;
+package de.thecodelabs.utils.application.resources.classpath;
 
 import de.thecodelabs.utils.application.AbstractResource;
 
