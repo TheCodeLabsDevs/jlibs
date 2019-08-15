@@ -7,6 +7,10 @@ import java.util.Map;
 
 public class ApplicationInfo {
 
+	public interface CustomUserInfo {
+
+	}
+
 	@Key
 	@Required
 	private String name;

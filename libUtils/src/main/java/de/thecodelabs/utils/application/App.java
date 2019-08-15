@@ -18,7 +18,9 @@ import org.dom4j.DocumentException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -106,6 +108,19 @@ public final class App
 	public ApplicationInfo getInfo()
 	{
 		return appInfo;
+	}
+
+	public <T extends ApplicationInfo.CustomUserInfo> T getUserInfo(Class<T> clazz)
+	{
+		//noinspection unchecked
+		return (T) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{clazz}, new InvocationHandler()
+		{
+			@Override
+			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
+			{
+				return getInfo().getUserInfo().get(method.getName());
+			}
+		});
 	}
 
 	public UserDefaults getUserDefaults()
@@ -250,13 +265,13 @@ public final class App
 		try
 		{
 			Class applicationClass = Class.forName("javafx.application.Application");
-			if (mainClass.getSuperclass().equals(applicationClass))
+			if(mainClass.getSuperclass().equals(applicationClass))
 			{
 				final Method launchMethod = applicationClass.getMethod("launch", Class.class, String[].class);
 				launchMethod.invoke(null, mainClass, args);
 			}
 		}
-		catch (ReflectiveOperationException ignored)
+		catch(ReflectiveOperationException ignored)
 		{
 		}
 	}
