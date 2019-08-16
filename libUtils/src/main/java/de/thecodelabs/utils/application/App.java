@@ -13,7 +13,6 @@ import de.thecodelabs.utils.application.resources.remote.RemoteResourceContainer
 import de.thecodelabs.utils.application.resources.remote.RemoteResourceType;
 import de.thecodelabs.utils.logger.LoggerBridge;
 import de.thecodelabs.utils.util.StringUtils;
-import org.dom4j.DocumentException;
 
 import java.io.File;
 import java.io.IOException;
@@ -243,12 +242,13 @@ public final class App
 		// Load User Defaults
 		try
 		{
-			userDefaults = UserDefaults.load(getPath(PathType.CONFIGURATION, "UserDefaults.xml"));
+			final Path path = getPath(PathType.CONFIGURATION, "UserDefaults.xml");
+			userDefaults = UserDefaults.load(path);
 			Runtime.getRuntime().addShutdownHook(new Thread(() ->
 			{
 				try
 				{
-					userDefaults.save(getPath(PathType.CONFIGURATION, "UserDefaults.xml"));
+					userDefaults.save(path);
 				}
 				catch(Exception e)
 				{
@@ -256,7 +256,7 @@ public final class App
 				}
 			}));
 		}
-		catch(DocumentException | IOException e)
+		catch(Exception e)
 		{
 			LoggerBridge.error(e);
 		}

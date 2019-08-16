@@ -15,7 +15,6 @@ import java.nio.file.Path;
 
 public class AppFileContainer
 {
-
 	private static final String CONTAINER_YML = "container.yml";
 
 	private String containerName = "Java File Container";
@@ -35,7 +34,6 @@ public class AppFileContainer
 		{
 			this.containerName = app.getInfo().getBasePath();
 		}
-
 
 		updatePath();
 
