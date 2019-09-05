@@ -3,6 +3,7 @@ package de.thecodelabs.utils.util;
 import de.thecodelabs.utils.logger.LoggerBridge;
 import de.thecodelabs.utils.util.localization.LocalizationMessageFormatter;
 import de.thecodelabs.utils.util.localization.MultipleResourceBundle;
+import de.thecodelabs.utils.util.localization.UTF8Control;
 import de.thecodelabs.utils.util.localization.formatter.CustomMessageFormatter;
 
 import java.util.*;
@@ -73,11 +74,11 @@ public class Localization
 		Locale locale = delegate == null ? Locale.ENGLISH : delegate.getLocale();
 		try
 		{
-			return ResourceBundle.getBundle(name, locale, loader);
+			return ResourceBundle.getBundle(name, locale, loader, new UTF8Control());
 		}
 		catch(MissingResourceException e)
 		{
-			return ResourceBundle.getBundle(name, Locale.ENGLISH, loader);
+			return ResourceBundle.getBundle(name, Locale.ENGLISH, loader, new UTF8Control());
 		}
 	}
 
