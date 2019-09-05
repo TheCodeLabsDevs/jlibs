@@ -139,7 +139,7 @@ public class SettingsProxy
 		}
 
 		final Settings instance = (Settings) Proxy.newProxyInstance(
-				SettingsProxy.class.getClassLoader(),
+				settings.getClassLoader(),
 				new Class[]{settings},
 				new SettingsProxyHandler<>(settings)
 		);
