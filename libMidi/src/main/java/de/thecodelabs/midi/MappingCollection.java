@@ -42,7 +42,7 @@ public class MappingCollection
 
 	public void removeMapping(Mapping mapping)
 	{
-		this.mappings.add(mapping);
+		this.mappings.remove(mapping);
 	}
 
 	public int count()
