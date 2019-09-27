@@ -202,7 +202,8 @@ public class WindowsNativeApplication extends NativeApplication
 	{
 		try
 		{
-			if (stage.isFocused()) {
+			if(stage.isFocused())
+			{
 				flashTray = false;
 				flashWindow = false;
 			}
@@ -229,14 +230,11 @@ public class WindowsNativeApplication extends NativeApplication
 		}
 	}
 
-	protected static StdCallLibrary getLibrary(String libraryName,
-											   Class<?> interfaceClass) throws UnsatisfiedLinkError
+	protected static StdCallLibrary getLibrary(String libraryName, Class<?> interfaceClass) throws UnsatisfiedLinkError
 	{
 		try
 		{
-			StdCallLibrary lib = (StdCallLibrary) Native.loadLibrary(libraryName,
-					interfaceClass);
-			return lib;
+			return (StdCallLibrary) Native.loadLibrary(libraryName, interfaceClass);
 		}
 		catch(UnsatisfiedLinkError e)
 		{
