@@ -4,10 +4,12 @@ import java.util.*;
 
 public class MultipleResourceBundle extends ResourceBundle
 {
+	private Locale locale;
 	private Map<String, String> values = new HashMap<>();
 
-	public MultipleResourceBundle(List<ResourceBundle> resourceBundles)
+	public MultipleResourceBundle(List<ResourceBundle> resourceBundles, Locale locale)
 	{
+		this.locale = locale;
 		for(ResourceBundle bundle : resourceBundles)
 		{
 			addResourceBundle(bundle);
@@ -28,6 +30,12 @@ public class MultipleResourceBundle extends ResourceBundle
 		{
 			values.put(key, bundle.getString(key));
 		}
+	}
+
+	@Override
+	public Locale getLocale()
+	{
+		return locale;
 	}
 
 	@Override

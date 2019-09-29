@@ -47,7 +47,7 @@ public class Localization
 
 			bundles.add(loadResourceBundle(baseResource));
 		}
-		Localization.bundle = new MultipleResourceBundle(bundles);
+		Localization.bundle = new MultipleResourceBundle(bundles, delegate.getLocale());
 		Localization.formatter = delegate.messageFormatter();
 	}
 
