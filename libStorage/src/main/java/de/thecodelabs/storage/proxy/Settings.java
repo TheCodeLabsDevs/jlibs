@@ -4,6 +4,8 @@ import java.nio.file.Path;
 
 public interface Settings
 {
+	void init();
+
 	void load();
 
 	void save();

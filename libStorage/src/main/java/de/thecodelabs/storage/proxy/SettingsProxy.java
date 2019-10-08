@@ -51,11 +51,31 @@ public class SettingsProxy
 							.bindTo(proxy)
 							.invokeWithArguments(args);
 
-					return (result);
+					return result;
 				}
 				else
 				{
 					return Storage.getFilePath(settings);
+				}
+			}
+
+			else if(method.getName().equals("init"))
+			{
+				Constructor<MethodHandles.Lookup> constructor;
+				Class<?> declaringClass;
+
+				if(method.isDefault())
+				{
+					declaringClass = method.getDeclaringClass();
+					constructor = MethodHandles.Lookup.class.getDeclaredConstructor(Class.class, int.class);
+					constructor.setAccessible(true);
+					constructor
+							.newInstance(declaringClass, MethodHandles.Lookup.PRIVATE)
+							.unreflectSpecial(method, declaringClass)
+							.bindTo(proxy)
+							.invokeWithArguments(args);
+
+					return null;
 				}
 			}
 
@@ -144,6 +164,7 @@ public class SettingsProxy
 				new SettingsProxyHandler<>(settings)
 		);
 		instance.load();
+		instance.init();
 
 		instances.put(settings, instance);
 		return (T) instance;
