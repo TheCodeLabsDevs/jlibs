@@ -70,7 +70,6 @@ public abstract class VersionizerStrategy
 			final Version localVersion = VersionTokenizer.getVersion(artifact);
 
 			container.close();
-			versionService.close();
 
 			LOGGER.debug("Versionizer Remote: {}", remoteVersion);
 			LOGGER.debug("Versionizer Local: {}", localVersion);
@@ -111,7 +110,6 @@ public abstract class VersionizerStrategy
 		{
 			throw new FileNotFoundException("Versionizer file not found on artifactory");
 		}
-		versionService.close();
 	}
 
 	protected void exec(String path, String json) throws IOException

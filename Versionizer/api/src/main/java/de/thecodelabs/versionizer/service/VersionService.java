@@ -1,16 +1,14 @@
 package de.thecodelabs.versionizer.service;
 
+import de.thecodelabs.artifactory.Artifactory;
+import de.thecodelabs.artifactory.File;
+import de.thecodelabs.artifactory.Folder;
+import de.thecodelabs.artifactory.FolderItem;
 import de.thecodelabs.utils.io.IOUtils;
 import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.config.Repository;
 import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.model.Version;
-import org.jfrog.artifactory.client.Artifactory;
-import org.jfrog.artifactory.client.ArtifactoryClientBuilder;
-import org.jfrog.artifactory.client.DownloadableArtifact;
-import org.jfrog.artifactory.client.model.File;
-import org.jfrog.artifactory.client.model.Folder;
-import org.jfrog.artifactory.client.model.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,24 +34,7 @@ public class VersionService
 		this.repository = repository;
 		this.repositoryType = repositoryType;
 
-		artifactory = ArtifactoryClientBuilder.create()
-				.setUrl(repository.getUrl())
-				.build();
-	}
-
-	@Override
-	protected void finalize() throws Throwable
-	{
-		super.finalize();
-		close();
-	}
-
-	public void close()
-	{
-		if(this.artifactory != null)
-		{
-			this.artifactory.close();
-		}
+		artifactory = new Artifactory(repository.getUrl());
 	}
 
 	public List<Version> getVersionsSorted(Artifact build)
@@ -117,16 +98,15 @@ public class VersionService
 
 	private List<Version> getVersionsByRepository(Artifactory artifactory, String repository, Artifact build)
 	{
-		final Folder folder = artifactory.repository(repository)
-				.folder(build.getGroupId() + "/" + build.getArtifactId())
-				.info();
+		final Folder folder = artifactory.getRepository(repository)
+				.getFolder(build.getGroupId() + "/" + build.getArtifactId());
 
 		List<Version> versionList = new LinkedList<>();
-		for(Item child : folder.getChildren())
+		for(FolderItem child : folder.getChildren())
 		{
 			if(child.isFolder())
 			{
-				final Version version = VersionTokenizer.getVersion(build, child.getName());
+				final Version version = VersionTokenizer.getVersion(build, child.getUri());
 				versionList.add(version);
 			}
 		}
@@ -142,17 +122,16 @@ public class VersionService
 		final String folderPath = build.getGroupId() + "/" + build.getArtifactId() + "/" + version.toVersionString();
 
 		final Folder folder = artifactory
-				.repository(repositoryPath)
-				.folder(folderPath)
-				.info();
+				.getRepository(repositoryPath)
+				.getFolder(folderPath);
 
-		for(Item child : folder.getChildren())
+		for(FolderItem child : folder.getChildren())
 		{
-			RemoteFile.FileType extension = RemoteFile.FileType.getFileType(child.getName());
+			RemoteFile.FileType extension = RemoteFile.FileType.getFileType(child.getUri());
 			if(extension != null)
 			{
 				final String path = folderPath + child.getUri();
-				RemoteFile remoteFile = new RemoteFile(version, child.getName(), path, extension);
+				RemoteFile remoteFile = new RemoteFile(version, child.getUri(), path, extension);
 				remoteFiles.add(remoteFile);
 			}
 		}
@@ -164,9 +143,8 @@ public class VersionService
 	{
 		final String url = this.repository.getRepository(remoteFile.getVersion().isSnapshot());
 		final File fileInfo = artifactory
-				.repository(url)
-				.file(remoteFile.getPath())
-				.info();
+				.getRepository(url)
+				.getFile(remoteFile.getPath());
 		return fileInfo.getSize();
 	}
 
@@ -187,16 +165,15 @@ public class VersionService
 								   IOUtils.CopyControl copyControl) throws IOException
 	{
 		final String url = this.repository.getRepository(remoteFile.getVersion().isSnapshot());
-		final DownloadableArtifact downloadableArtifact = artifactory
-				.repository(url)
+		final InputStream inputStream = artifactory
+				.getRepository(url)
 				.download(remoteFile.getPath());
 
-		final InputStream iStr = downloadableArtifact.doDownload();
 		final OutputStream oStr = Files.newOutputStream(destination);
 
-		IOUtils.copy(iStr, oStr, copyDelegate, copyControl);
+		IOUtils.copy(inputStream, oStr, copyDelegate, copyControl);
 
-		iStr.close();
+		inputStream.close();
 		oStr.close();
 	}
 
