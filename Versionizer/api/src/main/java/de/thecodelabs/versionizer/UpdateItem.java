@@ -7,7 +7,7 @@ import java.util.List;
 
 public class UpdateItem
 {
-	public static final int VERSION = 1;
+	private static final int VERSION = 1;
 
 	public static class Entry
 	{

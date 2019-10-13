@@ -1,7 +1,9 @@
 package de.thecodelabs.versionizer.model;
 
-import de.thecodelabs.versionizer.service.VersionTokenizer;
 import de.thecodelabs.utils.io.PathUtils;
+import de.thecodelabs.versionizer.service.VersionTokenizer;
+
+import java.util.Objects;
 
 public class RemoteFile implements Comparable<RemoteFile>
 {
@@ -84,6 +86,25 @@ public class RemoteFile implements Comparable<RemoteFile>
 	public int compareTo(RemoteFile o)
 	{
 		return Integer.compare(revision, o.revision);
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this == o) return true;
+		if(!(o instanceof RemoteFile)) return false;
+		RemoteFile that = (RemoteFile) o;
+		return revision == that.revision &&
+				Objects.equals(version, that.version) &&
+				Objects.equals(name, that.name) &&
+				Objects.equals(path, that.path) &&
+				fileType == that.fileType;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(version, name, path, fileType, revision);
 	}
 
 	@Override

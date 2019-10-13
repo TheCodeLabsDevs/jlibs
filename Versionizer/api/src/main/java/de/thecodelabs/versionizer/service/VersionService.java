@@ -70,7 +70,7 @@ public class VersionService
 		}
 		catch(Exception e)
 		{
-			LOGGER.info("No release versions found for artifact: " + build);
+			LOGGER.info("No release versions found for artifact: {}", build);
 		}
 
 		// Snapshot Repository
@@ -83,7 +83,7 @@ public class VersionService
 		}
 		catch(Exception e)
 		{
-			LOGGER.info("No snapshot versions found for artifact: " + build);
+			LOGGER.info("No snapshot versions found for artifact: {}", build);
 		}
 
 		versionList.sort(Version::compareTo);

@@ -28,7 +28,7 @@ import java.util.Optional;
 public abstract class VersionizerStrategy
 {
 
-	public static final Logger LOGGER = LoggerFactory.getLogger(UpdateService.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(VersionizerStrategy.class);
 
 	public abstract Path getUpdaterPath(UpdateService.InteractionType type);
 
@@ -72,8 +72,8 @@ public abstract class VersionizerStrategy
 			container.close();
 			versionService.close();
 
-			LOGGER.debug("Versionizer Remote: " + remoteVersion);
-			LOGGER.debug("Versionizer Local: " + localVersion);
+			LOGGER.debug("Versionizer Remote: {}", remoteVersion);
+			LOGGER.debug("Versionizer Local: {}", localVersion);
 
 			return remoteVersion.isNewerThen(localVersion);
 		}
@@ -96,7 +96,7 @@ public abstract class VersionizerStrategy
 		repository = app.getClasspathResource("versionizer/repository.yml").deserialize(StorageTypes.YAML, Repository.class);
 		build = app.getClasspathResource("versionizer/" + type + "-build.json").deserialize(StorageTypes.JSON, Artifact.class);
 
-		LOGGER.info("Downloading versionizer using artifact" + build);
+		LOGGER.info("Downloading versionizer using artifact {}", build);
 
 		VersionService versionService = new VersionService(repository, UpdateService.RepositoryType.RELEASE);
 
