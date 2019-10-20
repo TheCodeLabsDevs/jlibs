@@ -94,11 +94,9 @@ public final class NVCStage {
 		// Init Close Handlers
 		stage.setOnCloseRequest(e ->
 		{
-			// Event Handlers
-			for (CloseHook hook : closeHook) {
-				if (!hook.onClose()) {
-					e.consume();
-				}
+			if(handleCloseHooks())
+			{
+				e.consume();
 			}
 		});
 
@@ -113,6 +111,16 @@ public final class NVCStage {
 		});
 
 		viewController.initStage(stage);
+	}
+
+	private boolean handleCloseHooks()
+	{
+		for (CloseHook hook : closeHook) {
+			if (!hook.onClose()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -156,6 +164,16 @@ public final class NVCStage {
 	}
 
 	public void close() {
+		if(handleCloseHooks())
+		{
+			return;
+		}
+
+		stage.close();
+	}
+
+	public void forceClose()
+	{
 		stage.close();
 	}
 
