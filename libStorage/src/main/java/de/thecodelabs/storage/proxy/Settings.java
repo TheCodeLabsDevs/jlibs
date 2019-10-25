@@ -6,7 +6,7 @@ public interface Settings
 {
 	void init();
 
-	void load();
+	boolean load();
 
 	void save();
 
