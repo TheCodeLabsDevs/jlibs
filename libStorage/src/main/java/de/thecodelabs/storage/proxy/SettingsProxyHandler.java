@@ -86,6 +86,11 @@ class SettingsProxyHandler<T extends Settings> implements InvocationHandler
 				data.put(method.getName(), value);
 			}
 		}
+		if(method.getReturnType().equals(Integer.class) && value instanceof Double)
+		{
+			return ((Double) value).intValue();
+		}
+
 		return value;
 	}
 
@@ -96,7 +101,9 @@ class SettingsProxyHandler<T extends Settings> implements InvocationHandler
 
 		if(exists)
 		{
-			Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
+			Type type = new TypeToken<HashMap<String, Object>>()
+			{
+			}.getType();
 			data = GSON.fromJson(Files.newBufferedReader(filePath), type);
 		}
 
