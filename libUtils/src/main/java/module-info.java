@@ -24,10 +24,10 @@ module de.thecodelabs.libUtils {
 	requires dom4j;
 	requires gagawa;
 
-	exports de.thecodelabs.utils.application.classpath;
+	exports de.thecodelabs.utils.application.resources.classpath;
+	exports de.thecodelabs.utils.application.resources.remote;
+	exports de.thecodelabs.utils.application.resources.external;
 	exports de.thecodelabs.utils.application.container;
-	exports de.thecodelabs.utils.application.external;
-	exports de.thecodelabs.utils.application.remote;
 	exports de.thecodelabs.utils.application.system;
 	exports de.thecodelabs.utils.application.update;
 
