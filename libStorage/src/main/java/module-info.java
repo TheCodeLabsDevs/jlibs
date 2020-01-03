@@ -1,10 +1,8 @@
 module de.thecodelabs.libStorage {
 
-	requires de.thecodelabs.YamlStorage;
-
 	requires gson;
 	requires dom4j;
-
+	requires org.yaml.snakeyaml;
 	requires java.xml;
 
 	exports de.thecodelabs.storage;

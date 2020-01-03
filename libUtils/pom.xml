@@ -108,7 +108,7 @@
                     <execution>
                         <id>default-compile</id>
                         <configuration>
-                            <release>12</release>
+                            <release>11</release>
                         </configuration>
                     </execution>
                     <execution>
@@ -130,42 +130,8 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.2</version>
+                <version>0.0.3</version>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>com.alexkasko.maven</groupId>-->
-<!--                <artifactId>jni-headers-maven-plugin</artifactId>-->
-<!--                <version>1.0.6</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>de.thecodelabs.utils.application.system.impl.MacNativeApplication</id>-->
-<!--                        <phase>compile</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>javah</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <javahClass>de.thecodelabs.utils.application.system.impl.MacNativeApplication</javahClass>-->
-<!--                            <javahOutputFilePath>-->
-<!--                                ${project.basedir}/target/jni/libUtils/include/de_thecodelabs_utils_util_mac_MacNativeApplication.h-->
-<!--                            </javahOutputFilePath>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                    <execution>-->
-<!--                        <id>de.thecodelabs.utils.application.system.impl.WindowsNativeApplication</id>-->
-<!--                        <phase>compile</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>javah</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <javahClass>de.thecodelabs.utils.application.system.impl.WindowsNativeApplication-->
-<!--                            </javahClass>-->
-<!--                            <javahOutputFilePath>-->
-<!--                                ${project.basedir}/target/jni/libUtils/include/de_thecodelabs_utils_util_mac_WindowsNativeApplication.h-->
-<!--                            </javahOutputFilePath>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
         </plugins>
     </build>
 

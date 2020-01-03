@@ -21,13 +21,9 @@ module de.thecodelabs.libUtils {
 
 	requires de.thecodelabs.libStorage;
 
-	requires de.thecodelabs.YamlStorage;
 	requires dom4j;
 	requires gagawa;
 
-	requires junit;
-
-	exports de.thecodelabs.utils.application;
 	exports de.thecodelabs.utils.application.classpath;
 	exports de.thecodelabs.utils.application.container;
 	exports de.thecodelabs.utils.application.external;

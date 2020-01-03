@@ -19,7 +19,7 @@
         <libLogger-slf4j.version>[2.1.0,2.2.0)</libLogger-slf4j.version>
         <libMidi.version>[2.1.0,2.2.0)</libMidi.version>
         <libNetwork.version>[2.1.0,2.2.0)</libNetwork.version>
-        <libStorage.version>[2.2.0,2.3.0)</libStorage.version>
+        <libStorage.version>[2.3.0,2.4.0)</libStorage.version>
         <libUtils.version>[2.1.0,2.2.0)</libUtils.version>
     </properties>
 
