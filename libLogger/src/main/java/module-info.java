@@ -4,4 +4,6 @@ module de.thecodelabs.libLogger {
 	requires jansi;
 
 	exports de.thecodelabs.logger;
+
+	opens de.thecodelabs.logger to de.thecodelabs.libStorage;
 }
