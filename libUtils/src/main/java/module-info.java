@@ -54,4 +54,11 @@ module de.thecodelabs.libUtils {
 	exports de.thecodelabs.utils.util.localization.formatter;
 	exports de.thecodelabs.utils.util.win;
 	exports de.thecodelabs.utils.util.zip;
+
+	opens de.thecodelabs.utils.application to de.thecodelabs.libStorage;
+	opens de.thecodelabs.utils.application.container to de.thecodelabs.libStorage;
+
+	opens fonts;
+	opens libraries;
+	opens notification.style;
 }
