@@ -2,8 +2,7 @@ package de.thecodelabs.storage.settings;
 
 import de.thecodelabs.storage.settings.annotation.Key;
 import de.thecodelabs.storage.settings.annotation.Required;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -11,55 +10,98 @@ import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.HashMap;
+import java.util.Map;
 
-class YAMLHandler implements StorageHandler {
+class YAMLHandler implements StorageHandler
+{
 
 	@Override
-	public <T> T deserialize(InputStream stream, Class<T> clazz) {
-		try {
-			FileConfiguration cfg = YamlConfiguration.loadConfiguration(stream);
+	public <T> T deserialize(InputStream stream, Class<T> clazz)
+	{
+		try
+		{
+			Yaml yaml = new Yaml();
+			Map<String, Object> values = yaml.load(stream);
+
 			T serializable = clazz.newInstance();
 
-			for (Field field : clazz.getDeclaredFields()) {
+			for(Field field : clazz.getDeclaredFields())
+			{
 				field.setAccessible(true);
-				if (field.isAnnotationPresent(Key.class)) {
-					if (!Modifier.isFinal(field.getModifiers())) {
+				if(field.isAnnotationPresent(Key.class))
+				{
+					if(!Modifier.isFinal(field.getModifiers()))
+					{
 						Key key = field.getAnnotation(Key.class);
 						final String name = key.value().isEmpty() ? field.getName() : key.value();
-						if (cfg.isSet(name)) {
-							field.set(serializable, cfg.get(name));
-						} else if (field.isAnnotationPresent(Required.class)) {
+
+						String[] nameComponents = name.contains(".") ? name.split("\\.") : new String[]{name};
+						Map<String, Object> depthMap = values;
+						boolean found = false;
+						for(String component : nameComponents)
+						{
+							if(depthMap.containsKey(component))
+							{
+								if(depthMap.get(component) instanceof Map<?, ?> && !field.getType().equals(Map.class))
+								{
+									//noinspection unchecked
+									depthMap = (Map<String, Object>) depthMap.get(component);
+								}
+								else
+								{
+									field.set(serializable, depthMap.get(component));
+									found = true;
+								}
+							}
+						}
+						if(!found && field.isAnnotationPresent(Required.class))
+						{
 							throw new RequiredAttributeException(field);
 						}
 					}
 				}
 			}
 			return serializable;
-		} catch (Exception e) {
+		}
+		catch(Exception e)
+		{
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public <T> void serialize(Path path, T t) {
-		try {
-			if (Files.notExists(path)) {
+	public <T> void serialize(Path path, T t)
+	{
+		try
+		{
+			if(Files.notExists(path))
+			{
 				Files.createDirectories(path.getParent());
 				Files.createFile(path);
 			}
-			FileConfiguration cfg = YamlConfiguration.loadConfiguration(Files.newInputStream(path, StandardOpenOption.READ));
+			Yaml yaml = new Yaml();
+			Map<String, Object> values = yaml.load(Files.newInputStream(path, StandardOpenOption.READ));
 
-			for (Field field : t.getClass().getDeclaredFields()) {
+			if (values == null) {
+				values = new HashMap<>();
+			}
+
+			for(Field field : t.getClass().getDeclaredFields())
+			{
 				field.setAccessible(true);
-				if (field.isAnnotationPresent(Key.class)) {
+				if(field.isAnnotationPresent(Key.class))
+				{
 					Key key = field.getAnnotation(Key.class);
 					final String name = key.value().isEmpty() ? field.getName() : key.value();
 
-					cfg.set(name, field.get(t));
+					values.put(name, field.get(t));
 				}
 			}
-			cfg.save(path.toString());
-		} catch (Exception e) {
+			yaml.dump(values, Files.newBufferedWriter(path));
+		}
+		catch(Exception e)
+		{
 			throw new RuntimeException(e);
 		}
 	}

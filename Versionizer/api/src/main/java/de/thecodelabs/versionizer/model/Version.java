@@ -4,7 +4,7 @@ import de.thecodelabs.versionizer.config.Artifact;
 
 import java.util.Objects;
 
-public class Version implements Comparable
+public class Version implements Comparable<Version>
 {
 	private final Artifact artifact;
 
@@ -58,7 +58,8 @@ public class Version implements Comparable
 		return version;
 	}
 
-	public boolean isNewerThen(Version version) {
+	public boolean isNewerThen(Version version)
+	{
 		return this.compareTo(version) > 0;
 	}
 
@@ -74,47 +75,42 @@ public class Version implements Comparable
 				'}';
 	}
 
-	public int compareTo(Object o)
+	@Override
+	public int compareTo(Version o)
 	{
-		if(o instanceof Version)
+		if(major == o.major)
 		{
-			Version v2 = (Version) o;
-
-			if(major == v2.major)
+			if(minor == o.minor)
 			{
-				if(minor == v2.minor)
+				if(fix == o.fix)
 				{
-					if(fix == v2.fix)
+					if(snapshot == o.snapshot)
 					{
-						if(snapshot == v2.snapshot)
-						{
-							return 0;
-						}
-						else if(snapshot & !v2.snapshot)
-						{
-							return -1; // v2 is newer (no snapshot)
-						}
-						else
-						{
-							return 1;
-						}
+						return 0;
+					}
+					else if(snapshot && !o.snapshot)
+					{
+						return -1; // o is newer (no snapshot)
 					}
 					else
 					{
-						return Integer.compare(fix, v2.fix);
+						return 1;
 					}
 				}
 				else
 				{
-					return Integer.compare(minor, v2.minor);
+					return Integer.compare(fix, o.fix);
 				}
 			}
 			else
 			{
-				return Integer.compare(major, v2.major);
+				return Integer.compare(minor, o.minor);
 			}
 		}
-		return 0;
+		else
+		{
+			return Integer.compare(major, o.major);
+		}
 	}
 
 	@Override

@@ -6,13 +6,14 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>libAutostart</artifactId>
-    <version>1.0.4</version>
+    <version>1.1.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
 
-        <jlibs.version>2.0.5</jlibs.version>
+        <jlibs.version>2.0.6</jlibs.version>
+        <windows-registry-util.version>0.3</windows-registry-util.version>
     </properties>
 
     <dependencyManagement>
@@ -32,16 +33,23 @@
             <groupId>de.thecodelabs</groupId>
             <artifactId>libUtils</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.sarxos</groupId>
+            <artifactId>windows-registry-util</artifactId>
+            <version>${windows-registry-util.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
         </plugins>

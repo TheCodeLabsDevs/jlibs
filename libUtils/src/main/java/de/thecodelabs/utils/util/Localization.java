@@ -1,153 +1,136 @@
 package de.thecodelabs.utils.util;
 
 import de.thecodelabs.utils.logger.LoggerBridge;
+import de.thecodelabs.utils.util.localization.LocalizationMessageFormatter;
+import de.thecodelabs.utils.util.localization.MultipleResourceBundle;
+import de.thecodelabs.utils.util.localization.UTF8Control;
+import de.thecodelabs.utils.util.localization.formatter.CustomMessageFormatter;
 
-import java.text.MessageFormat;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.*;
 
-/**
- * @author tobias
- */
-public class Localization {
+public class Localization
+{
 
 	private static LocalizationDelegate delegate;
+	private static LocalizationMessageFormatter formatter;
 
-	private static ResourceBundle bundle;
-
-	/**
-	 * @param delegate
-	 */
-	public static void setDelegate(LocalizationDelegate delegate) {
+	public static void setDelegate(LocalizationDelegate delegate)
+	{
 		Localization.delegate = delegate;
 	}
 
-	/**
-	 *
-	 */
-	public static void load() {
-		if (delegate == null) {
+	private static MultipleResourceBundle bundle;
+
+	public static void load()
+	{
+		if(delegate == null)
+		{
 			throw new NullPointerException("Delegate is null. Use: Localization.setDelegate()");
 		}
-		bundle = loadBundle(delegate.getBaseResource(), Localization.class.getClassLoader());
-		LoggerBridge.debug("Loaded localization bundle: " + bundle.getBaseBundleName() + " for language: " + bundle.getLocale());
+		List<ResourceBundle> bundles = new ArrayList<>();
+
+		if(delegate.useMultipleResourceBundles())
+		{
+			for(String bundle : delegate.getBaseResources())
+			{
+				bundles.add(loadResourceBundle(bundle));
+			}
+		}
+		else
+		{
+			final String baseResource = delegate.getBaseResource();
+			if(baseResource == null)
+			{
+				LoggerBridge.debug("Resource bundle is null. Delegate Method might be not overwritten");
+				return;
+			}
+
+			bundles.add(loadResourceBundle(baseResource));
+		}
+		Localization.bundle = new MultipleResourceBundle(bundles, delegate.getLocale());
+		Localization.formatter = delegate.messageFormatter();
 	}
 
-	/**
-	 * @param name
-	 * @param loader
-	 * @return
-	 */
-	public static ResourceBundle loadBundle(String name, ClassLoader loader) {
-		Locale locale = delegate != null ? delegate.getLocale() : Locale.GERMAN;
-		try {
-			return ResourceBundle.getBundle(name, locale, loader);
-		} catch (MissingResourceException e) {
-			return ResourceBundle.getBundle(name, Locale.GERMAN, loader);
+	public static void addResourceBundle(String name, ClassLoader loader) {
+		addResourceBundle(loadBundle(name, loader));
+	}
+
+	public static void addResourceBundle(ResourceBundle resourceBundle)
+	{
+		bundle = new MultipleResourceBundle(bundle, resourceBundle);
+		LoggerBridge.debug("Clear ResourceBundle Cache");
+		ResourceBundle.clearCache(Localization.class.getClassLoader());
+	}
+
+	private static ResourceBundle loadResourceBundle(String base)
+	{
+		ResourceBundle bundle = loadBundle(base, Localization.class.getClassLoader());
+		LoggerBridge.debug("Loaded localization bundle: " + bundle.getBaseBundleName() + " for language: " + bundle.getLocale());
+		return bundle;
+	}
+
+	public static ResourceBundle loadBundle(String name, ClassLoader loader)
+	{
+		Locale locale = delegate == null ? Locale.ENGLISH : delegate.getLocale();
+		try
+		{
+			return ResourceBundle.getBundle(name, locale, loader, new UTF8Control());
+		}
+		catch(MissingResourceException e)
+		{
+			return ResourceBundle.getBundle(name, Locale.ENGLISH, loader, new UTF8Control());
 		}
 	}
 
-	/**
-	 * @return
-	 */
-	public static ResourceBundle getBundle() {
+	public static ResourceBundle getBundle()
+	{
 		return bundle;
 	}
 
 	/**
-	 * @param key
-	 * @return
+	 * Gets the localized message for the given key or returns the key itself if the key is not existing in any bundle.
 	 */
-	private static String _getString(String key) {
-		if (bundle != null)
-			if (bundle.containsKey(key))
-				return bundle.getString(key);
-			else {
-				LoggerBridge.error("Resource Not Found: " + key);
-				return key;
-			}
-		else
-			return key + " (bundle nil)";
-	}
-
-	/**
-	 * @param key
-	 * @param args
-	 * @return
-	 */
-	private static String _getString(String key, Object... args) {
-		if (bundle != null)
-			if (bundle.containsKey(key)) {
-				String message = bundle.getString(key);
-				int index = 0;
-				while (message.contains("{}")) {
-					if (args.length > index) {
-						if (args[index] != null) {
-							message = message.replaceFirst("\\{\\}", args[index].toString());
-						} else {
-							message = message.replaceFirst("\\{\\}", "null");
-						}
-						index++;
-					} else {
-						LoggerBridge.error("Args invalid: " + key);
-						break;
-					}
-				}
-				return message;
-			} else {
-				LoggerBridge.error("Resource Not Found: " + key);
-				return key;
-			}
-		else
-			return key + " (bundle nil)";
-	}
-
-	public static String getString(String key) {
-		// Use old method
-		if (!delegate.useMessageFormatter()) {
-			return _getString(key);
-		}
-
-		if (bundle == null) {
-			throw new NullPointerException("ResourceBundle is null. Call Localization.init() and Localization.loadLanguage() first");
-		}
-
-		if (bundle.containsKey(key)) {
+	private static String getRawString(String key)
+	{
+		if(bundle.containsKey(key))
+		{
 			return bundle.getString(key);
-		} else {
-			LoggerBridge.error("Unknown key for ResourceBundle: " + key);
+		}
+		else
+		{
+			LoggerBridge.debug("ResourceKey not found: " + key);
 			return key;
 		}
 	}
 
-	public static String getString(String key, Object... args) {
-		// Use old method
-		if (!delegate.useMessageFormatter()) {
-			return _getString(key, args);
-		}
-
-		if (bundle == null) {
-			throw new NullPointerException("ResourceBundle is null. Call Localization.init() and Localization.loadLanguage() first");
-		}
-
-		if (bundle.containsKey(key)) {
-			return MessageFormat.format(bundle.getString(key), args);
-		} else {
-			LoggerBridge.error("Unknown key for ResourceBundle: " + key);
-			return key;
-		}
+	public static String getString(String key, Object... args)
+	{
+		final String message = getRawString(key);
+		return formatter.format(message, args);
 	}
 
-
-	public interface LocalizationDelegate {
-
+	public interface LocalizationDelegate
+	{
 		Locale getLocale();
 
-		String getBaseResource();
+		default String getBaseResource()
+		{
+			return null;
+		}
 
-		default boolean useMessageFormatter() {
+		default String[] getBaseResources()
+		{
+			return new String[]{};
+		}
+
+		default boolean useMultipleResourceBundles()
+		{
 			return false;
+		}
+
+		default LocalizationMessageFormatter messageFormatter()
+		{
+			return new CustomMessageFormatter();
 		}
 	}
 }

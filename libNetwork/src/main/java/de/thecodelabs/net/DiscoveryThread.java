@@ -7,6 +7,10 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+/**
+ * Server of discovery unit. This thread periodically listens for packages on a specific port.
+ */
+@SuppressWarnings("unused")
 public class DiscoveryThread implements Runnable
 {
 
@@ -82,7 +86,7 @@ public class DiscoveryThread implements Runnable
 		}
 		catch(IOException e)
 		{
-			e.printStackTrace();
+			Logger.error(e);
 		}
 	}
 }

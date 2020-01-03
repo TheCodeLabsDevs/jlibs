@@ -4,6 +4,8 @@ import de.thecodelabs.midi.feedback.Feedback;
 import de.thecodelabs.midi.feedback.FeedbackType;
 import javafx.scene.input.KeyCode;
 
+import java.util.Objects;
+
 public class KeyboardKey extends Key
 {
 	private KeyCode code;
@@ -49,6 +51,36 @@ public class KeyboardKey extends Key
 	public Feedback getFeedbackForType(FeedbackType feedbackType)
 	{
 		return null;
+	}
+
+	@Override
+	public void setFeedbackForType(FeedbackType type, Feedback feedback)
+	{
+	}
+
+	@Override
+	public Key copy()
+	{
+		KeyboardKey copy = new KeyboardKey();
+		copy.code = code;
+		copy.key = key;
+		return copy;
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this == o) return true;
+		if(!(o instanceof KeyboardKey)) return false;
+		KeyboardKey that = (KeyboardKey) o;
+		return code == that.code &&
+				Objects.equals(key, that.key);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(code, key);
 	}
 
 	@Override

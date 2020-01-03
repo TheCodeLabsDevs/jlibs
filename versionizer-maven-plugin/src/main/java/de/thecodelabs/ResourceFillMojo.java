@@ -60,6 +60,9 @@ public class ResourceFillMojo extends AbstractMojo
 
 	private void replaceFile(File srcFile, File desFile, Map<Object, Object> replacement) throws IOException
 	{
+		if (!srcFile.exists()) {
+			return;
+		}
 		BufferedReader reader = new BufferedReader(new FileReader(srcFile));
 
 		StringBuilder content = new StringBuilder();

@@ -1,12 +1,10 @@
-import de.thecodelabs.midi.Midi;
-import de.thecodelabs.midi.MidiCommand;
-import de.thecodelabs.midi.MidiCommandHandler;
-import de.thecodelabs.midi.MidiCommandType;
 import de.thecodelabs.midi.device.MidiDeviceInfo;
+import de.thecodelabs.midi.midi.Midi;
+import de.thecodelabs.midi.midi.MidiCommand;
+import de.thecodelabs.midi.midi.MidiCommandHandler;
+import de.thecodelabs.midi.midi.MidiCommandType;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
-import java.lang.reflect.Method;
 
 public class NativeTest extends Application
 {
@@ -14,11 +12,6 @@ public class NativeTest extends Application
 	{
 		try
 		{
-			final Class<?> aClass = Class.forName("uk.co.xfactorylibrarians.coremidi4j.Loader");
-			final Method locateLibrary = aClass.getDeclaredMethod("locateLibrary");
-			locateLibrary.setAccessible(true);
-			System.out.println(locateLibrary.invoke(null));
-
 			MidiCommandHandler.getInstance().addMidiListener(i -> {
 				System.out.println(i);
 				Midi.getInstance().sendMessage(new MidiCommand(MidiCommandType.NOTE_ON, (byte) 0, i.getPayload()));
@@ -32,8 +25,7 @@ public class NativeTest extends Application
 				System.out.println(datum);
 			}
 
-			Midi.getInstance().openDevice(new MidiDeviceInfo("PD 12", "PD 12", "Jammin Pro"), Midi.Mode.INPUT);
-			System.out.println(Midi.getInstance().getDevice());
+			Midi.getInstance().openDevice(new MidiDeviceInfo("CoreMIDI4J - PD 12", "PD 12", "Jammin Pro"), Midi.Mode.INPUT);
 		}
 		catch(Exception e)
 		{

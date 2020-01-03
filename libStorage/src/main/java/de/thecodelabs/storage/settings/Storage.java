@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class Storage
 {
-	private static final String UTILS_PACKAGE = "de.tobias.utils.application";
+	private static final String UTILS_PACKAGE = "de.thecodelabs.utils.application";
 
 	private static Map<StorageType, StorageHandler> storageHandlerMap;
 
@@ -27,6 +27,10 @@ public class Storage
 		storageHandlerMap.put(StorageTypes.YAML, new YAMLHandler());
 		storageHandlerMap.put(StorageTypes.JSON, new JsonHandler());
 		storageHandlerMap.put(StorageTypes.PROPERTIES, new PropertiesHandler());
+	}
+
+	private Storage()
+	{
 	}
 
 	public static <T> T load(InputStream stream, StorageType type, Class<T> clazz)
@@ -68,7 +72,6 @@ public class Storage
 		}
 	}
 
-	@SuppressWarnings({"JavaReflectionInvocation", "unchecked"})
 	public static <T> T load(StorageType type, Class<T> clazz)
 	{
 		InputStream inputStream = getInputStream(clazz);
@@ -102,7 +105,7 @@ public class Storage
 		}
 	}
 
-	private static <T> InputStream getInputStream(Class<T> clazz)
+	public static <T> InputStream getInputStream(Class<T> clazz)
 	{
 		if(clazz.isAnnotationPresent(FilePath.class))
 		{
@@ -125,7 +128,7 @@ public class Storage
 		}
 	}
 
-	private static <T> Path getFilePath(Class<T> clazz)
+	public static <T> Path getFilePath(Class<T> clazz)
 	{
 		try
 		{
@@ -139,11 +142,12 @@ public class Storage
 
 			Class<?> appClass = Class.forName(UTILS_PACKAGE + ".App");
 			Class pathTypeClass = Class.forName(UTILS_PACKAGE + ".container.PathType");
+			Class containerPathType = Class.forName(UTILS_PACKAGE + ".container.ContainerPathType");
 			Class<?> appUtilsClass = Class.forName(UTILS_PACKAGE + ".ApplicationUtils");
 			final Method getApplication = appUtilsClass.getMethod("getApplication");
 			final Object app = getApplication.invoke(null);
 
-			final Method getPath = appClass.getMethod("getPath", pathTypeClass, String[].class);
+			final Method getPath = appClass.getMethod("getPath", containerPathType, String[].class);
 			return (Path) getPath.invoke(app, Enum.valueOf(pathTypeClass, "CONFIGURATION"), new String[]{filePath});
 
 		}
@@ -153,7 +157,7 @@ public class Storage
 		}
 	}
 
-	private static <T> InputStream getClasspath(Class<T> clazz)
+	public static <T> InputStream getClasspath(Class<T> clazz)
 	{
 		final Classpath annotation = clazz.getAnnotation(Classpath.class);
 		final String filePath = annotation.value();

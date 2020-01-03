@@ -3,33 +3,30 @@ package de.thecodelabs.utils.application;
 import de.thecodelabs.storage.settings.Storage;
 import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.storage.settings.UserDefaults;
-import de.thecodelabs.utils.application.classpath.ClasspathResource;
-import de.thecodelabs.utils.application.classpath.ClasspathResourceContainer;
 import de.thecodelabs.utils.application.container.AppFileContainer;
-import de.thecodelabs.utils.application.container.BackupInfo;
 import de.thecodelabs.utils.application.container.ContainerPathType;
 import de.thecodelabs.utils.application.container.PathType;
-import de.thecodelabs.utils.application.remote.RemoteResource;
-import de.thecodelabs.utils.application.remote.RemoteResourceContainer;
-import de.thecodelabs.utils.application.remote.RemoteResourceType;
+import de.thecodelabs.utils.application.resources.classpath.ClasspathResource;
+import de.thecodelabs.utils.application.resources.classpath.ClasspathResourceContainer;
+import de.thecodelabs.utils.application.resources.remote.RemoteResource;
+import de.thecodelabs.utils.application.resources.remote.RemoteResourceContainer;
+import de.thecodelabs.utils.application.resources.remote.RemoteResourceType;
 import de.thecodelabs.utils.logger.LoggerBridge;
 import de.thecodelabs.utils.util.StringUtils;
-import javafx.application.Application;
-import org.dom4j.DocumentException;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 public final class App
 {
-
 	/**
 	 * Main Class for the application
 	 */
@@ -110,6 +107,19 @@ public final class App
 	public ApplicationInfo getInfo()
 	{
 		return appInfo;
+	}
+
+	public <T extends ApplicationInfo.CustomUserInfo> T getUserInfo(Class<T> clazz)
+	{
+		//noinspection unchecked
+		return (T) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{clazz}, new InvocationHandler()
+		{
+			@Override
+			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
+			{
+				return getInfo().getUserInfo().get(method.getName());
+			}
+		});
 	}
 
 	public UserDefaults getUserDefaults()
@@ -232,28 +242,37 @@ public final class App
 		// Load User Defaults
 		try
 		{
-			userDefaults = UserDefaults.load(getPath(PathType.CONFIGURATION, "UserDefaults.xml"));
+			final Path path = getPath(PathType.CONFIGURATION, "UserDefaults.xml");
+			userDefaults = UserDefaults.load(path);
 			Runtime.getRuntime().addShutdownHook(new Thread(() ->
 			{
 				try
 				{
-					userDefaults.save(getPath(PathType.CONFIGURATION, "UserDefaults.xml"));
+					userDefaults.save(path);
 				}
 				catch(Exception e)
 				{
-					e.printStackTrace();
+					LoggerBridge.error(e);
 				}
 			}));
 		}
-		catch(ClassNotFoundException | DocumentException | IOException e)
+		catch(Exception e)
 		{
-			e.printStackTrace();
+			LoggerBridge.error(e);
 		}
 
 		// JavaFX App öffnen (wenn vorhanden)
-		if(mainClass.getSuperclass().equals(Application.class))
+		try
 		{
-			Application.launch((Class<? extends Application>) mainClass, args);
+			Class applicationClass = Class.forName("javafx.application.Application");
+			if(mainClass.getSuperclass().equals(applicationClass))
+			{
+				final Method launchMethod = applicationClass.getMethod("launch", Class.class, String[].class);
+				launchMethod.invoke(null, mainClass, args);
+			}
+		}
+		catch(ReflectiveOperationException ignored)
+		{
 		}
 	}
 
@@ -291,7 +310,7 @@ public final class App
 		}
 		catch(Exception e)
 		{
-			System.err.println("Unable to load native library " + path + " for reason: " + e.getMessage());
+			LoggerBridge.error("Unable to load native library " + path + " for reason: " + e.getMessage());
 		}
 	}
 
@@ -307,51 +326,8 @@ public final class App
 		return false;
 	}
 
-	private void backupFiles()
-	{
-		long time = System.currentTimeMillis();
-
-		for(PathType type : PathType.values())
-		{
-			if(type.shouldBackup())
-			{
-				Path folder = container.getFolder(type);
-				if(Files.exists(folder))
-				{
-					Path backupPath = container.getBackupPath(time, folder, type);
-					try
-					{
-						Files.createDirectories(backupPath);
-
-						Stream<Path> allFilesPathStream = Files.walk(folder);
-						allFilesPathStream.forEach(t -> {
-							try
-							{
-								String destinationPath = t.toString().replace(folder.toString(), backupPath.toString());
-								Files.copy(t, Paths.get(destinationPath));
-							}
-							catch(IOException ignored)
-							{
-							}
-						});
-						allFilesPathStream.close();
-
-					}
-					catch(IOException e)
-					{
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		container.getContainerInfo().getBackups().add(new BackupInfo(time, container.getContainerInfo().getBuild()));
-	}
-
 	private void updateFiles()
 	{
-		if(!debug)
-			backupFiles();
-
 		// AppFileContainer hat noch alte Versionnummer des Bundles
 		long oldVersion = container.getContainerInfo().getBuild();
 		long newVersion = appInfo.getBuild();

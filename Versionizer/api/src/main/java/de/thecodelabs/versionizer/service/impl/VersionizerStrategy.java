@@ -3,7 +3,7 @@ package de.thecodelabs.versionizer.service.impl;
 import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.utils.application.App;
 import de.thecodelabs.utils.application.ApplicationUtils;
-import de.thecodelabs.utils.application.external.ExternalJarContainer;
+import de.thecodelabs.utils.application.resources.external.ExternalJarContainer;
 import de.thecodelabs.utils.logger.LoggerBridge;
 import de.thecodelabs.versionizer.UpdateItem;
 import de.thecodelabs.versionizer.config.Artifact;
@@ -28,7 +28,7 @@ import java.util.Optional;
 public abstract class VersionizerStrategy
 {
 
-	public static final Logger LOGGER = LoggerFactory.getLogger(UpdateService.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(VersionizerStrategy.class);
 
 	public abstract Path getUpdaterPath(UpdateService.InteractionType type);
 
@@ -70,10 +70,9 @@ public abstract class VersionizerStrategy
 			final Version localVersion = VersionTokenizer.getVersion(artifact);
 
 			container.close();
-			versionService.close();
 
-			LOGGER.debug("Versionizer Remote: " + remoteVersion);
-			LOGGER.debug("Versionizer Local: " + localVersion);
+			LOGGER.debug("Versionizer Remote: {}", remoteVersion);
+			LOGGER.debug("Versionizer Local: {}", localVersion);
 
 			return remoteVersion.isNewerThen(localVersion);
 		}
@@ -96,7 +95,7 @@ public abstract class VersionizerStrategy
 		repository = app.getClasspathResource("versionizer/repository.yml").deserialize(StorageTypes.YAML, Repository.class);
 		build = app.getClasspathResource("versionizer/" + type + "-build.json").deserialize(StorageTypes.JSON, Artifact.class);
 
-		LOGGER.info("Downloading versionizer using artifact" + build);
+		LOGGER.info("Downloading versionizer using artifact {}", build);
 
 		VersionService versionService = new VersionService(repository, UpdateService.RepositoryType.RELEASE);
 
@@ -111,7 +110,6 @@ public abstract class VersionizerStrategy
 		{
 			throw new FileNotFoundException("Versionizer file not found on artifactory");
 		}
-		versionService.close();
 	}
 
 	protected void exec(String path, String json) throws IOException

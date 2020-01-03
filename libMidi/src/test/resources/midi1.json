@@ -1,0 +1,24 @@
+{
+    "actions": [
+        {
+            "keys": [
+                {
+                    "value": 43,
+                    "defaultFeedback": {
+                        "channel": 0,
+                        "value": 45
+                    },
+                    "eventFeedback": {
+                        "channel": 1,
+                        "value": 46
+                    },
+                    "type": "MIDI"
+                }
+            ],
+            "actionType": "EIMER",
+            "payload": {
+                "player": "eimer"
+            }
+        }
+    ]
+}

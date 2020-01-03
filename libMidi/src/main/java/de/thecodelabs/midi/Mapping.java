@@ -1,18 +1,15 @@
 package de.thecodelabs.midi;
 
 import de.thecodelabs.midi.action.Action;
-import de.thecodelabs.midi.action.ActionHandler;
 import de.thecodelabs.midi.action.ActionKeyHandler;
-import de.thecodelabs.midi.action.ActionRegistry;
 import de.thecodelabs.midi.event.KeyEventDispatcher;
-import de.thecodelabs.midi.feedback.FeedbackType;
+import de.thecodelabs.midi.mapping.Key;
 import de.thecodelabs.midi.mapping.KeyboardKey;
 import de.thecodelabs.midi.mapping.MidiKey;
 import javafx.scene.input.KeyCode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Mapping
 {
@@ -21,7 +18,7 @@ public class Mapping
 		KeyEventDispatcher.registerKeyEventHandler(new ActionKeyHandler());
 	}
 
-	private transient static Mapping currentMapping;
+	private static Mapping currentMapping;
 
 	public static Mapping getCurrentMapping()
 	{
@@ -33,6 +30,8 @@ public class Mapping
 		Mapping.currentMapping = currentMapping;
 	}
 
+	private UUID id;
+	private String name;
 	private List<Action> actions;
 
 	public Mapping()
@@ -42,12 +41,56 @@ public class Mapping
 
 	public Mapping(List<Action> actions)
 	{
+		this(UUID.randomUUID(), actions);
+	}
+
+	public Mapping(UUID id, List<Action> actions)
+	{
+		this.id = id;
 		this.actions = actions;
+	}
+
+	public Mapping(Mapping clone)
+	{
+		this.id = UUID.randomUUID();
+		this.name = clone.name;
+
+		this.actions = clone.actions.parallelStream()
+				.map(i -> {
+					final Action action = new Action(i.getActionType());
+					i.getPayload().forEach(action::addPayloadEntry);
+					i.getKeys().forEach(Key::copy);
+					return action;
+				})
+				.collect(Collectors.toList());
+	}
+
+	public UUID getId()
+	{
+		return id;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 
 	public void addAction(Action action)
 	{
 		this.actions.add(action);
+	}
+
+	public void addUniqueAction(Action action)
+	{
+		if(!actions.contains(action))
+		{
+			actions.add(action);
+		}
 	}
 
 	public void removeAction(Action action)
@@ -60,104 +103,72 @@ public class Mapping
 		return actions;
 	}
 
-	public void showFeedback()
-	{
-		for(Action action : getActions())
-		{
-			ActionHandler handler = ActionRegistry.getActionHandler(action.getActionType());
-			final FeedbackType currentFeedbackType = handler.getCurrentFeedbackType(action);
+	/*
+	Get Actions
+	 */
 
-			for(MidiKey key : action.getKeysForType(MidiKey.class))
-			{
-				key.sendFeedback(currentFeedbackType);
-			}
-		}
-	}
-
-	// TODO Extract special launchpad commands
-	public void clearFeedback()
-	{
-		final int maxMainKeyNumber = 89;
-
-		for(byte i = 11; i <= maxMainKeyNumber; i++)
-		{
-			// Node_On = 144
-			MidiCommand midiCommand = new MidiCommand(MidiCommandType.NOTE_ON, i, (byte) 0);
-			Midi.getInstance().sendMessage(midiCommand);
-		}
-
-		// Obere Reihe an Tasten
-		final int liveKeyMin = 104;
-		final int liveKeyMax = 111;
-
-		for(byte i = liveKeyMin; i <= liveKeyMax; i++)
-		{
-			// Control_Change = 176
-			MidiCommand midiCommand = new MidiCommand(MidiCommandType.CONTROL_CHANGE, i, (byte) 0);
-			Midi.getInstance().sendMessage(midiCommand);
-		}
-	}
+	private transient Map<Integer, Action> midiCache = new HashMap<>();
 
 	public Action getActionForMidiKey(int key)
 	{
-		for(Action action : actions)
+		if(midiCache.containsKey(key))
 		{
-			for(MidiKey actionKey : action.getKeysForType(MidiKey.class))
+			final Action action = midiCache.get(key);
+			// Validate cache entry
+			if(action.getKeysForType(MidiKey.class).parallelStream().anyMatch(k -> k.getValue() == key))
 			{
-				if(actionKey.getValue() == key)
-				{
-					return action;
-				}
+				return action;
 			}
 		}
-		return null;
+
+		final Action action = actions.parallelStream()
+				.filter(a ->
+						a.getKeysForType(MidiKey.class).parallelStream()
+								.anyMatch(actionKey -> actionKey.getValue() == key)
+				)
+				.findFirst().orElse(null);
+
+		if(action != null)
+		{
+			midiCache.put(key, action);
+		}
+		return action;
 	}
 
 	public Action getActionForKeyboardKey(KeyCode key)
 	{
-		for(Action action : actions)
-		{
-			for(KeyboardKey actionKey : action.getKeysForType(KeyboardKey.class))
-			{
-				if(actionKey.getCode() == key)
-				{
-					return action;
-				}
-			}
-		}
-		return null;
+		return actions.parallelStream()
+				.filter(action ->
+						action.getKeysForType(KeyboardKey.class).parallelStream()
+								.anyMatch(actionKey -> actionKey.getCode() == key)
+				)
+				.findFirst().orElse(null);
 	}
 
 	public List<Action> getActionsForType(String type)
 	{
-		List<Action> result = new ArrayList<>();
-		for(Action action : actions)
-		{
-			if(action.getActionType().equals(type))
-			{
-				result.add(action);
-			}
-		}
-		return result;
+		return actions.parallelStream()
+				.filter(a -> a.getActionType().equals(type))
+				.collect(Collectors.toList());
 	}
 
 	public Action getFirstActionOrCreateForType(String type)
 	{
-		final List<Action> actions = Mapping.getCurrentMapping().getActionsForType(type);
-		if(actions.size() == 0)
+		final List<Action> actionList = Mapping.getCurrentMapping().getActionsForType(type);
+		if(actionList.isEmpty())
 		{
 			final Action action = new Action(type);
 			Mapping.getCurrentMapping().addAction(action);
 			return action;
 		}
-		return actions.get(0);
+		return actionList.get(0);
 	}
 
 	public Optional<MidiKey> getFirstMidiKeyForAction(Action action)
 	{
-		if(action.getKeys().size() > 0)
+		if(!action.getKeys().isEmpty())
 		{
-			return action.getKeys().stream().filter(key -> key instanceof MidiKey).map(key -> (MidiKey) key).findAny();
+			return action.getKeys().parallelStream().filter(key -> key instanceof MidiKey).map(key -> (MidiKey) key).findAny();
 		}
 		else
 		{
@@ -167,9 +178,9 @@ public class Mapping
 
 	public Optional<KeyboardKey> getFirstKeyboardKeyForAction(Action action)
 	{
-		if(action.getKeys().size() > 0)
+		if(!action.getKeys().isEmpty())
 		{
-			return action.getKeys().stream().filter(key -> key instanceof KeyboardKey).map(key -> (KeyboardKey) key).findAny();
+			return action.getKeys().parallelStream().filter(key -> key instanceof KeyboardKey).map(key -> (KeyboardKey) key).findAny();
 		}
 		else
 		{
@@ -193,6 +204,14 @@ public class Mapping
 			action.getKeys().add(newKey);
 			return newKey;
 		});
+	}
+
+	public Optional<Action> getActionForTypeWithPayload(String type, Map<String, String> payload)
+	{
+		return actions.parallelStream()
+				.filter(action -> action.getActionType().equals(type))
+				.filter(action -> action.getPayload().entrySet().containsAll(payload.entrySet()))
+				.findFirst();
 	}
 
 	@Override

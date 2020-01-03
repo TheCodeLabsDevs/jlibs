@@ -2,10 +2,7 @@ package de.thecodelabs.midi.action;
 
 import de.thecodelabs.midi.mapping.Key;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Action
@@ -44,9 +41,19 @@ public class Action
 		return keys;
 	}
 
+	public void addKey(Key key)
+	{
+		this.keys.add(key);
+	}
+
+	public void removeKey(Key key)
+	{
+		this.keys.remove(key);
+	}
+
 	public <T extends Key> List<T> getKeysForType(Class<T> clazz)
 	{
-		return keys.stream().filter(key -> key.getClass().isAssignableFrom(clazz)).map(clazz::cast).collect(Collectors.toList());
+		return keys.parallelStream().filter(key -> key.getClass().isAssignableFrom(clazz)).map(clazz::cast).collect(Collectors.toList());
 	}
 
 	public void setKeys(List<Key> keys)
@@ -69,9 +76,40 @@ public class Action
 		return payload;
 	}
 
+	public String getPayload(String key) {
+		return payload.get(key);
+	}
+
 	public void setPayload(Map<String, String> payload)
 	{
 		this.payload = payload;
+	}
+
+	public void addPayloadEntry(String key, String value)
+	{
+		this.payload.put(key, value);
+	}
+
+	public void removePayloadEntry(String key)
+	{
+		this.payload.remove(key);
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this == o) return true;
+		if(!(o instanceof Action)) return false;
+		Action action = (Action) o;
+		return Objects.equals(keys, action.keys) &&
+				Objects.equals(actionType, action.actionType) &&
+				Objects.equals(payload, action.payload);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(keys, actionType, payload);
 	}
 
 	@Override

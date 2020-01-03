@@ -1,7 +1,6 @@
 package de.thecodelabs.versionizer.spring;
 
 import de.thecodelabs.versionizer.service.UpdateService;
-import org.apache.commons.lang.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

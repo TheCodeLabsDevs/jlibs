@@ -4,7 +4,7 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>versionizer-maven-plugin</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>maven-plugin</packaging>
 
     <name>versionizer-maven-plugin</name>
@@ -22,7 +22,7 @@
         <maven-plugin-annotations.version>3.6.0</maven-plugin-annotations.version>
         <maven-project.version>2.0.6</maven-project.version>
 
-        <junit.version>3.8.1</junit.version>
+        <commons-lang.version>2.6</commons-lang.version>
     </properties>
 
     <dependencyManagement>
@@ -57,14 +57,7 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <version>${commons-lang.version}</version>
         </dependency>
     </dependencies>
 

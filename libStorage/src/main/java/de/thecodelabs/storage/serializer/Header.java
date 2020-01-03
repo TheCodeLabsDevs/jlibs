@@ -96,13 +96,13 @@ public class Header
 	 */
 	public String createHeader()
 	{
-		String header = String.format("%02d", versionCode) + String.format("%04d", elements.size());
+		StringBuilder header = new StringBuilder(String.format("%02d", versionCode) + String.format("%04d", elements.size()));
 
 		for(String current : elements)
 		{
-			header += String.format("%04d", current.length());
+			header.append(String.format("%04d", current.length()));
 		}
 
-		return header;
+		return header.toString();
 	}
 }

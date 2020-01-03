@@ -1,6 +1,6 @@
 package de.thecodelabs.midi.feedback;
 
-public class Feedback
+public class Feedback implements FeedbackValue
 {
 	private byte channel;
 	private byte value;
@@ -13,6 +13,19 @@ public class Feedback
 	{
 		this.channel = channel;
 		this.value = value;
+	}
+
+	public static Feedback copy(Feedback feedback)
+	{
+		if(feedback == null)
+		{
+			return null;
+		}
+
+		Feedback copy = new Feedback();
+		copy.value = feedback.value;
+		copy.channel = feedback.channel;
+		return copy;
 	}
 
 	public byte getChannel()

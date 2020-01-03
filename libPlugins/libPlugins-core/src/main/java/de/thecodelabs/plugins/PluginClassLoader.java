@@ -124,7 +124,7 @@ public class PluginClassLoader extends URLClassLoader
 
 			// Load plugin main class
 			pluginInstance = (Plugin) aClass.newInstance();
-			pluginInstance.startup();
+			pluginInstance.startup(pluginDescriptor);
 
 			this.setLoaded(true);
 		}

@@ -2,9 +2,14 @@ package de.thecodelabs.utils.application;
 
 import de.thecodelabs.storage.settings.annotation.Key;
 import de.thecodelabs.storage.settings.annotation.Required;
-import org.bukkit.configuration.MemorySection;
+
+import java.util.Map;
 
 public class ApplicationInfo {
+
+	public interface CustomUserInfo {
+
+	}
 
 	@Key
 	@Required
@@ -36,7 +41,7 @@ public class ApplicationInfo {
 	private String subMain;
 
 	@Key
-	private MemorySection userInfo;
+	private Map<String, String> userInfo;
 
 	public String getName() {
 		return name;
@@ -82,7 +87,7 @@ public class ApplicationInfo {
 		return serverBaseURL;
 	}
 
-	public MemorySection getUserInfo() {
+	public Map<String, String> getUserInfo() {
 		return userInfo;
 	}
 
