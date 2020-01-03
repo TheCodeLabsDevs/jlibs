@@ -1,5 +1,6 @@
-package de.thecodelabs.logger;
+package de.thecodelabs.logger.slf4j;
 
+import de.thecodelabs.logger.LogLevel;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.helpers.MessageFormatter;

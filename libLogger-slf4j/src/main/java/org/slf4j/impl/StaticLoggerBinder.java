@@ -1,7 +1,7 @@
 package org.slf4j.impl;
 
 
-import de.thecodelabs.logger.Slf4JLoggerFactory;
+import de.thecodelabs.logger.slf4j.Slf4JLoggerFactory;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.slf4j.spi.LoggerFactoryBinder;
