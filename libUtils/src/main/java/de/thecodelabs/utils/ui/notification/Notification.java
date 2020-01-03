@@ -47,7 +47,7 @@ public class Notification {
 		this.owner = owner;
 		this.defaultIcon = defaultIcon;
 		if (styleSheet == null) {
-			this.styleSheet = "defaultNotificationStyle.css";
+			this.styleSheet = "notification/style/defaultNotificationStyle.css";
 		} else {
 			this.styleSheet = styleSheet;
 		}
