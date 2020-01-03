@@ -3,7 +3,6 @@ package org.slf4j.impl;
 
 import de.thecodelabs.logger.slf4j.Slf4JLoggerFactory;
 import org.slf4j.ILoggerFactory;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.slf4j.spi.LoggerFactoryBinder;
 
 import java.util.logging.LogManager;
@@ -14,7 +13,6 @@ public class StaticLoggerBinder implements LoggerFactoryBinder
 	static
 	{
 		LogManager.getLogManager().reset();
-		SLF4JBridgeHandler.install();
 	}
 
 	/**
