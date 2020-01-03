@@ -45,7 +45,6 @@ public class WindowsAutostart implements Autostart
 	/**
 	 * Überprüft Entry und Value in der Registry.
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean isAutostart(String name, Path src) throws RegistryException
 	{

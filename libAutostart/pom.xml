@@ -6,13 +6,13 @@
 
     <groupId>de.tobias</groupId>
     <artifactId>libAutostart</artifactId>
-    <version>1.1.0</version>
+    <version>3.0.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
 
-        <jlibs.version>2.0.6</jlibs.version>
+        <jlibs.version>3.0.0</jlibs.version>
         <windows-registry-util.version>0.3</windows-registry-util.version>
     </properties>
 
@@ -49,7 +49,6 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
         </plugins>
