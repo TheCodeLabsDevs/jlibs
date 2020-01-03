@@ -6,6 +6,7 @@ module de.thecodelabs.libMidi {
 
 	requires gson;
 	requires coremidi4j;
+	requires javafx.graphics;
 
 	exports de.thecodelabs.midi;
 	exports de.thecodelabs.midi.action;
