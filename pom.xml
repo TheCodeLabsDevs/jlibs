@@ -15,11 +15,10 @@
         <libStorage.version>[3.0.0,3.1.0)</libStorage.version>
         <libUtils.version>[3.0.0,3.1.0)</libUtils.version>
 
-        <libAutostart.version>[1.1.0,1.2.0)</libAutostart.version>
-        <libGoogle.version>[1.1.0,1.2.0)</libGoogle.version>
-        <libLogger-slf4j.version>[2.1.0,2.2.0)</libLogger-slf4j.version>
-        <libMidi.version>[2.1.0,2.2.0)</libMidi.version>
-        <libNetwork.version>[2.1.0,2.2.0)</libNetwork.version>
+        <libAutostart.version>[3.0.0,3.1.0)</libAutostart.version>
+        <libLogger-slf4j.version>[3.0.0,3.1.0)</libLogger-slf4j.version>
+        <libMidi.version>[3.0.0,3.1.0)</libMidi.version>
+        <libNetwork.version>[3.0.0,3.1.0)</libNetwork.version>
     </properties>
 
     <dependencyManagement>
@@ -28,11 +27,6 @@
                 <groupId>de.tobias</groupId>
                 <artifactId>libAutostart</artifactId>
                 <version>${libAutostart.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>de.tobias</groupId>
-                <artifactId>libGoogle</artifactId>
-                <version>${libGoogle.version}</version>
             </dependency>
             <dependency>
                 <groupId>de.thecodelabs</groupId>
