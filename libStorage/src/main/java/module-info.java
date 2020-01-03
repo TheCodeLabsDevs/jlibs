@@ -1,6 +1,6 @@
 module de.thecodelabs.libStorage {
 
-	requires gson;
+	requires com.google.gson;
 	requires dom4j;
 	requires org.yaml.snakeyaml;
 	requires java.xml;

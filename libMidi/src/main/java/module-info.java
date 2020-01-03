@@ -4,7 +4,7 @@ module de.thecodelabs.libMidi {
 
 	requires java.desktop;
 
-	requires gson;
+	requires com.google.gson;
 	requires coremidi4j;
 	requires javafx.graphics;
 
