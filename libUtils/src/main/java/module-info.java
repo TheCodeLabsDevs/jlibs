@@ -7,7 +7,6 @@ module de.thecodelabs.libUtils {
 	requires javafx.graphics;
 	requires javafx.swing;
 	requires javafx.fxml;
-	requires javafx.web;
 
 	requires org.controlsfx.controls;
 
@@ -20,9 +19,6 @@ module de.thecodelabs.libUtils {
 	requires com.sun.jna.platform;
 
 	requires de.thecodelabs.libStorage;
-
-	requires dom4j;
-	requires gagawa;
 
 	exports de.thecodelabs.utils.application;
 	exports de.thecodelabs.utils.application.container;
