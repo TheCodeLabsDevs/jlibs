@@ -64,7 +64,7 @@ public class Localization
 	private static ResourceBundle loadResourceBundle(String base)
 	{
 		ResourceBundle bundle = loadBundle(base, Localization.class.getClassLoader());
-		LoggerBridge.debug("Loaded localization bundle: " + bundle.getBaseBundleName() + " for language: " + bundle.getLocale());
+		LoggerBridge.debug("Loaded localization bundle: " + base + " for language: " + bundle.getLocale());
 		return bundle;
 	}
 
