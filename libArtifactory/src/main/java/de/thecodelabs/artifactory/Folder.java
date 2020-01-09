@@ -19,19 +19,6 @@ public class Folder
 	{
 	}
 
-	public Folder(String uri, String repo, String path, Date created, String createdBy, Date lastModified, String modifiedBy, Date lastUpdated, List<FolderItem> children)
-	{
-		this.uri = uri;
-		this.repo = repo;
-		this.path = path;
-		this.created = created;
-		this.createdBy = createdBy;
-		this.lastModified = lastModified;
-		this.modifiedBy = modifiedBy;
-		this.lastUpdated = lastUpdated;
-		this.children = children;
-	}
-
 	public String getUri()
 	{
 		return uri;

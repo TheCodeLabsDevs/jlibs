@@ -6,23 +6,15 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>libArtifactory</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
 
-        <unirest-java.version>3.3.00</unirest-java.version>
-        <jackson-core.version>2.10.1</jackson-core.version>
+        <jackson-core.version>2.10.2</jackson-core.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.konghq</groupId>
-            <artifactId>unirest-java</artifactId>
-            <version>${unirest-java.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -51,9 +43,11 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
+                    <encoding>UTF-8</encoding>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>

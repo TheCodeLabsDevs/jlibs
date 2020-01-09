@@ -9,12 +9,6 @@ public class FolderItem
 	{
 	}
 
-	public FolderItem(String uri, boolean folder)
-	{
-		this.uri = uri;
-		this.folder = folder;
-	}
-
 	public String getUri()
 	{
 		return uri;

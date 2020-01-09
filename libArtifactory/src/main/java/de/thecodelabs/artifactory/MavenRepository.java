@@ -1,15 +1,21 @@
 package de.thecodelabs.artifactory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
+import de.thecodelabs.artifactory.net.JsonBodyHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.net.ProxySelector;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 
 public class MavenRepository
 {
+	private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2)
+			.followRedirects(HttpClient.Redirect.NORMAL).proxy(ProxySelector.getDefault()).build();
+
 	private Artifactory artifactory;
 	private String name;
 
@@ -22,14 +28,22 @@ public class MavenRepository
 	public Folder getFolder(String path)
 	{
 		String url = String.format("%s/api/storage/%s/%s", artifactory.getUrl(), name, path);
-		final HttpResponse<String> folderResponse = Unirest.get(url).asString();
-
-		ObjectMapper mapper = new ObjectMapper();
 		try
 		{
-			return mapper.readValue(folderResponse.getBody(), Folder.class);
+			final HttpRequest request = HttpRequest
+					.newBuilder()
+					.uri(URI.create(url))
+					.GET()
+					.build();
+			return HTTP_CLIENT.send(request, new JsonBodyHandler<>(Folder.class))
+					.body()
+					.get();
 		}
 		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+		catch(InterruptedException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -38,14 +52,23 @@ public class MavenRepository
 	public File getFile(String path)
 	{
 		String url = String.format("%s/api/storage/%s/%s", artifactory.getUrl(), name, path);
-		final HttpResponse<String> folderResponse = Unirest.get(url).asString();
 
-		ObjectMapper mapper = new ObjectMapper();
 		try
 		{
-			return mapper.readValue(folderResponse.getBody(), File.class);
+			final HttpRequest request = HttpRequest
+					.newBuilder()
+					.uri(URI.create(url))
+					.GET()
+					.build();
+			return HTTP_CLIENT.send(request, new JsonBodyHandler<>(File.class))
+					.body()
+					.get();
 		}
 		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+		catch(InterruptedException e)
 		{
 			throw new RuntimeException(e);
 		}

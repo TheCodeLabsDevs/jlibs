@@ -23,23 +23,6 @@ public class File
 	{
 	}
 
-	public File(String uri, String repo, String path, Date created, String createdBy, Date lastModified, String modifiedBy, Date lastUpdated, String downloadUri, String mimeType, Long size, Map<String, String> checksums, Map<String, String> originalChecksums)
-	{
-		this.uri = uri;
-		this.repo = repo;
-		this.path = path;
-		this.created = created;
-		this.createdBy = createdBy;
-		this.lastModified = lastModified;
-		this.modifiedBy = modifiedBy;
-		this.lastUpdated = lastUpdated;
-		this.downloadUri = downloadUri;
-		this.mimeType = mimeType;
-		this.size = size;
-		this.checksums = checksums;
-		this.originalChecksums = originalChecksums;
-	}
-
 	public String getUri()
 	{
 		return uri;
