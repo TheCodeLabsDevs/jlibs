@@ -10,7 +10,7 @@ public class Utilities extends NativeLoader
 {
 
 	static {
-		load("SystemTray", "", Utilities.class, new Thread(SystemTray::startUp_N), new Thread(SystemTray::tearDown_N));
+		load("SystemTray", "", Utilities.class, SystemTray::startUp_N, SystemTray::tearDown_N);
 	}
 
 	private static long id = 0;

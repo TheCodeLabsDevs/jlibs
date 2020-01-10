@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MenuItem {
 
@@ -33,7 +34,7 @@ public class MenuItem {
 		unregisterMenu_N();
 	}
 
-	public HashMap<String, Object> getUserInfo() {
+	public Map<String, Object> getUserInfo() {
 		return userInfo;
 	}
 
