@@ -1,7 +1,4 @@
 module de.thecodelabs.libUtils {
-
-	requires commons.net;
-
 	requires javafx.base;
 	requires javafx.controls;
 	requires javafx.graphics;
