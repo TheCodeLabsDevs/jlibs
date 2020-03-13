@@ -11,13 +11,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-public class Notification {
+import java.util.Objects;
+
+public class Notification
+{
 	private int width;
 	private int height;
 	private int offset;
@@ -28,16 +32,17 @@ public class Notification {
 	private Image icon;
 	private Image defaultIcon;
 	private int hideAfterInMillis;
-	private final int DEFAULT_HIDE_AFTER_IN_MILLIS = 4000;
+	private static final int DEFAULT_HIDE_AFTER_IN_MILLIS = 4000;
 	private int fadeOutTimeInMillis;
-	private final int DEFAULT_FADE_OUT_TIME_IN_MILLIS = 1000;
+	private static final int DEFAULT_FADE_OUT_TIME_IN_MILLIS = 1000;
 	private Timeline timeline;
 
 	private Stage stage;
 	private Stage owner;
 	private String styleSheet;
 
-	public Notification(int width, int height, int offset, int iconSize, int hideAfterInMillis, int fadeOutTimeInMillis, Stage owner, Image defaultIcon, String styleSheet) {
+	public Notification(int width, int height, int offset, int iconSize, int hideAfterInMillis, int fadeOutTimeInMillis, Stage owner, Image defaultIcon, String styleSheet)
+	{
 		this.width = width;
 		this.height = height;
 		this.offset = offset;
@@ -46,27 +51,29 @@ public class Notification {
 		this.fadeOutTimeInMillis = fadeOutTimeInMillis;
 		this.owner = owner;
 		this.defaultIcon = defaultIcon;
-		if (styleSheet == null) {
-			this.styleSheet = "notification/style/defaultNotificationStyle.css";
-		} else {
-			this.styleSheet = styleSheet;
-		}
+		this.styleSheet = Objects.requireNonNullElse(styleSheet, "notification/style/defaultNotificationStyle.css");
 	}
 
-	public void close() {
-		if (stage != null) {
+	public void close()
+	{
+		if(stage != null)
+		{
 			stage.close();
 			timeline.stop();
 		}
 	}
 
-	public void show() {
-		try {
-			if (hideAfterInMillis == 0) {
+	public void show()
+	{
+		try
+		{
+			if(hideAfterInMillis == 0)
+			{
 				hideAfterInMillis = DEFAULT_HIDE_AFTER_IN_MILLIS;
 			}
 
-			if (fadeOutTimeInMillis == 0) {
+			if(fadeOutTimeInMillis == 0)
+			{
 				fadeOutTimeInMillis = DEFAULT_FADE_OUT_TIME_IN_MILLIS;
 			}
 
@@ -93,20 +100,26 @@ public class Notification {
 			AnchorPane.setLeftAnchor(content, 5.0);
 			AnchorPane.setTopAnchor(content, 5.0);
 
-			Button button = new Button("x");
-			button.getStyleClass().add("notification-button");
-			button.setFocusTraversable(false);
-			button.setOnAction(event -> {
+			Button closeButton = new Button();
+			closeButton.getStyleClass().add("notification-button");
+			closeButton.setFocusTraversable(false);
+
+			StackPane graphic = new StackPane();
+			graphic.getStyleClass().setAll("graphic");
+			closeButton.setGraphic(graphic);
+
+			closeButton.setOnAction(event -> {
 				stage.close();
 				timeline.stop();
 			});
 
-			content.getChildren().add(button);
-			AnchorPane.setRightAnchor(button, 5.0);
-			AnchorPane.setTopAnchor(button, 0.0);
+			content.getChildren().add(closeButton);
+			AnchorPane.setRightAnchor(closeButton, 5.0);
+			AnchorPane.setTopAnchor(closeButton, 0.0);
 
 			// use default icon if icon is missing
-			if (icon == null) {
+			if(icon == null)
+			{
 				icon = defaultIcon;
 			}
 
@@ -141,7 +154,8 @@ public class Notification {
 			stage.show();
 
 			// propagates the focus back to the caller in order to prevent capturing all mouse and keyboard events
-			if (owner != null) {
+			if(owner != null)
+			{
 				owner.requestFocus();
 			}
 
@@ -151,30 +165,37 @@ public class Notification {
 			timeline.getKeyFrames().add(key);
 			timeline.setDelay(Duration.millis(hideAfterInMillis));
 			timeline.setOnFinished(event -> {
-				if (stage != null) {
+				if(stage != null)
+				{
 					stage.close();
 					stage = null;
 				}
 			});
 			timeline.play();
-		} catch (Exception e) {
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(String title)
+	{
 		this.title = title;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(String description)
+	{
 		this.description = description;
 	}
 
-	public void setIcon(Image icon) {
+	public void setIcon(Image icon)
+	{
 		this.icon = icon;
 	}
 
-	public boolean isOpen() {
+	public boolean isOpen()
+	{
 		return stage != null;
 	}
 }

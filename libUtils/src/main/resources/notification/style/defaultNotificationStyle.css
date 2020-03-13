@@ -1,23 +1,31 @@
 /* notification */
 .notification-background {
-	-fx-background-color: linear-gradient(#EFEFEF, #D9D9D9);
-	-fx-border-color: #B5B5B5;
-	-border-radius: 5px;
-	-fx-background-radius: 5px;
-	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 11, 0.0, 0, 3);
+    -fx-background-color: linear-gradient(#EFEFEF, #D9D9D9);
+    -fx-border-color: #B5B5B5;
+    -border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 11, 0.0, 0, 3);
 }
 
 .notification-button {
-	-fx-font-weight: bold;
-	-fx-background-color: transparent;
-	-fx-font-size: 19px
+    -fx-background-color: transparent;
+}
+
+.notification-button > .graphic {
+    -fx-background-color: black;
+    -fx-scale-shape: false;
+    -fx-padding: 1;
+
+    -fx-scale-x: 1.4;
+    -fx-scale-y: 1.4;
+    -fx-shape: "M395.992,296.758l1.794-1.794l7.292,7.292l-1.795,1.794 L395.992,296.758z M403.256,294.992l1.794,1.794l-7.292,7.292l-1.794-1.795 L403.256,294.992z";
 }
 
 .notification-label-title {
-	-fx-font-weight: bold;
-	-fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
 }
 
 .notification-label-description {
-	-fx-font-size: 17px;
+    -fx-font-size: 17px;
 }
