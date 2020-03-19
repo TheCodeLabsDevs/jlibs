@@ -3,6 +3,7 @@ package de.thecodelabs.utils.ui.notification;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,7 +19,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-import java.util.Objects;
+import java.util.*;
 
 public class Notification
 {
@@ -35,11 +36,10 @@ public class Notification
 	private static final int DEFAULT_HIDE_AFTER_IN_MILLIS = 4000;
 	private int fadeOutTimeInMillis;
 	private static final int DEFAULT_FADE_OUT_TIME_IN_MILLIS = 1000;
-	private Timeline timeline;
 
-	private Stage stage;
 	private Stage owner;
 	private String styleSheet;
+	private List<NotificationElement> elementQueue = new ArrayList<>();
 
 	public Notification(int width, int height, int offset, int iconSize, int hideAfterInMillis, int fadeOutTimeInMillis, Stage owner, Image defaultIcon, String styleSheet)
 	{
@@ -54,16 +54,61 @@ public class Notification
 		this.styleSheet = Objects.requireNonNullElse(styleSheet, "notification/style/defaultNotificationStyle.css");
 	}
 
-	public void close()
+	public void close(NotificationElement element, boolean fadeOut)
 	{
-		if(stage != null)
+		if(element != null)
 		{
-			stage.close();
-			timeline.stop();
+			if(fadeOut)
+			{
+				createTimeline(element, 0, fadeOutTimeInMillis).play();
+			}
+			else
+			{
+				element.close();
+				elementQueue.remove(element);
+				reorganizeElements();
+			}
 		}
 	}
 
-	public void show()
+	private Optional<Point2D> calculatePosition(int position)
+	{
+		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+		final double screenWidth = primaryScreenBounds.getMaxX();
+		final double screenHeight = primaryScreenBounds.getMaxY();
+
+		final double stageWidth = width + offset;
+		final double x = screenWidth - stageWidth;
+
+		final double stageHeight = height + offset;
+		final double y = screenHeight - position * stageHeight;
+
+		// stage would be above screen
+		if(y < 0)
+		{
+			return Optional.empty();
+		}
+
+		return Optional.of(new Point2D(x, y));
+	}
+
+	private void reorganizeElements()
+	{
+		for(int i = 0; i < elementQueue.size(); i++)
+		{
+			final Stage stage = elementQueue.get(i).getStage();
+			final Optional<Point2D> positionOptional = calculatePosition(elementQueue.size() - i);
+			if(positionOptional.isEmpty())
+			{
+				// close oldest element
+				close(elementQueue.get(0), false);
+				return;
+			}
+			stage.setY(positionOptional.get().getY());
+		}
+	}
+
+	public NotificationElement show()
 	{
 		try
 		{
@@ -77,81 +122,48 @@ public class Notification
 				fadeOutTimeInMillis = DEFAULT_FADE_OUT_TIME_IN_MILLIS;
 			}
 
-			// screen size
-			Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-			stage = new Stage();
+			Stage stage = new Stage();
+
 			stage.initStyle(StageStyle.TRANSPARENT);
-			stage.setX(primaryScreenBounds.getMaxX() - width - offset);
-			stage.setY(primaryScreenBounds.getMaxY() - height - offset);
 			stage.setAlwaysOnTop(true);
 
-			AnchorPane root = new AnchorPane();
-			root.setPrefWidth(width);
-			root.setPrefHeight(height);
-			root.setBackground(Background.EMPTY);
-			root.getStylesheets().add(styleSheet);
+			final Optional<Point2D> positionOptional = calculatePosition(0);
+			if(positionOptional.isEmpty())
+			{
+				throw new RuntimeException("Could not calculate positio for notification stage");
+			}
 
-			// notification content
-			AnchorPane content = new AnchorPane();
-			content.setPrefWidth(width - 10);
-			content.setPrefHeight(height - 10);
-			content.getStyleClass().add("notification-background");
-			root.getChildren().add(content);
-			AnchorPane.setLeftAnchor(content, 5.0);
-			AnchorPane.setTopAnchor(content, 5.0);
+			final Point2D position = positionOptional.get();
+			stage.setX(position.getX());
+			stage.setY(position.getY());
 
-			Button closeButton = new Button();
-			closeButton.getStyleClass().add("notification-button");
-			closeButton.setFocusTraversable(false);
-
-			StackPane graphic = new StackPane();
-			graphic.getStyleClass().setAll("graphic");
-			closeButton.setGraphic(graphic);
-
-			closeButton.setOnAction(event -> {
-				stage.close();
-				timeline.stop();
-			});
-
-			content.getChildren().add(closeButton);
-			AnchorPane.setRightAnchor(closeButton, 5.0);
-			AnchorPane.setTopAnchor(closeButton, 0.0);
+			final AnchorPane root = createRootPane();
 
 			// use default icon if icon is missing
 			if(icon == null)
 			{
 				icon = defaultIcon;
 			}
+			final NotificationContent content = new NotificationContent(width, height, offset, icon, iconSize, title, description);
+			root.getChildren().add(content);
+			AnchorPane.setLeftAnchor(content, 5.0);
+			AnchorPane.setTopAnchor(content, 5.0);
 
-			ImageView view = new ImageView(icon);
-			view.setFitWidth(iconSize);
-			view.setFitHeight(iconSize);
-
-			content.getChildren().add(view);
-			AnchorPane.setLeftAnchor(view, 15.0);
-			AnchorPane.setTopAnchor(view, (height - offset - iconSize) / 2.0);
-
-			Label labelTitle = new Label(title);
-			labelTitle.getStyleClass().add("notification-label-title");
-
-			content.getChildren().add(labelTitle);
-			AnchorPane.setLeftAnchor(labelTitle, 15.0 + iconSize + 25.0);
-			AnchorPane.setTopAnchor(labelTitle, 15.0);
-
-			Label labelDescription = new Label(description);
-			labelDescription.getStyleClass().add("notification-label-description");
-			labelDescription.setPrefWidth(width - offset - iconSize - 35.0);
-			labelDescription.setWrapText(true);
-
-			content.getChildren().add(labelDescription);
-			AnchorPane.setLeftAnchor(labelDescription, 15.0 + iconSize + 25.0);
-			AnchorPane.setTopAnchor(labelDescription, 50.0);
-
-			Scene scene = new Scene(root, width, height);
+			final Scene scene = new Scene(root, width, height);
 			scene.setFill(Color.TRANSPARENT);
 
 			stage.setScene(scene);
 			stage.show();
+
+			NotificationElement element = new NotificationElement(stage);
+			Timeline timeline = createTimeline(element, hideAfterInMillis, fadeOutTimeInMillis);
+			element.setTimeline(timeline);
+			content.getCloseButton().setOnAction(event -> close(element, true));
+			elementQueue.add(element);
+			reorganizeElements();
+
+			// fade out effect
+			timeline.play();
 
 			// propagates the focus back to the caller in order to prevent capturing all mouse and keyboard events
 			if(owner != null)
@@ -159,24 +171,39 @@ public class Notification
 				owner.requestFocus();
 			}
 
-			// fade out effect
-			timeline = new Timeline();
-			KeyFrame key = new KeyFrame(Duration.millis(fadeOutTimeInMillis), new KeyValue(stage.getScene().getRoot().opacityProperty(), 0));
-			timeline.getKeyFrames().add(key);
-			timeline.setDelay(Duration.millis(hideAfterInMillis));
-			timeline.setOnFinished(event -> {
-				if(stage != null)
-				{
-					stage.close();
-					stage = null;
-				}
-			});
-			timeline.play();
+			return element;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+
+		return null;
+	}
+
+	private AnchorPane createRootPane()
+	{
+		AnchorPane root = new AnchorPane();
+		root.setPrefWidth(width);
+		root.setPrefHeight(height);
+		root.setBackground(Background.EMPTY);
+		root.getStylesheets().add(styleSheet);
+		return root;
+	}
+
+	private Timeline createTimeline(NotificationElement element, int hideAfter, int fadeOutTime)
+	{
+		Timeline timeline = new Timeline();
+		KeyFrame key = new KeyFrame(Duration.millis(fadeOutTime), new KeyValue(element.getStage().getScene().getRoot().opacityProperty(), 0));
+		timeline.getKeyFrames().add(key);
+		timeline.setDelay(Duration.millis(hideAfter));
+		timeline.setOnFinished(event -> {
+			if(elementQueue.contains(element))
+			{
+				close(element, false);
+			}
+		});
+		return timeline;
 	}
 
 	public void setTitle(String title)
@@ -194,8 +221,13 @@ public class Notification
 		this.icon = icon;
 	}
 
-	public boolean isOpen()
+	public boolean isOpen(Stage stage)
 	{
-		return stage != null;
+		return elementQueue.contains(stage);
+	}
+
+	public boolean isAnyOpen()
+	{
+		return !elementQueue.isEmpty();
 	}
 }

@@ -54,4 +54,5 @@ module de.thecodelabs.libUtils {
 	opens fonts;
 	opens libraries;
 	opens notification.style;
+	opens notification;
 }
