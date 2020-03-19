@@ -21,7 +21,6 @@ public class NotificationExample extends Application
 		final Image defaultIcon = new Image("notification/info.png");
 		final Image defaultIcon2 = new Image("notification/info2.png");
 
-
 		Notification notification = new Notification(350, 120, 5, 50, 4000, 1000, stage, defaultIcon, null);
 
 		Worker.runLater(() -> {
@@ -37,17 +36,12 @@ public class NotificationExample extends Application
 				}
 				int index = i;
 				Platform.runLater(() -> {
+					Image icon = defaultIcon;
 					if(index % 2 == 0)
 					{
-						notification.setIcon(defaultIcon2);
+						icon = defaultIcon2;
 					}
-					else
-					{
-						notification.setIcon(defaultIcon);
-					}
-					notification.setTitle("Achievement unlocked");
-					notification.setDescription("Notification #" + index);
-					lastElement = notification.show();
+					lastElement = notification.show("Achievement unlocked", "Notification #" + index, icon);
 				});
 			}
 
@@ -60,9 +54,7 @@ public class NotificationExample extends Application
 				e.printStackTrace();
 			}
 
-			Platform.runLater(() -> {
-				notification.close(lastElement, true);
-			});
+			Platform.runLater(() -> notification.close(lastElement, true));
 		});
 
 		Worker.shutdown();

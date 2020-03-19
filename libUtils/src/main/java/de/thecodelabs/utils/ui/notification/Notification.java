@@ -6,39 +6,37 @@ import javafx.animation.Timeline;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class Notification
 {
+	private static final double CONTENT_PADDING = 5.0;
+	private static final int DEFAULT_HIDE_AFTER_IN_MILLIS = 4000;
+	private static final int DEFAULT_FADE_OUT_TIME_IN_MILLIS = 1000;
+	private static final String DEFAULT_STYLESHEET = "notification/style/defaultNotificationStyle.css";
+
 	private int width;
 	private int height;
 	private int offset;
 	private int iconSize;
-
-	private String title;
-	private String description;
-	private Image icon;
-	private Image defaultIcon;
 	private int hideAfterInMillis;
-	private static final int DEFAULT_HIDE_AFTER_IN_MILLIS = 4000;
 	private int fadeOutTimeInMillis;
-	private static final int DEFAULT_FADE_OUT_TIME_IN_MILLIS = 1000;
-
 	private Stage owner;
+	private Image defaultIcon;
 	private String styleSheet;
+
 	private List<NotificationElement> elementQueue = new ArrayList<>();
 
 	public Notification(int width, int height, int offset, int iconSize, int hideAfterInMillis, int fadeOutTimeInMillis, Stage owner, Image defaultIcon, String styleSheet)
@@ -47,83 +45,40 @@ public class Notification
 		this.height = height;
 		this.offset = offset;
 		this.iconSize = iconSize;
+
 		this.hideAfterInMillis = hideAfterInMillis;
+		if(this.hideAfterInMillis == 0)
+		{
+			this.hideAfterInMillis = DEFAULT_HIDE_AFTER_IN_MILLIS;
+		}
+
 		this.fadeOutTimeInMillis = fadeOutTimeInMillis;
+		if(this.fadeOutTimeInMillis == 0)
+		{
+			this.fadeOutTimeInMillis = DEFAULT_FADE_OUT_TIME_IN_MILLIS;
+		}
+
 		this.owner = owner;
 		this.defaultIcon = defaultIcon;
-		this.styleSheet = Objects.requireNonNullElse(styleSheet, "notification/style/defaultNotificationStyle.css");
+		this.styleSheet = Objects.requireNonNullElse(styleSheet, DEFAULT_STYLESHEET);
 	}
 
-	public void close(NotificationElement element, boolean fadeOut)
+	public NotificationElement show(String title, String description)
 	{
-		if(element != null)
-		{
-			if(fadeOut)
-			{
-				createTimeline(element, 0, fadeOutTimeInMillis).play();
-			}
-			else
-			{
-				element.close();
-				elementQueue.remove(element);
-				reorganizeElements();
-			}
-		}
+		return show(title, description, defaultIcon);
 	}
 
-	private Optional<Point2D> calculatePosition(int position)
+	public NotificationElement show(String title, String description, Image icon)
 	{
-		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-		final double screenWidth = primaryScreenBounds.getMaxX();
-		final double screenHeight = primaryScreenBounds.getMaxY();
-
-		final double stageWidth = width + offset;
-		final double x = screenWidth - stageWidth;
-
-		final double stageHeight = height + offset;
-		final double y = screenHeight - position * stageHeight;
-
-		// stage would be above screen
-		if(y < 0)
+		// use default icon if icon is missing
+		if(icon == null)
 		{
-			return Optional.empty();
+			icon = defaultIcon;
 		}
 
-		return Optional.of(new Point2D(x, y));
-	}
-
-	private void reorganizeElements()
-	{
-		for(int i = 0; i < elementQueue.size(); i++)
-		{
-			final Stage stage = elementQueue.get(i).getStage();
-			final Optional<Point2D> positionOptional = calculatePosition(elementQueue.size() - i);
-			if(positionOptional.isEmpty())
-			{
-				// close oldest element
-				close(elementQueue.get(0), false);
-				return;
-			}
-			stage.setY(positionOptional.get().getY());
-		}
-	}
-
-	public NotificationElement show()
-	{
 		try
 		{
-			if(hideAfterInMillis == 0)
-			{
-				hideAfterInMillis = DEFAULT_HIDE_AFTER_IN_MILLIS;
-			}
-
-			if(fadeOutTimeInMillis == 0)
-			{
-				fadeOutTimeInMillis = DEFAULT_FADE_OUT_TIME_IN_MILLIS;
-			}
-
-			Stage stage = new Stage();
-
+			final Stage stage = new Stage();
 			stage.initStyle(StageStyle.TRANSPARENT);
 			stage.setAlwaysOnTop(true);
 
@@ -137,21 +92,14 @@ public class Notification
 			stage.setX(position.getX());
 			stage.setY(position.getY());
 
+			final NotificationContent content = new NotificationContent(width, height, CONTENT_PADDING, icon, iconSize, title, description);
 			final AnchorPane root = createRootPane();
-
-			// use default icon if icon is missing
-			if(icon == null)
-			{
-				icon = defaultIcon;
-			}
-			final NotificationContent content = new NotificationContent(width, height, offset, icon, iconSize, title, description);
 			root.getChildren().add(content);
-			AnchorPane.setLeftAnchor(content, 5.0);
-			AnchorPane.setTopAnchor(content, 5.0);
+			AnchorPane.setLeftAnchor(content, CONTENT_PADDING);
+			AnchorPane.setTopAnchor(content, CONTENT_PADDING);
 
 			final Scene scene = new Scene(root, width, height);
 			scene.setFill(Color.TRANSPARENT);
-
 			stage.setScene(scene);
 			stage.show();
 
@@ -206,28 +154,73 @@ public class Notification
 		return timeline;
 	}
 
-	public void setTitle(String title)
+	public void close(NotificationElement element, boolean fadeOut)
 	{
-		this.title = title;
+		if(element == null)
+		{
+			return;
+		}
+
+		if(fadeOut)
+		{
+			createTimeline(element, 0, fadeOutTimeInMillis).play();
+			return;
+		}
+
+		element.close();
+		elementQueue.remove(element);
+		reorganizeElements();
 	}
 
-	public void setDescription(String description)
+	private void reorganizeElements()
 	{
-		this.description = description;
+		for(int i = 0; i < elementQueue.size(); i++)
+		{
+			final Stage stage = elementQueue.get(i).getStage();
+			final Optional<Point2D> positionOptional = calculatePosition(elementQueue.size() - i);
+			if(positionOptional.isEmpty())
+			{
+				// close oldest element
+				close(elementQueue.get(0), false);
+				return;
+			}
+			stage.setY(positionOptional.get().getY());
+		}
 	}
 
-	public void setIcon(Image icon)
+	private Optional<Point2D> calculatePosition(int index)
 	{
-		this.icon = icon;
+		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+		final double screenWidth = primaryScreenBounds.getMaxX();
+		final double screenHeight = primaryScreenBounds.getMaxY();
+
+		final double stageWidth = width + offset;
+		final double x = screenWidth - stageWidth;
+
+		final double stageHeight = height + offset;
+		final double y = screenHeight - index * stageHeight;
+
+		// stage would be above screen
+		if(y < 0)
+		{
+			return Optional.empty();
+		}
+
+		return Optional.of(new Point2D(x, y));
 	}
 
-	public boolean isOpen(Stage stage)
+	public boolean isOpen(NotificationElement element)
 	{
-		return elementQueue.contains(stage);
+		return elementQueue.contains(element);
 	}
 
 	public boolean isAnyOpen()
 	{
 		return !elementQueue.isEmpty();
+	}
+
+	public List<NotificationElement> getElementQueue()
+	{
+		return elementQueue;
 	}
 }
