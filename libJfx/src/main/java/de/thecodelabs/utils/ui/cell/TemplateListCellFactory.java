@@ -5,6 +5,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class TemplateListCellFactory<T> implements Callback<ListView<T>, ListCell<T>> {
 
 	private Class<? extends DetailItem<T>> viewController;
@@ -16,8 +18,8 @@ public class TemplateListCellFactory<T> implements Callback<ListView<T>, ListCel
 	@Override
 	public ListCell<T> call(ListView<T> param) {
 		try {
-			return new TemplateListCell<>(viewController.newInstance());
-		} catch (InstantiationException | IllegalAccessException e) {
+			return new TemplateListCell<>(viewController.getConstructor().newInstance());
+		} catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}
 	}

@@ -4,7 +4,7 @@ import de.thecodelabs.utils.application.NativeLoader;
 import de.thecodelabs.utils.application.system.NativeApplication;
 import de.thecodelabs.utils.application.system.NativeFeatureNotSupported;
 import de.thecodelabs.utils.io.IOUtils;
-import de.thecodelabs.utils.util.ImageUtils;
+import de.thecodelabs.utils.ui.ImageUtils;
 import de.thecodelabs.utils.util.OS;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;

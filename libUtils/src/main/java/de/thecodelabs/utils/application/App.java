@@ -17,9 +17,9 @@ import de.thecodelabs.utils.util.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -109,17 +109,10 @@ public final class App
 		return appInfo;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends ApplicationInfo.CustomUserInfo> T getUserInfo(Class<T> clazz)
 	{
-		//noinspection unchecked
-		return (T) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{clazz}, new InvocationHandler()
-		{
-			@Override
-			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
-			{
-				return getInfo().getUserInfo().get(method.getName());
-			}
-		});
+		return (T) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{clazz}, (proxy, method, args) -> getInfo().getUserInfo().get(method.getName()));
 	}
 
 	public UserDefaults getUserDefaults()
@@ -191,7 +184,6 @@ public final class App
 		this.debug = debug;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void start(String[] args)
 	{
 		this.args = args;
@@ -217,19 +209,22 @@ public final class App
 		{
 			if(Files.exists(nativeFolder))
 			{
-				for(Path item : Files.newDirectoryStream(nativeFolder))
+				try(final DirectoryStream<Path> directoryStream = Files.newDirectoryStream(nativeFolder))
 				{
-					if(NativeLoader.isNativeLibraryFile(item))
+					for(Path item : directoryStream)
 					{
-						loadNativeLibrary(item);
-						println("Load Native Library: " + item);
+						if(NativeLoader.isNativeLibraryFile(item))
+						{
+							loadNativeLibrary(item);
+							println("Load Native Library: " + item);
+						}
 					}
 				}
 			}
 		}
 		catch(IOException e1)
 		{
-			e1.printStackTrace();
+			LoggerBridge.error(e1);
 		}
 
 		// Update
@@ -264,7 +259,7 @@ public final class App
 		// JavaFX App öffnen (wenn vorhanden)
 		try
 		{
-			Class applicationClass = Class.forName("javafx.application.Application");
+			Class<?> applicationClass = Class.forName("javafx.application.Application");
 			if(mainClass.getSuperclass().equals(applicationClass))
 			{
 				final Method launchMethod = applicationClass.getMethod("launch", Class.class, String[].class);
@@ -340,7 +335,7 @@ public final class App
 			}
 			catch(Exception e)
 			{
-				e.printStackTrace();
+				LoggerBridge.error(e);
 			}
 		});
 		isUpdated = true;

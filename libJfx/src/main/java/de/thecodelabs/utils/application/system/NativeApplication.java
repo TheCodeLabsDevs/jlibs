@@ -1,8 +1,8 @@
 package de.thecodelabs.utils.application.system;
 
-import de.thecodelabs.utils.util.OS;
 import de.thecodelabs.utils.application.system.impl.MacNativeApplication;
 import de.thecodelabs.utils.application.system.impl.WindowsNativeApplication;
+import de.thecodelabs.utils.util.OS;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 

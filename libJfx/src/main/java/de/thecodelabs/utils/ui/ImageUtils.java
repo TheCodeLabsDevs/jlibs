@@ -1,4 +1,4 @@
-package de.thecodelabs.utils.util;
+package de.thecodelabs.utils.ui;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;

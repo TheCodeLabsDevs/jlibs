@@ -1,8 +1,8 @@
 package de.thecodelabs.utils.ui.size;
 
+import de.thecodelabs.utils.application.App;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.application.container.PathType;
-import de.thecodelabs.utils.application.App;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;

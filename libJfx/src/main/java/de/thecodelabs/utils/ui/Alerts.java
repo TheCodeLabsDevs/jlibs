@@ -1,6 +1,6 @@
 package de.thecodelabs.utils.ui;
 
-import de.thecodelabs.utils.util.ColorUtils;
+import de.thecodelabs.utils.jfx.ColorUtils;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;

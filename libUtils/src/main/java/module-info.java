@@ -1,12 +1,4 @@
 module de.thecodelabs.libUtils {
-	requires javafx.base;
-	requires javafx.controls;
-	requires javafx.graphics;
-	requires javafx.swing;
-	requires javafx.fxml;
-
-	requires org.controlsfx.controls;
-
 	requires java.xml;
 	requires java.desktop;
 	requires java.sql;
@@ -22,7 +14,6 @@ module de.thecodelabs.libUtils {
 	exports de.thecodelabs.utils.application.resources.classpath;
 	exports de.thecodelabs.utils.application.resources.remote;
 	exports de.thecodelabs.utils.application.resources.external;
-	exports de.thecodelabs.utils.application.system;
 	exports de.thecodelabs.utils.application.update;
 
 	exports de.thecodelabs.utils.io;
@@ -33,15 +24,6 @@ module de.thecodelabs.libUtils {
 
 	exports de.thecodelabs.utils.threading;
 
-	exports de.thecodelabs.utils.ui;
-	exports de.thecodelabs.utils.ui.animation;
-	exports de.thecodelabs.utils.ui.cell;
-	exports de.thecodelabs.utils.ui.icon;
-	exports de.thecodelabs.utils.ui.notification;
-	exports de.thecodelabs.utils.ui.scene;
-	exports de.thecodelabs.utils.ui.scene.input;
-	exports de.thecodelabs.utils.ui.size;
-
 	exports de.thecodelabs.utils.util;
 	exports de.thecodelabs.utils.util.localization;
 	exports de.thecodelabs.utils.util.localization.formatter;
@@ -50,9 +32,4 @@ module de.thecodelabs.libUtils {
 
 	opens de.thecodelabs.utils.application to de.thecodelabs.libStorage;
 	opens de.thecodelabs.utils.application.container to de.thecodelabs.libStorage;
-
-	opens fonts;
-	opens libraries;
-	opens notification.style;
-	opens notification;
 }

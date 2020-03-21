@@ -1,5 +1,7 @@
 package de.thecodelabs.utils.logger;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -55,7 +57,6 @@ public class LoggerBridge
 		}
 	}
 
-
 	public static void error(Object obj)
 	{
 		if(isLoggerAvailable())
@@ -65,6 +66,22 @@ public class LoggerBridge
 		else
 		{
 			System.err.println(obj);
+		}
+	}
+
+	public static void error(Throwable e)
+	{
+		if(isLoggerAvailable())
+		{
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+
+			log(sw.toString(), "ERROR");
+		}
+		else
+		{
+			e.printStackTrace();
 		}
 	}
 
