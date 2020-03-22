@@ -85,7 +85,7 @@ public class Notification
 			final Optional<Point2D> positionOptional = calculatePosition(0);
 			if(positionOptional.isEmpty())
 			{
-				throw new RuntimeException("Could not calculate positio for notification stage");
+				throw new RuntimeException("Could not calculate position for notification stage");
 			}
 
 			final Point2D position = positionOptional.get();
