@@ -1,6 +1,6 @@
 package de.thecodelabs.utils;
 
-import de.thecodelabs.utils.util.ColorUtils;
+import de.thecodelabs.utils.jfx.ColorUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

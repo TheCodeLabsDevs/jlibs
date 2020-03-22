@@ -8,8 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import static de.thecodelabs.utils.application.system.NativeApplication.RequestUserAttentionType.*;
-
 public class NativeApplicationTest extends Application
 {
 	public static void main(String[] args)
