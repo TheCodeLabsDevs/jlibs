@@ -7,6 +7,7 @@ module de.thecodelabs.libJfx {
 
 	requires org.controlsfx.controls;
 
+	requires com.google.gson;
 	requires de.thecodelabs.libUtils;
 
 	requires com.sun.jna;

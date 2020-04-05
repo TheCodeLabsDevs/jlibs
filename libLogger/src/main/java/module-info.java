@@ -1,7 +1,7 @@
 module de.thecodelabs.libLogger {
 
 	requires de.thecodelabs.libStorage;
-	requires jansi;
+	requires org.fusesource.jansi;
 
 	exports de.thecodelabs.logger;
 

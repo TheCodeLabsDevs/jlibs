@@ -4,14 +4,14 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>libLogger</artifactId>
-    <version>3.0.0</version>
+    <version>3.2.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
 
-        <jlibs.version>3.0.0</jlibs.version>
-        <jansi.version>1.17.1</jansi.version>
+        <jlibs.version>3.2.0</jlibs.version>
+        <jansi.version>1.18</jansi.version>
     </properties>
 
     <dependencyManagement>

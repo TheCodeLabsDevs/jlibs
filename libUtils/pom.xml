@@ -4,13 +4,13 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>libUtils</artifactId>
-    <version>3.1.1</version>
+    <version>3.2.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
 
-        <jlibs.version>3.1.0</jlibs.version>
+        <jlibs.version>3.2.0</jlibs.version>
 
         <jna.version>5.5.0</jna.version>
         <jna-platform.version>5.5.0</jna-platform.version>

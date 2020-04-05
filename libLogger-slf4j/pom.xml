@@ -6,12 +6,12 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>libLogger-slf4j</artifactId>
-    <version>3.0.0</version>
+    <version>3.2.0</version>
 
     <properties>
         <java.version>11</java.version>
 
-        <jlibs.version>3.0.0</jlibs.version>
+        <jlibs.version>3.2.0</jlibs.version>
 
         <slf4j-api.version>1.7.25</slf4j-api.version>
 

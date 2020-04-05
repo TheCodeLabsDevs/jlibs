@@ -237,13 +237,13 @@ public final class App
 		// Load User Defaults
 		try
 		{
-			final Path path = getPath(PathType.CONFIGURATION, "UserDefaults.xml");
-			userDefaults = UserDefaults.load(path);
+			final Path userDefaultsPath = getPath(PathType.CONFIGURATION, "UserDefaults.json");
+			userDefaults = UserDefaults.load(userDefaultsPath);
 			Runtime.getRuntime().addShutdownHook(new Thread(() ->
 			{
 				try
 				{
-					userDefaults.save(path);
+					userDefaults.save(userDefaultsPath);
 				}
 				catch(Exception e)
 				{

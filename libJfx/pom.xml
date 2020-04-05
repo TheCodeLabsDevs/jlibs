@@ -6,19 +6,19 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>libJfx</artifactId>
-    <version>3.0.1</version>
+    <version>3.2.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
 
-        <jlibs.version>3.1.0</jlibs.version>
+        <jlibs.version>3.2.0</jlibs.version>
 
         <jna.version>5.5.0</jna.version>
         <jna-platform.version>5.5.0</jna-platform.version>
 
         <controlsfx.version>11.0.1</controlsfx.version>
-        <javafx.version>11</javafx.version>
+        <javafx.version>14</javafx.version>
 
         <junit.version>4.13</junit.version>
     </properties>
@@ -62,16 +62,31 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
             <version>${javafx.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
             <version>${javafx.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
