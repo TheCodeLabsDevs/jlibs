@@ -130,10 +130,17 @@ public class AppFileContainer
 	public void saveInformation()
 	{
 		// Update der Informationen
-		final Path runPath = SystemUtils.getRunPath();
-		if(runPath != null)
+		try
 		{
-			containerInfo.setExecutionPath(runPath.toFile().getAbsolutePath());
+			final Path runPath = SystemUtils.getRunPath();
+			if(runPath != null)
+			{
+				containerInfo.setExecutionPath(runPath.toFile().getAbsolutePath());
+			}
+		}
+		catch(UnsupportedOperationException e) // Not working in jlink env
+		{
+			LoggerBridge.info("Cannot get run path");
 		}
 
 		if(info.getUpdateURL() != null)
