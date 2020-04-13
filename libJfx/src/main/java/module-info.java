@@ -30,4 +30,6 @@ module de.thecodelabs.libJfx {
 	opens notification;
 	opens fonts;
 	opens libraries;
+
+	opens de.thecodelabs.utils.ui.size to com.google.gson;
 }

@@ -8,4 +8,6 @@ module de.thecodelabs.libStorage {
 	exports de.thecodelabs.storage.serializer;
 	exports de.thecodelabs.storage.settings;
 	exports de.thecodelabs.storage.settings.annotation;
+
+	opens de.thecodelabs.storage.settings to com.google.gson;
 }
