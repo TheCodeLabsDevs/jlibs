@@ -29,7 +29,8 @@ public class UpdateService
 	{
 		JAR,
 		EXE,
-		APP
+		APP,
+		JLINK
 	}
 
 	public enum InteractionType

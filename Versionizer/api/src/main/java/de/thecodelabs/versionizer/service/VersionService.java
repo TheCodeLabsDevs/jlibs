@@ -5,12 +5,11 @@ import de.thecodelabs.artifactory.File;
 import de.thecodelabs.artifactory.Folder;
 import de.thecodelabs.artifactory.FolderItem;
 import de.thecodelabs.utils.io.IOUtils;
+import de.thecodelabs.utils.logger.LoggerBridge;
 import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.config.Repository;
 import de.thecodelabs.versionizer.model.RemoteFile;
 import de.thecodelabs.versionizer.model.Version;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,10 +22,8 @@ import java.util.List;
 
 public class VersionService
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(VersionService.class);
-
-	private Repository repository;
-	private Artifactory artifactory;
+	private final Repository repository;
+	private final Artifactory artifactory;
 	private UpdateService.RepositoryType repositoryType;
 
 	public VersionService(Repository repository, UpdateService.RepositoryType repositoryType)
@@ -51,7 +48,7 @@ public class VersionService
 		}
 		catch(Exception e)
 		{
-			LOGGER.info("No release versions found for artifact: {}", build);
+			LoggerBridge.info("No release versions found for artifact: " + build);
 		}
 
 		// Snapshot Repository
@@ -64,7 +61,7 @@ public class VersionService
 		}
 		catch(Exception e)
 		{
-			LOGGER.info("No snapshot versions found for artifact: {}", build);
+			LoggerBridge.info("No snapshot versions found for artifact: " + build);
 		}
 
 		versionList.sort(Version::compareTo);
@@ -88,7 +85,7 @@ public class VersionService
 		final Version latestVersion = getLatestVersion(build);
 		if(latestVersion == null)
 		{
-			LOGGER.warn("No Versions found");
+			LoggerBridge.warning("No Versions found");
 			return false;
 		}
 

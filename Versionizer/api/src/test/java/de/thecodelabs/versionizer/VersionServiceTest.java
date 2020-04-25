@@ -1,6 +1,5 @@
 package de.thecodelabs.versionizer;
 
-import de.thecodelabs.logger.Logger;
 import de.thecodelabs.versionizer.config.Artifact;
 import de.thecodelabs.versionizer.config.Repository;
 import de.thecodelabs.versionizer.model.RemoteFile;
@@ -16,8 +15,6 @@ public class VersionServiceTest
 {
 	public static void main(String[] args)
 	{
-		Logger.init(Paths.get("./"));
-
 		final Repository repository = new Repository();
 		final Artifact build = new Artifact();
 		repository.setUrl("https://maven.thecodelabs.de/artifactory");

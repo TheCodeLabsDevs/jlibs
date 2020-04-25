@@ -78,7 +78,14 @@ public class Artifact
 
 	public void setLocalPath(Path localPath)
 	{
-		this.localPath = localPath.toString();
+		if(localPath != null)
+		{
+			this.localPath = localPath.toString();
+		}
+		else
+		{
+			this.localPath = null;
+		}
 	}
 
 	@Override

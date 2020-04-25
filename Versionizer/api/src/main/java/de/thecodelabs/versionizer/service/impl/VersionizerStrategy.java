@@ -13,8 +13,6 @@ import de.thecodelabs.versionizer.model.Version;
 import de.thecodelabs.versionizer.service.UpdateService;
 import de.thecodelabs.versionizer.service.VersionService;
 import de.thecodelabs.versionizer.service.VersionTokenizer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,9 +25,6 @@ import java.util.Optional;
 
 public abstract class VersionizerStrategy
 {
-
-	public static final Logger LOGGER = LoggerFactory.getLogger(VersionizerStrategy.class);
-
 	public abstract Path getUpdaterPath(UpdateService.InteractionType type);
 
 	protected abstract Optional<RemoteFile> getSuitableRemoteFile(List<RemoteFile> remoteFiles);
@@ -71,14 +66,14 @@ public abstract class VersionizerStrategy
 
 			container.close();
 
-			LOGGER.debug("Versionizer Remote: {}", remoteVersion);
-			LOGGER.debug("Versionizer Local: {}", localVersion);
+			LoggerBridge.debug("Versionizer Remote: " + remoteVersion);
+			LoggerBridge.debug("Versionizer Local: " + localVersion);
 
 			return remoteVersion.isNewerThen(localVersion);
 		}
 		catch(RuntimeException e)
 		{
-			LOGGER.warn(e.getMessage());
+			LoggerBridge.warning(e.getMessage());
 			return false;
 		}
 	}
@@ -95,7 +90,7 @@ public abstract class VersionizerStrategy
 		repository = app.getClasspathResource("versionizer/repository.yml").deserialize(StorageTypes.YAML, Repository.class);
 		build = app.getClasspathResource("versionizer/" + type + "-build.json").deserialize(StorageTypes.JSON, Artifact.class);
 
-		LOGGER.info("Downloading versionizer using artifact {}", build);
+		LoggerBridge.info("Downloading versionizer using artifact " + build);
 
 		VersionService versionService = new VersionService(repository, UpdateService.RepositoryType.RELEASE);
 
