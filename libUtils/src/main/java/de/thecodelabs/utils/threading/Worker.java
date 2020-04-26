@@ -9,9 +9,8 @@ import java.util.concurrent.*;
 
 public class Worker
 {
-
 	private static ExecutorService executorService;
-	private static List<AutoCloseable> closeableList;
+	private static final List<AutoCloseable> closeableList;
 
 	static
 	{
@@ -19,51 +18,48 @@ public class Worker
 		closeableList = new LinkedList<>();
 	}
 
+	private Worker()
+	{
+	}
+
 	private static void initWorker()
 	{
 		int nThreads = Runtime.getRuntime().availableProcessors();
 		executorService = new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>())
 		{
-
 			@Override
-			public <T> Future<T> submit(final Callable<T> task)
+			protected void afterExecute(Runnable r, Throwable t)
 			{
-				Callable<T> wrappedTask = () ->
+				super.afterExecute(r, t);
+				if(t == null && r instanceof Future<?>)
 				{
 					try
 					{
-						return task.call();
+						Future<?> future = (Future<?>) r;
+						if(future.isDone())
+						{
+							future.get();
+						}
 					}
-					catch(Exception e)
+					catch(CancellationException ce)
 					{
-						LoggerBridge.warning(e);
-						throw e;
+						t = ce;
 					}
-				};
-
-				return super.submit(wrappedTask);
-			}
-
-			@Override
-			public <T> Future<T> submit(Runnable task, T result)
-			{
-				Runnable wrapperTask = () ->
+					catch(ExecutionException ee)
+					{
+						t = ee.getCause();
+					}
+					catch(InterruptedException ie)
+					{
+						Thread.currentThread().interrupt();
+					}
+				}
+				if(t != null)
 				{
-					try
-					{
-						task.run();
-					}
-					catch(Exception e)
-					{
-						LoggerBridge.warning(e);
-						throw e;
-					}
-				};
-
-				return super.submit(wrapperTask, result);
+					LoggerBridge.error(t);
+				}
 			}
 		};
-
 		LoggerBridge.info("Start ExecutorService");
 	}
 
