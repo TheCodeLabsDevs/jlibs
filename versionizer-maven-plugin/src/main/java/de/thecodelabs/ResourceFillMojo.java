@@ -18,66 +18,76 @@ import java.util.Properties;
 public class ResourceFillMojo extends AbstractMojo
 {
 	@Parameter(property = "resourceFile")
-	private String resourceFile;
+	private List<String> resourceFiles;
 
 	@Parameter(defaultValue = "${project}", readonly = true, required = true)
 	private MavenProject mavenProject;
 
 	public void execute() throws MojoExecutionException
 	{
-		final List resources = mavenProject.getBuild().getResources();
-		try
+		final List<?> resources = mavenProject.getBuild().getResources();
+		for(Object obj : resources)
 		{
-			for(Object obj : resources)
+			if(obj instanceof Resource)
 			{
-				if(obj instanceof Resource)
+				Resource resource = (Resource) obj;
+				final String directory = resource.getDirectory();
+				for(String resourceFile : resourceFiles)
 				{
-					Resource resource = (Resource) obj;
-					final String directory = resource.getDirectory();
-					File srcFile = new File(directory, resourceFile);
-					File desFile = new File(mavenProject.getBuild().getOutputDirectory(), resourceFile);
-
-					Map<Object, Object> replacement = new HashMap<Object, Object>();
-
-					replacement.put("pom.artifactId", mavenProject.getArtifactId());
-					replacement.put("pom.groupId", mavenProject.getGroupId());
-					replacement.put("pom.version", mavenProject.getVersion());
-
-					final Properties properties = mavenProject.getProperties();
-					for (Object key : properties.keySet()) {
-						replacement.put(key, properties.get(key));
+					try
+					{
+						prepareFile(directory, resourceFile);
 					}
-
-					replaceFile(srcFile, desFile, replacement);
+					catch(IOException e)
+					{
+						throw new MojoExecutionException("IOException", e);
+					}
 				}
 			}
 		}
-		catch(IOException e)
+	}
+
+	public void prepareFile(String directory, String resourceFile) throws IOException
+	{
+		File srcFile = new File(directory, resourceFile);
+		File desFile = new File(mavenProject.getBuild().getOutputDirectory(), resourceFile);
+
+		Map<Object, Object> replacement = new HashMap<Object, Object>();
+
+		replacement.put("pom.artifactId", mavenProject.getArtifactId());
+		replacement.put("pom.groupId", mavenProject.getGroupId());
+		replacement.put("pom.version", mavenProject.getVersion());
+
+		final Properties properties = mavenProject.getProperties();
+		for(Map.Entry<Object, Object> entry : properties.entrySet())
 		{
-			throw new MojoExecutionException("IOException", e);
+			replacement.put(entry.getKey(), entry.getValue());
 		}
+
+		replaceFile(srcFile, desFile, replacement);
 	}
 
 	private void replaceFile(File srcFile, File desFile, Map<Object, Object> replacement) throws IOException
 	{
-		if (!srcFile.exists()) {
+		if(!srcFile.exists())
+		{
 			return;
 		}
-		BufferedReader reader = new BufferedReader(new FileReader(srcFile));
-
-		StringBuilder content = new StringBuilder();
-		String st;
-		while((st = reader.readLine()) != null)
+		try(BufferedReader reader = new BufferedReader(new FileReader(srcFile));
+			PrintWriter writer = new PrintWriter(new FileOutputStream(desFile), true))
 		{
-			content.append(st).append("\n");
+
+			StringBuilder content = new StringBuilder();
+			String st;
+			while((st = reader.readLine()) != null)
+			{
+				content.append(st).append("\n");
+			}
+
+			StrSubstitutor sub = new StrSubstitutor(replacement);
+			String resolvedString = sub.replace(content);
+
+			writer.append(resolvedString);
 		}
-		reader.close();
-
-		StrSubstitutor sub = new StrSubstitutor(replacement);
-		String resolvedString = sub.replace(content);
-
-		PrintWriter writer = new PrintWriter(new FileOutputStream(desFile), true);
-		writer.append(resolvedString);
-		writer.close();
 	}
 }
