@@ -1,6 +1,6 @@
 module de.thecodelabs.libLogger.slf4j {
 
-	requires slf4j.api;
+	requires org.slf4j;
 	requires java.logging;
 
 	requires de.thecodelabs.libLogger;

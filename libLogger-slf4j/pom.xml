@@ -6,20 +6,32 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>libLogger-slf4j</artifactId>
-    <version>3.2.0</version>
+    <version>3.2.1</version>
 
     <properties>
         <java.version>11</java.version>
 
         <jlibs.version>3.2.0</jlibs.version>
 
-        <slf4j-api.version>1.7.25</slf4j-api.version>
+        <slf4j-api.version>1.7.30</slf4j-api.version>
 
         <juli-to-slf4j.version>1.1.1</juli-to-slf4j.version>
         <log4j-over-slf4j.version>1.7.30</log4j-over-slf4j.version>
         <jul-to-slf4j.version>1.7.30</jul-to-slf4j.version>
         <jcl-over-slf4j.version>1.7.30</jcl-over-slf4j.version>
+
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+        <license-maven-plugin.version>2.0.0</license-maven-plugin.version>
     </properties>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <dependencyManagement>
         <dependencies>
@@ -71,21 +83,38 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.1.0</version>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${license-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <includeTransitiveDependencies>false</includeTransitiveDependencies>
+                            <sortArtifactByName>true</sortArtifactByName>
+                        </configuration>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>add-third-party</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
