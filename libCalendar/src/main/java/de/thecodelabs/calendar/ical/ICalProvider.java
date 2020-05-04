@@ -33,7 +33,7 @@ public class ICalProvider implements CalendarProvider
 		System.setProperty("net.fortuna.ical4j.timezone.cache.impl", "net.fortuna.ical4j.util.MapTimeZoneCache");
 	}
 
-	private URL url;
+	private final URL url;
 
 	public ICalProvider(URL url)
 	{

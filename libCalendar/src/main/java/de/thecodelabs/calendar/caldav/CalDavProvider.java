@@ -32,14 +32,14 @@ public class CalDavProvider implements CalendarProvider
 		System.setProperty("net.fortuna.ical4j.timezone.cache.impl", "net.fortuna.ical4j.util.MapTimeZoneCache");
 	}
 
-	private String host;
-	private int port;
-	private String protocol;
+	private final String host;
+	private final int port;
+	private final String protocol;
 
-	private String username;
-	private String password;
+	private final String username;
+	private final String password;
 
-	private String path;
+	private final String path;
 
 	public CalDavProvider(String host, int port, String protocol, String username, String password, String path)
 	{
