@@ -5,12 +5,19 @@
     <parent>
         <artifactId>spring-boot</artifactId>
         <groupId>de.thecodelabs.spring</groupId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>auth-form</artifactId>
-    <version>1.0.0</version>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <dependencies>
         <dependency>
