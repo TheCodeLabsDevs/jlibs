@@ -5,8 +5,9 @@ module de.thecodelabs.libMidi {
 	requires java.desktop;
 
 	requires com.google.gson;
-	requires coremidi4j;
-	requires javafx.graphics;
+	requires uk.co.xfactorylibrarians.coremidi4j;
+
+	requires javafx.controls;
 
 	exports de.thecodelabs.midi;
 	exports de.thecodelabs.midi.action;
