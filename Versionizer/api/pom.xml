@@ -5,21 +5,29 @@
     <parent>
         <artifactId>Versionizer</artifactId>
         <groupId>de.thecodelabs.versionizer</groupId>
-        <version>3.0.0</version>
+        <version>3.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>api</artifactId>
 
     <properties>
-        <java.version>11</java.version>
+        <libArtifactory.version>3.0.2</libArtifactory.version>
     </properties>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <dependencies>
         <dependency>
             <groupId>de.thecodelabs</groupId>
             <artifactId>libArtifactory</artifactId>
-            <version>3.0.1</version>
+            <version>${libArtifactory.version}</version>
         </dependency>
         <dependency>
             <groupId>de.thecodelabs</groupId>
@@ -27,23 +35,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <release>${java.version}</release>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
