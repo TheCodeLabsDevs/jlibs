@@ -1,5 +1,8 @@
 package de.tobias.dropbox.test;
 
+import com.dropbox.core.DbxException;
+import de.tobias.dropbox.DbxUtils;
+
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
@@ -7,10 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.dropbox.core.DbxException;
-
-import de.tobias.dropbox.DbxUtils;
 
 public class DbxTest {
 
@@ -34,7 +33,7 @@ public class DbxTest {
 
 		Map<String, String> env = new HashMap<>();
 		env.put("appInfo", "PlayWall");
-		env.put("accessToken", "7HkiQL88B1UAAAAAAAAB6kndV7WwXtRyYP_SEKHNcLV10SEqYJBsMeAQhsFCHCP3");
+		env.put("accessToken", args[0]);
 		DbxUtils.createAttachPoint(env);
 
 		Path path = Paths.get(URI.create("dropbox:///"));
