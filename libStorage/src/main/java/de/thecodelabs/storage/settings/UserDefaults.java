@@ -1,6 +1,7 @@
 package de.thecodelabs.storage.settings;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,20 +13,20 @@ public class UserDefaults
 {
 	private static final Gson gson = new Gson();
 
-	private Map<String, Object> data = new HashMap<>();
+	private Map<String, JsonElement> data = new HashMap<>();
 
 	private UserDefaults()
 	{
 	}
 
-	public Object getData(String key)
+	public JsonElement getData(String key)
 	{
 		return data.get(key);
 	}
 
 	public void setData(String key, Object data)
 	{
-		this.data.put(key, data);
+		this.data.put(key, gson.toJsonTree(data));
 	}
 
 	public void clearData(String key)
