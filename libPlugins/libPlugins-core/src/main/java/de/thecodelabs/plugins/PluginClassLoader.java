@@ -20,6 +20,7 @@ import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.utils.logger.LoggerBridge;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -123,12 +124,12 @@ public class PluginClassLoader extends URLClassLoader
 			LoggerBridge.debug("Loading plugin: " + pluginDescriptor.getName() + ", version: " + pluginDescriptor.getVersion() + " (" + pluginDescriptor.getBuild() + ")");
 
 			// Load plugin main class
-			pluginInstance = (Plugin) aClass.newInstance();
+			pluginInstance = (Plugin) aClass.getConstructor().newInstance();
 			pluginInstance.startup(pluginDescriptor);
 
 			this.setLoaded(true);
 		}
-		catch(IOException | ClassNotFoundException | InstantiationException | IllegalAccessException e)
+		catch(IOException | ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
 		{
 			throw new RuntimeException(e);
 		}

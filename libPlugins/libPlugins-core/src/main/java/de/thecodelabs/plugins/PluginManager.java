@@ -5,6 +5,7 @@ import de.thecodelabs.utils.io.PathUtils;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -31,13 +32,13 @@ public class PluginManager
 		this.pluginClassLoaders = new ArrayList<>();
 	}
 
-	private List<PluginClassLoader> pluginClassLoaders;
+	private final List<PluginClassLoader> pluginClassLoaders;
 
 	public void addFolder(Path path)
 	{
-		try
+		try(DirectoryStream<Path> stream = Files.newDirectoryStream(path))
 		{
-			Files.newDirectoryStream(path).forEach(file -> {
+			stream.forEach(file -> {
 				if(PathUtils.getFileExtension(file).equalsIgnoreCase(JAR))
 				{
 					addFile(file);
