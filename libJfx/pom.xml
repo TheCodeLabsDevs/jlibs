@@ -20,7 +20,7 @@
         <controlsfx.version>11.0.1</controlsfx.version>
         <javafx.version>14.0.1</javafx.version>
 
-        <junit.version>4.13</junit.version>
+        <junit.version>4.13.1</junit.version>
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
