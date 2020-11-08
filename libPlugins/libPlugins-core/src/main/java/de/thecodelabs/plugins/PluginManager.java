@@ -80,6 +80,21 @@ public class PluginManager
 		return loaderOptional.map(PluginClassLoader::getPluginDescriptor).orElse(null);
 	}
 
+	public Class<?> loadClass(String name) throws ClassNotFoundException
+	{
+		for(PluginClassLoader pluginClassLoader : pluginClassLoaders)
+		{
+			try
+			{
+				return pluginClassLoader.loadClass(name);
+			}
+			catch(ClassNotFoundException ignored)
+			{
+			}
+		}
+		return Class.forName(name);
+	}
+
 	public void loadPlugins()
 	{
 		for(PluginClassLoader pluginClassLoader : pluginClassLoaders)
