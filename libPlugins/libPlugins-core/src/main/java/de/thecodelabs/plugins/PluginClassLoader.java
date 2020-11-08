@@ -109,11 +109,15 @@ public class PluginClassLoader extends URLClassLoader
 
 	public void loadPlugin()
 	{
-		final URL resource = this.getResource("plugin.yml");
+		URL resource = this.getResource("plugin.yml");
 		if(resource == null)
 		{
-			LoggerBridge.debug("Missing plugin.yml in " + getURLs()[0]);
-			return;
+			resource = this.getResource("plugin.yaml");
+			if(resource == null)
+			{
+				LoggerBridge.error("Missing plugin.yml in " + getURLs()[0]);
+				return;
+			}
 		}
 
 		try

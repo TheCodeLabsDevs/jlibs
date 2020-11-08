@@ -7,7 +7,7 @@
     <groupId>de.thecodelabs</groupId>
     <artifactId>libPlugins</artifactId>
     <packaging>pom</packaging>
-    <version>2.2.1</version>
+    <version>3.0.0</version>
 
     <modules>
         <module>libPlugins-core</module>
@@ -15,10 +15,10 @@
     </modules>
 
     <properties>
-        <jlibs.version>2.0.6</jlibs.version>
-        <api.version>1.1.1</api.version>
+        <jlibs.version>3.2.0</jlibs.version>
+        <api.version>3.0.1</api.version>
 
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
     </properties>
 
     <dependencyManagement>
