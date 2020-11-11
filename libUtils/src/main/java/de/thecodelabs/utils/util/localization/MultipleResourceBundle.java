@@ -4,7 +4,7 @@ import java.util.*;
 
 public class MultipleResourceBundle extends ResourceBundle
 {
-	private Locale locale;
+	private final Locale locale;
 	private Map<String, String> values = new HashMap<>();
 
 	public MultipleResourceBundle(List<ResourceBundle> resourceBundles, Locale locale)
@@ -17,6 +17,7 @@ public class MultipleResourceBundle extends ResourceBundle
 	}
 
 	public MultipleResourceBundle(MultipleResourceBundle oldList, ResourceBundle... resourceBundles) {
+		locale = oldList.locale;
 		values = oldList.values;
 		for(ResourceBundle bundle : resourceBundles)
 		{
