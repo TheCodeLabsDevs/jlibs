@@ -48,9 +48,11 @@ public class Localization
 		}
 		Localization.bundle = new MultipleResourceBundle(bundles, delegate.getLocale());
 		Localization.formatter = delegate.messageFormatter();
+		delegate.localizationDidLoad();
 	}
 
-	public static void addResourceBundle(String name, ClassLoader loader) {
+	public static void addResourceBundle(String name, ClassLoader loader)
+	{
 		addResourceBundle(loadBundle(name, loader));
 	}
 
@@ -120,6 +122,10 @@ public class Localization
 		default String[] getBaseResources()
 		{
 			return new String[]{};
+		}
+
+		default void localizationDidLoad()
+		{
 		}
 
 		default boolean useMultipleResourceBundles()
