@@ -3,6 +3,7 @@ package de.thecodelabs.plugins;
 import de.thecodelabs.utils.io.PathUtils;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
@@ -27,31 +28,41 @@ public class PluginManager
 		return instance;
 	}
 
+	private final List<PluginClassLoader> pluginClassLoaders;
+
 	private PluginManager()
 	{
 		this.pluginClassLoaders = new ArrayList<>();
 	}
 
-	private final List<PluginClassLoader> pluginClassLoaders;
-
-	public void addFolder(Path path)
+	/**
+	 * Add all jars of a directory to the plugin manager.
+	 *
+	 * @param path directory
+	 */
+	public void addPluginsOfDirectory(Path path)
 	{
 		try(DirectoryStream<Path> stream = Files.newDirectoryStream(path))
 		{
 			stream.forEach(file -> {
 				if(PathUtils.getFileExtension(file).equalsIgnoreCase(JAR))
 				{
-					addFile(file);
+					addPluginFile(file);
 				}
 			});
 		}
 		catch(IOException e)
 		{
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
-	public void addFile(Path path)
+	/**
+	 * Add a jar plugin to the system (or a folder containing all class files)
+	 *
+	 * @param path path to plugin
+	 */
+	public void addPluginFile(Path path)
 	{
 		try
 		{
@@ -60,11 +71,11 @@ public class PluginManager
 		}
 		catch(MalformedURLException e)
 		{
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
-	public List<Plugin> getPlugins()
+	public List<Plugin> getLoadedPlugins()
 	{
 		return pluginClassLoaders.stream()
 				.filter(PluginClassLoader::isLoaded)
@@ -72,12 +83,12 @@ public class PluginManager
 				.collect(Collectors.toList());
 	}
 
-	public PluginDescriptor getPluginDescriptor(Plugin plugin)
+	public Optional<PluginDescriptor> getPluginDescriptor(Plugin plugin)
 	{
 		final Optional<PluginClassLoader> loaderOptional = pluginClassLoaders.stream()
 				.filter(loader -> loader.getPluginInstance() == plugin)
 				.findFirst();
-		return loaderOptional.map(PluginClassLoader::getPluginDescriptor).orElse(null);
+		return loaderOptional.map(PluginClassLoader::getPluginDescriptor);
 	}
 
 	public Class<?> loadClass(String name) throws ClassNotFoundException
