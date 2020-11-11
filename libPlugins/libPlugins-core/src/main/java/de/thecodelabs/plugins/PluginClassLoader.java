@@ -107,7 +107,7 @@ public class PluginClassLoader extends URLClassLoader
 		this.loaded = loaded;
 	}
 
-	public void loadPlugin()
+	public void loadPlugin(PluginManagerDelegate delegate)
 	{
 		URL resource = this.getResource("plugin.yml");
 		if(resource == null)
@@ -129,7 +129,15 @@ public class PluginClassLoader extends URLClassLoader
 
 			// Load plugin main class
 			pluginInstance = (Plugin) aClass.getConstructor().newInstance();
+			if(delegate != null)
+			{
+				delegate.pluginWillLoad(pluginInstance, pluginDescriptor);
+			}
 			pluginInstance.startup(pluginDescriptor);
+			if(delegate != null)
+			{
+				delegate.pluginDidLoaded(pluginInstance, pluginDescriptor);
+			}
 
 			this.setLoaded(true);
 		}

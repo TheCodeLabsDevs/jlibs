@@ -108,11 +108,16 @@ public class PluginManager
 
 	public void loadPlugins()
 	{
+		loadPlugins(null);
+	}
+
+	public void loadPlugins(PluginManagerDelegate delegate)
+	{
 		for(PluginClassLoader pluginClassLoader : pluginClassLoaders)
 		{
 			if(!pluginClassLoader.isLoaded())
 			{
-				pluginClassLoader.loadPlugin();
+				pluginClassLoader.loadPlugin(delegate);
 			}
 		}
 	}
