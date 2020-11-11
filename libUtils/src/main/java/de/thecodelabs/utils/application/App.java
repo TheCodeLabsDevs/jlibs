@@ -35,13 +35,13 @@ public final class App
 	/**
 	 * Bundle Information
 	 */
-	private ApplicationInfo appInfo;
+	private final ApplicationInfo appInfo;
 	/**
 	 * File Container for the bundle
 	 */
-	private AppFileContainer container;
-	private RemoteResourceContainer remoteResourceContainer;
-	private ClasspathResourceContainer classpathResourceContainer;
+	private final AppFileContainer container;
+	private final RemoteResourceContainer remoteResourceContainer;
+	private final ClasspathResourceContainer classpathResourceContainer;
 
 	/**
 	 * show debug messages in the console
@@ -63,7 +63,7 @@ public final class App
 	 */
 	private UserDefaults userDefaults;
 
-	private String[] args;
+	private String[] programArgs;
 
 	/**
 	 * Create a new AppBundle with configuration file
@@ -112,6 +112,7 @@ public final class App
 	@SuppressWarnings("unchecked")
 	public <T extends ApplicationInfo.CustomUserInfo> T getUserInfo(Class<T> clazz)
 	{
+		//noinspection SuspiciousInvocationHandlerImplementation
 		return (T) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{clazz}, (proxy, method, args) -> getInfo().getUserInfo().get(method.getName()));
 	}
 
@@ -120,9 +121,9 @@ public final class App
 		return userDefaults;
 	}
 
-	public String[] getArgs()
+	public String[] getProgramArgs()
 	{
-		return args;
+		return programArgs;
 	}
 
 	/**
@@ -174,19 +175,9 @@ public final class App
 		return debug;
 	}
 
-	/**
-	 * Show debug infos in the console
-	 *
-	 * @param debug show
-	 */
-	public void setDebugging(boolean debug)
-	{
-		this.debug = debug;
-	}
-
 	public void start(String[] args)
 	{
-		this.args = args;
+		this.programArgs = args;
 		if(args != null)
 		{
 			if(args.length != 0)

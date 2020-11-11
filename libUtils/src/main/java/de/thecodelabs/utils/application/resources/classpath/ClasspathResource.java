@@ -6,8 +6,8 @@ import java.io.InputStream;
 
 public class ClasspathResource extends AbstractResource
 {
-	private Class<?> callerClass;
-	private String name;
+	private final Class<?> callerClass;
+	private final String name;
 
 	ClasspathResource(Class<?> callerClass, String name)
 	{
