@@ -118,7 +118,8 @@ public class Logger
 		{
 			try
 			{
-				Path outFile, errFile;
+				Path outFile;
+				Path errFile;
 				if(fileOutputOption == FileOutputOption.COMBINED)
 				{
 					outFile = baseDir.resolve(OUT_FILE);
@@ -140,7 +141,7 @@ public class Logger
 			}
 			catch(IOException e)
 			{
-				throw new RuntimeException(e);
+				throw new UncheckedIOException(e);
 			}
 
 			outputStream.setFileOutput(fileOutputOption != FileOutputOption.DISABLED);
@@ -188,8 +189,7 @@ public class Logger
 		}
 		if(levelFilter.acceptLevel(level))
 		{
-
-			if (element == null)
+			if(element == null)
 			{
 				final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
@@ -294,7 +294,7 @@ public class Logger
 		}
 		catch(IOException e)
 		{
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
