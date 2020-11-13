@@ -178,16 +178,11 @@ public final class App
 	public void start(String[] args)
 	{
 		this.programArgs = args;
-		if(args != null)
+
+		if(args != null && args.length != 0 && Arrays.binarySearch(args, "--debug") >= 0)
 		{
-			if(args.length != 0)
-			{
-				if(Arrays.binarySearch(args, "--debug") >= 0)
-				{
-					debug = true;
-					container.updatePath();
-				}
-			}
+			debug = true;
+			container.updatePath();
 		}
 
 		ApplicationUtils.getAppListeners().forEach(listener -> listener.applicationWillStart(this));
@@ -195,28 +190,7 @@ public final class App
 		printAppDetails();
 
 		// Load Natives
-		Path nativeFolder = getPath(PathType.NATIVE_LIBRARY);
-		try
-		{
-			if(Files.exists(nativeFolder))
-			{
-				try(final DirectoryStream<Path> directoryStream = Files.newDirectoryStream(nativeFolder))
-				{
-					for(Path item : directoryStream)
-					{
-						if(NativeLoader.isNativeLibraryFile(item))
-						{
-							loadNativeLibrary(item);
-							println("Load Native Library: " + item);
-						}
-					}
-				}
-			}
-		}
-		catch(IOException e1)
-		{
-			LoggerBridge.error(e1);
-		}
+		loadNativeLibraries();
 
 		// Update
 		if(checkLocalUpdate())
@@ -247,7 +221,54 @@ public final class App
 			LoggerBridge.error(e);
 		}
 
-		// JavaFX App öffnen (wenn vorhanden)
+		launchJavaFxApplication(args);
+	}
+
+	private void loadNativeLibraries()
+	{
+		final Path nativeFolder = getPath(PathType.NATIVE_LIBRARY);
+		try
+		{
+			if(Files.exists(nativeFolder))
+			{
+				try(final DirectoryStream<Path> directoryStream = Files.newDirectoryStream(nativeFolder))
+				{
+					for(Path item : directoryStream)
+					{
+						if(NativeLoader.isNativeLibraryFile(item))
+						{
+							loadNativeLibrary(item);
+							println("Load Native Library: " + item);
+						}
+					}
+				}
+			}
+		}
+		catch(IOException e1)
+		{
+			LoggerBridge.error(e1);
+		}
+	}
+
+	/**
+	 * Loads a native library into the java vm.
+	 *
+	 * @param path full path to the library
+	 */
+	public void loadNativeLibrary(Path path)
+	{
+		try
+		{
+			System.load(path.toString());
+		}
+		catch(Exception e)
+		{
+			LoggerBridge.error("Unable to load native library " + path + " for reason: " + e.getMessage());
+		}
+	}
+
+	private void launchJavaFxApplication(String[] args)
+	{
 		try
 		{
 			Class<?> applicationClass = Class.forName("javafx.application.Application");
@@ -281,23 +302,6 @@ public final class App
 		}
 
 		println(stringBuilder.toString());
-	}
-
-	/**
-	 * Loads a native library into the java vm.
-	 *
-	 * @param path full path to the library
-	 */
-	public void loadNativeLibrary(Path path)
-	{
-		try
-		{
-			System.load(path.toString());
-		}
-		catch(Exception e)
-		{
-			LoggerBridge.error("Unable to load native library " + path + " for reason: " + e.getMessage());
-		}
 	}
 
 	private boolean checkLocalUpdate()

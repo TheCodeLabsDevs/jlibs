@@ -8,6 +8,7 @@ import de.thecodelabs.utils.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,7 +21,7 @@ public abstract class AbstractResource
 		try {
 			return IOUtils.inputStreamToByteArray(getInputStream());
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -41,7 +42,7 @@ public abstract class AbstractResource
 		try {
 			IOUtils.copy(getInputStream(), path);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -52,7 +53,7 @@ public abstract class AbstractResource
 			IOUtils.copy(getInputStream(), downloadPath);
 			Files.move(downloadPath, path);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 }

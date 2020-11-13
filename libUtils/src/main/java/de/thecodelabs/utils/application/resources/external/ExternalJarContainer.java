@@ -4,13 +4,14 @@ import de.thecodelabs.utils.util.StringUtils;
 import de.thecodelabs.utils.util.zip.ZipFile;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ExternalJarContainer
 {
-	private static Map<Path, ExternalJarContainer> pathExternalJarContainerMap;
+	private static final Map<Path, ExternalJarContainer> pathExternalJarContainerMap;
 
 	static
 	{
@@ -32,7 +33,7 @@ public class ExternalJarContainer
 		}
 		catch(IOException e)
 		{
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -53,7 +54,7 @@ public class ExternalJarContainer
 		}
 		catch(IOException e)
 		{
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -66,7 +67,7 @@ public class ExternalJarContainer
 		}
 		catch(IOException e)
 		{
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 

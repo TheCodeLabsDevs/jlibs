@@ -10,6 +10,7 @@ import de.thecodelabs.utils.logger.LoggerBridge;
 import de.thecodelabs.utils.util.SystemUtils;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -17,9 +18,8 @@ public class AppFileContainer
 {
 	private static final String CONTAINER_YML = "container.yml";
 
+	private final AppFileContainerInfo containerInfo;
 	private String containerName = "Java File Container";
-
-	private AppFileContainerInfo containerInfo;
 	private Path containerPath;
 	private Path containerInfoPath;
 
@@ -62,13 +62,12 @@ public class AppFileContainer
 		if(app.isDebug())
 		{
 			containerPath = SystemUtils.getApplicationSupportDirectoryPath(containerName, info.getIdentifier() + ".debug");
-			containerInfoPath = getPath("container.yml", PathType.ROOT);
 		}
 		else
 		{
 			containerPath = SystemUtils.getApplicationSupportDirectoryPath(containerName, info.getIdentifier());
-			containerInfoPath = getPath("container.yml", PathType.ROOT);
 		}
+		containerInfoPath = getPath("container.yml", PathType.ROOT);
 	}
 
 	public Path getPath(String name, ContainerPathType pathType)
@@ -82,7 +81,7 @@ public class AppFileContainer
 			}
 			catch(IOException e)
 			{
-				throw new RuntimeException(e);
+				throw new UncheckedIOException(e);
 			}
 		}
 		final Path path = baseFolder.resolve(name);
@@ -95,7 +94,7 @@ public class AppFileContainer
 			}
 			catch(IOException e)
 			{
-				throw new RuntimeException(e);
+				throw new UncheckedIOException(e);
 			}
 		}
 		return path;
@@ -109,11 +108,6 @@ public class AppFileContainer
 	public Path getContainerPath()
 	{
 		return containerPath;
-	}
-
-	public Path getBackupPath(long time, Path path, PathType type)
-	{
-		return getFolder(PathType.BACKUP).resolve(Long.toString(time)).resolve(containerPath.relativize(path));
 	}
 
 	public AppFileContainerInfo getContainerInfo()
