@@ -67,12 +67,27 @@ public class PluginManager
 		try
 		{
 			URL url = path.toUri().toURL();
-			pluginClassLoaders.add(new PluginClassLoader(new URL[]{url}));
+			addPluginClassLoader(new PluginClassLoader(new URL[]{url}));
 		}
 		catch(MalformedURLException e)
 		{
 			throw new UncheckedIOException(e);
 		}
+	}
+
+	private void addPluginClassLoader(PluginClassLoader pluginClassLoader)
+	{
+		final Optional<PluginClassLoader> anyMatch = pluginClassLoaders.stream()
+				.filter(plugin -> plugin.loadPluginDescriptor().getName().equals(pluginClassLoader.loadPluginDescriptor().getName()))
+				.findFirst();
+
+		if(anyMatch.isPresent())
+		{
+			final PluginClassLoader classLoader = anyMatch.get();
+			throw new DuplicatedPluginException(classLoader.getPluginDescriptor(), classLoader);
+		}
+
+		pluginClassLoaders.add(pluginClassLoader);
 	}
 
 	public List<Plugin> getLoadedPlugins()

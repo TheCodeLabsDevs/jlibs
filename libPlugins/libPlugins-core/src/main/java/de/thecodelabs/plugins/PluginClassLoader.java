@@ -20,6 +20,7 @@ import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.utils.logger.LoggerBridge;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -107,8 +108,12 @@ public class PluginClassLoader extends URLClassLoader
 		this.loaded = loaded;
 	}
 
-	public void loadPlugin(PluginManagerDelegate delegate)
+	public PluginDescriptor loadPluginDescriptor()
 	{
+		if (pluginDescriptor != null) {
+			return pluginDescriptor;
+		}
+
 		URL resource = this.getResource("plugin.yml");
 		if(resource == null)
 		{
@@ -116,13 +121,29 @@ public class PluginClassLoader extends URLClassLoader
 			if(resource == null)
 			{
 				LoggerBridge.error("Missing plugin.yml in " + getURLs()[0]);
-				return;
+				return null;
 			}
 		}
 
 		try
 		{
 			pluginDescriptor = Storage.load(resource.openStream(), StorageTypes.YAML, PluginDescriptor.class);
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+		return pluginDescriptor;
+	}
+
+	public void loadPlugin(PluginManagerDelegate delegate)
+	{
+		try
+		{
+			if(pluginDescriptor == null)
+			{
+				this.loadPluginDescriptor();
+			}
 			final Class<?> aClass = this.loadClass(pluginDescriptor.getMain());
 
 			LoggerBridge.debug("Loading plugin: " + pluginDescriptor.getName() + ", version: " + pluginDescriptor.getVersion() + " (" + pluginDescriptor.getBuild() + ")");
@@ -141,7 +162,7 @@ public class PluginClassLoader extends URLClassLoader
 
 			this.setLoaded(true);
 		}
-		catch(IOException | ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
+		catch(ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
 		{
 			throw new RuntimeException(e);
 		}
