@@ -1,5 +1,6 @@
-package de.thecodelabs.plugins;
+package de.thecodelabs.plugins.versionizer;
 
+import de.thecodelabs.plugins.PluginDescriptor;
 import de.thecodelabs.storage.settings.Storage;
 import de.thecodelabs.storage.settings.StorageTypes;
 import de.thecodelabs.versionizer.config.Artifact;

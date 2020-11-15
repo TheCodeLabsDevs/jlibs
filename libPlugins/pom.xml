@@ -7,7 +7,7 @@
     <groupId>de.thecodelabs</groupId>
     <artifactId>libPlugins</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.5</version>
+    <version>3.0.6</version>
 
     <modules>
         <module>libPlugins-core</module>
