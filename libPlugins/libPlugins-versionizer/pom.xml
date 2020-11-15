@@ -17,6 +17,8 @@
             <groupId>de.thecodelabs</groupId>
             <artifactId>libPlugins-core</artifactId>
             <version>${project.version}</version>
+            <classifier>java11</classifier>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>de.thecodelabs.versionizer</groupId>
