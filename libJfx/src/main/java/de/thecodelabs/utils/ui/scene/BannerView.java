@@ -42,7 +42,7 @@ public class BannerView extends VBox
 		}
 	}
 
-	private Node child;
+	private final Node child;
 	private Animation currentTimeline;
 
 	public BannerView(NVC controller)
@@ -126,6 +126,11 @@ public class BannerView extends VBox
 
 		currentTimeline.setOnFinished(e -> currentTimeline = null);
 		currentTimeline.play();
+	}
+
+	public boolean isShowing()
+	{
+		return getOpacity() != 0.0;
 	}
 
 	public void addToParent(AnchorPane parent, BannerAnchor... anchors)
