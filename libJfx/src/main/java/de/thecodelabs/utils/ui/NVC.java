@@ -3,6 +3,7 @@ package de.thecodelabs.utils.ui;
 import de.thecodelabs.utils.threading.Worker;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.collections.ObservableMap;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -223,8 +224,13 @@ public class NVC implements Alertable {
 	}
 
 	public void addCloseKeyShortcut(Runnable onClose) {
-		stageContainer.ifPresent(sc -> sc.getStage().getScene().getAccelerators()
-				.put(new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN), () -> Platform.runLater(onClose)));
+		stageContainer.ifPresent(sc -> {
+			final ObservableMap<KeyCombination, Runnable> accelerators = sc.getStage().getScene().getAccelerators();
+			final Runnable closeAction = () -> Platform.runLater(onClose);
+
+			accelerators.put(new KeyCodeCombination(KeyCode.ESCAPE), closeAction);
+			accelerators.put(new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN), closeAction);
+		});
 	}
 
 	public Window getContainingWindow() {
