@@ -30,54 +30,41 @@ public class Worker
 			@Override
 			protected void afterExecute(Runnable r, Throwable t)
 			{
-				super.afterExecute(r, t);
-				if(t == null && r instanceof Future<?>)
-				{
-					try
-					{
-						Future<?> future = (Future<?>) r;
-						if(future.isDone())
-						{
-							future.get();
-						}
-					}
-					catch(CancellationException ce)
-					{
-						t = ce;
-					}
-					catch(ExecutionException ee)
-					{
-						t = ee.getCause();
-					}
-					catch(InterruptedException ie)
-					{
-						Thread.currentThread().interrupt();
-					}
-				}
-				if(t != null)
-				{
-					LoggerBridge.error(t);
-				}
+				Worker.afterExecute(r, t);
 			}
 		};
 		LoggerBridge.info("Start ExecutorService");
 	}
 
-	private static int task = 0;
-
-	public static void runLater(Runnable runnable)
+	private static void afterExecute(Runnable runnable, Throwable throwable)
 	{
-		if(executorService == null)
+		if(throwable == null && runnable instanceof Future<?>)
 		{
-			task = 0;
-			initWorker();
+			try
+			{
+				Future<?> future = (Future<?>) runnable;
+				if(future.isDone())
+				{
+					future.get();
+				}
+			}
+			catch(CancellationException ce)
+			{
+				throwable = ce;
+			}
+			catch(ExecutionException ee)
+			{
+				throwable = ee.getCause();
+			}
+			catch(InterruptedException ie)
+			{
+				Thread.currentThread().interrupt();
+			}
 		}
-		task++;
-		if(ApplicationUtils.getApplication().isDebug())
+		if(throwable != null)
 		{
-			LoggerBridge.trace("Submit " + task + " task");
+			LoggerBridge.error(throwable);
 		}
-		executorService.submit(runnable, null);
 	}
 
 	public static void shutdown()
@@ -105,5 +92,37 @@ public class Worker
 	public static void addCloseable(AutoCloseable autoCloseable)
 	{
 		closeableList.add(autoCloseable);
+	}
+
+	/*
+	Submit methods
+	 */
+
+	public static void runLater(Runnable runnable)
+	{
+		if(executorService == null)
+		{
+			initWorker();
+		}
+		if(ApplicationUtils.getApplication().isDebug())
+		{
+			LoggerBridge.trace("Submit task: " + runnable);
+		}
+		executorService.submit(runnable, null);
+	}
+
+	public static void delayed(long millis, Runnable runnable)
+	{
+		runLater(() -> {
+			try
+			{
+				Thread.sleep(millis);
+				runnable.run();
+			}
+			catch(InterruptedException e)
+			{
+				LoggerBridge.error(e);
+			}
+		});
 	}
 }
