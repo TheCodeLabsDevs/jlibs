@@ -4,7 +4,7 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>libUtils</artifactId>
-    <version>3.2.7</version>
+    <version>3.2.8</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -12,10 +12,10 @@
 
         <jlibs.version>3.2.0</jlibs.version>
 
-        <jna.version>5.6.0</jna.version>
-        <jna-platform.version>5.6.0</jna-platform.version>
+        <jna.version>5.9.0</jna.version>
+        <jna-platform.version>5.9.0</jna-platform.version>
 
-        <junit.version>4.13.1</junit.version>
+        <junit.version>4.13.2</junit.version>
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
