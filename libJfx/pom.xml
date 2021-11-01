@@ -6,7 +6,7 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>libJfx</artifactId>
-    <version>3.2.4</version>
+    <version>3.2.5</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,13 +14,13 @@
 
         <jlibs.version>3.2.0</jlibs.version>
 
-        <jna.version>5.5.0</jna.version>
-        <jna-platform.version>5.5.0</jna-platform.version>
+        <jna.version>5.9.0</jna.version>
+        <jna-platform.version>5.9.0</jna-platform.version>
 
-        <controlsfx.version>11.0.1</controlsfx.version>
-        <javafx.version>14.0.1</javafx.version>
+        <controlsfx.version>11.1.0</controlsfx.version>
+        <javafx.version>16</javafx.version>
 
-        <junit.version>4.13.1</junit.version>
+        <junit.version>4.13.2</junit.version>
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
