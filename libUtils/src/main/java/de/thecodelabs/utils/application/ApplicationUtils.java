@@ -81,7 +81,7 @@ public final class ApplicationUtils {
 	 *
 	 * @param service new service
 	 */
-	public static void registerUpdateSercive(UpdateService service) {
+	public static void registerUpdateService(UpdateService service) {
 		services.add(service);
 	}
 
