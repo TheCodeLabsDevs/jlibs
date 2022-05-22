@@ -4,17 +4,17 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>libLogger</artifactId>
-    <version>3.2.2</version>
+    <version>3.2.3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
 
         <jlibs.version>3.2.0</jlibs.version>
-        <jansi.version>2.0.1</jansi.version>
+        <jansi.version>2.4.0</jansi.version>
 
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
         <license-maven-plugin.version>2.0.0</license-maven-plugin.version>
     </properties>
 
