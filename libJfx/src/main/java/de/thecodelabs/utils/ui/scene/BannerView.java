@@ -62,6 +62,11 @@ public class BannerView extends VBox
 
 	public void fade(long displayableDuration)
 	{
+		fade(displayableDuration, null);
+	}
+
+	public void fade(long displayableDuration, Runnable onFinish)
+	{
 		if(currentTimeline != null)
 		{
 			currentTimeline.stop();
@@ -74,7 +79,13 @@ public class BannerView extends VBox
 				fadeOutTimeline()
 		);
 
-		currentTimeline.setOnFinished(e -> currentTimeline = null);
+		currentTimeline.setOnFinished(e -> {
+			currentTimeline = null;
+			if(onFinish != null)
+			{
+				onFinish.run();
+			}
+		});
 		currentTimeline.playFromStart();
 	}
 
