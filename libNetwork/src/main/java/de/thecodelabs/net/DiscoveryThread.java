@@ -13,9 +13,9 @@ import java.net.InetAddress;
 @SuppressWarnings("unused")
 public class DiscoveryThread implements Runnable
 {
-
 	private int port = 0;
-	private String messageKey = "UNDEFINED";
+	private String requestMessageKey = "UNDEFINED";
+	private String responseMessageKey = "UNDEFINED";
 
 	public int getPort()
 	{
@@ -27,14 +27,24 @@ public class DiscoveryThread implements Runnable
 		this.port = port;
 	}
 
-	public String getMessageKey()
+	public String getRequestMessageKey()
 	{
-		return messageKey;
+		return requestMessageKey;
 	}
 
-	public void setMessageKey(String messageKey)
+	public void setRequestMessageKey(String requestMessageKey)
 	{
-		this.messageKey = messageKey;
+		this.requestMessageKey = requestMessageKey;
+	}
+
+	public String getResponseMessageKey()
+	{
+		return responseMessageKey;
+	}
+
+	public void setResponseMessageKey(String responseMessageKey)
+	{
+		this.responseMessageKey = responseMessageKey;
 	}
 
 	public static DiscoveryThread getInstance()
@@ -44,7 +54,6 @@ public class DiscoveryThread implements Runnable
 
 	private static class DiscoveryThreadHolder
 	{
-
 		private static final DiscoveryThread INSTANCE = new DiscoveryThread();
 	}
 
@@ -74,11 +83,11 @@ public class DiscoveryThread implements Runnable
 
 				//See if the packet holds the right command (message)
 				String message = new String(packet.getData()).trim();
-				if(message.equals("DISCOVER_" + messageKey + "_REQUEST"))
+				if(message.equals(requestMessageKey))
 				{
-					Logger.trace("Received discovery packet from: {0} using token {1}", packet.getAddress().getHostAddress(), messageKey);
+					Logger.trace("Received discovery packet from: {0} using token {1}", packet.getAddress().getHostAddress(), requestMessageKey);
 
-					byte[] sendData = ("DISCOVER_" + messageKey + "_RESPONSE").getBytes();
+					byte[] sendData = responseMessageKey.getBytes();
 					DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, packet.getAddress(), packet.getPort());
 					socket.send(sendPacket);
 				}
