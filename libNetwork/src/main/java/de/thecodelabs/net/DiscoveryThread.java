@@ -1,6 +1,7 @@
 package de.thecodelabs.net;
 
-import de.thecodelabs.logger.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -13,6 +14,8 @@ import java.net.InetAddress;
 @SuppressWarnings("unused")
 public class DiscoveryThread implements Runnable
 {
+	private static final Logger LOG = LoggerFactory.getLogger(DiscoveryThread.class);
+
 	private int port = 0;
 	private String requestMessageKey = "UNDEFINED";
 	private String responseMessageKey = "UNDEFINED";
@@ -85,7 +88,7 @@ public class DiscoveryThread implements Runnable
 				String message = new String(packet.getData()).trim();
 				if(message.equals(requestMessageKey))
 				{
-					Logger.trace("Received discovery packet from: {0} using token {1}", packet.getAddress().getHostAddress(), requestMessageKey);
+					LOG.trace("Received discovery packet from: {} using token {}", packet.getAddress().getHostAddress(), requestMessageKey);
 
 					byte[] sendData = responseMessageKey.getBytes();
 					DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, packet.getAddress(), packet.getPort());
@@ -95,7 +98,7 @@ public class DiscoveryThread implements Runnable
 		}
 		catch(IOException e)
 		{
-			Logger.error(e);
+			LOG.error("Error while running discovery thread", e);
 		}
 	}
 }

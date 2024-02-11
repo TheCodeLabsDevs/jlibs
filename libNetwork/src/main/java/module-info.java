@@ -1,4 +1,4 @@
 module de.thecodelabs.libNetwork {
-	requires de.thecodelabs.libLogger;
+	requires org.slf4j;
 	exports de.thecodelabs.net;
 }

@@ -1,6 +1,7 @@
 package de.thecodelabs.net;
 
-import de.thecodelabs.logger.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.*;
@@ -12,6 +13,8 @@ import java.util.Enumeration;
 @SuppressWarnings("unused")
 public class DiscoveryClient
 {
+	private static final Logger LOG = LoggerFactory.getLogger(DiscoveryClient.class);
+
 	private int port = 0;
 	private String messageKey = "UNDEFINED";
 
@@ -51,13 +54,13 @@ public class DiscoveryClient
 			// Try the 255.255.255.255 first
 			try
 			{
-				DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), port);
+				final DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), port);
 				c.send(sendPacket);
-				Logger.trace("Request packet sent to: 255.255.255.255 (DEFAULT)");
+				LOG.trace("Request packet sent to: 255.255.255.255 (DEFAULT)");
 			}
 			catch(Exception e)
 			{
-				Logger.error(e);
+				LOG.error("Cannot send broadcast on multicast address", e);
 			}
 
 			// Broadcast the message over all the network interfaces
@@ -73,7 +76,7 @@ public class DiscoveryClient
 
 				for(InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses())
 				{
-					InetAddress broadcast = interfaceAddress.getBroadcast();
+					final InetAddress broadcast = interfaceAddress.getBroadcast();
 					if(broadcast == null)
 					{
 						continue;
@@ -87,14 +90,14 @@ public class DiscoveryClient
 					}
 					catch(Exception e)
 					{
-						Logger.error(e);
+						LOG.error("Cannot send broadcast on interface " + networkInterface.getDisplayName(), e);
 					}
 
-					Logger.trace("Request packet sent to: {0} on Interface: {1}", broadcast.getHostAddress(), networkInterface.getDisplayName());
+					LOG.trace("Request packet sent to: {} on Interface: {}", broadcast.getHostAddress(), networkInterface.getDisplayName());
 				}
 			}
 
-			Logger.trace("Done looping over all network interfaces. Now waiting for a reply!");
+			LOG.trace("Done looping over all network interfaces. Now waiting for a reply!");
 
 			// Wait for a response
 			byte[] recvBuf = new byte[15000];
@@ -107,12 +110,12 @@ public class DiscoveryClient
 			}
 			catch(SocketTimeoutException e)
 			{
-				Logger.error("Error while discover host: {0} ({1})", messageKey, e.getMessage());
+				LOG.error("Error while discover host: {} ({})", messageKey, e.getMessage());
 				return null;
 			}
 
 			// We have a response
-			Logger.trace("Broadcast response from server: " + receivePacket.getAddress().getHostAddress());
+			LOG.trace("Broadcast response from server: " + receivePacket.getAddress().getHostAddress());
 
 			// Check if the message is correct
 			String message = new String(receivePacket.getData()).trim();
@@ -126,7 +129,7 @@ public class DiscoveryClient
 		}
 		catch(IOException ex)
 		{
-			Logger.error(ex);
+			LOG.error("IO error while discover", ex);
 		}
 		return null;
 	}
