@@ -3,28 +3,26 @@ package de.thecodelabs.utils.ui.scene;
 import de.thecodelabs.utils.threading.Worker;
 import javafx.application.Platform;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
+import org.controlsfx.control.NotificationPane;
 import org.controlsfx.control.action.Action;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class NotificationPane extends org.controlsfx.control.NotificationPane {
+public class SnackBar extends NotificationPane
+{
+	private final Node errorIconNode;
+	private final Queue<String> errorQueue = new LinkedList<>();
 
-	private ImageView errorIcon = new ImageView("org/controlsfx/dialog/dialog-error.png");
-	private Queue<String> errorQueue = new LinkedList<>();
+	public SnackBar(Node parent, Node errorIconNode) {
+		super(parent);
 
-	public NotificationPane(Node node) {
-		super(node);
-
+		this.errorIconNode = errorIconNode;
 		setOnHidden(event -> {
 			if (!errorQueue.isEmpty()) {
-				show(errorQueue.poll(), errorIcon);
+				show(errorQueue.poll(), errorIconNode);
 			}
 		});
-		errorIcon.setFitWidth(24);
-		errorIcon.setFitHeight(24);
-
 	}
 
 	@Override
@@ -69,7 +67,7 @@ public class NotificationPane extends org.controlsfx.control.NotificationPane {
 		errorQueue.add(error);
 
 		if (!isShowing()) {
-			show(errorQueue.poll(), errorIcon);
+			show(errorQueue.poll(), errorIconNode);
 		}
 	}
 }
