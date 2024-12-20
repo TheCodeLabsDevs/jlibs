@@ -2,7 +2,7 @@ package de.thecodelabs.utils.ui.icon;
 
 public interface FontIconType {
 
-	public char getChar();
+	char getChar();
 
-	public String getFontFile();
+	String getFontFile();
 }

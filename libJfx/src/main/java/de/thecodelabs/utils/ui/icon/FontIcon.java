@@ -3,6 +3,7 @@ package de.thecodelabs.utils.ui.icon;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import org.controlsfx.tools.Duplicatable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,9 +14,9 @@ public class FontIcon extends Label
 	public static final String STYLE_CLASS = "fonticon";
 	static String defaultFontFile = "fonts/fontawesome-webfont.ttf";
 
-	private String fontFile;
+	private final String fontFile;
 
-	private static Map<String, Map<Integer, Font>> fonts;
+	private static final Map<String, Map<Integer, Font>> fonts;
 
 	static
 	{
@@ -85,7 +86,7 @@ public class FontIcon extends Label
 			fonts.put(fontFile, new HashMap<>());
 		}
 
-		Map<Integer, Font> localFonts = fonts.get(fontFile);
+		final Map<Integer, Font> localFonts = fonts.get(fontFile);
 		if(!localFonts.containsKey(size))
 		{
 			localFonts.put(size, Font.loadFont(getClass().getClassLoader().getResourceAsStream(fontFile), size));
