@@ -8,7 +8,7 @@ import org.controlsfx.tools.Duplicatable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FontIcon extends Label
+public class FontIcon extends Label implements Duplicatable<FontIcon>
 {
 
 	public static final String STYLE_CLASS = "fonticon";
@@ -116,5 +116,15 @@ public class FontIcon extends Label
 	{
 		this.color = color;
 		setTextFill(color);
+	}
+
+	@Override
+	public FontIcon duplicate()
+	{
+		final FontIcon fontIcon = new FontIcon();
+		fontIcon.setText(getText());
+		fontIcon.setSize(size);
+		fontIcon.setColor(color);
+		return fontIcon;
 	}
 }
