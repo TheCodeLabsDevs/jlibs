@@ -11,13 +11,13 @@ public class NotificationContent extends AnchorPane
 {
 	private static final double SPACING = 15.0;
 
-	private double width;
-	private double height;
-	private double padding;
-	private Image icon;
-	private double iconSize;
-	private String title;
-	private String description;
+	private final double width;
+	private final double height;
+	private final double padding;
+	private final Image icon;
+	private final double iconSize;
+	private final String title;
+	private final String description;
 
 	private Button closeButton;
 

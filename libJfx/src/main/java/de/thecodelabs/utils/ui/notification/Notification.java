@@ -27,17 +27,17 @@ public class Notification
 	private static final int DEFAULT_FADE_OUT_TIME_IN_MILLIS = 1000;
 	private static final String DEFAULT_STYLESHEET = "notification/style/defaultNotificationStyle.css";
 
-	private int width;
-	private int height;
-	private int offset;
-	private int iconSize;
+	private final int width;
+	private final int height;
+	private final int offset;
+	private final int iconSize;
 	private int hideAfterInMillis;
 	private int fadeOutTimeInMillis;
-	private Stage owner;
-	private Image defaultIcon;
-	private String styleSheet;
+	private final Stage owner;
+	private final Image defaultIcon;
+	private final String styleSheet;
 
-	private List<NotificationElement> elementQueue = new ArrayList<>();
+	private final List<NotificationElement> elementQueue = new ArrayList<>();
 
 	public Notification(int width, int height, int offset, int iconSize, int hideAfterInMillis, int fadeOutTimeInMillis, Stage owner, Image defaultIcon, String styleSheet)
 	{

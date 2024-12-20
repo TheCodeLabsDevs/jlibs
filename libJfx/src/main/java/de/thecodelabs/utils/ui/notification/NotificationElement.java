@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class NotificationElement
 {
-	private Stage stage;
+	private final Stage stage;
 	private Timeline timeline;
 
 	public NotificationElement(Stage stage)

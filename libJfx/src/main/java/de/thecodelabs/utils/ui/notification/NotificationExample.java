@@ -6,7 +6,7 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public class NotificationExample extends Application
+class NotificationExample extends Application
 {
 	private static NotificationElement lastElement;
 
