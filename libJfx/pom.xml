@@ -14,17 +14,17 @@
 
         <jlibs.version>3.2.0</jlibs.version>
 
-        <jna.version>5.11.0</jna.version>
-        <jna-platform.version>5.11.0</jna-platform.version>
+        <jna.version>5.18.1</jna.version>
+        <jna-platform.version>5.18.1</jna-platform.version>
 
-        <controlsfx.version>11.1.1</controlsfx.version>
-        <javafx.version>18</javafx.version>
+        <controlsfx.version>11.2.2</controlsfx.version>
+        <javafx.version>25</javafx.version>
 
         <junit.version>4.13.2</junit.version>
 
-        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-        <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
-        <license-maven-plugin.version>2.0.0</license-maven-plugin.version>
+        <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <license-maven-plugin.version>2.7.0</license-maven-plugin.version>
     </properties>
 
     <licenses>
