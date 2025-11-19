@@ -4,9 +4,6 @@ module de.thecodelabs.libUtils {
 	requires java.sql;
 	requires java.management;
 
-	requires com.sun.jna;
-	requires com.sun.jna.platform;
-
 	requires de.thecodelabs.libStorage;
 
 	exports de.thecodelabs.utils.application;
@@ -27,7 +24,6 @@ module de.thecodelabs.libUtils {
 	exports de.thecodelabs.utils.util;
 	exports de.thecodelabs.utils.util.localization;
 	exports de.thecodelabs.utils.util.localization.formatter;
-	exports de.thecodelabs.utils.util.win;
 	exports de.thecodelabs.utils.util.zip;
 
 	opens de.thecodelabs.utils.application to de.thecodelabs.libStorage;
