@@ -1,23 +1,29 @@
 package de.thecodelabs.utils.application.system.impl;
 
-import com.sun.jna.WString;
-import com.sun.jna.platform.win32.Kernel32;
-import com.sun.jna.platform.win32.Kernel32Util;
 import de.thecodelabs.utils.application.NativeLoader;
 import de.thecodelabs.utils.application.system.NativeApplication;
 import de.thecodelabs.utils.application.system.NativeFeatureNotSupported;
 import de.thecodelabs.utils.io.IOUtils;
 import de.thecodelabs.utils.util.OS;
-import de.thecodelabs.utils.util.win.Shell32X;
-import de.thecodelabs.utils.util.win.User32X;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.lang.foreign.Arena;
+import java.lang.foreign.FunctionDescriptor;
+import java.lang.foreign.Linker;
+import java.lang.foreign.SymbolLookup;
+import java.lang.invoke.MethodHandle;
 import java.nio.file.Path;
 
 public class WindowsNativeApplication extends NativeApplication
 {
+	// Flags aus WinBase.h
+	private static final int ES_AWAYMODE_REQUIRED = 0x00000040;
+	private static final int ES_CONTINUOUS = 0x80000000;
+	private static final int ES_DISPLAY_REQUIRED = 0x00000002;
+	private static final int ES_SYSTEM_REQUIRED = 0x00000001;
 
 	private static boolean loaded = false;
 
@@ -36,44 +42,47 @@ public class WindowsNativeApplication extends NativeApplication
 	}
 
 	@Override
-	public void preventSystemSleep(boolean on)
+	@NativeFeatureNotSupported
+	public void preventSystemSleep(boolean on) throws Throwable
 	{
+		Linker linker = Linker.nativeLinker();
+		SymbolLookup kernel32 = SymbolLookup.libraryLookup("kernel32.dll", Arena.global());
+
+		MethodHandle setThreadExecutionState = linker.downcallHandle(
+				kernel32.find("SetThreadExecutionState").orElseThrow(),
+				FunctionDescriptor.of(
+						java.lang.foreign.ValueLayout.JAVA_INT,
+						java.lang.foreign.ValueLayout.JAVA_INT
+				)
+		);
+
+		final int flags;
 		if(on)
 		{
-			de.thecodelabs.utils.util.win.Kernel32.INSTANCE.SetThreadExecutionState(de.thecodelabs.utils.util.win.Kernel32.ES_CONTINUOUS | de.thecodelabs.utils.util.win.Kernel32.ES_DISPLAY_REQUIRED | de.thecodelabs.utils.util.win.Kernel32.ES_SYSTEM_REQUIRED);
+			flags = ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED;
 		}
 		else
 		{
-			de.thecodelabs.utils.util.win.Kernel32.INSTANCE.SetThreadExecutionState(de.thecodelabs.utils.util.win.Kernel32.ES_CONTINUOUS);
+			flags = ES_CONTINUOUS;
+		}
+		int result = (int) setThreadExecutionState.invoke(flags);
+		if(on && result == 0)
+		{
+			throw new RuntimeException("Failed to set SetThreadExecutionState");
 		}
 	}
 
-	// http://stackoverflow.com/questions/11041509/elevating-a-processbuilder-process-via-uac
 	@Override
+	@NativeFeatureNotSupported
 	public void executeAsAdministrator(String command, String args)
 	{
-		Shell32X.SHELLEXECUTEINFO execInfo = new Shell32X.SHELLEXECUTEINFO();
-		execInfo.lpFile = new WString(command);
-		if(args != null)
-			execInfo.lpParameters = new WString(args);
-		execInfo.nShow = Shell32X.SW_SHOWDEFAULT;
-		execInfo.fMask = Shell32X.SEE_MASK_NOCLOSEPROCESS;
-		execInfo.lpVerb = new WString("runas");
-		boolean result = Shell32X.INSTANCE.ShellExecuteEx(execInfo);
-
-		if(!result)
-		{
-			int lastError = Kernel32.INSTANCE.GetLastError();
-			String errorMessage = Kernel32Util.formatMessageFromLastErrorCode(lastError);
-			throw new RuntimeException(
-					"Error performing elevation: " + lastError + ": " + errorMessage + " (apperror=" + execInfo.hInstApp + ")");
-		}
 	}
 
 	@Override
+	@NativeFeatureNotSupported
 	public boolean isTouchInputAvailable()
 	{
-		return User32X.isTouchAvailable();
+		return false;
 	}
 
 	@Override

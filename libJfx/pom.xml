@@ -14,9 +14,6 @@
 
         <jlibs.version>3.2.0</jlibs.version>
 
-        <jna.version>5.18.1</jna.version>
-        <jna-platform.version>5.18.1</jna-platform.version>
-
         <controlsfx.version>11.2.2</controlsfx.version>
         <javafx.version>25</javafx.version>
 
@@ -51,17 +48,6 @@
         <dependency>
             <groupId>de.thecodelabs</groupId>
             <artifactId>libUtils</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <version>${jna.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna-platform</artifactId>
-            <version>${jna-platform.version}</version>
         </dependency>
 
         <dependency>

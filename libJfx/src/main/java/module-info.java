@@ -10,9 +10,6 @@ module de.thecodelabs.libJfx {
 	requires com.google.gson;
 	requires de.thecodelabs.libUtils;
 
-	requires com.sun.jna;
-	requires com.sun.jna.platform;
-
 	exports de.thecodelabs.utils.application.system;
 
 	exports de.thecodelabs.utils.ui;
