@@ -93,9 +93,9 @@ public class WindowsNativeApplication extends NativeApplication
 	}
 
 	@Override
+	@NativeFeatureNotSupported
 	public void requestUserAttentionByStage(Stage stage)
 	{
-		//flashWindow(stage, true, true);
 	}
 
 	@Override
@@ -108,8 +108,6 @@ public class WindowsNativeApplication extends NativeApplication
 	@Override
 	public void cancelUserAttentionByStage(Stage stage)
 	{
-		//flashWindow(stage, false, false);
-
 	}
 
 	@Override
@@ -155,7 +153,7 @@ public class WindowsNativeApplication extends NativeApplication
 		}
 		catch(IOException e)
 		{
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -182,71 +180,4 @@ public class WindowsNativeApplication extends NativeApplication
 
 	private static native byte[] getImageForFile_N(String path);
 
-//	private static Long getWindowPointer(Stage stage)
-//	{
-//		try
-//		{
-//			TKStage tkStage = stage.impl_getPeer(); // TODO Work for javajx 8 > javajx 11 has different naming
-//			Method getPlatformWindow = tkStage.getClass().getDeclaredMethod("getPlatformWindow");
-//			getPlatformWindow.setAccessible(true);
-//			Object platformWindow = getPlatformWindow.invoke(tkStage);
-//			Method getNativeHandle = platformWindow.getClass().getMethod("getNativeHandle");
-//			getNativeHandle.setAccessible(true);
-//			Object nativeHandle = getNativeHandle.invoke(platformWindow);
-//			return (Long) nativeHandle;
-//		}
-//		catch(Throwable e)
-//		{
-//			System.err.println("Error getting Window Pointer");
-//			return null;
-//		}
-//	}
-//
-//	// https://stackoverflow.com/questions/2773364/make-jface-window-blink-in-taskbar-or-get-users-attention
-//	public static void flashWindow(final Stage stage, boolean flashTray, boolean flashWindow)
-//	{
-//		try
-//		{
-//			if (stage.isFocused()) {
-//				flashTray = false;
-//				flashWindow = false;
-//			}
-//
-//			User32 lib = (User32) getLibrary("user32", User32.class);
-//			User32.FLASHWINFO flash = new User32.FLASHWINFO();
-//			flash.hWnd = new WinNT.HANDLE(new WinDef.UINT_PTR(getWindowPointer(stage))
-//					.toPointer());
-//			flash.uCount = 2;
-//			flash.dwTimeout = 1000;
-//			if(flashTray || flashWindow)
-//			{
-//				flash.dwFlags = (flashTray ? User32.FLASHW_TRAY : WinUser.FLASHW_STOP) | (flashWindow ? User32.FLASHW_CAPTION : WinUser.FLASHW_STOP);
-//			}
-//			else
-//			{
-//				flash.dwFlags = User32.FLASHW_STOP;
-//			}
-//			flash.cbSize = flash.size();
-//			lib.FlashWindowEx(flash);
-//		}
-//		catch(UnsatisfiedLinkError e)
-//		{
-//		}
-//	}
-//
-//	protected static StdCallLibrary getLibrary(String libraryName,
-//											   Class<?> interfaceClass) throws UnsatisfiedLinkError
-//	{
-//		try
-//		{
-//			StdCallLibrary lib = (StdCallLibrary) Native.loadLibrary(libraryName,
-//					interfaceClass);
-//			return lib;
-//		}
-//		catch(UnsatisfiedLinkError e)
-//		{
-//			LoggerBridge.error("Could not load " + libraryName + " library.");
-//			throw e;
-//		}
-//	}
 }
