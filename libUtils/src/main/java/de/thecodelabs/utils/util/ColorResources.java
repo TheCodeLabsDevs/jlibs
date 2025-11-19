@@ -1,14 +1,14 @@
 package de.thecodelabs.utils.util;
 
 import java.io.IOException;
-import java.util.Map;
+import java.io.UncheckedIOException;
 import java.util.Properties;
 
 public class ColorResources
 {
 	private static final String COLORS_PROPERTIES = "colors.properties";
 
-	private Properties properties;
+	private final Properties properties;
 
 	private static ColorResources instance;
 
@@ -21,7 +21,7 @@ public class ColorResources
 		}
 		catch(IOException e)
 		{
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
