@@ -9,8 +9,16 @@ import de.thecodelabs.utils.util.OS;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.lang.foreign.Arena;
+import java.lang.foreign.FunctionDescriptor;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.ValueLayout;
+import java.lang.invoke.MethodHandle;
 import java.nio.file.Path;
 
+import static de.thecodelabs.utils.application.system.impl.MacObjcRuntime.*;
+
+@SuppressWarnings({"java:S112", "java:S115"})
 public class MacNativeApplication extends NativeApplication
 {
 	private long userAttentionRequestId = -1;
@@ -107,7 +115,26 @@ public class MacNativeApplication extends NativeApplication
 	@Override
 	public void showFileInFileViewer(Path path)
 	{
-		showFileInFileViewer_N(path.toString());
+		try(Arena arena = Arena.ofConfined())
+		{
+			// NSString*
+			final MemorySegment nsFile = nsString(arena, path.toAbsolutePath().toString());
+
+			// [NSWorkspace sharedWorkspace]
+			final MemorySegment nsWorkspaceClass = (MemorySegment) objc_getClass.invoke(arena.allocateFrom("NSWorkspace"));
+			final MemorySegment selSharedWorkspace = (MemorySegment) sel_registerName.invoke(arena.allocateFrom("sharedWorkspace"));
+			final MemorySegment workspace = (MemorySegment) objc_msgSend1.invoke(nsWorkspaceClass, selSharedWorkspace, MemorySegment.NULL);
+
+			// Selector: selectFile:inFileViewerRootedAtPath:
+			final MemorySegment selSelectFile = (MemorySegment) sel_registerName.invoke(arena.allocateFrom("selectFile:inFileViewerRootedAtPath:"));
+
+			// Aufruf: [workspace selectFile:nsFile inFileViewerRootedAtPath:nsFile]
+			objc_msgSend2.invoke(workspace, selSelectFile, nsFile, nsFile);
+		}
+		catch(Throwable throwable)
+		{
+			throw new RuntimeException(throwable);
+		}
 	}
 
 	@Override
@@ -133,8 +160,6 @@ public class MacNativeApplication extends NativeApplication
 	private static native void setDockIconHidden_N(boolean hidden);
 
 	private static native void setAppearance_N(boolean darkAqua);
-
-	private static native void showFileInFileViewer_N(String file);
 
 	private static native byte[] getImageForFile_N(String path);
 }
