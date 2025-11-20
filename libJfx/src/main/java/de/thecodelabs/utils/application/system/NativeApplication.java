@@ -46,8 +46,6 @@ public abstract class NativeApplication {
 	// Awake
 	public abstract void preventSystemSleep(boolean on) throws Throwable;
 
-	public abstract void executeAsAdministrator(String command, String args);
-
 	public abstract boolean isTouchInputAvailable();
 
 	public abstract void requestUserAttention(RequestUserAttentionType requestUserAttentionType);

@@ -39,13 +39,6 @@ public class MacNativeApplication extends NativeApplication
 
 	@Override
 	@NativeFeatureNotSupported
-	public void executeAsAdministrator(String command, String args)
-	{
-
-	}
-
-	@Override
-	@NativeFeatureNotSupported
 	public boolean isTouchInputAvailable()
 	{
 		return false;
