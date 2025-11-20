@@ -34,7 +34,7 @@ public class MacNativeApplication extends NativeApplication
 	@Override
 	public void preventSystemSleep(boolean on)
 	{
-		preventSystemSleep_N(on);
+		MacSleepPrevent.setPreventSleep(on);
 	}
 
 	@Override
@@ -126,8 +126,6 @@ public class MacNativeApplication extends NativeApplication
 	/*
 	 Native methods
 	 */
-
-	private static native void preventSystemSleep_N(boolean on);
 
 	private static native long requestUserInformationAttention_N();
 

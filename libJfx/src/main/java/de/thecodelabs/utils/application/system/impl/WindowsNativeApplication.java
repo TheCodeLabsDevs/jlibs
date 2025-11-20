@@ -42,7 +42,6 @@ public class WindowsNativeApplication extends NativeApplication
 	}
 
 	@Override
-	@NativeFeatureNotSupported
 	public void preventSystemSleep(boolean on) throws Throwable
 	{
 		Linker linker = Linker.nativeLinker();
