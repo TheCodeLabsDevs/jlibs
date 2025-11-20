@@ -123,7 +123,28 @@ public class MacNativeApplication extends NativeApplication
 	@Override
 	public void setDockIconHidden(boolean hidden)
 	{
-		setDockIconHidden_N(hidden);
+		try(Arena arena = Arena.ofConfined())
+		{
+			// Selector: setActivationPolicy:
+			MemorySegment selRequestAttention = (MemorySegment) sel_registerName.invoke(arena.allocateFrom("setActivationPolicy:"));
+
+			final MethodHandle objc_msgSend1 = LINKER.downcallHandle(
+					OBJC.find("objc_msgSend").orElseThrow(),
+					FunctionDescriptor.of(
+							ValueLayout.ADDRESS,  // Return type (id)
+							ValueLayout.ADDRESS,  // self
+							ValueLayout.ADDRESS,  // SEL
+							ValueLayout.JAVA_INT   // arg1
+					)
+			);
+			// 0 --> NSApplicationActivationPolicyRegular
+			// 1 --> NSApplicationActivationPolicyAccessory
+			objc_msgSend1.invoke(sharedApp(arena), selRequestAttention, hidden ? 1 : 0);
+		}
+		catch(Throwable throwable)
+		{
+			throw new RuntimeException(throwable);
+		}
 	}
 
 	@Override
@@ -217,8 +238,6 @@ public class MacNativeApplication extends NativeApplication
 	}
 
 	private static native void setDockIcon_N(byte[] image);
-
-	private static native void setDockIconHidden_N(boolean hidden);
 
 	private static native void setAppearance_N(boolean darkAqua);
 
