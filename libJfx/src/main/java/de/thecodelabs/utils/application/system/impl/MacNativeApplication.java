@@ -18,7 +18,7 @@ import java.nio.file.Path;
 
 import static de.thecodelabs.utils.application.system.impl.MacObjcRuntime.*;
 
-@SuppressWarnings({"java:S112", "java:S115"})
+@SuppressWarnings({"java:S112", "java:S115", "java:S117", "java:S125"})
 public class MacNativeApplication extends NativeApplication
 {
 	private long userAttentionRequestId = -1;
@@ -92,7 +92,38 @@ public class MacNativeApplication extends NativeApplication
 	@Override
 	public void setDockIcon(Image image)
 	{
-		setDockIcon_N(ImageUtils.imageToByteArray(image));
+		final byte[] imageData = ImageUtils.imageToByteArray(image);
+		try(Arena arena = Arena.ofConfined())
+		{
+			// 1. NSData *d = [NSData dataWithBytes:data length:lenght];
+			final MemorySegment nsDataClass = (MemorySegment) objc_getClass.invoke(arena.allocateFrom("NSData"));
+			final MemorySegment selDataWithBytes = (MemorySegment) sel_registerName.invoke(arena.allocateFrom("dataWithBytes:length:"));
+
+			final MemorySegment nativeData = arena.allocate(imageData.length);
+			nativeData.copyFrom(MemorySegment.ofArray(imageData));
+
+			final MethodHandle objc_msgSend2Data = LINKER.downcallHandle(
+					OBJC.find("objc_msgSend").orElseThrow(),
+					FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+			);
+			final MemorySegment nsData = (MemorySegment) objc_msgSend2Data.invoke(nsDataClass, selDataWithBytes, nativeData, imageData.length);
+
+			// 2. NSImage *image = [[NSImage alloc] initWithData:d];
+			final MemorySegment nsImageClass = (MemorySegment) objc_getClass.invoke(arena.allocateFrom("NSImage"));
+			final MemorySegment selAlloc = (MemorySegment) sel_registerName.invoke(arena.allocateFrom("alloc"));
+			final MemorySegment imageAlloc = (MemorySegment) objc_msgSend0.invoke(nsImageClass, selAlloc);
+
+			final MemorySegment selInitWithData = (MemorySegment) sel_registerName.invoke(arena.allocateFrom("initWithData:"));
+			final MemorySegment nsImage = (MemorySegment) objc_msgSend1.invoke(imageAlloc, selInitWithData, nsData);
+
+			// 3. [NSApp setApplicationIconImage:image]
+			final MemorySegment selSetIcon = (MemorySegment) sel_registerName.invoke(arena.allocateFrom("setApplicationIconImage:"));
+			objc_msgSend1.invoke(sharedApp(arena), selSetIcon, nsImage);
+		}
+		catch(Throwable throwable)
+		{
+			throw new RuntimeException(throwable);
+		}
 	}
 
 	@Override
@@ -230,8 +261,6 @@ public class MacNativeApplication extends NativeApplication
 			throw new RuntimeException(throwable);
 		}
 	}
-
-	private static native void setDockIcon_N(byte[] image);
 
 	private static native byte[] getImageForFile_N(String path);
 }
