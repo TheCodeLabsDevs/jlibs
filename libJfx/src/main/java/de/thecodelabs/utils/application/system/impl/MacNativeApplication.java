@@ -55,17 +55,18 @@ public class MacNativeApplication extends NativeApplication
 	@Override
 	public void requestUserAttention(RequestUserAttentionType requestUserAttentionType)
 	{
-		if (userAttentionRequestId != -1) {
+		if(userAttentionRequestId != -1)
+		{
 			cancelUserAttention();
 		}
 
 		if(requestUserAttentionType == RequestUserAttentionType.INFORMATIONAL_REQUEST)
 		{
-			userAttentionRequestId = requestUserInformationAttention_N();
+			userAttentionRequestId = requestUserAttention(10); // 10 -> NSInformationalRequest
 		}
 		else if(requestUserAttentionType == RequestUserAttentionType.CRITICAL_REQUEST)
 		{
-			userAttentionRequestId = requestUserCriticalAttention_N();
+			userAttentionRequestId = requestUserAttention(0); // 10 -> NSCriticalRequest
 		}
 	}
 
@@ -78,7 +79,7 @@ public class MacNativeApplication extends NativeApplication
 	@Override
 	public void cancelUserAttention()
 	{
-		cancelUserAttention_N(userAttentionRequestId);
+		cancelUserAttention(userAttentionRequestId);
 		userAttentionRequestId = -1;
 	}
 
@@ -147,11 +148,54 @@ public class MacNativeApplication extends NativeApplication
 	 Native methods
 	 */
 
-	private static native long requestUserInformationAttention_N();
+	private static long requestUserAttention(int level)
+	{
+		try(Arena arena = Arena.ofConfined())
+		{
+			// Selector: requestUserAttention:
+			MemorySegment selRequestAttention = (MemorySegment) sel_registerName.invoke(arena.allocateFrom("requestUserAttention:"));
 
-	private static native long requestUserCriticalAttention_N();
+			final MethodHandle objc_msgSend1 = LINKER.downcallHandle(
+					OBJC.find("objc_msgSend").orElseThrow(),
+					FunctionDescriptor.of(
+							ValueLayout.JAVA_LONG,  // Return type (long)
+							ValueLayout.ADDRESS,  // self
+							ValueLayout.ADDRESS,  // SEL
+							ValueLayout.JAVA_INT   // arg1
+					)
+			);
+			return (long) objc_msgSend1.invoke(sharedApp(arena), selRequestAttention, level);
+		}
+		catch(Throwable throwable)
+		{
+			throw new RuntimeException(throwable);
+		}
+	}
 
-	private static native void cancelUserAttention_N(long id);
+	private static void cancelUserAttention(long id)
+	{
+		try(Arena arena = Arena.ofConfined())
+		{
+			// Selector: cancelUserAttentionRequest:
+			MemorySegment selRequestAttention = (MemorySegment) sel_registerName.invoke(arena.allocateFrom("cancelUserAttentionRequest:"));
+
+			MethodHandle objc_msgSend1 = LINKER.downcallHandle(
+					OBJC.find("objc_msgSend").orElseThrow(),
+					FunctionDescriptor.of(
+							ValueLayout.ADDRESS,  // Return type (id)
+							ValueLayout.ADDRESS,  // self
+							ValueLayout.ADDRESS,  // SEL
+							ValueLayout.JAVA_LONG   // arg1
+					)
+			);
+
+			objc_msgSend1.invoke(sharedApp(arena), selRequestAttention, id);
+		}
+		catch(Throwable throwable)
+		{
+			throw new RuntimeException(throwable);
+		}
+	}
 
 	private static native void setDockIcon_N(byte[] image);
 
