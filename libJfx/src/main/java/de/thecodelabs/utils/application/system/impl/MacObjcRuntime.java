@@ -72,6 +72,13 @@ class MacObjcRuntime
 		return (MemorySegment) objc_msgSend0.invoke(nsAppClass, selSharedApp);
 	}
 
+	static MemorySegment dockTile(Arena arena) throws Throwable
+	{
+		// NSApplication Klasse
+		final MemorySegment selDockTile = (MemorySegment) sel_registerName.invoke(arena.allocateFrom("dockTile"));
+		return (MemorySegment) objc_msgSend0.invoke(sharedApp(arena), selDockTile);
+	}
+
 	private MacObjcRuntime()
 	{
 	}

@@ -98,7 +98,26 @@ public class MacNativeApplication extends NativeApplication
 	@Override
 	public void setDockIconBadge(int i)
 	{
-		setDockIconBadge_N(i);
+		try(Arena arena = Arena.ofConfined())
+		{
+			// Selector: requestUserAttention:
+			MemorySegment selRequestAttention = (MemorySegment) sel_registerName.invoke(arena.allocateFrom("setBadgeLabel:"));
+
+			final MethodHandle objc_msgSend1 = LINKER.downcallHandle(
+					OBJC.find("objc_msgSend").orElseThrow(),
+					FunctionDescriptor.of(
+							ValueLayout.ADDRESS,  // Return type (id)
+							ValueLayout.ADDRESS,  // self
+							ValueLayout.ADDRESS,  // SEL
+							ValueLayout.ADDRESS   // arg1
+					)
+			);
+			objc_msgSend1.invoke(dockTile(arena), selRequestAttention, nsString(arena, i == 0 ? "" : String.valueOf(i)));
+		}
+		catch(Throwable throwable)
+		{
+			throw new RuntimeException(throwable);
+		}
 	}
 
 	@Override
@@ -198,8 +217,6 @@ public class MacNativeApplication extends NativeApplication
 	}
 
 	private static native void setDockIcon_N(byte[] image);
-
-	private static native void setDockIconBadge_N(int i);
 
 	private static native void setDockIconHidden_N(boolean hidden);
 
