@@ -3,7 +3,6 @@ package de.thecodelabs.utils.application.system.impl;
 import de.thecodelabs.utils.application.NativeLoader;
 import de.thecodelabs.utils.application.system.NativeApplication;
 import de.thecodelabs.utils.application.system.NativeFeatureNotSupported;
-import de.thecodelabs.utils.io.IOUtils;
 import de.thecodelabs.utils.util.OS;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -142,28 +141,4 @@ public class WindowsNativeApplication extends NativeApplication
 			throw new UncheckedIOException(e);
 		}
 	}
-
-	@Override
-	public Image getImageForFile(Path file)
-	{
-		if(OS.getArch() == OS.OSArch.x86)
-		{
-			byte[] bytes = getImageForFile_N(file.toString());
-			if(bytes != null)
-			{
-				return new Image(IOUtils.byteArrayToInputStream(bytes));
-			}
-			else
-			{
-				return null;
-			}
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	private static native byte[] getImageForFile_N(String path);
-
 }

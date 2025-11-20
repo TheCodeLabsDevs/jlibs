@@ -3,7 +3,6 @@ package de.thecodelabs.utils.application.system.impl;
 import de.thecodelabs.utils.application.NativeLoader;
 import de.thecodelabs.utils.application.system.NativeApplication;
 import de.thecodelabs.utils.application.system.NativeFeatureNotSupported;
-import de.thecodelabs.utils.io.IOUtils;
 import de.thecodelabs.utils.ui.ImageUtils;
 import de.thecodelabs.utils.util.OS;
 import javafx.scene.image.Image;
@@ -203,12 +202,6 @@ public class MacNativeApplication extends NativeApplication
 		}
 	}
 
-	@Override
-	public Image getImageForFile(Path file)
-	{
-		return new Image(IOUtils.byteArrayToInputStream(getImageForFile_N(file.toString())));
-	}
-
 	/*
 	 Native methods
 	 */
@@ -261,6 +254,4 @@ public class MacNativeApplication extends NativeApplication
 			throw new RuntimeException(throwable);
 		}
 	}
-
-	private static native byte[] getImageForFile_N(String path);
 }
