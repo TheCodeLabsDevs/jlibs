@@ -148,12 +148,6 @@ public class MacNativeApplication extends NativeApplication
 	}
 
 	@Override
-	public void setAppearance(boolean darkAqua)
-	{
-		setAppearance_N(darkAqua);
-	}
-
-	@Override
 	public void showFileInFileViewer(Path path)
 	{
 		try(Arena arena = Arena.ofConfined())
@@ -238,8 +232,6 @@ public class MacNativeApplication extends NativeApplication
 	}
 
 	private static native void setDockIcon_N(byte[] image);
-
-	private static native void setAppearance_N(boolean darkAqua);
 
 	private static native byte[] getImageForFile_N(String path);
 }

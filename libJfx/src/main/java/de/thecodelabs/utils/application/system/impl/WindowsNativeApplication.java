@@ -125,13 +125,6 @@ public class WindowsNativeApplication extends NativeApplication
 	}
 
 	@Override
-	@NativeFeatureNotSupported
-	public void setAppearance(boolean darkAqua)
-	{
-
-	}
-
-	@Override
 	public void showFileInFileViewer(Path path)
 	{
 		String pathString = path.toString().replace("/", "\\");
