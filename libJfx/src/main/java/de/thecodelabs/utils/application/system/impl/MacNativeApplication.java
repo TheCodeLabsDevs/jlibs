@@ -1,10 +1,8 @@
 package de.thecodelabs.utils.application.system.impl;
 
-import de.thecodelabs.utils.application.NativeLoader;
 import de.thecodelabs.utils.application.system.NativeApplication;
 import de.thecodelabs.utils.application.system.NativeFeatureNotSupported;
 import de.thecodelabs.utils.ui.ImageUtils;
-import de.thecodelabs.utils.util.OS;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -21,22 +19,6 @@ import static de.thecodelabs.utils.application.system.impl.MacObjcRuntime.*;
 public class MacNativeApplication extends NativeApplication
 {
 	private long userAttentionRequestId = -1;
-
-	private static boolean loaded = false;
-
-	private static void loadNativeLibrary()
-	{
-		if(!loaded && OS.isMacOS())
-		{
-			NativeLoader.load("libUtilsNative.dylib", "libraries", MacNativeApplication.class);
-			loaded = !loaded;
-		}
-	}
-
-	public MacNativeApplication()
-	{
-		loadNativeLibrary();
-	}
 
 	@Override
 	public void preventSystemSleep(boolean on)
@@ -73,6 +55,7 @@ public class MacNativeApplication extends NativeApplication
 	@NativeFeatureNotSupported
 	public void requestUserAttentionByStage(Stage stage)
 	{
+		// Not supported
 	}
 
 	@Override
@@ -86,6 +69,7 @@ public class MacNativeApplication extends NativeApplication
 	@NativeFeatureNotSupported
 	public void cancelUserAttentionByStage(Stage stage)
 	{
+		// Not supported
 	}
 
 	@Override
@@ -201,10 +185,6 @@ public class MacNativeApplication extends NativeApplication
 			throw new RuntimeException(throwable);
 		}
 	}
-
-	/*
-	 Native methods
-	 */
 
 	private static long requestUserAttention(int level)
 	{

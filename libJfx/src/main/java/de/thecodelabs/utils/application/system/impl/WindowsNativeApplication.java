@@ -1,9 +1,7 @@
 package de.thecodelabs.utils.application.system.impl;
 
-import de.thecodelabs.utils.application.NativeLoader;
 import de.thecodelabs.utils.application.system.NativeApplication;
 import de.thecodelabs.utils.application.system.NativeFeatureNotSupported;
-import de.thecodelabs.utils.util.OS;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -23,22 +21,6 @@ public class WindowsNativeApplication extends NativeApplication
 	private static final int ES_CONTINUOUS = 0x80000000;
 	private static final int ES_DISPLAY_REQUIRED = 0x00000002;
 	private static final int ES_SYSTEM_REQUIRED = 0x00000001;
-
-	private static boolean loaded = false;
-
-	private static void loadNativeLibrary()
-	{
-		if(!loaded && OS.isWindows() && OS.getArch() == OS.OSArch.x86)
-		{
-			NativeLoader.load("SystemUtilsWindows.dll", "libraries", WindowsNativeApplication.class);
-			loaded = !loaded;
-		}
-	}
-
-	public WindowsNativeApplication()
-	{
-		loadNativeLibrary();
-	}
 
 	@Override
 	public void preventSystemSleep(boolean on) throws Throwable
