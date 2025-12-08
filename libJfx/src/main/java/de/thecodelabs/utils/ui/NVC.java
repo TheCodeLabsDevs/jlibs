@@ -38,11 +38,11 @@ public class NVC implements Alertable {
 	private Optional<NVC> parentNVC;
 	private Optional<Scene> parent;
 
-	public NVC load(String path, String filename) {
+	protected  NVC load(String path, String filename) {
 		return load(path, filename, (ResourceBundle) null);
 	}
 
-	public NVC load(String path, String filename, ResourceBundle bundle) {
+	protected  NVC load(String path, String filename, ResourceBundle bundle) {
 		stageContainer = Optional.empty();
 		loadFXML(path, filename, bundle);
 		return this;
@@ -55,7 +55,7 @@ public class NVC implements Alertable {
 	 * @param filename
 	 * @param onFinish
 	 */
-	public NVC load(String path, String filename, Consumer<NVC> onFinish) {
+	protected NVC load(String path, String filename, Consumer<NVC> onFinish) {
 		return load(path, filename, null, onFinish);
 	}
 
@@ -66,7 +66,7 @@ public class NVC implements Alertable {
 	 * @param filename
 	 * @param onFinish
 	 */
-	public NVC load(String path, String filename, ResourceBundle bundle, Consumer<NVC> onFinish) {
+	protected NVC load(String path, String filename, ResourceBundle bundle, Consumer<NVC> onFinish) {
 		stageContainer = Optional.empty();
 		parent = Optional.empty();
 
@@ -125,7 +125,7 @@ public class NVC implements Alertable {
 		}
 	}
 
-	public void init() {
+	protected void init() {
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class NVC implements Alertable {
 	 *
 	 * @param stage Stage
 	 */
-	public void initStage(Stage stage) {
+	protected void initStage(Stage stage) {
 	}
 
 	/**
