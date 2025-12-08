@@ -276,7 +276,7 @@ public class NVC implements Alertable {
 			transition.setToValue(0);
 			transition.setOnFinished((event) -> {
 				parent.getRoot().setOpacity(0);
-				parentNVC.ifPresent(nvc -> nvc.initStage(stage.getStage()));
+				parentNVC.ifPresent(nvc -> nvc.initStage(stage, stage.getStage()));
 				stage.getStage().setScene(parent);
 
 				FadeTransition fadeIn = new FadeTransition(duration, parent.getRoot());
