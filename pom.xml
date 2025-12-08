@@ -6,7 +6,7 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>jlibs</artifactId>
-    <version>4.0.0</version>
+    <version>4.1.0</version>
 
     <packaging>pom</packaging>
 
@@ -14,7 +14,7 @@
         <libLogger.version>[3.2.0,3.3.0)</libLogger.version>
         <libStorage.version>[3.2.0,3.3.0)</libStorage.version>
         <libUtils.version>[4.0.0,4.1.0)</libUtils.version>
-        <libJfx.version>[4.0.0,4.1.0)</libJfx.version>
+        <libJfx.version>[4.1.0,4.2.0)</libJfx.version>
 
         <libAutostart.version>[3.0.0,3.1.0)</libAutostart.version>
         <libLogger-slf4j.version>[3.2.0,3.3.0)</libLogger-slf4j.version>
