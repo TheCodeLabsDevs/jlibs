@@ -133,7 +133,7 @@ public class NVC implements Alertable {
 	 *
 	 * @param stage Stage
 	 */
-	protected void initStage(Stage stage) {
+	protected void initStage(NVCStage stageContainer, Stage stage) {
 	}
 
 	/**

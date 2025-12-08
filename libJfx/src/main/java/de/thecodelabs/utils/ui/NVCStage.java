@@ -96,7 +96,7 @@ public final class NVCStage
 			saveItem.setHeight(stage.getHeight());
 		});
 
-		viewController.initStage(stage);
+		viewController.initStage(this, stage);
 
 		// Load Settings
 		handleStageSizing();
