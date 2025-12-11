@@ -43,6 +43,11 @@ public class LoggerConfig {
 	@Key
 	private boolean ignoreStandardStream = false;
 
+	@Key("file.out")
+	private String outFileName = "out.log";
+	@Key("file.err")
+	private String errFileName = "out.log";
+
 	boolean isColorEnabled() {
 		return color;
 	}
@@ -113,5 +118,15 @@ public class LoggerConfig {
 
 	boolean showCallInformation() {
 		return showClassName || showMethodName || showLineNumber || showThreadName;
+	}
+
+	public String getOutFileName()
+	{
+		return outFileName;
+	}
+
+	public String getErrFileName()
+	{
+		return errFileName;
 	}
 }

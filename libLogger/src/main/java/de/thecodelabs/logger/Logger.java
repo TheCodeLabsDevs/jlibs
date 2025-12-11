@@ -13,10 +13,6 @@ import java.util.List;
 
 public class Logger
 {
-
-	private static final String OUT_FILE = "out.log";
-	private static final String ERR_FILE = "err.log";
-
 	private static LogLevelFilter levelFilter;
 	private static List<LogFilter> filters;
 	private static FileOutputOption fileOutputOption;
@@ -56,7 +52,7 @@ public class Logger
 				AnsiConsole.systemInstall();
 			}
 
-			setFileOutput(FileOutputOption.DISABLED, System.out, System.err);
+			setFileOutput(fileOutputOption, System.out, System.err);
 		}
 		catch(IOException e)
 		{
@@ -77,12 +73,12 @@ public class Logger
 
 	public static Path getOutPath()
 	{
-		return baseDir.resolve(OUT_FILE);
+		return baseDir.resolve(loggerConfig.getOutFileName());
 	}
 
 	public static Path getErrPath()
 	{
-		return baseDir.resolve(ERR_FILE);
+		return baseDir.resolve(loggerConfig.getErrFileName());
 	}
 
 	public static boolean isInitialized()
@@ -122,13 +118,13 @@ public class Logger
 				Path errFile;
 				if(fileOutputOption == FileOutputOption.COMBINED)
 				{
-					outFile = baseDir.resolve(OUT_FILE);
-					errFile = baseDir.resolve(OUT_FILE);
+					outFile = getOutPath();
+					errFile = getOutPath();
 				}
 				else
 				{
-					outFile = baseDir.resolve(OUT_FILE);
-					errFile = baseDir.resolve(ERR_FILE);
+					outFile = getErrPath();
+					errFile = getErrPath();
 				}
 
 				outputStream = new ConsoleStream(outFile, standardOut, loggerConfig.getDefaultOutLevel());
