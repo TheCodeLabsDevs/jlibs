@@ -3,6 +3,7 @@ package de.thecodelabs.utils.threading;
 import de.thecodelabs.utils.application.ApplicationUtils;
 import de.thecodelabs.utils.logger.LoggerBridge;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -15,7 +16,7 @@ public class Worker
 	static
 	{
 		initWorker();
-		closeableList = new LinkedList<>();
+		closeableList = Collections.synchronizedList(new LinkedList<>());
 	}
 
 	private Worker()
@@ -42,15 +43,7 @@ public class Worker
 		{
 			try
 			{
-				Future<?> future = (Future<?>) runnable;
-				if(future.isDone())
-				{
-					future.get();
-				}
-			}
-			catch(CancellationException ce)
-			{
-				throwable = ce;
+				((Future<?>) runnable).get();
 			}
 			catch(ExecutionException ee)
 			{
@@ -63,19 +56,33 @@ public class Worker
 		}
 		if(throwable != null)
 		{
-			LoggerBridge.error(throwable);
+			LoggerBridge.error("Task threw exception", throwable);
 		}
 	}
 
 	public static void shutdown()
 	{
-		if(executorService != null)
+		executorService.shutdown();
+		scheduler.shutdown();
+		try
 		{
-			executorService.shutdown();
-			if(ApplicationUtils.getApplication().isDebug())
-				LoggerBridge.info("Stop ExecutorService");
-			executorService = null;
+			if(!executorService.awaitTermination(5, TimeUnit.SECONDS))
+			{
+				executorService.shutdownNow();
+			}
+			if(!scheduler.awaitTermination(5, TimeUnit.SECONDS))
+			{
+				scheduler.shutdownNow();
+			}
 		}
+		catch(InterruptedException e)
+		{
+			executorService.shutdownNow();
+			scheduler.shutdownNow();
+			Thread.currentThread().interrupt();
+		}
+		if(ApplicationUtils.getApplication().isDebug())
+			LoggerBridge.info("Stop ExecutorService");
 
 		closeableList.forEach(i -> {
 			try
@@ -111,18 +118,10 @@ public class Worker
 		executorService.submit(runnable, null);
 	}
 
+	private static final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
 	public static void delayed(long millis, Runnable runnable)
 	{
-		runLater(() -> {
-			try
-			{
-				Thread.sleep(millis);
-				runnable.run();
-			}
-			catch(InterruptedException e)
-			{
-				LoggerBridge.error(e);
-			}
-		});
+		scheduler.schedule(() -> runLater(runnable), millis, TimeUnit.MILLISECONDS);
 	}
 }
