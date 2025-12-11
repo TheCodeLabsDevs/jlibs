@@ -31,7 +31,14 @@ public class Logger
 		levelFilter = LogLevelFilter.NORMAL;
 	}
 
-	public static void init(Path baseDir)
+	private Logger() {
+	}
+
+	public static void init(Path baseDir) {
+		init(baseDir, FileOutputOption.DISABLED);
+	}
+
+	public static void init(Path baseDir, FileOutputOption fileOutputOption)
 	{
 		if(initialized)
 		{
