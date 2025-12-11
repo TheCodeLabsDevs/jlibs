@@ -84,6 +84,21 @@ public class LoggerBridge
 			e.printStackTrace();
 		}
 	}
+	public static void error(Object obj, Throwable e)
+	{
+		if(isLoggerAvailable())
+		{
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+
+			log(obj + "\n" + sw, "ERROR");
+		}
+		else
+		{
+			e.printStackTrace();
+		}
+	}
 
 	public static void fatal(Object obj)
 	{
