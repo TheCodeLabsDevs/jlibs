@@ -14,6 +14,8 @@ public class LoggerConfig {
 	private String errorColor = ConsoleUtils.Color.RED.name();
 	@Key("color.time")
 	private String timeColor = ConsoleUtils.Color.WHITE.name();
+	@Key("color.thread")
+	private String threadColor = ConsoleUtils.Color.BLUE.name();
 	@Key("color.detail")
 	private String detailColor = ConsoleUtils.Color.CYAN.name();
 	@Key("color.message")
@@ -31,6 +33,8 @@ public class LoggerConfig {
 	private boolean showShortPackageName = true;
 	@Key
 	private boolean showClassName = true;
+	@Key
+	private boolean showThreadName = true;
 	@Key
 	private boolean showMethodName = false;
 	@Key
@@ -57,6 +61,10 @@ public class LoggerConfig {
 
 	ConsoleUtils.Color getTimeColor() {
 		return ConsoleUtils.Color.valueOf(timeColor);
+	}
+
+	ConsoleUtils.Color getThreadColor() {
+		return ConsoleUtils.Color.valueOf(threadColor);
 	}
 
 	ConsoleUtils.Color getDetailColor() {
@@ -95,11 +103,15 @@ public class LoggerConfig {
 		return showLineNumber;
 	}
 
+	boolean isShowThreadName() {
+		return showThreadName;
+	}
+
 	boolean isIgnoreStandardStream() {
 		return ignoreStandardStream;
 	}
 
 	boolean showCallInformation() {
-		return showClassName || showMethodName || showLineNumber;
+		return showClassName || showMethodName || showLineNumber || showThreadName;
 	}
 }

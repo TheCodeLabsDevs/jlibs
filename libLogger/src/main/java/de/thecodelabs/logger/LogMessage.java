@@ -58,6 +58,17 @@ public class LogMessage {
 		if (caller != null && loggerConfig.showCallInformation()) {
 			builder.append(" @ ");
 
+			// Thread Name
+			if (loggerConfig.isShowThreadName())
+			{
+				if(loggerConfig.isColorEnabled())
+				{
+					builder.append(ConsoleUtils.getConsoleColorCode(loggerConfig.getThreadColor()));
+				}
+
+				builder.append("[").append(String.format("%25s", Thread.currentThread().getName())).append("] ");
+			}
+
 			// Class Name
 			if (loggerConfig.isColorEnabled()) {
 				builder.append(ConsoleUtils.getConsoleColorCode(loggerConfig.getDetailColor()));
