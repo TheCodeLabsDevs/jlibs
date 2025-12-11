@@ -7,10 +7,7 @@ import de.thecodelabs.utils.ui.size.NVCItem;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.stage.Modality;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import javafx.stage.Window;
+import javafx.stage.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +44,9 @@ public final class NVCStage
 		NVCStage.disabledSizeLoading = disabledSizeLoading;
 	}
 
-	private NVC viewController;
-	private Stage stage;
-	private List<CloseHook> closeHook;
+	private final NVC viewController;
+	private final Stage stage;
+	private final List<CloseHook> closeHook;
 
 	NVCStage(NVC viewController, Stage stage)
 	{
@@ -62,13 +59,34 @@ public final class NVCStage
 
 	public NVCStage initOwner(Window owner)
 	{
-		stage.initOwner(owner);
+		try
+		{
+			stage.initOwner(owner);
+		} catch (IllegalStateException e) {
+			LoggerBridge.debug(e.getMessage());
+		}
 		return this;
 	}
 
 	public NVCStage initModality(Modality modality)
 	{
-		stage.initModality(modality);
+		try
+		{
+			stage.initModality(modality);
+		} catch (IllegalStateException e) {
+			LoggerBridge.debug(e.getMessage());
+		}
+		return this;
+	}
+
+	public NVCStage initStyle(StageStyle style)
+	{
+		try
+		{
+			stage.initStyle(style);
+		} catch (IllegalStateException e) {
+			LoggerBridge.debug(e.getMessage());
+		}
 		return this;
 	}
 
