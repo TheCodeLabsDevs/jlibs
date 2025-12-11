@@ -272,6 +272,11 @@ public class Logger
 		log(LogLevel.ERROR, getStringFromException(throwable));
 	}
 
+	public static void error(Object any, Throwable throwable, Object... args)
+	{
+		log(LogLevel.ERROR, any.toString() + "\n" + getStringFromException(throwable), args);
+	}
+
 	private static String getStringFromException(Throwable e)
 	{
 		StringWriter sw = new StringWriter();
