@@ -1412,7 +1412,7 @@ public enum FontAwesomeType implements FontIconType {
 	Y_SOLID('\u0059'),
 	Z_SOLID('\u005A');
 
-	private static final String FONT_FILE = "fonts/Font Awesome 7 Free-Solid-900.otf";
+	private static final String FONT_FILE = "fonts/fontawesome-webfont.ttf";
 	private final char ch;
 
 	/**

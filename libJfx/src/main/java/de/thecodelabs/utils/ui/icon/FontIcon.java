@@ -51,7 +51,7 @@ public class FontIcon extends Label implements Duplicatable<FontIcon>
 
 	public FontIcon(FontIconType... types)
 	{
-		this(defaultFontFile, types);
+		this(types.length > 0 ? types[0].getFontFile() : defaultFontFile, types);
 	}
 
 	public FontIcon(FontAwesomeType type, String fontFile)
