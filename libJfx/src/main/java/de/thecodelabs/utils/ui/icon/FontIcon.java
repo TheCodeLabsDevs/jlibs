@@ -3,6 +3,7 @@ package de.thecodelabs.utils.ui.icon;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import org.controlsfx.tools.Duplicatable;
 
 import java.util.HashMap;
@@ -12,9 +13,12 @@ public class FontIcon extends Label implements Duplicatable<FontIcon>
 {
 
 	public static final String STYLE_CLASS = "fonticon";
+	public static final String STYLE_CLASS_ICON = "icon";
 	static String defaultFontFile = "fonts/fontawesome-webfont.ttf";
 
 	private final String fontFile;
+
+	private final Text text = new Text();
 
 	private static final Map<String, Map<Integer, Font>> fonts;
 
@@ -66,17 +70,19 @@ public class FontIcon extends Label implements Duplicatable<FontIcon>
 		this.loadFont();
 		this.getStyleClass().remove("label");
 		this.getStyleClass().add(STYLE_CLASS);
-
+		setGraphic(text);
 	}
 
 	public void setIcons(FontIconType... types)
 	{
-		StringBuilder text = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		for(FontIconType type : types)
 		{
-			text.append(type.getChar());
+			sb.append(type.getChar());
 		}
-		setText(text.toString());
+
+		text.setText(sb.toString());
+		text.getStyleClass().add(STYLE_CLASS_ICON);
 	}
 
 	public void loadFont()
@@ -93,7 +99,7 @@ public class FontIcon extends Label implements Duplicatable<FontIcon>
 		}
 
 		Font font = fonts.get(fontFile).get(size);
-		setFont(font);
+		text.setFont(font);
 	}
 
 	public int getSize()
@@ -115,7 +121,7 @@ public class FontIcon extends Label implements Duplicatable<FontIcon>
 	public void setColor(Color color)
 	{
 		this.color = color;
-		setTextFill(color);
+		text.setFill(color);
 	}
 
 	@Override
