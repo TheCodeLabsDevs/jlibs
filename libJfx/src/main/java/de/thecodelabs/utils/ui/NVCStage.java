@@ -4,9 +4,14 @@ import de.thecodelabs.utils.logger.LoggerBridge;
 import de.thecodelabs.utils.ui.size.IgnoreStageSizing;
 import de.thecodelabs.utils.ui.size.NVCDatabase;
 import de.thecodelabs.utils.ui.size.NVCItem;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.*;
 
 import java.util.ArrayList;
@@ -62,7 +67,9 @@ public final class NVCStage
 		try
 		{
 			stage.initOwner(owner);
-		} catch (IllegalStateException e) {
+		}
+		catch(IllegalStateException e)
+		{
 			LoggerBridge.debug(e.getMessage());
 		}
 		return this;
@@ -73,7 +80,9 @@ public final class NVCStage
 		try
 		{
 			stage.initModality(modality);
-		} catch (IllegalStateException e) {
+		}
+		catch(IllegalStateException e)
+		{
 			LoggerBridge.debug(e.getMessage());
 		}
 		return this;
@@ -84,7 +93,9 @@ public final class NVCStage
 		try
 		{
 			stage.initStyle(style);
-		} catch (IllegalStateException e) {
+		}
+		catch(IllegalStateException e)
+		{
 			LoggerBridge.debug(e.getMessage());
 		}
 		return this;
@@ -242,5 +253,14 @@ public final class NVCStage
 	public void addCloseHook(CloseHook hook)
 	{
 		closeHook.add(hook);
+	}
+
+	public void addCloseKeyShortcut(Runnable onClose)
+	{
+		final ObservableMap<KeyCombination, Runnable> accelerators = getStage().getScene().getAccelerators();
+		final Runnable closeAction = () -> Platform.runLater(onClose);
+
+		accelerators.put(new KeyCodeCombination(KeyCode.ESCAPE), closeAction);
+		accelerators.put(new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN), closeAction);
 	}
 }
