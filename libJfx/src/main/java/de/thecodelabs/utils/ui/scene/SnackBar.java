@@ -3,6 +3,7 @@ package de.thecodelabs.utils.ui.scene;
 import de.thecodelabs.utils.threading.Worker;
 import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.util.Duration;
 import org.controlsfx.control.NotificationPane;
 import org.controlsfx.control.action.Action;
 
@@ -18,7 +19,7 @@ public class SnackBar extends NotificationPane
 		super(parent);
 
 		this.errorIconNode = errorIconNode;
-		setOnHidden(event -> {
+		setOnHidden(_ -> {
 			if (!errorQueue.isEmpty()) {
 				show(errorQueue.poll(), errorIconNode);
 			}
@@ -39,21 +40,35 @@ public class SnackBar extends NotificationPane
 		super.show(text, graphic, actions);
 	}
 
+	@Deprecated(forRemoval = true)
 	public void showAndHide(String text, long duration) {
+		showAndHide(text, duration);
+	}
+
+	public void showAndHide(String text, Duration duration) {
 		showAndHide(text, duration, null);
 	}
 
-	public void showAndHide(String text, long duration, Runnable finish) {
+	@Deprecated(forRemoval = true)
+	public void showAndHide(String text, long duration, Runnable finish)
+	{
+		showAndHide(text, Duration.millis(duration), finish);
+	}
+
+	public void showAndHide(String text, Duration duration, Runnable finish) {
 		if (!Platform.isFxApplicationThread()) {
 			Platform.runLater(() -> showAndHide(text, duration, finish));
 		} else {
 			setGraphic(null);
 			show(text);
-			if (duration != -1)
+			if (duration != null)
 				Worker.runLater(() -> {
 					try {
-						Thread.sleep(duration);
-					} catch (InterruptedException e) {}
+						Thread.sleep((long) duration.toMillis());
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						return;
+					}
 					Platform.runLater(() -> {
 						hide();
 						if (finish != null)
