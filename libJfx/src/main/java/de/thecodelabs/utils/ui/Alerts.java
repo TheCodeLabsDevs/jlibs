@@ -5,6 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -91,6 +92,8 @@ public class Alerts
 
 		alert.setContentText(message);
 		alert.initModality(Modality.WINDOW_MODAL);
+		
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 		stage.centerOnScreen();
