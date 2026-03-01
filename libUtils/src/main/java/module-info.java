@@ -5,6 +5,7 @@ module de.thecodelabs.libUtils {
 	requires java.management;
 
 	requires de.thecodelabs.libStorage;
+	requires static org.slf4j;
 
 	exports de.thecodelabs.utils.application;
 	exports de.thecodelabs.utils.application.container;

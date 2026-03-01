@@ -1,19 +1,24 @@
 package de.thecodelabs.utils.logger;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-public class LoggerBridge
+public abstract class LoggerBridge
 {
-	private static final String LOGGER_PACKAGE = "de.thecodelabs.logger";
+	private static LogInterface implementation = new LibLoggerBridge();
+
+	public static LogInterface getImplementation()
+	{
+		return implementation;
+	}
+
+	public static void setImplementation(LogInterface implementation)
+	{
+		LoggerBridge.implementation = implementation;
+	}
 
 	public static void trace(Object obj)
 	{
-		if(isLoggerAvailable())
+		if(implementation != null)
 		{
-			log(obj, "TRACE");
+			implementation.trace(obj);
 		}
 		else
 		{
@@ -23,9 +28,9 @@ public class LoggerBridge
 
 	public static void debug(Object obj)
 	{
-		if(isLoggerAvailable())
+		if(implementation != null)
 		{
-			log(obj, "DEBUG");
+			implementation.debug(obj);
 		}
 		else
 		{
@@ -35,9 +40,9 @@ public class LoggerBridge
 
 	public static void info(Object obj)
 	{
-		if(isLoggerAvailable())
+		if(implementation != null)
 		{
-			log(obj, "INFO");
+			implementation.info(obj);
 		}
 		else
 		{
@@ -47,9 +52,9 @@ public class LoggerBridge
 
 	public static void warning(Object obj)
 	{
-		if(isLoggerAvailable())
+		if(implementation != null)
 		{
-			log(obj, "WARNING");
+			implementation.warning(obj);
 		}
 		else
 		{
@@ -59,52 +64,51 @@ public class LoggerBridge
 
 	public static void error(Object obj)
 	{
-		if(isLoggerAvailable())
+		if(implementation != null)
 		{
-			log(obj, "ERROR");
+			implementation.error(obj);
 		}
 		else
 		{
 			System.err.println(obj);
 		}
 	}
+
+	protected abstract void errorImpl(Object obj);
 
 	public static void error(Throwable e)
 	{
-		if(isLoggerAvailable())
+		if(implementation != null)
 		{
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			e.printStackTrace(pw);
-
-			log(sw.toString(), "ERROR");
+			implementation.error(e);
 		}
 		else
 		{
 			e.printStackTrace();
 		}
 	}
+
+	protected abstract void errorImpl(Throwable e);
+
 	public static void error(Object obj, Throwable e)
 	{
-		if(isLoggerAvailable())
+		if(implementation != null)
 		{
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			e.printStackTrace(pw);
-
-			log(obj + "\n" + sw, "ERROR");
+			implementation.error(obj, e);
 		}
 		else
 		{
 			e.printStackTrace();
 		}
 	}
+
+	protected abstract void errorImpl(Object obj, Throwable e);
 
 	public static void fatal(Object obj)
 	{
-		if(isLoggerAvailable())
+		if(implementation != null)
 		{
-			log(obj, "FATAL");
+			implementation.fatal(obj);
 		}
 		else
 		{
@@ -112,43 +116,5 @@ public class LoggerBridge
 		}
 	}
 
-
-	private static void log(Object obj, String level)
-	{
-		try
-		{
-			Class<?> loggerClass = Class.forName(LOGGER_PACKAGE + ".Logger");
-			Class loggerLevelClass = Class.forName(LOGGER_PACKAGE + ".LogLevel");
-
-			@SuppressWarnings("unchecked") Object logLevel = Enum.valueOf(loggerLevelClass, level);
-			Method logMethod = loggerClass.getDeclaredMethod("log", loggerLevelClass, StackTraceElement.class, Object.class, Object[].class);
-			final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-
-			logMethod.invoke(null, logLevel, stackTrace[4], obj, new Object[0]);
-		}
-		catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	private static boolean isLoggerAvailable()
-	{
-		try
-		{
-			Class<?> loggerClass = Class.forName(LOGGER_PACKAGE + ".Logger");
-			Method isInitializedMethod = loggerClass.getDeclaredMethod("isInitialized");
-			final Object result = isInitializedMethod.invoke(null);
-			if(result instanceof Boolean)
-			{
-				return (Boolean) result;
-			}
-			return false;
-		}
-		catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e)
-		{
-			return false;
-		}
-	}
-
+	protected abstract void fatalImpl(Object obj);
 }
