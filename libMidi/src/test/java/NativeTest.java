@@ -1,6 +1,5 @@
 import de.thecodelabs.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.midi.Midi;
-import de.thecodelabs.midi.midi.MidiInputPublisher;
 import de.thecodelabs.midi.midi.MidiMessage;
 import de.thecodelabs.midi.midi.MidiMessageType;
 
@@ -10,21 +9,23 @@ public class NativeTest
 	{
 		try
 		{
-			MidiInputPublisher.getInstance().addMidiListener(i -> {
+			final Midi midi = Midi.getInstance();
+
+			midi.getPublisher().addMidiListener(i -> {
 				System.out.println(i);
-				Midi.getInstance().sendMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 0, i.getPayload()));
+				midi.sendMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 0, i.getPayload()));
 			});
 
-			final MidiDeviceInfo[] data = Midi.getInstance().getMidiDevices();
+			final MidiDeviceInfo[] data = midi.getMidiDevices();
 			for(final MidiDeviceInfo datum : data)
 			{
 				System.out.println(datum);
 			}
 
-			Midi.getInstance().openDevice(new MidiDeviceInfo("PD 12", "PD 12", "Jammin Pro"), Midi.Mode.INPUT);
+			midi.openDevice(new MidiDeviceInfo("PD 12", "PD 12", "Jammin Pro"), Midi.Mode.INPUT);
 
 			// Block until device is closed or Ctrl+C
-			while(Midi.getInstance().isOpen())
+			while(midi.isOpen())
 			{
 				Thread.sleep(200);
 			}

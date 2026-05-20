@@ -13,16 +13,16 @@ class JavaMidiDevice extends MidiDevice implements Receiver
 	private javax.sound.midi.MidiDevice internalInputDevice;
 	private javax.sound.midi.MidiDevice internalOutputDevice;
 
-	JavaMidiDevice(MidiDeviceInfo midiDeviceInfo)
+	JavaMidiDevice(final MidiInputPublisher publisher, final MidiDeviceInfo midiDeviceInfo)
 	{
-		super(midiDeviceInfo);
+		super(midiDeviceInfo, publisher);
 	}
 
 	@Override
 	public void send(javax.sound.midi.MidiMessage message, long timeStamp)
 	{
 		final MidiMessage midiCommand = new MidiMessage(message);
-		MidiInputPublisher.getInstance().publish(midiCommand);
+		publisher.publish(midiCommand);
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import de.thecodelabs.midi.device.MidiDevice;
 import de.thecodelabs.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.device.MidiDeviceManager;
 import de.thecodelabs.midi.midi.Midi;
+import de.thecodelabs.midi.midi.MidiInputPublisher;
 
 import javax.sound.midi.MidiUnavailableException;
 import java.util.LinkedHashMap;
@@ -15,8 +16,12 @@ import java.util.Map;
  */
 public class CoreMidiDeviceManager implements MidiDeviceManager
 {
-	public CoreMidiDeviceManager()
+	private final MidiInputPublisher publisher;
+
+	public CoreMidiDeviceManager(MidiInputPublisher publisher)
 	{
+		this.publisher = publisher;
+
 		if(!System.getProperty("os.name", "").startsWith("Mac"))
 		{
 			throw new UnsupportedOperationException(
@@ -59,7 +64,7 @@ public class CoreMidiDeviceManager implements MidiDeviceManager
 			throw new MidiUnavailableException("MIDI device not found: " + name);
 		}
 
-		final CoreMidiDevice device = new CoreMidiDevice(deviceInfo, sourceRef, destRef);
+		final CoreMidiDevice device = new CoreMidiDevice(publisher, deviceInfo, sourceRef, destRef);
 		device.open(modes);
 		return device;
 	}

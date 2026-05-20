@@ -23,9 +23,9 @@ class CoreMidiDevice extends MidiDevice
 	private int outputPortRef;
 	private Arena callbackArena; // owns the upcall stub; shared because callback fires on CoreMIDI thread
 
-	CoreMidiDevice(final MidiDeviceInfo deviceInfo, final int sourceEndpointRef, final int destEndpointRef)
+	CoreMidiDevice(final MidiInputPublisher publisher, final MidiDeviceInfo deviceInfo, final int sourceEndpointRef, final int destEndpointRef)
 	{
-		super(deviceInfo);
+		super(deviceInfo, publisher);
 		this.sourceEndpointRef = sourceEndpointRef;
 		this.destEndpointRef = destEndpointRef;
 	}
@@ -125,7 +125,7 @@ class CoreMidiDevice extends MidiDevice
 			{
 				final byte[] data = new byte[length];
 				MemorySegment.copy(packets, ValueLayout.JAVA_BYTE, offset + 10, MemorySegment.ofArray(data), ValueLayout.JAVA_BYTE, 0, length);
-				MidiInputPublisher.getInstance().publish(new MidiMessage(data));
+				publisher.publish(new MidiMessage(data));
 			}
 			// Advance to next MIDIPacket (MIDIPacketNext macro logic: 4-byte aligned)
 			offset = (offset + 10 + length + 3L) & ~3L;

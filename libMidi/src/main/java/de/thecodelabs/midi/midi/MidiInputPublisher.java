@@ -10,23 +10,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MidiInputPublisher
 {
-	private static MidiInputPublisher instance;
+	private final List<MidiListener> midiListenerList;
 
-	private MidiInputPublisher()
+	public MidiInputPublisher()
 	{
 		midiListenerList = new CopyOnWriteArrayList<>();
 	}
-
-	public static MidiInputPublisher getInstance()
-	{
-		if(instance == null)
-		{
-			instance = new MidiInputPublisher();
-		}
-		return instance;
-	}
-
-	private final List<MidiListener> midiListenerList;
 
 	public void addMidiListener(final MidiListener midiListener)
 	{

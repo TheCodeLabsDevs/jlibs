@@ -1,27 +1,37 @@
 package de.thecodelabs.midi.device.java;
 
+import de.thecodelabs.midi.device.MidiDevice;
 import de.thecodelabs.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.device.MidiDeviceManager;
 import de.thecodelabs.midi.midi.Midi;
+import de.thecodelabs.midi.midi.MidiInputPublisher;
 
-import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import java.util.stream.Stream;
 
+import static javax.sound.midi.MidiDevice.Info;
+
 public class JavaDeviceManager implements MidiDeviceManager
 {
+	private final MidiInputPublisher publisher;
+
+	public JavaDeviceManager(MidiInputPublisher publisher)
+	{
+		this.publisher = publisher;
+	}
+
 	@Override
 	public MidiDeviceInfo[] listDevices()
 	{
-		final MidiDevice.Info[] midiDeviceInfo = MidiSystem.getMidiDeviceInfo();
+		final Info[] midiDeviceInfo = MidiSystem.getMidiDeviceInfo();
 		return Stream.of(midiDeviceInfo).map(device -> new MidiDeviceInfo(device.getName(), device.getDescription(), device.getVendor())).toArray(MidiDeviceInfo[]::new);
 	}
 
 	@Override
-	public JavaMidiDevice openDevice(MidiDeviceInfo deviceInfo, Midi.Mode... modes) throws MidiUnavailableException
+	public MidiDevice openDevice(MidiDeviceInfo deviceInfo, Midi.Mode... modes) throws MidiUnavailableException
 	{
-		final JavaMidiDevice javaMidiDevice = new JavaMidiDevice(deviceInfo);
+		final JavaMidiDevice javaMidiDevice = new JavaMidiDevice(publisher, deviceInfo);
 		javaMidiDevice.lookupMidiDevice(deviceInfo, modes);
 		return javaMidiDevice;
 	}

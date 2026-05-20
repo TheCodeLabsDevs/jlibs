@@ -28,6 +28,7 @@ public class Midi implements AutoCloseable
 	}
 
 	private MidiDeviceManager midiDeviceManager;
+	private final MidiInputPublisher publisher = new MidiInputPublisher();
 
 	private MidiDevice device;
 	private MidiFeedbackTranscript feedbackTranscript;
@@ -43,7 +44,12 @@ public class Midi implements AutoCloseable
 
 	private Midi()
 	{
-		midiDeviceManager = OS.isMacOS() ? new CoreMidiDeviceManager() : new JavaDeviceManager();
+		midiDeviceManager = OS.isMacOS() ? new CoreMidiDeviceManager(publisher) : new JavaDeviceManager(publisher);
+	}
+
+	public MidiInputPublisher getPublisher()
+	{
+		return publisher;
 	}
 
 	public MidiDeviceInfo[] getMidiDevices()
