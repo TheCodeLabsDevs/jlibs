@@ -3,8 +3,8 @@ package de.thecodelabs.midi.device.java;
 import de.thecodelabs.midi.device.MidiDevice;
 import de.thecodelabs.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.midi.Midi;
-import de.thecodelabs.midi.midi.MidiCommand;
-import de.thecodelabs.midi.midi.MidiCommandHandler;
+import de.thecodelabs.midi.midi.MidiInputPublisher;
+import de.thecodelabs.midi.midi.MidiMessage;
 
 import javax.sound.midi.*;
 
@@ -19,21 +19,21 @@ class JavaMidiDevice extends MidiDevice implements Receiver
 	}
 
 	@Override
-	public void send(MidiMessage message, long timeStamp)
+	public void send(javax.sound.midi.MidiMessage message, long timeStamp)
 	{
-		final MidiCommand midiCommand = new MidiCommand(message);
-		MidiCommandHandler.getInstance().handleCommand(midiCommand);
+		final MidiMessage midiCommand = new MidiMessage(message);
+		MidiInputPublisher.getInstance().publish(midiCommand);
 	}
 
 	@Override
-	public void sendMidiMessage(MidiCommand midiEvent)
+	public void sendMidiMessage(MidiMessage midiEvent)
 	{
 		if(isModeSupported(Midi.Mode.OUTPUT))
 		{
 			try
 			{
 				final byte[] payload = midiEvent.getPayload();
-				final ShortMessage message = new ShortMessage(midiEvent.getMidiCommand().getMidiValue() + midiEvent.getChannel(), payload[0], payload[1]);
+				final ShortMessage message = new ShortMessage(midiEvent.getMessageType().getMidiValue() + midiEvent.getChannel(), payload[0], payload[1]);
 				internalOutputDevice.getReceiver().send(message, -1);
 			}
 			catch(InvalidMidiDataException | MidiUnavailableException e)

@@ -6,8 +6,8 @@ import de.thecodelabs.midi.feedback.FeedbackType;
 import de.thecodelabs.midi.feedback.FeedbackValue;
 import de.thecodelabs.midi.mapping.MidiKey;
 import de.thecodelabs.midi.midi.Midi;
-import de.thecodelabs.midi.midi.MidiCommand;
-import de.thecodelabs.midi.midi.MidiCommandType;
+import de.thecodelabs.midi.midi.MidiMessage;
+import de.thecodelabs.midi.midi.MidiMessageType;
 import de.thecodelabs.midi.midi.feedback.MidiFeedbackTranscript;
 import de.thecodelabs.midi.midi.feedback.MidiFeedbackTranscriptionRegistry;
 import de.thecodelabs.midi.serialize.MappingSerializer;
@@ -50,7 +50,7 @@ public class MainTest
 				return;
 			}
 
-			MidiCommand midiCommand = new MidiCommand(MidiCommandType.NOTE_ON, feedback.getChannel(), midiKey.getValue(), feedback.getValue());
+			MidiMessage midiCommand = new MidiMessage(MidiMessageType.NOTE_ON, feedback.getChannel(), midiKey.getValue(), feedback.getValue());
 			Midi.getInstance().sendMessage(midiCommand);
 		}
 
@@ -74,7 +74,7 @@ public class MainTest
 			for(byte i = 11; i <= maxMainKeyNumber; i++)
 			{
 				// Node_On = 144
-				MidiCommand midiCommand = new MidiCommand(MidiCommandType.NOTE_ON, i, (byte) 0);
+				MidiMessage midiCommand = new MidiMessage(MidiMessageType.NOTE_ON, i, (byte) 0);
 				Midi.getInstance().sendMessage(midiCommand);
 			}
 
@@ -85,7 +85,7 @@ public class MainTest
 			for(byte i = liveKeyMin; i <= liveKeyMax; i++)
 			{
 				// Control_Change = 176
-				MidiCommand midiCommand = new MidiCommand(MidiCommandType.CONTROL_CHANGE, i, (byte) 0);
+				MidiMessage midiCommand = new MidiMessage(MidiMessageType.CONTROL_CHANGE, i, (byte) 0);
 				Midi.getInstance().sendMessage(midiCommand);
 			}
 		}

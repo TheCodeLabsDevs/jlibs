@@ -1,8 +1,8 @@
 import de.thecodelabs.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.midi.Midi;
-import de.thecodelabs.midi.midi.MidiCommand;
-import de.thecodelabs.midi.midi.MidiCommandHandler;
-import de.thecodelabs.midi.midi.MidiCommandType;
+import de.thecodelabs.midi.midi.MidiInputPublisher;
+import de.thecodelabs.midi.midi.MidiMessage;
+import de.thecodelabs.midi.midi.MidiMessageType;
 
 public class NativeTest
 {
@@ -10,9 +10,9 @@ public class NativeTest
 	{
 		try
 		{
-			MidiCommandHandler.getInstance().addMidiListener(i -> {
+			MidiInputPublisher.getInstance().addMidiListener(i -> {
 				System.out.println(i);
-				Midi.getInstance().sendMessage(new MidiCommand(MidiCommandType.NOTE_ON, (byte) 0, i.getPayload()));
+				Midi.getInstance().sendMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 0, i.getPayload()));
 			});
 
 			final MidiDeviceInfo[] data = Midi.getInstance().getMidiDevices();

@@ -1,7 +1,7 @@
 package de.thecodelabs.midi.device;
 
 import de.thecodelabs.midi.midi.Midi;
-import de.thecodelabs.midi.midi.MidiCommand;
+import de.thecodelabs.midi.midi.MidiMessage;
 
 public abstract class MidiDevice
 {
@@ -17,7 +17,7 @@ public abstract class MidiDevice
 		return midiDeviceInfo;
 	}
 
-	public abstract void sendMidiMessage(MidiCommand midiEvent);
+	public abstract void sendMidiMessage(MidiMessage midiEvent);
 
 	public abstract void closeDevice() throws Exception;
 

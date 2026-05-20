@@ -9,21 +9,21 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MidiCommandHandler
+public class MidiInputPublisher
 {
-	private static MidiCommandHandler instance;
+	private static MidiInputPublisher instance;
 
-	private MidiCommandHandler()
+	private MidiInputPublisher()
 	{
 		midiListenerList = new ArrayList<>();
 		removableList = new LinkedList<>();
 	}
 
-	public static MidiCommandHandler getInstance()
+	public static MidiInputPublisher getInstance()
 	{
 		if(instance == null)
 		{
-			instance = new MidiCommandHandler();
+			instance = new MidiInputPublisher();
 		}
 		return instance;
 	}
@@ -43,7 +43,7 @@ public class MidiCommandHandler
 	}
 
 
-	public void handleCommand(MidiCommand midiCommand)
+	public void publish(MidiMessage message)
 	{
 		if(!removableList.isEmpty())
 		{
@@ -57,20 +57,20 @@ public class MidiCommandHandler
 		// Handle midi event in external listeners
 		for(MidiListener midiListener : midiListenerList)
 		{
-			if(!midiCommand.isConsumed())
+			if(!message.isConsumed())
 			{
-				midiListener.onMidiMessage(midiCommand);
+				midiListener.onMidiMessage(message);
 			}
 		}
 
 		// Handle midi event in internal action system
-		if(midiCommand.getMidiCommand() != MidiCommandType.SYSTEM_EXCLUSIVE && !midiCommand.isConsumed())
+		if(message.getMessageType() != MidiMessageType.SYSTEM_EXCLUSIVE && !message.isConsumed())
 		{
-			int key = midiCommand.getPayload()[0];
-			int velocity = midiCommand.getPayload()[1];
+			final int key = message.getPayload()[0];
+			final int velocity = message.getPayload()[1];
 
-			KeyEventType type = velocity > 0 ? KeyEventType.DOWN : KeyEventType.UP;
-			KeyEvent keyEvent = new KeyEvent(KeyType.MIDI, type, key);
+			final KeyEventType type = velocity > 0 ? KeyEventType.DOWN : KeyEventType.UP;
+			final KeyEvent keyEvent = new KeyEvent(KeyType.MIDI, type, key);
 
 			KeyEventDispatcher.dispatchEvent(keyEvent);
 		}

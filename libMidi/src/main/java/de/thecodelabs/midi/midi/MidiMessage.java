@@ -4,27 +4,27 @@ import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 import java.util.Arrays;
 
-public class MidiCommand
+public class MidiMessage
 {
 	private boolean consumed;
 
-	private final MidiCommandType midiCommand;
+	private final MidiMessageType messageType;
 	private final byte channel;
 	private final byte[] payload;
 
-	public MidiCommand(MidiCommandType midiCommand, byte data1, byte data2)
+	public MidiMessage(MidiMessageType messageType, byte data1, byte data2)
 	{
-		this(midiCommand, (byte) 0, new byte[]{data1, data2});
+		this(messageType, (byte) 0, new byte[]{data1, data2});
 	}
 
-	public MidiCommand(MidiCommandType midiCommand, byte channel, byte[] payload)
+	public MidiMessage(MidiMessageType messageType, byte channel, byte[] payload)
 	{
-		this.midiCommand = midiCommand;
+		this.messageType = messageType;
 		this.channel = channel;
 		this.payload = payload;
 	}
 
-	public MidiCommand(byte[] data)
+	public MidiMessage(byte[] data)
 	{
 		int statusByte = Byte.toUnsignedInt(data[0]);
 		int command = statusByte & 0xF0;
@@ -33,19 +33,19 @@ public class MidiCommand
 		switch(command)
 		{
 			case ShortMessage.NOTE_ON:
-				this.midiCommand = MidiCommandType.NOTE_ON;
+				this.messageType = MidiMessageType.NOTE_ON;
 				break;
 			case ShortMessage.NOTE_OFF:
-				this.midiCommand = MidiCommandType.NOTE_OFF;
+				this.messageType = MidiMessageType.NOTE_OFF;
 				break;
 			case ShortMessage.CONTROL_CHANGE:
-				this.midiCommand = MidiCommandType.CONTROL_CHANGE;
+				this.messageType = MidiMessageType.CONTROL_CHANGE;
 				break;
 			case SysexMessage.SYSTEM_EXCLUSIVE:
-				this.midiCommand = MidiCommandType.SYSTEM_EXCLUSIVE;
+				this.messageType = MidiMessageType.SYSTEM_EXCLUSIVE;
 				break;
 			default:
-				this.midiCommand = null;
+				this.messageType = null;
 				break;
 		}
 
@@ -54,12 +54,12 @@ public class MidiCommand
 		this.payload = payload;
 	}
 
-	public MidiCommand(javax.sound.midi.MidiMessage message)
+	public MidiMessage(javax.sound.midi.MidiMessage message)
 	{
 		this(message.getMessage());
 	}
 
-	public MidiCommand(MidiCommandType command, byte channel, byte data1, byte data2)
+	public MidiMessage(MidiMessageType command, byte channel, byte data1, byte data2)
 	{
 		this(command, channel, new byte[]{data1, data2});
 	}
@@ -74,9 +74,9 @@ public class MidiCommand
 		return consumed;
 	}
 
-	public MidiCommandType getMidiCommand()
+	public MidiMessageType getMessageType()
 	{
-		return midiCommand;
+		return messageType;
 	}
 
 	public byte getChannel()
@@ -93,8 +93,8 @@ public class MidiCommand
 	public String toString()
 	{
 		return "MidiEvent{" +
-				"midiCommand=" + midiCommand +
-				", payload=" + Arrays.toString(payload) +
-				'}';
+		       "messageType=" + messageType +
+		       ", payload=" + Arrays.toString(payload) +
+		       '}';
 	}
 }

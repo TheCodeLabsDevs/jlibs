@@ -3,8 +3,8 @@ package de.thecodelabs.midi.device.coremidi;
 import de.thecodelabs.midi.device.MidiDevice;
 import de.thecodelabs.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.midi.Midi;
-import de.thecodelabs.midi.midi.MidiCommand;
-import de.thecodelabs.midi.midi.MidiCommandHandler;
+import de.thecodelabs.midi.midi.MidiInputPublisher;
+import de.thecodelabs.midi.midi.MidiMessage;
 
 import javax.sound.midi.MidiUnavailableException;
 import java.lang.foreign.Arena;
@@ -125,7 +125,7 @@ class CoreMidiDevice extends MidiDevice
 			{
 				final byte[] data = new byte[length];
 				MemorySegment.copy(packets, ValueLayout.JAVA_BYTE, offset + 10, MemorySegment.ofArray(data), ValueLayout.JAVA_BYTE, 0, length);
-				MidiCommandHandler.getInstance().handleCommand(new MidiCommand(data));
+				MidiInputPublisher.getInstance().publish(new MidiMessage(data));
 			}
 			// Advance to next MIDIPacket (MIDIPacketNext macro logic: 4-byte aligned)
 			offset = (offset + 10 + length + 3L) & ~3L;
@@ -133,15 +133,15 @@ class CoreMidiDevice extends MidiDevice
 	}
 
 	@Override
-	public void sendMidiMessage(final MidiCommand midiEvent)
+	public void sendMidiMessage(final MidiMessage midiEvent)
 	{
 		if(!isModeSupported(Midi.Mode.OUTPUT)) return;
-		if(midiEvent.getMidiCommand() == null) return;
+		if(midiEvent.getMessageType() == null) return;
 
 		final byte[] payload = midiEvent.getPayload();
 		if(payload.length < 2) return;
 
-		final byte statusByte = (byte) (midiEvent.getMidiCommand().getMidiValue() + midiEvent.getChannel());
+		final byte statusByte = (byte) (midiEvent.getMessageType().getMidiValue() + midiEvent.getChannel());
 
 		// MIDIPacketList layout:
 		//   offset  0: numPackets = 1  (UInt32)

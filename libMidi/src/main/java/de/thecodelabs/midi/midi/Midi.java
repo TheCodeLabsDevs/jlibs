@@ -135,7 +135,7 @@ public class Midi implements AutoCloseable
 		}
 	}
 
-	public void sendMessage(MidiCommand midiCommand)
+	public void sendMessage(MidiMessage midiCommand)
 	{
 		device.sendMidiMessage(midiCommand);
 	}
