@@ -8,11 +8,13 @@ import de.thecodelabs.midi.device.CloseException;
 import de.thecodelabs.midi.device.MidiDevice;
 import de.thecodelabs.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.device.MidiDeviceManager;
+import de.thecodelabs.midi.device.coremidi.CoreMidiDeviceManager;
 import de.thecodelabs.midi.device.java.JavaDeviceManager;
 import de.thecodelabs.midi.feedback.FeedbackType;
 import de.thecodelabs.midi.mapping.MidiKey;
 import de.thecodelabs.midi.midi.feedback.MidiFeedbackTranscript;
 import de.thecodelabs.midi.midi.feedback.MidiFeedbackTranscriptionRegistry;
+import de.thecodelabs.utils.util.OS;
 
 import javax.sound.midi.MidiUnavailableException;
 
@@ -41,7 +43,7 @@ public class Midi implements AutoCloseable
 
 	private Midi()
 	{
-		midiDeviceManager = new JavaDeviceManager();
+		midiDeviceManager = OS.isMacOS() ? new CoreMidiDeviceManager() : new JavaDeviceManager();
 	}
 
 	public MidiDeviceInfo[] getMidiDevices()
