@@ -86,7 +86,7 @@ public class MidiMessage
 
 	public byte[] getPayload()
 	{
-		return payload;
+		return payload.clone();
 	}
 
 	@Override
