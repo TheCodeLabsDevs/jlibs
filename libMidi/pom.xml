@@ -14,7 +14,6 @@
         <jlibs.version>3.2.0</jlibs.version>
 
         <gson.version>2.9.0</gson.version>
-        <coremidi4j.version>1.6</coremidi4j.version>
 
         <junit.version>4.13.2</junit.version>
         <assertj-core.version>3.22.0</assertj-core.version>
@@ -55,13 +54,6 @@
         <dependency>
             <groupId>de.thecodelabs</groupId>
             <artifactId>libUtils</artifactId>
-        </dependency>
-
-        <dependency>
-            <!--TheCodeLabs Repo-->
-            <groupId>uk.co.xfactory-librarians</groupId>
-            <artifactId>coremidi4j</artifactId>
-            <version>${coremidi4j.version}</version>
         </dependency>
 
         <dependency>

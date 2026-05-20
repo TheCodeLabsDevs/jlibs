@@ -13,16 +13,12 @@ import de.thecodelabs.midi.feedback.FeedbackType;
 import de.thecodelabs.midi.mapping.MidiKey;
 import de.thecodelabs.midi.midi.feedback.MidiFeedbackTranscript;
 import de.thecodelabs.midi.midi.feedback.MidiFeedbackTranscriptionRegistry;
-import de.thecodelabs.utils.util.OS;
-import uk.co.xfactorylibrarians.coremidi4j.CoreMidiDeviceProvider;
-import uk.co.xfactorylibrarians.coremidi4j.CoreMidiException;
 
 import javax.sound.midi.MidiUnavailableException;
 
 public class Midi implements AutoCloseable
 {
 	private static Midi INSTANCE;
-	private static boolean useNative = true;
 
 	public enum Mode
 	{
@@ -45,17 +41,6 @@ public class Midi implements AutoCloseable
 
 	private Midi()
 	{
-		if(OS.isMacOS() && useNative)
-		{
-			try
-			{
-				CoreMidiDeviceProvider.isLibraryLoaded();
-			}
-			catch(CoreMidiException e)
-			{
-				throw new RuntimeException(e);
-			}
-		}
 		midiDeviceManager = new JavaDeviceManager();
 	}
 
@@ -160,15 +145,5 @@ public class Midi implements AutoCloseable
 			return false;
 		}
 		return device.isOpen();
-	}
-
-	public static boolean isUseNative()
-	{
-		return useNative;
-	}
-
-	public static void setUseNative(boolean useNative)
-	{
-		Midi.useNative = useNative;
 	}
 }

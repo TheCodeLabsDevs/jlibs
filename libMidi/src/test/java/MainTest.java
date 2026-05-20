@@ -26,7 +26,6 @@ public class MainTest
 
 			MidiFeedbackTranscriptionRegistry.getInstance().register("Launchpad MK2", new LaunchPadTranscript());
 
-			Midi.setUseNative(true);
 			Mapping.setCurrentMapping(mapping);
 
 			final Midi instance = Midi.getInstance();
