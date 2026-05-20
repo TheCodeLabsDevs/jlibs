@@ -56,12 +56,12 @@ public class CoreMidiDevice extends MidiDevice {
             throw new MidiUnavailableException("Failed to create MIDI read callback: " + e.getMessage());
         }
 
-        final String portName = "libMidi-in-" + getMidiDeviceInfo().getName();
+        final String portName = "libMidi-in-" + getMidiDeviceInfo().name();
         inputPortRef = CoreMidiLibrary.inputPortCreate(CoreMidiLibrary.CLIENT_REF, portName, upcallStub);
         if (inputPortRef == 0) {
             callbackArena.close();
             callbackArena = null;
-            throw new MidiUnavailableException("MIDIInputPortCreate failed for: " + getMidiDeviceInfo().getName());
+            throw new MidiUnavailableException("MIDIInputPortCreate failed for: " + getMidiDeviceInfo().name());
         }
 
         final int connectStatus = CoreMidiLibrary.portConnectSource(inputPortRef, sourceEndpointRef);
@@ -75,10 +75,10 @@ public class CoreMidiDevice extends MidiDevice {
     }
 
     private void openOutput() throws MidiUnavailableException {
-        final String portName = "libMidi-out-" + getMidiDeviceInfo().getName();
+        final String portName = "libMidi-out-" + getMidiDeviceInfo().name();
         outputPortRef = CoreMidiLibrary.outputPortCreate(CoreMidiLibrary.CLIENT_REF, portName);
         if (outputPortRef == 0) {
-            throw new MidiUnavailableException("MIDIOutputPortCreate failed for: " + getMidiDeviceInfo().getName());
+            throw new MidiUnavailableException("MIDIOutputPortCreate failed for: " + getMidiDeviceInfo().name());
         }
     }
 

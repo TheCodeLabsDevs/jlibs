@@ -55,7 +55,7 @@ public class Midi implements AutoCloseable
 	{
 		for(MidiDeviceInfo info : getMidiDevices())
 		{
-			if(info.getName().equals(name))
+			if(info.name().equals(name))
 			{
 				return info;
 			}
@@ -83,7 +83,7 @@ public class Midi implements AutoCloseable
 
 		if(device.isModeSupported(Mode.OUTPUT))
 		{
-			feedbackTranscript = MidiFeedbackTranscriptionRegistry.getInstance().getTransripter(deviceInfo.getName());
+			feedbackTranscript = MidiFeedbackTranscriptionRegistry.getInstance().getTransripter(deviceInfo.name());
 		}
 	}
 

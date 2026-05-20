@@ -82,7 +82,7 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 
 	void lookupMidiDevice(MidiDeviceInfo deviceInfo, Midi.Mode... modes) throws IllegalArgumentException, MidiUnavailableException, NullPointerException
 	{
-		final String name = deviceInfo.getName();
+		final String name = deviceInfo.name();
 		boolean first = true;
 
 		javax.sound.midi.MidiDevice.Info input = null;

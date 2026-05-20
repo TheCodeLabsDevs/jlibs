@@ -44,7 +44,7 @@ public class CoreMidiDeviceManager implements MidiDeviceManager {
 
     @Override
     public MidiDevice openDevice(final MidiDeviceInfo deviceInfo, final Midi.Mode... modes) throws MidiUnavailableException {
-        final String name = deviceInfo.getName();
+        final String name = deviceInfo.name();
         final int sourceRef = findEndpointByName(name, true);
         final int destRef = findEndpointByName(name, false);
 

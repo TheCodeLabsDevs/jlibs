@@ -7,7 +7,7 @@ public abstract class MidiDevice
 {
 	private final MidiDeviceInfo midiDeviceInfo;
 
-	public MidiDevice(MidiDeviceInfo midiDeviceInfo)
+	protected MidiDevice(MidiDeviceInfo midiDeviceInfo)
 	{
 		this.midiDeviceInfo = midiDeviceInfo;
 	}
