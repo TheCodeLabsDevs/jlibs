@@ -8,7 +8,7 @@ import de.thecodelabs.midi.midi.MidiCommandHandler;
 
 import javax.sound.midi.*;
 
-public class JavaMidiDevice extends MidiDevice implements Receiver
+class JavaMidiDevice extends MidiDevice implements Receiver
 {
 	private javax.sound.midi.MidiDevice internalInputDevice;
 	private javax.sound.midi.MidiDevice internalOutputDevice;
@@ -21,7 +21,7 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 	@Override
 	public void send(MidiMessage message, long timeStamp)
 	{
-		MidiCommand midiCommand = new MidiCommand(message);
+		final MidiCommand midiCommand = new MidiCommand(message);
 		MidiCommandHandler.getInstance().handleCommand(midiCommand);
 	}
 
@@ -33,7 +33,7 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 			try
 			{
 				final byte[] payload = midiEvent.getPayload();
-				ShortMessage message = new ShortMessage(midiEvent.getMidiCommand().getMidiValue() + midiEvent.getChannel(), payload[0], payload[1]);
+				final ShortMessage message = new ShortMessage(midiEvent.getMidiCommand().getMidiValue() + midiEvent.getChannel(), payload[0], payload[1]);
 				internalOutputDevice.getReceiver().send(message, -1);
 			}
 			catch(InvalidMidiDataException | MidiUnavailableException e)
@@ -77,55 +77,81 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 	@Override
 	public boolean isOpen()
 	{
-		return (internalInputDevice  != null && internalInputDevice.isOpen())
-		    || (internalOutputDevice != null && internalOutputDevice.isOpen());
+		return (internalInputDevice != null && internalInputDevice.isOpen())
+		       || (internalOutputDevice != null && internalOutputDevice.isOpen());
 	}
 
-	void lookupMidiDevice(MidiDeviceInfo deviceInfo, Midi.Mode... modes) throws IllegalArgumentException, MidiUnavailableException
+	void lookupMidiDevice(final MidiDeviceInfo deviceInfo, final Midi.Mode... modes) throws MidiUnavailableException
+	{
+		final JavaMidiDeviceInfo result = getMidiDeviceInfo(deviceInfo);
+		if(result.inputInfo() == null && result.outputInfo() == null)
+		{
+			throw new MidiUnavailableException("Midi device " + result.name() + " unavailable");
+		}
+
+		for(final Midi.Mode mode : modes)
+		{
+			switch(mode)
+			{
+				case INPUT ->
+				{
+					if(result.inputInfo() != null)
+					{
+						setMidiInputDevice(result.inputInfo());
+					}
+				}
+				case OUTPUT ->
+				{
+					if(result.outputInfo() != null)
+					{
+						setMidiOutputDevice(result.outputInfo());
+					}
+				}
+			}
+		}
+	}
+
+	private static JavaMidiDeviceInfo getMidiDeviceInfo(MidiDeviceInfo deviceInfo)
 	{
 		final String name = deviceInfo.name();
-		boolean first = true;
+		javax.sound.midi.MidiDevice.Info inputInfo = null;
+		javax.sound.midi.MidiDevice.Info outputInfo = null;
 
-		javax.sound.midi.MidiDevice.Info input = null;
-		javax.sound.midi.MidiDevice.Info output = null;
-
-		for(javax.sound.midi.MidiDevice.Info item : MidiSystem.getMidiDeviceInfo())
+		for(final javax.sound.midi.MidiDevice.Info info : MidiSystem.getMidiDeviceInfo())
 		{
-			if(item.getName().equals(name))
+			if(!info.getName().equals(name))
 			{
-				if(first)
+				continue;
+			}
+
+			try
+			{
+				final javax.sound.midi.MidiDevice device = MidiSystem.getMidiDevice(info);
+				if(device.getMaxTransmitters() != 0)
 				{
-					input = item;
-					first = false;
+					inputInfo = info;
 				}
-				else
+				if(device.getMaxReceivers() != 0)
 				{
-					output = item;
+					outputInfo = info;
 				}
 			}
-		}
-
-		if(input == null)
-		{
-			throw new MidiUnavailableException("Midi device " + name + " unavailable");
-		}
-
-		for(Midi.Mode mode : modes)
-		{
-			if(mode == Midi.Mode.INPUT)
+			catch(MidiUnavailableException _)
 			{
-				setMidiInputDevice(input);
-			}
-			else if(mode == Midi.Mode.OUTPUT)
-			{
-				setMidiOutputDevice(output);
+				// Nothing to do
 			}
 		}
+		return new JavaMidiDeviceInfo(name, inputInfo, outputInfo);
+	}
+
+	private record JavaMidiDeviceInfo(String name, javax.sound.midi.MidiDevice.Info inputInfo,
+	                                  javax.sound.midi.MidiDevice.Info outputInfo)
+	{
 	}
 
 	private void setMidiInputDevice(javax.sound.midi.MidiDevice.Info input) throws MidiUnavailableException, IllegalArgumentException
 	{
-		javax.sound.midi.MidiDevice newInputDevice = MidiSystem.getMidiDevice(input);
+		final javax.sound.midi.MidiDevice newInputDevice = MidiSystem.getMidiDevice(input);
 		if(newInputDevice == null)
 		{
 			return;
@@ -142,14 +168,14 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 
 		this.internalInputDevice = newInputDevice;
 
-		Transmitter trans = internalInputDevice.getTransmitter();
+		final Transmitter trans = internalInputDevice.getTransmitter();
 		trans.setReceiver(this);
 		internalInputDevice.open();
 	}
 
 	private void setMidiOutputDevice(javax.sound.midi.MidiDevice.Info output) throws MidiUnavailableException, IllegalArgumentException
 	{
-		javax.sound.midi.MidiDevice newOutputDevice = MidiSystem.getMidiDevice(output);
+		final javax.sound.midi.MidiDevice newOutputDevice = MidiSystem.getMidiDevice(output);
 		if(newOutputDevice == null)
 		{
 			return;
