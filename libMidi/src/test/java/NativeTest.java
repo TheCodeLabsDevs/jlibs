@@ -6,7 +6,7 @@ import de.thecodelabs.midi.midi.MidiCommandType;
 
 public class NativeTest
 {
-	public static void main(String[] args)
+	public static void main(final String[] args)
 	{
 		try
 		{
@@ -15,8 +15,8 @@ public class NativeTest
 				Midi.getInstance().sendMessage(new MidiCommand(MidiCommandType.NOTE_ON, (byte) 0, i.getPayload()));
 			});
 
-			MidiDeviceInfo[] data = Midi.getInstance().getMidiDevices();
-			for(MidiDeviceInfo datum : data)
+			final MidiDeviceInfo[] data = Midi.getInstance().getMidiDevices();
+			for(final MidiDeviceInfo datum : data)
 			{
 				System.out.println(datum);
 			}
@@ -29,7 +29,7 @@ public class NativeTest
 				Thread.sleep(200);
 			}
 		}
-		catch(Exception e)
+		catch(final Exception e)
 		{
 			e.printStackTrace();
 		}

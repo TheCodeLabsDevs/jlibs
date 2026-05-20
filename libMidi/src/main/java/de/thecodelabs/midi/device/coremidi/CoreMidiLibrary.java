@@ -143,10 +143,10 @@ final class CoreMidiLibrary {
         // kMIDIPropertyName and kMIDIPropertyManufacturer are lazily initialized by CoreMIDI —
         // they are NULL (0x0) until MIDIClientCreate triggers CoreMIDI server initialization.
         // We must read them AFTER creating the MIDIClient.
-        try (Arena arena = Arena.ofConfined()) {
-            MemorySegment cfName = createCFStringRaw("libMidi-CoreMidi", arena);
-            MemorySegment outClient = arena.allocate(ValueLayout.JAVA_INT);
-            int status = (int) h_MIDIClientCreate.invokeExact(
+        try (final Arena arena = Arena.ofConfined()) {
+            final MemorySegment cfName = createCFStringRaw("libMidi-CoreMidi", arena);
+            final MemorySegment outClient = arena.allocate(ValueLayout.JAVA_INT);
+            final int status = (int) h_MIDIClientCreate.invokeExact(
                     cfName, MemorySegment.NULL, MemorySegment.NULL, outClient);
             cfRelease(cfName);
             if (status != 0) {
@@ -157,7 +157,7 @@ final class CoreMidiLibrary {
             // Read property key constants now that CoreMIDI is initialized
             K_MIDI_PROPERTY_NAME = readPointerSymbol(CORE_MIDI, "kMIDIPropertyName");
             K_MIDI_PROPERTY_MANUFACTURER = readPointerSymbol(CORE_MIDI, "kMIDIPropertyManufacturer");
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new ExceptionInInitializerError(t);
         }
     }
@@ -167,15 +167,15 @@ final class CoreMidiLibrary {
     static long getNumberOfSources() {
         try {
             return (long) h_MIDIGetNumberOfSources.invokeExact();
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new RuntimeException(t);
         }
     }
 
-    static int getSource(long index) {
+    static int getSource(final long index) {
         try {
             return (int) h_MIDIGetSource.invokeExact(index);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new RuntimeException(t);
         }
     }
@@ -183,101 +183,101 @@ final class CoreMidiLibrary {
     static long getNumberOfDestinations() {
         try {
             return (long) h_MIDIGetNumberOfDestinations.invokeExact();
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new RuntimeException(t);
         }
     }
 
-    static int getDestination(long index) {
+    static int getDestination(final long index) {
         try {
             return (int) h_MIDIGetDestination.invokeExact(index);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new RuntimeException(t);
         }
     }
 
     // --- Property access ---
 
-    static String getStringProperty(int endpointRef, MemorySegment propertyKey) {
-        try (Arena arena = Arena.ofConfined()) {
-            MemorySegment outStr = arena.allocate(ValueLayout.ADDRESS);
-            int status = (int) h_MIDIObjectGetStringProperty.invokeExact(
+    static String getStringProperty(final int endpointRef, final MemorySegment propertyKey) {
+        try (final Arena arena = Arena.ofConfined()) {
+            final MemorySegment outStr = arena.allocate(ValueLayout.ADDRESS);
+            final int status = (int) h_MIDIObjectGetStringProperty.invokeExact(
                     endpointRef, propertyKey, outStr);
             if (status != 0) return "";
-            MemorySegment cfStr = outStr.get(ValueLayout.ADDRESS, 0);
+            final MemorySegment cfStr = outStr.get(ValueLayout.ADDRESS, 0);
             if (cfStr.equals(MemorySegment.NULL)) return "";
             try {
-                MemorySegment buffer = arena.allocate(512);
-                byte ok = (byte) h_CFStringGetCString.invokeExact(
+                final MemorySegment buffer = arena.allocate(512);
+                final byte ok = (byte) h_CFStringGetCString.invokeExact(
                         cfStr, buffer, 512L, CF_STRING_ENCODING_UTF8);
                 return ok != 0 ? buffer.getString(0, StandardCharsets.UTF_8) : "";
             } finally {
                 cfRelease(cfStr);
             }
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new RuntimeException(t);
         }
     }
 
     // --- Port management ---
 
-    static int inputPortCreate(int clientRef, String portName, MemorySegment readProc) {
-        try (Arena arena = Arena.ofConfined()) {
-            MemorySegment cfName = createCFStringRaw(portName, arena);
-            MemorySegment outPort = arena.allocate(ValueLayout.JAVA_INT);
-            int status = (int) h_MIDIInputPortCreate.invokeExact(
+    static int inputPortCreate(final int clientRef, final String portName, final MemorySegment readProc) {
+        try (final Arena arena = Arena.ofConfined()) {
+            final MemorySegment cfName = createCFStringRaw(portName, arena);
+            final MemorySegment outPort = arena.allocate(ValueLayout.JAVA_INT);
+            final int status = (int) h_MIDIInputPortCreate.invokeExact(
                     clientRef, cfName, readProc, MemorySegment.NULL, outPort);
             cfRelease(cfName);
             if (status != 0) return 0;
             return outPort.get(ValueLayout.JAVA_INT, 0);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new RuntimeException(t);
         }
     }
 
-    static int outputPortCreate(int clientRef, String portName) {
-        try (Arena arena = Arena.ofConfined()) {
-            MemorySegment cfName = createCFStringRaw(portName, arena);
-            MemorySegment outPort = arena.allocate(ValueLayout.JAVA_INT);
-            int status = (int) h_MIDIOutputPortCreate.invokeExact(clientRef, cfName, outPort);
+    static int outputPortCreate(final int clientRef, final String portName) {
+        try (final Arena arena = Arena.ofConfined()) {
+            final MemorySegment cfName = createCFStringRaw(portName, arena);
+            final MemorySegment outPort = arena.allocate(ValueLayout.JAVA_INT);
+            final int status = (int) h_MIDIOutputPortCreate.invokeExact(clientRef, cfName, outPort);
             cfRelease(cfName);
             if (status != 0) return 0;
             return outPort.get(ValueLayout.JAVA_INT, 0);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new RuntimeException(t);
         }
     }
 
-    static int portConnectSource(int portRef, int sourceRef) {
+    static int portConnectSource(final int portRef, final int sourceRef) {
         try {
             return (int) h_MIDIPortConnectSource.invokeExact(portRef, sourceRef, MemorySegment.NULL);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new RuntimeException(t);
         }
     }
 
-    static void portDisconnectSource(int portRef, int sourceRef) {
+    static void portDisconnectSource(final int portRef, final int sourceRef) {
         try {
             h_MIDIPortDisconnectSource.invoke(portRef, sourceRef);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new RuntimeException(t);
         }
     }
 
-    static void portDispose(int portRef) {
+    static void portDispose(final int portRef) {
         try {
             h_MIDIPortDispose.invoke(portRef);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new RuntimeException(t);
         }
     }
 
     // --- MIDI send ---
 
-    static int midiSend(int portRef, int destRef, MemorySegment pktlist) {
+    static int midiSend(final int portRef, final int destRef, final MemorySegment pktlist) {
         try {
             return (int) h_MIDISend.invokeExact(portRef, destRef, pktlist);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new RuntimeException(t);
         }
     }
@@ -289,33 +289,33 @@ final class CoreMidiLibrary {
      * object that must be released with {@link #cfRelease} when no longer needed.
      * The {@code arena} is used only for the temporary UTF-8 buffer passed to CoreFoundation.
      */
-    static MemorySegment createCFStringRaw(String s, Arena arena) {
+    static MemorySegment createCFStringRaw(final String s, final Arena arena) {
         try {
-            MemorySegment cStr = arena.allocateFrom(s, StandardCharsets.UTF_8);
+            final MemorySegment cStr = arena.allocateFrom(s, StandardCharsets.UTF_8);
             return (MemorySegment) h_CFStringCreateWithCString.invokeExact(
                     MemorySegment.NULL, cStr, CF_STRING_ENCODING_UTF8);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new RuntimeException(t);
         }
     }
 
-    static void cfRelease(MemorySegment cfRef) {
+    static void cfRelease(final MemorySegment cfRef) {
         if (cfRef == null || cfRef.equals(MemorySegment.NULL)) return;
         try {
             h_CFRelease.invokeExact(cfRef);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             throw new RuntimeException(t);
         }
     }
 
     // --- Internal utilities ---
 
-    private static MemorySegment sym(SymbolLookup lookup, String name) {
+    private static MemorySegment sym(final SymbolLookup lookup, final String name) {
         return lookup.find(name).orElseThrow(() ->
                 new RuntimeException("Symbol not found: " + name));
     }
 
-    private static MemorySegment readPointerSymbol(SymbolLookup lookup, String name) {
+    private static MemorySegment readPointerSymbol(final SymbolLookup lookup, final String name) {
         return lookup.find(name).orElseThrow()
                 .reinterpret(ValueLayout.ADDRESS.byteSize())
                 .get(ValueLayout.ADDRESS, 0);

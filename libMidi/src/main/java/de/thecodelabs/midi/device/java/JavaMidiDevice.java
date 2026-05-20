@@ -170,13 +170,10 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 	@Override
 	public boolean isModeSupported(Midi.Mode mode)
 	{
-		switch(mode)
+		return switch(mode)
 		{
-			case INPUT:
-				return internalInputDevice != null;
-			case OUTPUT:
-				return internalOutputDevice != null;
-		}
-		throw new IllegalArgumentException("Unknown Midi Mode: " + mode);
+			case INPUT -> internalInputDevice != null;
+			case OUTPUT -> internalOutputDevice != null;
+		};
 	}
 }
