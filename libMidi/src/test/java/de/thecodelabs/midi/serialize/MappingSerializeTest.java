@@ -7,7 +7,7 @@ import de.thecodelabs.midi.mapping.KeyboardKey;
 import de.thecodelabs.midi.mapping.MidiKey;
 import javafx.scene.input.KeyCode;
 import org.assertj.core.data.MapEntry;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
