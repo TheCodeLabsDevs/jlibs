@@ -5,9 +5,8 @@ import de.thecodelabs.midi.event.KeyEventDispatcher;
 import de.thecodelabs.midi.event.KeyEventType;
 import de.thecodelabs.midi.mapping.KeyType;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MidiInputPublisher
 {
@@ -15,8 +14,7 @@ public class MidiInputPublisher
 
 	private MidiInputPublisher()
 	{
-		midiListenerList = new ArrayList<>();
-		removableList = new LinkedList<>();
+		midiListenerList = new CopyOnWriteArrayList<>();
 	}
 
 	public static MidiInputPublisher getInstance()
@@ -28,34 +26,21 @@ public class MidiInputPublisher
 		return instance;
 	}
 
-	private List<MidiListener> midiListenerList;
-	private List<MidiListener> removableList;
+	private final List<MidiListener> midiListenerList;
 
-	public void addMidiListener(MidiListener midiListener)
+	public void addMidiListener(final MidiListener midiListener)
 	{
-		removableList.remove(midiListener);
 		midiListenerList.add(midiListener);
 	}
 
-	public void removeMidiListener(MidiListener midiListener)
+	public void removeMidiListener(final MidiListener midiListener)
 	{
-		removableList.add(midiListener);
+		midiListenerList.remove(midiListener);
 	}
 
-
-	public void publish(MidiMessage message)
+	public void publish(final MidiMessage message)
 	{
-		if(!removableList.isEmpty())
-		{
-			for(MidiListener listener : removableList)
-			{
-				midiListenerList.remove(listener);
-			}
-			removableList.clear();
-		}
-
-		// Handle midi event in external listeners
-		for(MidiListener midiListener : midiListenerList)
+		for(final MidiListener midiListener : midiListenerList)
 		{
 			if(!message.isConsumed())
 			{
