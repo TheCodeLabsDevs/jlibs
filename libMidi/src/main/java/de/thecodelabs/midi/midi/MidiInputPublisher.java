@@ -48,11 +48,14 @@ public class MidiInputPublisher
 			}
 		}
 
-		// Handle midi event in internal action system
-		if(message.getMessageType() != MidiMessageType.SYSTEM_EXCLUSIVE && !message.isConsumed())
+		final byte[] payload = message.getPayload();
+		if(message.getMessageType() != null
+				&& message.getMessageType() != MidiMessageType.SYSTEM_EXCLUSIVE
+				&& !message.isConsumed()
+				&& payload.length >= 2)
 		{
-			final int key = message.getPayload()[0];
-			final int velocity = message.getPayload()[1];
+			final int key = payload[0];
+			final int velocity = payload[1];
 
 			final KeyEventType type = velocity > 0 ? KeyEventType.DOWN : KeyEventType.UP;
 			final KeyEvent keyEvent = new KeyEvent(KeyType.MIDI, type, key);
