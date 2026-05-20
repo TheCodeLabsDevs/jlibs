@@ -1,10 +1,10 @@
-package de.thecodelabs.midi.device.java;
+package de.thecodelabs.midi.midi.device.java;
 
-import de.thecodelabs.midi.device.MidiDevice;
-import de.thecodelabs.midi.device.MidiDeviceInfo;
-import de.thecodelabs.midi.device.MidiDeviceManager;
 import de.thecodelabs.midi.midi.Midi;
-import de.thecodelabs.midi.midi.MidiInputPublisher;
+import de.thecodelabs.midi.midi.device.MidiDevice;
+import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
+import de.thecodelabs.midi.midi.device.MidiDeviceManager;
+import de.thecodelabs.midi.midi.message.MidiInputPublisher;
 
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;

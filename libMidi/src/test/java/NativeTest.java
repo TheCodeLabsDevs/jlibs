@@ -1,7 +1,7 @@
-import de.thecodelabs.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.midi.Midi;
-import de.thecodelabs.midi.midi.MidiMessage;
-import de.thecodelabs.midi.midi.MidiMessageType;
+import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
+import de.thecodelabs.midi.midi.message.MidiMessage;
+import de.thecodelabs.midi.midi.message.MidiMessageType;
 
 public class NativeTest
 {

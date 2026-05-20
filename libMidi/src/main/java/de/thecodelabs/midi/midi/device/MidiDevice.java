@@ -1,8 +1,8 @@
-package de.thecodelabs.midi.device;
+package de.thecodelabs.midi.midi.device;
 
 import de.thecodelabs.midi.midi.Midi;
-import de.thecodelabs.midi.midi.MidiInputPublisher;
-import de.thecodelabs.midi.midi.MidiMessage;
+import de.thecodelabs.midi.midi.message.MidiInputPublisher;
+import de.thecodelabs.midi.midi.message.MidiMessage;
 
 public abstract class MidiDevice
 {

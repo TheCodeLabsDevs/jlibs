@@ -1,4 +1,4 @@
-package de.thecodelabs.midi.device.coremidi;
+package de.thecodelabs.midi.midi.device.coremidi;
 
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;

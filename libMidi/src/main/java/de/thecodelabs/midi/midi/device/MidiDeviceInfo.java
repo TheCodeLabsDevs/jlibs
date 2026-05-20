@@ -1,4 +1,4 @@
-package de.thecodelabs.midi.device;
+package de.thecodelabs.midi.midi.device;
 
 public record MidiDeviceInfo(String name, String displayName, String manufacturer)
 {

@@ -1,4 +1,4 @@
-package de.thecodelabs.midi.device;
+package de.thecodelabs.midi.midi.device;
 
 import de.thecodelabs.midi.midi.Midi;
 

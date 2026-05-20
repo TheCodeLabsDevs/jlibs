@@ -1,15 +1,15 @@
 import de.thecodelabs.midi.Mapping;
 import de.thecodelabs.midi.action.ActionRegistry;
-import de.thecodelabs.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.feedback.Feedback;
 import de.thecodelabs.midi.feedback.FeedbackType;
 import de.thecodelabs.midi.feedback.FeedbackValue;
 import de.thecodelabs.midi.mapping.MidiKey;
 import de.thecodelabs.midi.midi.Midi;
-import de.thecodelabs.midi.midi.MidiMessage;
-import de.thecodelabs.midi.midi.MidiMessageType;
+import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.midi.feedback.MidiFeedbackTranscript;
 import de.thecodelabs.midi.midi.feedback.MidiFeedbackTranscriptionRegistry;
+import de.thecodelabs.midi.midi.message.MidiMessage;
+import de.thecodelabs.midi.midi.message.MidiMessageType;
 import de.thecodelabs.midi.serialize.MappingSerializer;
 
 import java.nio.file.Paths;
