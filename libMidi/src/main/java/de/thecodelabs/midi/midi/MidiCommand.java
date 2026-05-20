@@ -26,7 +26,10 @@ public class MidiCommand
 
 	public MidiCommand(byte[] data)
 	{
-		int command = Byte.toUnsignedInt(data[0]);
+		int statusByte = Byte.toUnsignedInt(data[0]);
+		int command = statusByte & 0xF0;
+		this.channel = (byte) (statusByte & 0x0F);
+
 		switch(command)
 		{
 			case ShortMessage.NOTE_ON:
@@ -49,8 +52,6 @@ public class MidiCommand
 		byte[] payload = new byte[data.length - 1];
 		System.arraycopy(data, 1, payload, 0, data.length - 1);
 		this.payload = payload;
-
-		this.channel = 0;
 	}
 
 	public MidiCommand(javax.sound.midi.MidiMessage message)
