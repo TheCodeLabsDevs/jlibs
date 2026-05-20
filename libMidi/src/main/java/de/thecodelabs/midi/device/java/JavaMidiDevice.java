@@ -77,7 +77,8 @@ public class JavaMidiDevice extends MidiDevice implements Receiver
 	@Override
 	public boolean isOpen()
 	{
-		return internalInputDevice.isOpen() || internalOutputDevice.isOpen();
+		return (internalInputDevice  != null && internalInputDevice.isOpen())
+		    || (internalOutputDevice != null && internalOutputDevice.isOpen());
 	}
 
 	void lookupMidiDevice(MidiDeviceInfo deviceInfo, Midi.Mode... modes) throws IllegalArgumentException, MidiUnavailableException, NullPointerException
