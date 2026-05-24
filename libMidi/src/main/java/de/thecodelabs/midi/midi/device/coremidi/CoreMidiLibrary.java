@@ -30,6 +30,7 @@ final class CoreMidiLibrary
 	private static final MethodHandle h_MIDIPortDisconnectSource;
 	private static final MethodHandle h_MIDIPortDispose;
 	private static final MethodHandle h_MIDISend;
+	private static final MethodHandle h_MIDIClientDispose;
 
 	// CoreFoundation function handles
 	private static final MethodHandle h_CFStringCreateWithCString;
@@ -121,6 +122,11 @@ final class CoreMidiLibrary
 						ValueLayout.JAVA_INT,   // MIDIPortRef port
 						ValueLayout.JAVA_INT,   // MIDIEndpointRef dest
 						ValueLayout.ADDRESS));  // const MIDIPacketList *pktlist
+
+		h_MIDIClientDispose = LINKER.downcallHandle(
+				sym(CORE_MIDI, "MIDIClientDispose"),
+				FunctionDescriptor.of(ValueLayout.JAVA_INT,
+						ValueLayout.JAVA_INT)); // MIDIClientRef client
 
 		h_CFStringCreateWithCString = LINKER.downcallHandle(
 				sym(CORE_FOUNDATION, "CFStringCreateWithCString"),
@@ -315,6 +321,21 @@ final class CoreMidiLibrary
 		{
 			final int status = (int) h_MIDIPortDispose.invokeExact(portRef);
 			if(status != 0) throw new RuntimeException("MIDIPortDispose failed with OSStatus " + status);
+		}
+		catch(final Throwable t)
+		{
+			throw new RuntimeException(t);
+		}
+	}
+
+	// --- Client lifecycle ---
+
+	static void disposeClient()
+	{
+		try
+		{
+			final int status = (int) h_MIDIClientDispose.invokeExact(CLIENT_REF);
+			if(status != 0) throw new RuntimeException("MIDIClientDispose failed with OSStatus " + status);
 		}
 		catch(final Throwable t)
 		{

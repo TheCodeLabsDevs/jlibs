@@ -5,6 +5,7 @@ import de.thecodelabs.midi.midi.device.MidiDevice;
 import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.midi.device.MidiDeviceManager;
 import de.thecodelabs.midi.midi.message.MidiInputPublisher;
+import de.thecodelabs.utils.util.OS;
 
 import javax.sound.midi.MidiUnavailableException;
 import java.util.Collection;
@@ -19,7 +20,7 @@ public class CoreMidiDeviceManager implements MidiDeviceManager
 {
 	public CoreMidiDeviceManager()
 	{
-		if(!System.getProperty("os.name", "").startsWith("Mac"))
+		if(!OS.isMacOS())
 		{
 			throw new UnsupportedOperationException(
 					"CoreMidiDeviceManager is only supported on macOS");
@@ -64,6 +65,12 @@ public class CoreMidiDeviceManager implements MidiDeviceManager
 		final CoreMidiDevice device = new CoreMidiDevice(new MidiInputPublisher(), deviceInfo, sourceRef, destRef);
 		device.open(modes);
 		return device;
+	}
+
+	@Override
+	public void close()
+	{
+		CoreMidiLibrary.disposeClient();
 	}
 
 	private static void addIfAbsent(final Map<String, MidiDeviceInfo> map, final int endpointRef)

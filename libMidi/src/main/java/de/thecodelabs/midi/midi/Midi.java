@@ -63,13 +63,13 @@ public class Midi implements AutoCloseable
 
 	public void close() throws CloseException
 	{
-		if(device == null)
-		{
-			return;
-		}
 		try
 		{
-			device.closeDevice();
+			if(device != null)
+			{
+				device.closeDevice();
+			}
+			midiDeviceManager.close();
 		}
 		catch(Exception e)
 		{
