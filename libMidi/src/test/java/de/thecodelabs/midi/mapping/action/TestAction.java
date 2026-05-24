@@ -2,7 +2,9 @@ package de.thecodelabs.midi.mapping.action;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
+@JsonTypeName("test")
 public record TestAction(String test) implements Action
 {
 	@JsonCreator

@@ -1,12 +1,12 @@
 [
     {
         "inputKey": {
-            "type": "KeyboardInputKey",
+            "type": "keyboard",
             "code": "E",
             "key": "E"
         },
         "action": {
-            "type": "TestAction",
+            "type": "test",
             "test": "Demo"
         }
     }

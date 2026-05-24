@@ -1,14 +1,14 @@
 [
     {
         "inputKey": {
-            "type": "MidiInputKey",
+            "type": "midi",
             "value": 36,
             "defaultFeedback": null,
             "eventFeedback": null,
             "warningFeedback": null
         },
         "action": {
-            "type": "TestAction",
+            "type": "test",
             "test": "Demo"
         }
     }

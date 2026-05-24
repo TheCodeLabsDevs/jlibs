@@ -2,10 +2,12 @@ package de.thecodelabs.midi.mapping.input;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.thecodelabs.midi.mapping.feedback.MidiFeedback;
 
 import java.util.Objects;
 
+@JsonTypeName("midi")
 public class MidiInputKey implements InputKey
 {
 	private byte value;

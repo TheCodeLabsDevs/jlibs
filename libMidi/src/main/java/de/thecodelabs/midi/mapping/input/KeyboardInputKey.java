@@ -2,10 +2,12 @@ package de.thecodelabs.midi.mapping.input;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javafx.scene.input.KeyCode;
 
 import java.util.Objects;
 
+@JsonTypeName("keyboard")
 public record KeyboardInputKey(KeyCode code, String key) implements InputKey
 {
 	@JsonCreator

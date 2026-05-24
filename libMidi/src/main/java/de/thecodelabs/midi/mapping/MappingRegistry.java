@@ -1,5 +1,6 @@
 package de.thecodelabs.midi.mapping;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.thecodelabs.midi.mapping.action.Action;
 import de.thecodelabs.midi.mapping.action.ActionHandler;
 import de.thecodelabs.midi.mapping.action.ActionHandlerResolver;
@@ -20,6 +21,7 @@ public class MappingRegistry implements ActionHandlerResolver
 
 	public MappingRegistry registerAction(Class<? extends Action> actionClass, ActionHandler actionHandler)
 	{
+		requireJsonTypeName(actionClass);
 		actions.add(actionClass);
 		actionHandlerMap.put(actionClass, actionHandler);
 		return this;
@@ -27,8 +29,17 @@ public class MappingRegistry implements ActionHandlerResolver
 
 	public MappingRegistry registerInputKey(Class<? extends InputKey> inputKeyClass)
 	{
+		requireJsonTypeName(inputKeyClass);
 		inputKeys.add(inputKeyClass);
 		return this;
+	}
+
+	private static void requireJsonTypeName(Class<?> cls)
+	{
+		if(!cls.isAnnotationPresent(JsonTypeName.class))
+		{
+			throw new IllegalArgumentException(cls.getName() + " must be annotated with @JsonTypeName");
+		}
 	}
 
 	public MappingSerializer build()
