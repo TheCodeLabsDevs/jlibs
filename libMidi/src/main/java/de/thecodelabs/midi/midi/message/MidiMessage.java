@@ -26,6 +26,14 @@ public class MidiMessage
 
 	public MidiMessage(byte[] data)
 	{
+		if(data.length == 0)
+		{
+			this.messageType = MidiMessageType.UNKNOWN;
+			this.channel = 0;
+			this.payload = new byte[0];
+			return;
+		}
+
 		int statusByte = Byte.toUnsignedInt(data[0]);
 		int command = statusByte & 0xF0;
 		this.channel = (byte) (statusByte & 0x0F);
@@ -89,9 +97,28 @@ public class MidiMessage
 	}
 
 	@Override
+	public boolean equals(Object o)
+	{
+		if(o == null || getClass() != o.getClass()) return false;
+		MidiMessage that = (MidiMessage) o;
+		return channel == that.channel
+		       && messageType == that.messageType
+		       && Arrays.equals(payload, that.payload);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = messageType != null ? messageType.hashCode() : 0;
+		result = 31 * result + channel;
+		result = 31 * result + Arrays.hashCode(payload);
+		return result;
+	}
+
+	@Override
 	public String toString()
 	{
-		return "MidiEvent{" +
+		return "MidiMessage{" +
 		       "messageType=" + messageType +
 		       ", payload=" + Arrays.toString(payload) +
 		       '}';

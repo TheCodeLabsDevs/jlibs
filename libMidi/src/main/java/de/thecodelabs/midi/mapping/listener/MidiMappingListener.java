@@ -31,7 +31,6 @@ public class MidiMappingListener implements MidiMessageListener
 		final byte[] payload = midiEvent.getPayload();
 		if(midiEvent.getMessageType() != null
 		   && midiEvent.getMessageType() != MidiMessageType.SYSTEM_EXCLUSIVE
-		   && !midiEvent.isConsumed()
 		   && payload.length >= 2)
 		{
 			final int key = payload[0];
