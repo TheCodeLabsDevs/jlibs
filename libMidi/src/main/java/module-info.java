@@ -15,6 +15,7 @@ module de.thecodelabs.libMidi {
 	exports de.thecodelabs.midi.mapping.action;
 	exports de.thecodelabs.midi.mapping.input;
 	exports de.thecodelabs.midi.mapping.feedback;
+	exports de.thecodelabs.midi.mapping.listener;
 
 	exports de.thecodelabs.midi.midi;
 	exports de.thecodelabs.midi.midi.device;

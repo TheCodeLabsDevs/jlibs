@@ -300,7 +300,8 @@ final class CoreMidiLibrary
 	{
 		try
 		{
-			h_MIDIPortDisconnectSource.invoke(portRef, sourceRef);
+			final int status = (int) h_MIDIPortDisconnectSource.invokeExact(portRef, sourceRef);
+			if(status != 0) throw new RuntimeException("MIDIPortDisconnectSource failed with OSStatus " + status);
 		}
 		catch(final Throwable t)
 		{
@@ -312,7 +313,8 @@ final class CoreMidiLibrary
 	{
 		try
 		{
-			h_MIDIPortDispose.invoke(portRef);
+			final int status = (int) h_MIDIPortDispose.invokeExact(portRef);
+			if(status != 0) throw new RuntimeException("MIDIPortDispose failed with OSStatus " + status);
 		}
 		catch(final Throwable t)
 		{

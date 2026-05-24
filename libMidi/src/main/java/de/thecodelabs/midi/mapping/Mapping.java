@@ -15,9 +15,14 @@ public class Mapping
 		inputKeyActionMap = new HashMap<>();
 	}
 
-	public void addAction(InputKey inputKey, Action action)
+	public void addInputKeyWithAction(InputKey inputKey, Action action)
 	{
 		inputKeyActionMap.put(inputKey, action);
+	}
+
+	public void removeInputKey(InputKey inputKey)
+	{
+		inputKeyActionMap.remove(inputKey);
 	}
 
 	public Action getAction(InputKey inputKey)

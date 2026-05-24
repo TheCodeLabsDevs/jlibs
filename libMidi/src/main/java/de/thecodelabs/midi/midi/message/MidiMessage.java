@@ -45,13 +45,12 @@ public class MidiMessage
 				this.messageType = MidiMessageType.SYSTEM_EXCLUSIVE;
 				break;
 			default:
-				this.messageType = null;
+				this.messageType = MidiMessageType.UNKNOWN;
 				break;
 		}
 
-		byte[] payload = new byte[data.length - 1];
+		this.payload = new byte[data.length - 1];
 		System.arraycopy(data, 1, payload, 0, data.length - 1);
-		this.payload = payload;
 	}
 
 	public MidiMessage(javax.sound.midi.MidiMessage message)

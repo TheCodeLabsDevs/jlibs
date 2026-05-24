@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import javafx.scene.input.KeyCode;
 
-import java.util.Objects;
-
 @JsonTypeName("keyboard")
 public record KeyboardInputKey(KeyCode code, String key) implements InputKey
 {
@@ -15,14 +13,6 @@ public record KeyboardInputKey(KeyCode code, String key) implements InputKey
 	{
 		this.code = code;
 		this.key = key;
-	}
-
-	@Override
-	public boolean equals(Object o)
-	{
-		if(o == null || getClass() != o.getClass()) return false;
-		KeyboardInputKey that = (KeyboardInputKey) o;
-		return code == that.code && Objects.equals(key, that.key);
 	}
 
 	@Override

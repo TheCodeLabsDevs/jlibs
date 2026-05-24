@@ -53,7 +53,7 @@ public class MappingSerializer
 	private Mapping fromEntries(List<MappingEntry> entries)
 	{
 		final Mapping mapping = new Mapping();
-		entries.forEach(e -> mapping.addAction(e.inputKey(), e.action()));
+		entries.forEach(e -> mapping.addInputKeyWithAction(e.inputKey(), e.action()));
 		return mapping;
 	}
 }

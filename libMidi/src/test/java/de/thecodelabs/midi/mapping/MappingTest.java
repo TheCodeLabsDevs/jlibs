@@ -22,8 +22,8 @@ class MappingTest
 		final MappingSerializer serializer = registry.build();
 
 		final Mapping mapping = new Mapping();
-		mapping.addAction(new MidiInputKey((byte) 34), new TestAction("Demo"));
-		mapping.addAction(new KeyboardInputKey(KeyCode.E, "E"), new TestAction("Demo2"));
+		mapping.addInputKeyWithAction(new MidiInputKey((byte) 34), new TestAction("Demo"));
+		mapping.addInputKeyWithAction(new KeyboardInputKey(KeyCode.E, "E"), new TestAction("Demo2"));
 
 		final String serialize = serializer.serialize(mapping);
 		final Mapping deserialize = serializer.deserialize(serialize);
