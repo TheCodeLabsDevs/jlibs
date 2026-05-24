@@ -1,9 +1,8 @@
 package de.thecodelabs.midi.midi.message;
 
-import de.thecodelabs.midi.event.KeyEvent;
-import de.thecodelabs.midi.event.KeyEventDispatcher;
-import de.thecodelabs.midi.event.KeyEventType;
-import de.thecodelabs.midi.mapping.KeyType;
+//import de.thecodelabs.midi.event.KeyEvent;
+//import de.thecodelabs.midi.event.KeyEventDispatcher;
+//import de.thecodelabs.midi.event.KeyEventType;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -46,10 +45,11 @@ public class MidiInputPublisher
 			final int key = payload[0];
 			final int velocity = payload[1];
 
-			final KeyEventType type = velocity > 0 ? KeyEventType.DOWN : KeyEventType.UP;
-			final KeyEvent keyEvent = new KeyEvent(KeyType.MIDI, type, key);
-
-			KeyEventDispatcher.dispatchEvent(keyEvent);
+//			final KeyEventType type = velocity > 0 ? KeyEventType.DOWN : KeyEventType.UP;
+			// TODO
+//			final KeyEvent keyEvent = new KeyEvent(KeyType.MIDI, type, key);
+//
+//			KeyEventDispatcher.dispatchEvent(keyEvent);
 		}
 	}
 }

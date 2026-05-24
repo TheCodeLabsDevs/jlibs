@@ -1,11 +1,5 @@
 package de.thecodelabs.midi.midi;
 
-import de.thecodelabs.midi.Mapping;
-import de.thecodelabs.midi.action.Action;
-import de.thecodelabs.midi.action.ActionHandler;
-import de.thecodelabs.midi.action.ActionRegistry;
-import de.thecodelabs.midi.feedback.FeedbackType;
-import de.thecodelabs.midi.mapping.MidiKey;
 import de.thecodelabs.midi.midi.device.CloseException;
 import de.thecodelabs.midi.midi.device.MidiDevice;
 import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
@@ -108,32 +102,32 @@ public class Midi implements AutoCloseable
 		}
 	}
 
-	public void showFeedback()
-	{
-		for(Action action : Mapping.getCurrentMapping().getActions())
-		{
-			showFeedback(action);
-		}
-	}
-
-	public void showFeedback(Action action)
-	{
-		ActionHandler handler = ActionRegistry.getActionHandler(action.getActionType());
-		final FeedbackType currentFeedbackType = handler.getCurrentFeedbackType(action);
-
-		for(MidiKey key : action.getKeysForType(MidiKey.class))
-		{
-			Midi.getInstance().sendFeedback(key, currentFeedbackType);
-		}
-	}
-
-	public void sendFeedback(MidiKey key, FeedbackType feedbackType)
-	{
-		if(feedbackTranscript != null)
-		{
-			feedbackTranscript.sendFeedback(key, feedbackType);
-		}
-	}
+//	public void showFeedback()
+//	{
+//		for(Action action : Mapping.getCurrentMapping().getActions())
+//		{
+//			showFeedback(action);
+//		}
+//	}
+//
+//	public void showFeedback(Action action)
+//	{
+//		ActionHandler handler = ActionRegistry.getActionHandler(action.getActionType());
+//		final FeedbackType currentFeedbackType = handler.getCurrentFeedbackType(action);
+//
+//		for(MidiKey key : action.getKeysForType(MidiKey.class))
+//		{
+//			Midi.getInstance().sendFeedback(key, currentFeedbackType);
+//		}
+//	}
+//
+//	public void sendFeedback(MidiKey key, FeedbackType feedbackType)
+//	{
+//		if(feedbackTranscript != null)
+//		{
+//			feedbackTranscript.sendFeedback(key, feedbackType);
+//		}
+//	}
 
 	public void clearFeedback()
 	{

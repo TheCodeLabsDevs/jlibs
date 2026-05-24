@@ -1,0 +1,41 @@
+package de.thecodelabs.midi.mapping;
+
+import de.thecodelabs.midi.mapping.action.Action;
+import de.thecodelabs.midi.mapping.input.InputKey;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.jsontype.NamedType;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+public class MappingRegistry
+{
+	private Set<Class<? extends Action>> actions = new LinkedHashSet<>();
+	private Set<Class<? extends InputKey>> inputKeys = new LinkedHashSet<>();
+
+	public MappingRegistry registerAction(Class<? extends Action> actionClass)
+	{
+		actions.add(actionClass);
+		return this;
+	}
+
+	public MappingRegistry registerInputKey(Class<? extends InputKey> inputKeyClass)
+	{
+		inputKeys.add(inputKeyClass);
+		return this;
+	}
+
+	public MappingSerializer build()
+	{
+		final JsonMapper.Builder builder = JsonMapper.builder();
+		for (Class<? extends Action> actionClass : actions)
+		{
+			builder.registerSubtypes(new NamedType(actionClass));
+		}
+		for (Class<? extends InputKey> inputKeyClass : inputKeys)
+		{
+			builder.registerSubtypes(new NamedType(inputKeyClass));
+		}
+		return new MappingSerializer(builder.build());
+	}
+}
