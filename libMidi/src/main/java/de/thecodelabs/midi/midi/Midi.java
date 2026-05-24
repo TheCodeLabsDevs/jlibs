@@ -14,30 +14,24 @@ import javax.sound.midi.MidiUnavailableException;
 
 public class Midi implements AutoCloseable
 {
-	private static Midi INSTANCE;
-
 	public enum Mode
 	{
 		INPUT, OUTPUT
 	}
 
-	private MidiDeviceManager midiDeviceManager;
+	private final MidiDeviceManager midiDeviceManager;
 	private final MidiInputPublisher publisher = new MidiInputPublisher();
 
 	private MidiDevice device;
 
-	public static Midi getInstance()
-	{
-		if(INSTANCE == null)
-		{
-			INSTANCE = new Midi();
-		}
-		return INSTANCE;
-	}
-
-	private Midi()
+	public Midi()
 	{
 		midiDeviceManager = OS.isMacOS() ? new CoreMidiDeviceManager(publisher) : new JavaDeviceManager(publisher);
+	}
+
+	public Midi(MidiDeviceManager midiDeviceManager)
+	{
+		this.midiDeviceManager = midiDeviceManager;
 	}
 
 	public MidiInputPublisher getPublisher()

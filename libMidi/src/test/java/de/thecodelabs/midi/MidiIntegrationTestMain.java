@@ -15,7 +15,7 @@ public class MidiIntegrationTestMain
 {
 	public static void main(final String[] args)
 	{
-		try
+		try(final Midi midi = new Midi())
 		{
 			final TestActionHandler actionHandler = new TestActionHandler();
 
@@ -26,7 +26,6 @@ public class MidiIntegrationTestMain
 
 			final Mapping mapping = serializer.deserialize(IOUtils.readURL(MidiIntegrationTestMain.class.getClassLoader().getResource("pd12.json")));
 
-			final Midi midi = Midi.getInstance();
 			midi.getPublisher().addMidiListener(new MidiMappingListener(mapping, registry));
 
 			final MidiDeviceInfo[] data = midi.getMidiDevices();
