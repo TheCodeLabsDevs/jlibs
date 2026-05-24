@@ -58,6 +58,10 @@ public class KeyboardMappingListener implements EventHandler<KeyEvent>
 
 			final Action action = mapping.getAction(midiKeyOptional.get());
 			final ActionHandler actionHandler = actionHandlerResolver.resolve(action);
+			if(actionHandler == null)
+			{
+				return;
+			}
 
 			final KeyInputEvent keyEvent = new KeyInputEvent(midiKeyOptional.get(), type);
 			actionHandler.handleAction(keyEvent, action);

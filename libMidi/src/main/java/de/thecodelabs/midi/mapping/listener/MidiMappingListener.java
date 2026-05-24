@@ -47,6 +47,10 @@ public class MidiMappingListener implements MidiMessageListener
 
 			final Action action = mapping.getAction(midiKeyOptional.get());
 			final ActionHandler actionHandler = actionHandlerResolver.resolve(action);
+			if(actionHandler == null)
+			{
+				return;
+			}
 
 			final KeyInputType type = velocity > 0 ? KeyInputType.DOWN : KeyInputType.UP;
 			final KeyInputEvent keyEvent = new KeyInputEvent(midiKeyOptional.get(), type);

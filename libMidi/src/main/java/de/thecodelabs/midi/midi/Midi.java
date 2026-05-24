@@ -66,6 +66,10 @@ public class Midi implements AutoCloseable
 
 	public void close() throws CloseException
 	{
+		if(device == null)
+		{
+			return;
+		}
 		try
 		{
 			device.closeDevice();
@@ -78,6 +82,10 @@ public class Midi implements AutoCloseable
 
 	public void sendMessage(MidiMessage midiCommand)
 	{
+		if(device == null)
+		{
+			return;
+		}
 		device.sendMidiMessage(midiCommand);
 	}
 
