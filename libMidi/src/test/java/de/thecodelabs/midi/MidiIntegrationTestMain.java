@@ -12,6 +12,8 @@ import de.thecodelabs.midi.midi.device.MidiDevice;
 import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
 import de.thecodelabs.utils.io.IOUtils;
 
+import java.util.Collection;
+
 public class MidiIntegrationTestMain
 {
 	public static void main(final String[] args)
@@ -27,7 +29,7 @@ public class MidiIntegrationTestMain
 
 			final Mapping mapping = serializer.deserialize(IOUtils.readURL(MidiIntegrationTestMain.class.getClassLoader().getResource("pd12.json")));
 
-			final MidiDeviceInfo[] data = midi.getMidiDevices();
+			final Collection<MidiDeviceInfo> data = midi.getMidiDevices();
 			for(final MidiDeviceInfo datum : data)
 			{
 				System.out.println(datum);

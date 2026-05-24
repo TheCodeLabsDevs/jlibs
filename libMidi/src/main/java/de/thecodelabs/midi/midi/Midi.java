@@ -10,6 +10,8 @@ import de.thecodelabs.midi.midi.message.MidiMessage;
 import de.thecodelabs.utils.util.OS;
 
 import javax.sound.midi.MidiUnavailableException;
+import java.util.Collection;
+import java.util.Optional;
 
 public class Midi implements AutoCloseable
 {
@@ -32,21 +34,16 @@ public class Midi implements AutoCloseable
 		this.midiDeviceManager = midiDeviceManager;
 	}
 
-	public MidiDeviceInfo[] getMidiDevices()
+	public Collection<MidiDeviceInfo> getMidiDevices()
 	{
 		return midiDeviceManager.listDevices();
 	}
 
-	public MidiDeviceInfo getMidiDeviceInfo(String name)
+	public Optional<MidiDeviceInfo> getMidiDeviceInfo(String name)
 	{
-		for(MidiDeviceInfo info : getMidiDevices())
-		{
-			if(info.name().equals(name))
-			{
-				return info;
-			}
-		}
-		return null;
+		return getMidiDevices().stream()
+				.filter(info -> info.name().equals(name))
+				.findAny();
 	}
 
 	public MidiDevice getDevice()

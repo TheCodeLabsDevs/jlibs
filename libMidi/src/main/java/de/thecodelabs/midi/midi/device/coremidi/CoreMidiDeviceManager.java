@@ -7,6 +7,7 @@ import de.thecodelabs.midi.midi.device.MidiDeviceManager;
 import de.thecodelabs.midi.midi.message.MidiInputPublisher;
 
 import javax.sound.midi.MidiUnavailableException;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class CoreMidiDeviceManager implements MidiDeviceManager
 	}
 
 	@Override
-	public MidiDeviceInfo[] listDevices()
+	public Collection<MidiDeviceInfo> listDevices()
 	{
 		// Merge sources and destinations by name so each physical device appears once.
 		final Map<String, MidiDeviceInfo> byName = new LinkedHashMap<>();
@@ -45,7 +46,7 @@ public class CoreMidiDeviceManager implements MidiDeviceManager
 			addIfAbsent(byName, ref);
 		}
 
-		return byName.values().toArray(new MidiDeviceInfo[0]);
+		return byName.values();
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import de.thecodelabs.midi.midi.message.MidiInputPublisher;
 
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static javax.sound.midi.MidiDevice.Info;
@@ -15,10 +16,10 @@ import static javax.sound.midi.MidiDevice.Info;
 public class JavaDeviceManager implements MidiDeviceManager
 {
 	@Override
-	public MidiDeviceInfo[] listDevices()
+	public List<MidiDeviceInfo> listDevices()
 	{
 		final Info[] midiDeviceInfo = MidiSystem.getMidiDeviceInfo();
-		return Stream.of(midiDeviceInfo).map(device -> new MidiDeviceInfo(device.getName(), device.getDescription(), device.getVendor())).toArray(MidiDeviceInfo[]::new);
+		return Stream.of(midiDeviceInfo).map(device -> new MidiDeviceInfo(device.getName(), device.getDescription(), device.getVendor())).toList();
 	}
 
 	@Override

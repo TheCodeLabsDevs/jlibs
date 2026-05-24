@@ -38,7 +38,7 @@ public class MappingSerializer
 
 	public Mapping deserialize(Path path)
 	{
-		return fromEntries(mapper.readValue(path.toFile(), new TypeReference<>()
+		return fromEntries(mapper.readValue(path, new TypeReference<>()
 		{
 		}));
 	}
