@@ -6,8 +6,6 @@ import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.midi.device.MidiDeviceManager;
 import de.thecodelabs.midi.midi.device.coremidi.CoreMidiDeviceManager;
 import de.thecodelabs.midi.midi.device.java.JavaDeviceManager;
-import de.thecodelabs.midi.midi.feedback.MidiFeedbackTranscript;
-import de.thecodelabs.midi.midi.feedback.MidiFeedbackTranscriptionRegistry;
 import de.thecodelabs.midi.midi.message.MidiInputPublisher;
 import de.thecodelabs.midi.midi.message.MidiMessage;
 import de.thecodelabs.utils.util.OS;
@@ -27,7 +25,6 @@ public class Midi implements AutoCloseable
 	private final MidiInputPublisher publisher = new MidiInputPublisher();
 
 	private MidiDevice device;
-	private MidiFeedbackTranscript feedbackTranscript;
 
 	public static Midi getInstance()
 	{
@@ -70,11 +67,6 @@ public class Midi implements AutoCloseable
 		return device;
 	}
 
-	public MidiFeedbackTranscript getFeedbackTranscript()
-	{
-		return feedbackTranscript;
-	}
-
 	public void openDevice(MidiDeviceInfo deviceInfo, Mode... modes) throws MidiUnavailableException
 	{
 		if(modes == null || modes.length == 0)
@@ -82,11 +74,6 @@ public class Midi implements AutoCloseable
 			modes = new Mode[]{Mode.INPUT, Mode.OUTPUT};
 		}
 		device = midiDeviceManager.openDevice(deviceInfo, modes);
-
-		if(device.isModeSupported(Mode.OUTPUT))
-		{
-			feedbackTranscript = MidiFeedbackTranscriptionRegistry.getInstance().getTransripter(deviceInfo.name());
-		}
 	}
 
 	public void close() throws CloseException
@@ -94,46 +81,10 @@ public class Midi implements AutoCloseable
 		try
 		{
 			device.closeDevice();
-			feedbackTranscript = null;
 		}
 		catch(Exception e)
 		{
 			throw new CloseException(e);
-		}
-	}
-
-//	public void showFeedback()
-//	{
-//		for(Action action : Mapping.getCurrentMapping().getActions())
-//		{
-//			showFeedback(action);
-//		}
-//	}
-//
-//	public void showFeedback(Action action)
-//	{
-//		ActionHandler handler = ActionRegistry.getActionHandler(action.getActionType());
-//		final FeedbackType currentFeedbackType = handler.getCurrentFeedbackType(action);
-//
-//		for(MidiKey key : action.getKeysForType(MidiKey.class))
-//		{
-//			Midi.getInstance().sendFeedback(key, currentFeedbackType);
-//		}
-//	}
-//
-//	public void sendFeedback(MidiKey key, FeedbackType feedbackType)
-//	{
-//		if(feedbackTranscript != null)
-//		{
-//			feedbackTranscript.sendFeedback(key, feedbackType);
-//		}
-//	}
-
-	public void clearFeedback()
-	{
-		if(feedbackTranscript != null)
-		{
-			feedbackTranscript.clearFeedback();
 		}
 	}
 

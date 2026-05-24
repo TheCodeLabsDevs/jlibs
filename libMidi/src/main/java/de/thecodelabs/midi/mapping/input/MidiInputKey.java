@@ -2,7 +2,7 @@ package de.thecodelabs.midi.mapping.input;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.thecodelabs.midi.feedback.Feedback;
+import de.thecodelabs.midi.mapping.feedback.MidiFeedback;
 
 import java.util.Objects;
 
@@ -10,25 +10,25 @@ public class MidiInputKey implements InputKey
 {
 	private byte value;
 
-	private Feedback defaultFeedback;
-	private Feedback eventFeedback;
-	private Feedback warningFeedback;
+	private MidiFeedback defaultFeedback;
+	private MidiFeedback eventFeedback;
+	private MidiFeedback warningFeedback;
 
 	public MidiInputKey(byte value)
 	{
 		this.value = value;
 	}
 
-	public MidiInputKey(byte value, Feedback defaultFeedback, Feedback eventFeedback)
+	public MidiInputKey(byte value, MidiFeedback defaultFeedback, MidiFeedback eventFeedback)
 	{
 		this(value, defaultFeedback, eventFeedback, null);
 	}
 
 	@JsonCreator
 	public MidiInputKey(@JsonProperty("value") byte value,
-	                    @JsonProperty("defaultFeedback") Feedback defaultFeedback,
-	                    @JsonProperty("eventFeedback") Feedback eventFeedback,
-	                    @JsonProperty("warningFeedback") Feedback warningFeedback)
+	                    @JsonProperty("defaultFeedback") MidiFeedback defaultFeedback,
+	                    @JsonProperty("eventFeedback") MidiFeedback eventFeedback,
+	                    @JsonProperty("warningFeedback") MidiFeedback warningFeedback)
 	{
 		this.value = value;
 		this.defaultFeedback = defaultFeedback;
@@ -41,17 +41,17 @@ public class MidiInputKey implements InputKey
 		return value;
 	}
 
-	public Feedback getDefaultFeedback()
+	public MidiFeedback getDefaultFeedback()
 	{
 		return defaultFeedback;
 	}
 
-	public Feedback getEventFeedback()
+	public MidiFeedback getEventFeedback()
 	{
 		return eventFeedback;
 	}
 
-	public Feedback getWarningFeedback()
+	public MidiFeedback getWarningFeedback()
 	{
 		return warningFeedback;
 	}

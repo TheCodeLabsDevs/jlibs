@@ -12,10 +12,10 @@ module de.thecodelabs.libMidi {
 	exports de.thecodelabs.midi.mapping;
 	exports de.thecodelabs.midi.mapping.action;
 	exports de.thecodelabs.midi.mapping.input;
+	exports de.thecodelabs.midi.mapping.feedback;
 
-	exports de.thecodelabs.midi.midi.device;
-	exports de.thecodelabs.midi.feedback;
 	exports de.thecodelabs.midi.midi;
+	exports de.thecodelabs.midi.midi.device;
 	exports de.thecodelabs.midi.midi.feedback;
 
 	exports de.thecodelabs.midi.midi.message;
