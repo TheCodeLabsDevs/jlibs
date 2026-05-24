@@ -10,7 +10,7 @@ import java.util.Objects;
 @JsonTypeName("midi")
 public class MidiInputKey implements InputKey
 {
-	private byte value;
+	private final byte value;
 
 	private MidiFeedback defaultFeedback;
 	private MidiFeedback eventFeedback;
