@@ -18,7 +18,6 @@ module de.thecodelabs.libMidi {
 
 	exports de.thecodelabs.midi.midi;
 	exports de.thecodelabs.midi.midi.device;
-	exports de.thecodelabs.midi.midi.feedback;
 
 	exports de.thecodelabs.midi.midi.message;
 }
