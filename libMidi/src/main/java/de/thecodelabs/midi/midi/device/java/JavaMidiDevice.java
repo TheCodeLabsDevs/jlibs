@@ -214,8 +214,8 @@ class JavaMidiDevice extends MidiDevice
 	{
 		return switch(mode)
 		{
-			case INPUT -> internalInputDevice != null;
-			case OUTPUT -> internalOutputDevice != null;
+			case INPUT -> internalInputDevice != null && internalInputDevice.isOpen();
+			case OUTPUT -> internalOutputDevice != null && internalOutputDevice.isOpen();
 		};
 	}
 }

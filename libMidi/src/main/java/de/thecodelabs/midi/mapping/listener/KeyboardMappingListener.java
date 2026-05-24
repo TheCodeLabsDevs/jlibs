@@ -30,17 +30,15 @@ public class KeyboardMappingListener implements EventHandler<KeyEvent>
 	{
 		if(!event.isShortcutDown())
 		{
-			final KeyCode code;
+			final KeyCode code = event.getCode();
 			final KeyInputType type;
 
 			if(event.getEventType() == KeyEvent.KEY_PRESSED)
 			{
-				code = event.getCode();
 				type = KeyInputType.DOWN;
 			}
 			else if(event.getEventType() == KeyEvent.KEY_RELEASED)
 			{
-				code = event.getCode();
 				type = KeyInputType.UP;
 			}
 			else
