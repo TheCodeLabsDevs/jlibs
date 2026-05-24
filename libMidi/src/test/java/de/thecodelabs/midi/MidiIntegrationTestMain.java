@@ -11,7 +11,7 @@ import de.thecodelabs.midi.midi.Midi;
 import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
 import de.thecodelabs.utils.io.IOUtils;
 
-public class IntegrationTestMain
+public class MidiIntegrationTestMain
 {
 	public static void main(final String[] args)
 	{
@@ -24,7 +24,7 @@ public class IntegrationTestMain
 			registry.registerInputKey(MidiInputKey.class);
 			final MappingSerializer serializer = registry.build();
 
-			final Mapping mapping = serializer.deserialize(IOUtils.readURL(IntegrationTestMain.class.getClassLoader().getResource("pd12.json")));
+			final Mapping mapping = serializer.deserialize(IOUtils.readURL(MidiIntegrationTestMain.class.getClassLoader().getResource("pd12.json")));
 
 			final Midi midi = Midi.getInstance();
 			midi.getPublisher().addMidiListener(new MidiMappingListener(mapping, registry));

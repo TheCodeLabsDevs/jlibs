@@ -1,0 +1,13 @@
+[
+    {
+        "inputKey": {
+            "type": "KeyboardInputKey",
+            "code": "E",
+            "key": "E"
+        },
+        "action": {
+            "type": "TestAction",
+            "test": "Demo"
+        }
+    }
+]
