@@ -1,0 +1,15 @@
+[
+    {
+        "inputKey": {
+            "type": "MidiInputKey",
+            "value": 36,
+            "defaultFeedback": null,
+            "eventFeedback": null,
+            "warningFeedback": null
+        },
+        "action": {
+            "type": "TestAction",
+            "test": "Demo"
+        }
+    }
+]

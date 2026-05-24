@@ -9,6 +9,8 @@ module de.thecodelabs.libMidi {
 	requires tools.jackson.databind;
 	requires com.fasterxml.jackson.annotation;
 
+	exports de.thecodelabs.midi.event;
+
 	exports de.thecodelabs.midi.mapping;
 	exports de.thecodelabs.midi.mapping.action;
 	exports de.thecodelabs.midi.mapping.input;

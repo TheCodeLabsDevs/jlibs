@@ -1,6 +1,7 @@
 package de.thecodelabs.midi.mapping;
 
 import de.thecodelabs.midi.mapping.action.TestAction;
+import de.thecodelabs.midi.mapping.action.TestActionHandler;
 import de.thecodelabs.midi.mapping.input.KeyboardInputKey;
 import de.thecodelabs.midi.mapping.input.MidiInputKey;
 import javafx.scene.input.KeyCode;
@@ -14,7 +15,7 @@ class MappingTest
 	void testSerialize()
 	{
 		final MappingRegistry registry = new MappingRegistry();
-		registry.registerAction(TestAction.class);
+		registry.registerAction(TestAction.class, new TestActionHandler());
 		registry.registerInputKey(MidiInputKey.class)
 				.registerInputKey(KeyboardInputKey.class);
 

@@ -3,10 +3,8 @@ package de.thecodelabs.midi.mapping;
 import de.thecodelabs.midi.mapping.action.Action;
 import de.thecodelabs.midi.mapping.input.InputKey;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Predicate;
 
 public class Mapping
 {
@@ -25,6 +23,11 @@ public class Mapping
 	public Action getAction(InputKey inputKey)
 	{
 		return inputKeyActionMap.get(inputKey);
+	}
+
+	public Optional<InputKey> getInputKeyForPredicate(Predicate<InputKey> predicate)
+	{
+		return inputKeyActionMap.keySet().stream().filter(predicate).findFirst();
 	}
 
 	Map<InputKey, Action> getInputKeyActionMap()

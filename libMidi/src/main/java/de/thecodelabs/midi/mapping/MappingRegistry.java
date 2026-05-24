@@ -1,21 +1,27 @@
 package de.thecodelabs.midi.mapping;
 
 import de.thecodelabs.midi.mapping.action.Action;
+import de.thecodelabs.midi.mapping.action.ActionHandler;
+import de.thecodelabs.midi.mapping.action.ActionHandlerResolver;
 import de.thecodelabs.midi.mapping.input.InputKey;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.jsontype.NamedType;
 
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
-public class MappingRegistry
+public class MappingRegistry implements ActionHandlerResolver
 {
-	private Set<Class<? extends Action>> actions = new LinkedHashSet<>();
-	private Set<Class<? extends InputKey>> inputKeys = new LinkedHashSet<>();
+	private final Set<Class<? extends Action>> actions = new LinkedHashSet<>();
+	private final Map<Class<? extends Action>, ActionHandler> actionHandlerMap = new HashMap<>();
+	private final Set<Class<? extends InputKey>> inputKeys = new LinkedHashSet<>();
 
-	public MappingRegistry registerAction(Class<? extends Action> actionClass)
+	public MappingRegistry registerAction(Class<? extends Action> actionClass, ActionHandler actionHandler)
 	{
 		actions.add(actionClass);
+		actionHandlerMap.put(actionClass, actionHandler);
 		return this;
 	}
 
@@ -37,5 +43,11 @@ public class MappingRegistry
 			builder.registerSubtypes(new NamedType(inputKeyClass));
 		}
 		return new MappingSerializer(builder.build());
+	}
+
+	@Override
+	public ActionHandler resolve(Action action)
+	{
+		return actionHandlerMap.get(action.getClass());
 	}
 }
