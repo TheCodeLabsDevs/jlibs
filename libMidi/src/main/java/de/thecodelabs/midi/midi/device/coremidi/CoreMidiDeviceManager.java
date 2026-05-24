@@ -16,12 +16,8 @@ import java.util.Map;
  */
 public class CoreMidiDeviceManager implements MidiDeviceManager
 {
-	private final MidiInputPublisher publisher;
-
-	public CoreMidiDeviceManager(MidiInputPublisher publisher)
+	public CoreMidiDeviceManager()
 	{
-		this.publisher = publisher;
-
 		if(!System.getProperty("os.name", "").startsWith("Mac"))
 		{
 			throw new UnsupportedOperationException(
@@ -64,7 +60,7 @@ public class CoreMidiDeviceManager implements MidiDeviceManager
 			throw new MidiUnavailableException("MIDI device not found: " + name);
 		}
 
-		final CoreMidiDevice device = new CoreMidiDevice(publisher, deviceInfo, sourceRef, destRef);
+		final CoreMidiDevice device = new CoreMidiDevice(new MidiInputPublisher(), deviceInfo, sourceRef, destRef);
 		device.open(modes);
 		return device;
 	}

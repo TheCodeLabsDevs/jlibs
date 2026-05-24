@@ -8,6 +8,7 @@ import de.thecodelabs.midi.mapping.action.TestActionHandler;
 import de.thecodelabs.midi.mapping.input.MidiInputKey;
 import de.thecodelabs.midi.mapping.listener.MidiMappingListener;
 import de.thecodelabs.midi.midi.Midi;
+import de.thecodelabs.midi.midi.device.MidiDevice;
 import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
 import de.thecodelabs.utils.io.IOUtils;
 
@@ -26,15 +27,14 @@ public class MidiIntegrationTestMain
 
 			final Mapping mapping = serializer.deserialize(IOUtils.readURL(MidiIntegrationTestMain.class.getClassLoader().getResource("pd12.json")));
 
-			midi.getPublisher().addMidiListener(new MidiMappingListener(mapping, registry));
-
 			final MidiDeviceInfo[] data = midi.getMidiDevices();
 			for(final MidiDeviceInfo datum : data)
 			{
 				System.out.println(datum);
 			}
 
-			midi.openDevice(new MidiDeviceInfo("PD 12", "PD 12", "Jammin Pro"), Midi.Mode.INPUT);
+			final MidiDevice device = midi.openDevice(new MidiDeviceInfo("PD 12", "PD 12", "Jammin Pro"), Midi.Mode.INPUT);
+			device.getPublisher().addMidiListener(new MidiMappingListener(mapping, registry));
 
 			// Block until device is closed or Ctrl+C
 			while(midi.isOpen())

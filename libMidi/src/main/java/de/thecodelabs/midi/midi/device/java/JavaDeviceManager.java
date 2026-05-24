@@ -14,13 +14,6 @@ import static javax.sound.midi.MidiDevice.Info;
 
 public class JavaDeviceManager implements MidiDeviceManager
 {
-	private final MidiInputPublisher publisher;
-
-	public JavaDeviceManager(MidiInputPublisher publisher)
-	{
-		this.publisher = publisher;
-	}
-
 	@Override
 	public MidiDeviceInfo[] listDevices()
 	{
@@ -31,7 +24,7 @@ public class JavaDeviceManager implements MidiDeviceManager
 	@Override
 	public MidiDevice openDevice(MidiDeviceInfo deviceInfo, Midi.Mode... modes) throws MidiUnavailableException
 	{
-		final JavaMidiDevice javaMidiDevice = new JavaMidiDevice(publisher, deviceInfo);
+		final JavaMidiDevice javaMidiDevice = new JavaMidiDevice(new MidiInputPublisher(), deviceInfo);
 		javaMidiDevice.lookupMidiDevice(deviceInfo, modes);
 		return javaMidiDevice;
 	}

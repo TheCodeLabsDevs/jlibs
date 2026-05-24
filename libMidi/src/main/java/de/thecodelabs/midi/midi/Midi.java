@@ -6,7 +6,6 @@ import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.midi.device.MidiDeviceManager;
 import de.thecodelabs.midi.midi.device.coremidi.CoreMidiDeviceManager;
 import de.thecodelabs.midi.midi.device.java.JavaDeviceManager;
-import de.thecodelabs.midi.midi.message.MidiInputPublisher;
 import de.thecodelabs.midi.midi.message.MidiMessage;
 import de.thecodelabs.utils.util.OS;
 
@@ -20,23 +19,17 @@ public class Midi implements AutoCloseable
 	}
 
 	private final MidiDeviceManager midiDeviceManager;
-	private final MidiInputPublisher publisher = new MidiInputPublisher();
 
 	private MidiDevice device;
 
 	public Midi()
 	{
-		midiDeviceManager = OS.isMacOS() ? new CoreMidiDeviceManager(publisher) : new JavaDeviceManager(publisher);
+		midiDeviceManager = OS.isMacOS() ? new CoreMidiDeviceManager() : new JavaDeviceManager();
 	}
 
 	public Midi(MidiDeviceManager midiDeviceManager)
 	{
 		this.midiDeviceManager = midiDeviceManager;
-	}
-
-	public MidiInputPublisher getPublisher()
-	{
-		return publisher;
 	}
 
 	public MidiDeviceInfo[] getMidiDevices()
@@ -61,13 +54,14 @@ public class Midi implements AutoCloseable
 		return device;
 	}
 
-	public void openDevice(MidiDeviceInfo deviceInfo, Mode... modes) throws MidiUnavailableException
+	public MidiDevice openDevice(MidiDeviceInfo deviceInfo, Mode... modes) throws MidiUnavailableException
 	{
 		if(modes == null || modes.length == 0)
 		{
 			modes = new Mode[]{Mode.INPUT, Mode.OUTPUT};
 		}
 		device = midiDeviceManager.openDevice(deviceInfo, modes);
+		return device;
 	}
 
 	public void close() throws CloseException

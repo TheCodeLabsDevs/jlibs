@@ -28,4 +28,8 @@ public abstract class MidiDevice
 
 	public abstract boolean isModeSupported(Midi.Mode mode);
 
+	public MidiInputPublisher getPublisher()
+	{
+		return publisher;
+	}
 }

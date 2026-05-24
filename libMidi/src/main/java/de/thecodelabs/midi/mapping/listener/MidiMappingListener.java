@@ -8,13 +8,13 @@ import de.thecodelabs.midi.mapping.action.ActionHandler;
 import de.thecodelabs.midi.mapping.action.ActionHandlerResolver;
 import de.thecodelabs.midi.mapping.input.InputKey;
 import de.thecodelabs.midi.mapping.input.MidiInputKey;
-import de.thecodelabs.midi.midi.message.MidiListener;
 import de.thecodelabs.midi.midi.message.MidiMessage;
+import de.thecodelabs.midi.midi.message.MidiMessageListener;
 import de.thecodelabs.midi.midi.message.MidiMessageType;
 
 import java.util.Optional;
 
-public class MidiMappingListener implements MidiListener
+public class MidiMappingListener implements MidiMessageListener
 {
 	private final Mapping mapping;
 	private final ActionHandlerResolver actionHandlerResolver;

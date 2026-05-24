@@ -1,6 +1,6 @@
 package de.thecodelabs.midi.midi.message;
 
-public interface MidiListener
+public interface MidiMessageListener
 {
 	void onMidiMessage(MidiMessage midiEvent);
 }
