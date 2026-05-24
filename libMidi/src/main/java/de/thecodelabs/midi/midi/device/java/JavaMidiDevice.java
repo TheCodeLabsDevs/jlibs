@@ -8,8 +8,24 @@ import de.thecodelabs.midi.midi.message.MidiMessage;
 
 import javax.sound.midi.*;
 
-class JavaMidiDevice extends MidiDevice implements Receiver
+class JavaMidiDevice extends MidiDevice
 {
+	private class MidiReceiver implements Receiver
+	{
+		@Override
+		public void send(javax.sound.midi.MidiMessage message, long timeStamp)
+		{
+			final MidiMessage midiCommand = new MidiMessage(message);
+			publisher.publish(midiCommand);
+		}
+
+		@Override
+		public void close()
+		{
+			// Close receiver
+		}
+	}
+
 	private javax.sound.midi.MidiDevice internalInputDevice;
 	private Transmitter internalTransmitter;
 	private javax.sound.midi.MidiDevice internalOutputDevice;
@@ -18,13 +34,6 @@ class JavaMidiDevice extends MidiDevice implements Receiver
 	JavaMidiDevice(final MidiInputPublisher publisher, final MidiDeviceInfo midiDeviceInfo)
 	{
 		super(midiDeviceInfo, publisher);
-	}
-
-	@Override
-	public void send(javax.sound.midi.MidiMessage message, long timeStamp)
-	{
-		final MidiMessage midiCommand = new MidiMessage(message);
-		publisher.publish(midiCommand);
 	}
 
 	@Override
@@ -43,12 +52,6 @@ class JavaMidiDevice extends MidiDevice implements Receiver
 				throw new RuntimeException(e);
 			}
 		}
-	}
-
-	@Override
-	public void close()
-	{
-		// Close receiver
 	}
 
 	@Override
@@ -181,7 +184,7 @@ class JavaMidiDevice extends MidiDevice implements Receiver
 		this.internalInputDevice = newInputDevice;
 		internalInputDevice.open();
 		internalTransmitter = internalInputDevice.getTransmitter();
-		internalTransmitter.setReceiver(this);
+		internalTransmitter.setReceiver(new MidiReceiver());
 	}
 
 	private void setMidiOutputDevice(javax.sound.midi.MidiDevice.Info output) throws MidiUnavailableException, IllegalArgumentException
