@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
  */
 final class CoreMidiLibrary
 {
-	static final int CF_STRING_ENCODING_UTF8 = 0x08000100;
+	private static final int CF_STRING_ENCODING_UTF8 = 0x08000100;
 
 	private static final SymbolLookup CORE_MIDI;
 	private static final SymbolLookup CORE_FOUNDATION;
@@ -19,10 +19,6 @@ final class CoreMidiLibrary
 
 	// CoreMIDI function handles
 	private static final MethodHandle h_MIDIObjectGetIntegerProperty;
-	private static final MethodHandle h_MIDIGetNumberOfSources;
-	private static final MethodHandle h_MIDIGetSource;
-	private static final MethodHandle h_MIDIGetNumberOfDestinations;
-	private static final MethodHandle h_MIDIGetDestination;
 	private static final MethodHandle h_MIDIGetNumberOfDevices;
 	private static final MethodHandle h_MIDIGetDevice;
 	private static final MethodHandle h_MIDIDeviceGetNumberOfEntities;
@@ -65,24 +61,6 @@ final class CoreMidiLibrary
 						ValueLayout.JAVA_INT,   // MIDIObjectRef obj
 						ValueLayout.ADDRESS,    // CFStringRef propertyID
 						ValueLayout.ADDRESS));  // SInt32 *outValue
-
-		h_MIDIGetNumberOfSources = LINKER.downcallHandle(
-				sym(CORE_MIDI, "MIDIGetNumberOfSources"),
-				FunctionDescriptor.of(ValueLayout.JAVA_LONG));
-
-		h_MIDIGetSource = LINKER.downcallHandle(
-				sym(CORE_MIDI, "MIDIGetSource"),
-				FunctionDescriptor.of(ValueLayout.JAVA_INT,
-						ValueLayout.JAVA_LONG));  // ItemCount index
-
-		h_MIDIGetNumberOfDestinations = LINKER.downcallHandle(
-				sym(CORE_MIDI, "MIDIGetNumberOfDestinations"),
-				FunctionDescriptor.of(ValueLayout.JAVA_LONG));
-
-		h_MIDIGetDestination = LINKER.downcallHandle(
-				sym(CORE_MIDI, "MIDIGetDestination"),
-				FunctionDescriptor.of(ValueLayout.JAVA_INT,
-						ValueLayout.JAVA_LONG));  // ItemCount index
 
 		h_MIDIGetNumberOfDevices = LINKER.downcallHandle(
 				sym(CORE_MIDI, "MIDIGetNumberOfDevices"),
@@ -230,56 +208,6 @@ final class CoreMidiLibrary
 		catch(final Throwable t)
 		{
 			throw new ExceptionInInitializerError(t);
-		}
-	}
-
-	// --- Endpoint enumeration ---
-
-	static long getNumberOfSources()
-	{
-		try
-		{
-			return (long) h_MIDIGetNumberOfSources.invokeExact();
-		}
-		catch(final Throwable t)
-		{
-			throw new RuntimeException(t);
-		}
-	}
-
-	static int getSource(final long index)
-	{
-		try
-		{
-			return (int) h_MIDIGetSource.invokeExact(index);
-		}
-		catch(final Throwable t)
-		{
-			throw new RuntimeException(t);
-		}
-	}
-
-	static long getNumberOfDestinations()
-	{
-		try
-		{
-			return (long) h_MIDIGetNumberOfDestinations.invokeExact();
-		}
-		catch(final Throwable t)
-		{
-			throw new RuntimeException(t);
-		}
-	}
-
-	static int getDestination(final long index)
-	{
-		try
-		{
-			return (int) h_MIDIGetDestination.invokeExact(index);
-		}
-		catch(final Throwable t)
-		{
-			throw new RuntimeException(t);
 		}
 	}
 
@@ -536,7 +464,7 @@ final class CoreMidiLibrary
 	 * object that must be released with {@link #cfRelease} when no longer needed.
 	 * The {@code arena} is used only for the temporary UTF-8 buffer passed to CoreFoundation.
 	 */
-	static MemorySegment createCFStringRaw(final String s, final Arena arena)
+	private static MemorySegment createCFStringRaw(final String s, final Arena arena)
 	{
 		try
 		{
@@ -550,7 +478,7 @@ final class CoreMidiLibrary
 		}
 	}
 
-	static void cfRelease(final MemorySegment cfRef)
+	private static void cfRelease(final MemorySegment cfRef)
 	{
 		if(cfRef == null || cfRef.equals(MemorySegment.NULL)) return;
 		try
