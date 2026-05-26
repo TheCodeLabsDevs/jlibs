@@ -5,6 +5,7 @@ import de.thecodelabs.midi.midi.device.MidiDevice;
 import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.midi.message.MidiInputPublisher;
 import de.thecodelabs.midi.midi.message.MidiMessage;
+import de.thecodelabs.midi.midi.message.MidiMessageType;
 
 import javax.sound.midi.MidiUnavailableException;
 import java.lang.foreign.Arena;
@@ -136,31 +137,50 @@ class CoreMidiDevice extends MidiDevice
 	public void sendMidiMessage(final MidiMessage midiEvent)
 	{
 		if(!isModeSupported(Midi.Mode.OUTPUT)) return;
-		if(midiEvent.getMessageType() == null) return;
 
-		final byte[] payload = midiEvent.getPayload();
-		if(payload.length < 2) return;
+		final byte[] wire = buildWireBytes(midiEvent);
+		if(wire.length == 0) return;
 
-		final byte statusByte = (byte) (midiEvent.getMessageType().getMidiValue() + midiEvent.getChannel());
-
-		// MIDIPacketList layout:
-		//   offset  0: numPackets = 1  (UInt32)
-		//   offset  4: timeStamp = 0   (UInt64, "now")
-		//   offset 12: length = 3      (UInt16)
-		//   offset 14: status, data1, data2 (3 × Byte)
+		// MIDIPacketList layout (MIDIPacket is 4-byte packed — no padding before timeStamp):
+		//   offset  0: numPackets = 1        (UInt32, 4 bytes)
+		//   offset  4: timeStamp low  = 0    (UInt32, 4 bytes)  \  UInt64, written as two
+		//   offset  8: timeStamp high = 0    (UInt32, 4 bytes)  /  JAVA_INTs to avoid j8 alignment check
+		//   offset 12: length = wire.length  (UInt16, 2 bytes)
+		//   offset 14: wire bytes
 		try(final Arena arena = Arena.ofConfined())
 		{
-			final MemorySegment pktlist = arena.allocate(20, 4);
+			final MemorySegment pktlist = arena.allocate(14 + wire.length, 4);
 			pktlist.set(ValueLayout.JAVA_INT, 0, 1);
-			pktlist.set(ValueLayout.JAVA_LONG, 4, 0L);
-			pktlist.set(ValueLayout.JAVA_SHORT, 12, (short) 3);
-			pktlist.set(ValueLayout.JAVA_BYTE, 14, statusByte);
-			pktlist.set(ValueLayout.JAVA_BYTE, 15, payload[0]);
-			pktlist.set(ValueLayout.JAVA_BYTE, 16, payload[1]);
+			pktlist.set(ValueLayout.JAVA_INT, 4, 0);   // timeStamp low word  ("now")
+			pktlist.set(ValueLayout.JAVA_INT, 8, 0);   // timeStamp high word ("now")
+			pktlist.set(ValueLayout.JAVA_SHORT, 12, (short) wire.length);
+			MemorySegment.copy(MemorySegment.ofArray(wire), ValueLayout.JAVA_BYTE, 0,
+					pktlist, ValueLayout.JAVA_BYTE, 14, wire.length);
 
 			final int status = CoreMidiLibrary.midiSend(outputPortRef, destEndpointRef, pktlist);
 			if(status != 0) throw new RuntimeException("MIDISend failed with OSStatus " + status);
 		}
+	}
+
+	private static byte[] buildWireBytes(final MidiMessage msg)
+	{
+		if(msg.getMessageType() == MidiMessageType.SYSTEM_EXCLUSIVE)
+		{
+			// MidiMessage strips the 0xF0 status byte into payload; restore it for the wire.
+			final byte[] payload = msg.getPayload();
+			final byte[] wire = new byte[1 + payload.length];
+			wire[0] = (byte) 0xF0;
+			System.arraycopy(payload, 0, wire, 1, payload.length);
+			return wire;
+		}
+		if(msg.getMessageType() == null || msg.getMessageType() == MidiMessageType.UNKNOWN) return new byte[0];
+		final byte[] payload = msg.getPayload();
+		if(payload.length < 2) return new byte[0];
+		return new byte[]{
+				(byte) (msg.getMessageType().getMidiValue() + msg.getChannel()),
+				payload[0],
+				payload[1]
+		};
 	}
 
 	@Override
