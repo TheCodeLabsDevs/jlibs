@@ -18,10 +18,19 @@ final class CoreMidiLibrary
 	static final Linker LINKER = Linker.nativeLinker();
 
 	// CoreMIDI function handles
+	private static final MethodHandle h_MIDIObjectGetIntegerProperty;
 	private static final MethodHandle h_MIDIGetNumberOfSources;
 	private static final MethodHandle h_MIDIGetSource;
 	private static final MethodHandle h_MIDIGetNumberOfDestinations;
 	private static final MethodHandle h_MIDIGetDestination;
+	private static final MethodHandle h_MIDIGetNumberOfDevices;
+	private static final MethodHandle h_MIDIGetDevice;
+	private static final MethodHandle h_MIDIDeviceGetNumberOfEntities;
+	private static final MethodHandle h_MIDIDeviceGetEntity;
+	private static final MethodHandle h_MIDIEntityGetNumberOfSources;
+	private static final MethodHandle h_MIDIEntityGetSource;
+	private static final MethodHandle h_MIDIEntityGetNumberOfDestinations;
+	private static final MethodHandle h_MIDIEntityGetDestination;
 	private static final MethodHandle h_MIDIObjectGetStringProperty;
 	private static final MethodHandle h_MIDIClientCreate;
 	private static final MethodHandle h_MIDIInputPortCreate;
@@ -39,6 +48,7 @@ final class CoreMidiLibrary
 
 	static final MemorySegment K_MIDI_PROPERTY_NAME;
 	static final MemorySegment K_MIDI_PROPERTY_MANUFACTURER;
+	static final MemorySegment K_MIDI_PROPERTY_OFFLINE;
 
 	static final int CLIENT_REF;
 
@@ -48,6 +58,13 @@ final class CoreMidiLibrary
 				"/System/Library/Frameworks/CoreMIDI.framework/CoreMIDI", Arena.global());
 		CORE_FOUNDATION = SymbolLookup.libraryLookup(
 				"/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation", Arena.global());
+
+		h_MIDIObjectGetIntegerProperty = LINKER.downcallHandle(
+				sym(CORE_MIDI, "MIDIObjectGetIntegerProperty"),
+				FunctionDescriptor.of(ValueLayout.JAVA_INT,
+						ValueLayout.JAVA_INT,   // MIDIObjectRef obj
+						ValueLayout.ADDRESS,    // CFStringRef propertyID
+						ValueLayout.ADDRESS));  // SInt32 *outValue
 
 		h_MIDIGetNumberOfSources = LINKER.downcallHandle(
 				sym(CORE_MIDI, "MIDIGetNumberOfSources"),
@@ -66,6 +83,48 @@ final class CoreMidiLibrary
 				sym(CORE_MIDI, "MIDIGetDestination"),
 				FunctionDescriptor.of(ValueLayout.JAVA_INT,
 						ValueLayout.JAVA_LONG));  // ItemCount index
+
+		h_MIDIGetNumberOfDevices = LINKER.downcallHandle(
+				sym(CORE_MIDI, "MIDIGetNumberOfDevices"),
+				FunctionDescriptor.of(ValueLayout.JAVA_LONG));
+
+		h_MIDIGetDevice = LINKER.downcallHandle(
+				sym(CORE_MIDI, "MIDIGetDevice"),
+				FunctionDescriptor.of(ValueLayout.JAVA_INT,
+						ValueLayout.JAVA_LONG));  // ItemCount deviceIndex0
+
+		h_MIDIDeviceGetNumberOfEntities = LINKER.downcallHandle(
+				sym(CORE_MIDI, "MIDIDeviceGetNumberOfEntities"),
+				FunctionDescriptor.of(ValueLayout.JAVA_LONG,
+						ValueLayout.JAVA_INT));   // MIDIDeviceRef device
+
+		h_MIDIDeviceGetEntity = LINKER.downcallHandle(
+				sym(CORE_MIDI, "MIDIDeviceGetEntity"),
+				FunctionDescriptor.of(ValueLayout.JAVA_INT,
+						ValueLayout.JAVA_INT,     // MIDIDeviceRef device
+						ValueLayout.JAVA_LONG));  // ItemCount entityIndex0
+
+		h_MIDIEntityGetNumberOfSources = LINKER.downcallHandle(
+				sym(CORE_MIDI, "MIDIEntityGetNumberOfSources"),
+				FunctionDescriptor.of(ValueLayout.JAVA_LONG,
+						ValueLayout.JAVA_INT));   // MIDIEntityRef entity
+
+		h_MIDIEntityGetSource = LINKER.downcallHandle(
+				sym(CORE_MIDI, "MIDIEntityGetSource"),
+				FunctionDescriptor.of(ValueLayout.JAVA_INT,
+						ValueLayout.JAVA_INT,     // MIDIEntityRef entity
+						ValueLayout.JAVA_LONG));  // ItemCount sourceIndex0
+
+		h_MIDIEntityGetNumberOfDestinations = LINKER.downcallHandle(
+				sym(CORE_MIDI, "MIDIEntityGetNumberOfDestinations"),
+				FunctionDescriptor.of(ValueLayout.JAVA_LONG,
+						ValueLayout.JAVA_INT));   // MIDIEntityRef entity
+
+		h_MIDIEntityGetDestination = LINKER.downcallHandle(
+				sym(CORE_MIDI, "MIDIEntityGetDestination"),
+				FunctionDescriptor.of(ValueLayout.JAVA_INT,
+						ValueLayout.JAVA_INT,     // MIDIEntityRef entity
+						ValueLayout.JAVA_LONG));  // ItemCount destIndex0
 
 		h_MIDIObjectGetStringProperty = LINKER.downcallHandle(
 				sym(CORE_MIDI, "MIDIObjectGetStringProperty"),
@@ -166,6 +225,7 @@ final class CoreMidiLibrary
 			// Read property key constants now that CoreMIDI is initialized
 			K_MIDI_PROPERTY_NAME = readPointerSymbol(CORE_MIDI, "kMIDIPropertyName");
 			K_MIDI_PROPERTY_MANUFACTURER = readPointerSymbol(CORE_MIDI, "kMIDIPropertyManufacturer");
+			K_MIDI_PROPERTY_OFFLINE = readPointerSymbol(CORE_MIDI, "kMIDIPropertyOffline");
 		}
 		catch(final Throwable t)
 		{
@@ -223,6 +283,104 @@ final class CoreMidiLibrary
 		}
 	}
 
+	// --- Device / Entity hierarchy ---
+
+	static long getNumberOfDevices()
+	{
+		try
+		{
+			return (long) h_MIDIGetNumberOfDevices.invokeExact();
+		}
+		catch(final Throwable t)
+		{
+			throw new RuntimeException(t);
+		}
+	}
+
+	static int getDevice(final long index)
+	{
+		try
+		{
+			return (int) h_MIDIGetDevice.invokeExact(index);
+		}
+		catch(final Throwable t)
+		{
+			throw new RuntimeException(t);
+		}
+	}
+
+	static long getNumberOfEntities(final int deviceRef)
+	{
+		try
+		{
+			return (long) h_MIDIDeviceGetNumberOfEntities.invokeExact(deviceRef);
+		}
+		catch(final Throwable t)
+		{
+			throw new RuntimeException(t);
+		}
+	}
+
+	static int getEntity(final int deviceRef, final long entityIndex)
+	{
+		try
+		{
+			return (int) h_MIDIDeviceGetEntity.invokeExact(deviceRef, entityIndex);
+		}
+		catch(final Throwable t)
+		{
+			throw new RuntimeException(t);
+		}
+	}
+
+	static long getNumberOfEntitySources(final int entityRef)
+	{
+		try
+		{
+			return (long) h_MIDIEntityGetNumberOfSources.invokeExact(entityRef);
+		}
+		catch(final Throwable t)
+		{
+			throw new RuntimeException(t);
+		}
+	}
+
+	static int getEntitySource(final int entityRef, final long index)
+	{
+		try
+		{
+			return (int) h_MIDIEntityGetSource.invokeExact(entityRef, index);
+		}
+		catch(final Throwable t)
+		{
+			throw new RuntimeException(t);
+		}
+	}
+
+	static long getNumberOfEntityDestinations(final int entityRef)
+	{
+		try
+		{
+			return (long) h_MIDIEntityGetNumberOfDestinations.invokeExact(entityRef);
+		}
+		catch(final Throwable t)
+		{
+			throw new RuntimeException(t);
+		}
+	}
+
+	static int getEntityDestination(final int entityRef, final long index)
+	{
+		try
+		{
+			return (int) h_MIDIEntityGetDestination.invokeExact(entityRef, index);
+		}
+		catch(final Throwable t)
+		{
+			throw new RuntimeException(t);
+		}
+	}
+
 	// --- Property access ---
 
 	static String getStringProperty(final int endpointRef, final MemorySegment propertyKey)
@@ -246,6 +404,20 @@ final class CoreMidiLibrary
 			{
 				cfRelease(cfStr);
 			}
+		}
+		catch(final Throwable t)
+		{
+			throw new RuntimeException(t);
+		}
+	}
+
+	static int getIntegerProperty(final int objectRef, final MemorySegment propertyKey)
+	{
+		try(final Arena arena = Arena.ofConfined())
+		{
+			final MemorySegment outValue = arena.allocate(ValueLayout.JAVA_INT);
+			final int status = (int) h_MIDIObjectGetIntegerProperty.invokeExact(objectRef, propertyKey, outValue);
+			return status == 0 ? outValue.get(ValueLayout.JAVA_INT, 0) : 0;
 		}
 		catch(final Throwable t)
 		{
