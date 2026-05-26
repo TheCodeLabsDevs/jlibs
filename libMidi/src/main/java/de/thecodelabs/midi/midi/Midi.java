@@ -6,7 +6,6 @@ import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.midi.device.MidiDeviceManager;
 import de.thecodelabs.midi.midi.device.coremidi.CoreMidiDeviceManager;
 import de.thecodelabs.midi.midi.device.java.JavaDeviceManager;
-import de.thecodelabs.midi.midi.message.MidiMessage;
 import de.thecodelabs.utils.util.OS;
 
 import javax.sound.midi.MidiUnavailableException;
@@ -75,15 +74,6 @@ public class Midi implements AutoCloseable
 		{
 			throw new CloseException(e);
 		}
-	}
-
-	public void sendMessage(MidiMessage midiCommand)
-	{
-		if(device == null)
-		{
-			return;
-		}
-		device.sendMidiMessage(midiCommand);
 	}
 
 	public boolean isOpen()

@@ -164,7 +164,9 @@ class CoreMidiDevice extends MidiDevice
 
 	private static byte[] buildWireBytes(final MidiMessage msg)
 	{
-		if(msg.getMessageType() == MidiMessageType.SYSTEM_EXCLUSIVE)
+		final MidiMessageType type = msg.getMessageType();
+		if(type == null || type == MidiMessageType.UNKNOWN) return new byte[0];
+		if(type == MidiMessageType.SYSTEM_EXCLUSIVE)
 		{
 			// MidiMessage strips the 0xF0 status byte into payload; restore it for the wire.
 			final byte[] payload = msg.getPayload();
@@ -173,11 +175,10 @@ class CoreMidiDevice extends MidiDevice
 			System.arraycopy(payload, 0, wire, 1, payload.length);
 			return wire;
 		}
-		if(msg.getMessageType() == null || msg.getMessageType() == MidiMessageType.UNKNOWN) return new byte[0];
 		final byte[] payload = msg.getPayload();
 		if(payload.length < 2) return new byte[0];
 		return new byte[]{
-				(byte) (msg.getMessageType().getMidiValue() + msg.getChannel()),
+				(byte) (type.getMidiValue() + msg.getChannel()),
 				payload[0],
 				payload[1]
 		};
