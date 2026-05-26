@@ -11,13 +11,14 @@ import de.thecodelabs.midi.midi.Midi;
 import de.thecodelabs.midi.midi.device.MidiDevice;
 import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.midi.message.MidiMessage;
+import de.thecodelabs.midi.midi.message.MidiMessageType;
 import de.thecodelabs.utils.io.IOUtils;
 
 import java.util.Collection;
 
 public class LaunchPadMidiIntegrationTestMain
 {
-	public static void main(final String[] args)
+	static void main()
 	{
 		try(final Midi midi = new Midi())
 		{
@@ -40,10 +41,20 @@ public class LaunchPadMidiIntegrationTestMain
 				device.sendMidiMessage(new MidiMessage(new byte[]{(byte) 240, 126, 127, 6, 1, (byte) 247}));
 				device.sendMidiMessage(new MidiMessage(new byte[]{(byte) 240, 0, 32, 41, 2, 13, 0, 127, (byte) 247}));
 				device.sendMidiMessage(new MidiMessage(new byte[]{(byte) 240, 0, 32, 41, 2, 13, 14, 1, (byte) 247}));
+
 			});
 
 			final MidiDevice device = midi.openDevice(new MidiDeviceInfo("LPMiniMK3 MIDI Out", "LPMiniMK3 MIDI", "Focusrite - Novation"), Midi.Mode.INPUT, Midi.Mode.OUTPUT);
 			device.getPublisher().addMidiListener(new MidiMappingListener(mapping, registry));
+
+			device.sendMidiMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 0, (byte) 81, (byte) 3));
+			Thread.sleep(2000);
+			device.sendMidiMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 2, (byte) 81, (byte) 5));
+			Thread.sleep(2000);
+			device.sendMidiMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 0, (byte) 81, (byte) 3));
+			device.sendMidiMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 1, (byte) 81, (byte) 5));
+			Thread.sleep(2000);
+			device.sendMidiMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 0, (byte) 81, (byte) 0));
 
 			// Block until device is closed or Ctrl+C
 			while(midi.isOpen())
