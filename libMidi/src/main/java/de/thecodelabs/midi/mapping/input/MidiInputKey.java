@@ -3,10 +3,7 @@ package de.thecodelabs.midi.mapping.input;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import de.thecodelabs.midi.mapping.feedback.FeedbackState;
-import de.thecodelabs.midi.mapping.feedback.FeedbackValue;
-import de.thecodelabs.midi.mapping.feedback.FeedbackValueMapDeserializer;
-import de.thecodelabs.midi.mapping.feedback.FeedbackValueMapSerializer;
+import de.thecodelabs.midi.mapping.feedback.*;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 
@@ -15,7 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @JsonTypeName("midi")
-public record MidiInputKey(byte value, Map<FeedbackState, FeedbackValue> feedbackValues) implements InputKey
+public record MidiInputKey(byte value, Map<FeedbackState, FeedbackValue> feedbackValues) implements InputKey, FeedbackProvider
 {
 	public MidiInputKey(byte value)
 	{
@@ -51,5 +48,11 @@ public record MidiInputKey(byte value, Map<FeedbackState, FeedbackValue> feedbac
 	public int hashCode()
 	{
 		return Objects.hashCode(value);
+	}
+
+	@Override
+	public FeedbackValue getFeedbackValueForState(FeedbackState state)
+	{
+		return feedbackValues.get(state);
 	}
 }

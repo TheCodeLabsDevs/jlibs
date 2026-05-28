@@ -36,6 +36,11 @@ public class Mapping
 		return inputKeyActionMap.keySet().stream().filter(predicate).findFirst().map(key -> (T) key);
 	}
 
+	public Set<InputKey> getAllInputKeys()
+	{
+		return Collections.unmodifiableSet(inputKeyActionMap.keySet());
+	}
+
 	Map<InputKey, Action> getInputKeyActionMap()
 	{
 		return Collections.unmodifiableMap(inputKeyActionMap);

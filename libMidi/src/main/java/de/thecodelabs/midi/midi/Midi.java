@@ -1,5 +1,11 @@
 package de.thecodelabs.midi.midi;
 
+import de.thecodelabs.midi.mapping.Mapping;
+import de.thecodelabs.midi.mapping.action.Action;
+import de.thecodelabs.midi.mapping.action.ActionHandler;
+import de.thecodelabs.midi.mapping.action.ActionHandlerResolver;
+import de.thecodelabs.midi.mapping.feedback.*;
+import de.thecodelabs.midi.mapping.input.InputKey;
 import de.thecodelabs.midi.midi.device.*;
 import de.thecodelabs.midi.midi.device.coremidi.CoreMidiDeviceManager;
 import de.thecodelabs.midi.midi.device.java.JavaDeviceManager;
@@ -69,6 +75,39 @@ public class Midi implements AutoCloseable
 		device = midiDeviceManager.openDevice(deviceInfo, modes);
 		midiListeners.forEach(listener -> listener.onDeviceOpen(device));
 		return device;
+	}
+
+	public void clearFeedback()
+	{
+		midiListeners.forEach(listener -> listener.onFeedbackClear(device));
+	}
+
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	public void showCurrentFeedbackState(Mapping mapping, ActionHandlerResolver actionHandlerResolver, FeedbackValueWriterResolver feedbackValueWriterResolver)
+	{
+		for(InputKey inputKey : mapping.getAllInputKeys())
+		{
+			if(!(inputKey instanceof FeedbackProvider feedbackProvider))
+			{
+				continue;
+			}
+			final Action action = mapping.getAction(inputKey);
+			final ActionHandler actionHandler = actionHandlerResolver.resolve(action);
+
+			final FeedbackState currentState = actionHandler.getCurrentState(action);
+			if(currentState == null)
+			{
+				continue;
+			}
+
+			final FeedbackValue feedbackValue = feedbackProvider.getFeedbackValueForState(currentState);
+			final FeedbackValueWriter valueWriter = feedbackValueWriterResolver.resolve(inputKey, feedbackValue);
+			if (valueWriter == null) {
+				continue;
+			}
+
+			valueWriter.write(inputKey, feedbackValue);
+		}
 	}
 
 	public void close() throws CloseException

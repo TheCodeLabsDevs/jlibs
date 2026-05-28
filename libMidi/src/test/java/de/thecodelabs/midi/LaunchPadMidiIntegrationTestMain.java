@@ -13,6 +13,7 @@ import de.thecodelabs.midi.mapping.listener.MidiMappingListener;
 import de.thecodelabs.midi.midi.Midi;
 import de.thecodelabs.midi.midi.device.MidiDevice;
 import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
+import de.thecodelabs.midi.midi.device.MidiListener;
 import de.thecodelabs.midi.midi.message.MidiMessage;
 import de.thecodelabs.midi.midi.message.MidiMessageType;
 import de.thecodelabs.utils.io.IOUtils;
@@ -42,11 +43,33 @@ public class LaunchPadMidiIntegrationTestMain
 				System.out.println(datum);
 			}
 
-			midi.addMidiListener(device -> {
-				device.sendMidiMessage(new MidiMessage(new byte[]{(byte) 240, 126, 127, 6, 1, (byte) 247}));
-				device.sendMidiMessage(new MidiMessage(new byte[]{(byte) 240, 0, 32, 41, 2, 13, 0, 127, (byte) 247}));
-				device.sendMidiMessage(new MidiMessage(new byte[]{(byte) 240, 0, 32, 41, 2, 13, 14, 1, (byte) 247}));
+			midi.addMidiListener(new MidiListener()
+			{
+				@Override
+				public void onDeviceOpen(MidiDevice device)
+				{
+					device.sendMidiMessage(new MidiMessage(new byte[]{(byte) 240, 126, 127, 6, 1, (byte) 247}));
+					device.sendMidiMessage(new MidiMessage(new byte[]{(byte) 240, 0, 32, 41, 2, 13, 0, 127, (byte) 247}));
+					device.sendMidiMessage(new MidiMessage(new byte[]{(byte) 240, 0, 32, 41, 2, 13, 14, 1, (byte) 247}));
+				}
 
+				@Override
+				public void onFeedbackClear(MidiDevice device)
+				{
+					final int maxMainKeyNumber = 89;
+
+					for (byte i = 11; i <= maxMainKeyNumber; i++) {
+						device.sendMidiMessage(new MidiMessage(MidiMessageType.NOTE_ON, i, (byte) 0));
+					}
+
+					// Obere Reihe an Tasten
+					final int liveKeyMin = 104;
+					final int liveKeyMax = 111;
+
+					for (byte i = liveKeyMin; i <= liveKeyMax; i++) {
+						device.sendMidiMessage(new MidiMessage(MidiMessageType.CONTROL_CHANGE, i, (byte) 0));
+					}
+				}
 			});
 
 			final MidiDevice device = midi.openDevice(new MidiDeviceInfo("LPMiniMK3 MIDI Out", "LPMiniMK3 MIDI", "Focusrite - Novation"), Midi.Mode.INPUT, Midi.Mode.OUTPUT);
@@ -59,7 +82,9 @@ public class LaunchPadMidiIntegrationTestMain
 			device.sendMidiMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 0, (byte) 81, (byte) 3));
 			device.sendMidiMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 1, (byte) 81, (byte) 5));
 			Thread.sleep(2000);
-			device.sendMidiMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 0, (byte) 81, (byte) 0));
+
+			midi.clearFeedback();
+			midi.showCurrentFeedbackState(mapping, registry, registry);
 
 			// Block until device is closed or Ctrl+C
 			while(midi.isOpen())
