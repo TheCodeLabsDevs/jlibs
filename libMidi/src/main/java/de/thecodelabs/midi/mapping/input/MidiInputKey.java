@@ -3,39 +3,35 @@ package de.thecodelabs.midi.mapping.input;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import de.thecodelabs.midi.mapping.feedback.MidiFeedback;
+import de.thecodelabs.midi.mapping.feedback.FeedbackState;
+import de.thecodelabs.midi.mapping.feedback.FeedbackValue;
+import de.thecodelabs.midi.mapping.feedback.FeedbackValueMapDeserializer;
+import de.thecodelabs.midi.mapping.feedback.FeedbackValueMapSerializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonTypeName("midi")
 public class MidiInputKey implements InputKey
 {
 	private final byte value;
-
-	private MidiFeedback defaultFeedback;
-	private MidiFeedback eventFeedback;
-	private MidiFeedback warningFeedback;
+	private Map<FeedbackState, FeedbackValue> feedbackValues = new HashMap<>();
 
 	public MidiInputKey(byte value)
 	{
 		this.value = value;
 	}
 
-	public MidiInputKey(byte value, MidiFeedback defaultFeedback, MidiFeedback eventFeedback)
-	{
-		this(value, defaultFeedback, eventFeedback, null);
-	}
-
 	@JsonCreator
 	public MidiInputKey(@JsonProperty("value") byte value,
-	                    @JsonProperty("defaultFeedback") MidiFeedback defaultFeedback,
-	                    @JsonProperty("eventFeedback") MidiFeedback eventFeedback,
-	                    @JsonProperty("warningFeedback") MidiFeedback warningFeedback)
+						@JsonDeserialize(using = FeedbackValueMapDeserializer.class)
+						@JsonProperty("feedbackValues") Map<FeedbackState, FeedbackValue> feedbackValues)
 	{
 		this.value = value;
-		this.defaultFeedback = defaultFeedback;
-		this.eventFeedback = eventFeedback;
-		this.warningFeedback = warningFeedback;
+		this.feedbackValues = feedbackValues != null ? new HashMap<>(feedbackValues) : new HashMap<>();
 	}
 
 	public byte getValue()
@@ -43,19 +39,10 @@ public class MidiInputKey implements InputKey
 		return value;
 	}
 
-	public MidiFeedback getDefaultFeedback()
+	@JsonSerialize(using = FeedbackValueMapSerializer.class)
+	public Map<FeedbackState, FeedbackValue> getFeedbackValues()
 	{
-		return defaultFeedback;
-	}
-
-	public MidiFeedback getEventFeedback()
-	{
-		return eventFeedback;
-	}
-
-	public MidiFeedback getWarningFeedback()
-	{
-		return warningFeedback;
+		return feedbackValues;
 	}
 
 	@Override
@@ -70,16 +57,5 @@ public class MidiInputKey implements InputKey
 	public int hashCode()
 	{
 		return Objects.hashCode(value);
-	}
-
-	@Override
-	public String toString()
-	{
-		return "MidiInputKey{" +
-		       "value=" + value +
-		       ", defaultFeedback=" + defaultFeedback +
-		       ", eventFeedback=" + eventFeedback +
-		       ", warningFeedback=" + warningFeedback +
-		       '}';
 	}
 }

@@ -3,9 +3,7 @@
         "inputKey": {
             "type": "midi",
             "value": 36,
-            "defaultFeedback": null,
-            "eventFeedback": null,
-            "warningFeedback": null
+            "feedbackValues": []
         },
         "action": {
             "type": "test",
