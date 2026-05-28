@@ -42,7 +42,7 @@ public class FeedbackValueMapDeserializer extends StdDeserializer<Map<FeedbackSt
 			}
 			if(state == null || feedbackValue == null)
 			{
-				ctxt.reportInputMismatch(FeedbackValueMapDeserializer.class,
+				return ctxt.reportInputMismatch(FeedbackValueMapDeserializer.class,
 						"Feedback entry must contain both 'state' and 'feedbackValue'");
 			}
 			result.put(state, feedbackValue);

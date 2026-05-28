@@ -62,7 +62,7 @@ public class MidiMappingListener implements MidiMessageListener
 			final KeyInputEvent keyEvent = new KeyInputEvent(inputKey, type);
 
 			final FeedbackState feedbackState = actionHandler.handleAction(keyEvent, action);
-			final FeedbackValue feedbackValue = inputKey.feedbackValues().get(feedbackState);
+			final FeedbackValue feedbackValue = inputKey.getFeedbackValueForState(feedbackState);
 			if(feedbackValue != null)
 			{
 				final FeedbackValueWriter feedbackValueWriter = feedbackValueWriterResolver.resolve(inputKey, feedbackValue);
