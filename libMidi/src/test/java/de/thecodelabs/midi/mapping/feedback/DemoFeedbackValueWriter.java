@@ -17,6 +17,6 @@ public class DemoFeedbackValueWriter implements FeedbackValueWriter<MidiInputKey
 	@Override
 	public void write(MidiInputKey key, DemoFeedbackValue value)
 	{
-		midi.getDevice().sendMidiMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 0, key.getValue(), (byte) value.value()));
+		midi.getDevice().sendMidiMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 0, key.value(), (byte) value.value()));
 	}
 }

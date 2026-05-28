@@ -44,7 +44,7 @@ public class MidiMappingListener implements MidiMessageListener
 
 			final Optional<MidiInputKey> midiKeyOptional = mapping.getInputKeyForPredicate(inputKey ->
 					inputKey instanceof MidiInputKey midiKey
-					&& midiKey.getValue() == key);
+					&& midiKey.value() == key);
 			if(midiKeyOptional.isEmpty())
 			{
 				return;
@@ -62,7 +62,7 @@ public class MidiMappingListener implements MidiMessageListener
 			final KeyInputEvent keyEvent = new KeyInputEvent(inputKey, type);
 
 			final FeedbackState feedbackState = actionHandler.handleAction(keyEvent, action);
-			final FeedbackValue feedbackValue = inputKey.getFeedbackValues().get(feedbackState);
+			final FeedbackValue feedbackValue = inputKey.feedbackValues().get(feedbackState);
 			if(feedbackValue != null)
 			{
 				final FeedbackValueWriter feedbackValueWriter = feedbackValueWriterResolver.resolve(inputKey, feedbackValue);

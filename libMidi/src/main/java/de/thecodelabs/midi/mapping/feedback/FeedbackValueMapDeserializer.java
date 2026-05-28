@@ -40,10 +40,12 @@ public class FeedbackValueMapDeserializer extends StdDeserializer<Map<FeedbackSt
 					p.skipChildren();
 				}
 			}
-			if(state != null && feedbackValue != null)
+			if(state == null || feedbackValue == null)
 			{
-				result.put(state, feedbackValue);
+				ctxt.reportInputMismatch(FeedbackValueMapDeserializer.class,
+						"Feedback entry must contain both 'state' and 'feedbackValue'");
 			}
+			result.put(state, feedbackValue);
 		}
 		return result;
 	}

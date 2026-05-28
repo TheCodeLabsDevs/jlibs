@@ -61,7 +61,8 @@ public class MappingRegistry implements ActionHandlerResolver, FeedbackValueWrit
 	@Override
 	public FeedbackValueWriter<?, ?> resolve(InputKey key, FeedbackValue value)
 	{
-		return feedbackValueWriterMap.get(key.getClass()).get(value.getClass());
+		final Map<Class<? extends FeedbackValue>, FeedbackValueWriter<?, ?>> writers = feedbackValueWriterMap.get(key.getClass());
+		return writers != null ? writers.get(value.getClass()) : null;
 	}
 
 	private static void requireJsonTypeName(Class<?> cls)
