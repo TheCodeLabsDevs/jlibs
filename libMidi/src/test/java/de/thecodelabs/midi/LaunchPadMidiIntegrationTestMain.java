@@ -5,6 +5,9 @@ import de.thecodelabs.midi.mapping.MappingRegistry;
 import de.thecodelabs.midi.mapping.MappingSerializer;
 import de.thecodelabs.midi.mapping.action.TestAction;
 import de.thecodelabs.midi.mapping.action.TestActionHandler;
+import de.thecodelabs.midi.mapping.feedback.DemoFeedbackState;
+import de.thecodelabs.midi.mapping.feedback.DemoFeedbackValue;
+import de.thecodelabs.midi.mapping.feedback.DemoFeedbackValueWriter;
 import de.thecodelabs.midi.mapping.input.MidiInputKey;
 import de.thecodelabs.midi.mapping.listener.MidiMappingListener;
 import de.thecodelabs.midi.midi.Midi;
@@ -27,9 +30,11 @@ public class LaunchPadMidiIntegrationTestMain
 			final MappingRegistry registry = new MappingRegistry();
 			registry.registerAction(TestAction.class, actionHandler);
 			registry.registerInputKey(MidiInputKey.class);
+			registry.registerFeedbackState(DemoFeedbackState.class)
+					.registerFeedbackValue(MidiInputKey.class, DemoFeedbackValue.class, new DemoFeedbackValueWriter(midi));
 			final MappingSerializer serializer = registry.build();
 
-			final Mapping mapping = serializer.deserialize(IOUtils.readURL(LaunchPadMidiIntegrationTestMain.class.getClassLoader().getResource("pd12.json")));
+			final Mapping mapping = serializer.deserialize(IOUtils.readURL(LaunchPadMidiIntegrationTestMain.class.getClassLoader().getResource("launchpad.json")));
 
 			final Collection<MidiDeviceInfo> data = midi.getMidiDevices();
 			for(final MidiDeviceInfo datum : data)
@@ -45,7 +50,7 @@ public class LaunchPadMidiIntegrationTestMain
 			});
 
 			final MidiDevice device = midi.openDevice(new MidiDeviceInfo("LPMiniMK3 MIDI Out", "LPMiniMK3 MIDI", "Focusrite - Novation"), Midi.Mode.INPUT, Midi.Mode.OUTPUT);
-			device.getPublisher().addMidiListener(new MidiMappingListener(mapping, registry));
+			device.getPublisher().addMidiListener(new MidiMappingListener(mapping, registry, registry));
 
 			device.sendMidiMessage(new MidiMessage(MidiMessageType.NOTE_ON, (byte) 0, (byte) 81, (byte) 3));
 			Thread.sleep(2000);

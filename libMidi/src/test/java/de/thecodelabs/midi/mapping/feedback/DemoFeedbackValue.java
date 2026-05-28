@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("demo-feedback-value")
-public record DemoFeedbackValue(String value) implements FeedbackValue
+public record DemoFeedbackValue(int value) implements FeedbackValue
 {
 	@JsonCreator
-	public DemoFeedbackValue(@JsonProperty("value") String value)
+	public DemoFeedbackValue(@JsonProperty("value") int value)
 	{
 		this.value = value;
 	}

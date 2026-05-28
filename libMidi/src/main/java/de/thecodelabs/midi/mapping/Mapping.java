@@ -30,9 +30,10 @@ public class Mapping
 		return inputKeyActionMap.get(inputKey);
 	}
 
-	public Optional<InputKey> getInputKeyForPredicate(Predicate<InputKey> predicate)
+	@SuppressWarnings("unchecked")
+	public <T extends InputKey> Optional<T> getInputKeyForPredicate(Predicate<InputKey> predicate)
 	{
-		return inputKeyActionMap.keySet().stream().filter(predicate).findFirst();
+		return inputKeyActionMap.keySet().stream().filter(predicate).findFirst().map(key -> (T) key);
 	}
 
 	Map<InputKey, Action> getInputKeyActionMap()

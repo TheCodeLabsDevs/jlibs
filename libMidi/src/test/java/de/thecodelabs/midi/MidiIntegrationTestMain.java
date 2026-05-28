@@ -36,7 +36,7 @@ public class MidiIntegrationTestMain
 			}
 
 			final MidiDevice device = midi.openDevice(new MidiDeviceInfo("PD 12", "PD 12", "Jammin Pro"), Midi.Mode.INPUT);
-			device.getPublisher().addMidiListener(new MidiMappingListener(mapping, registry));
+			device.getPublisher().addMidiListener(new MidiMappingListener(mapping, registry, registry));
 
 			// Block until device is closed or Ctrl+C
 			while(midi.isOpen())

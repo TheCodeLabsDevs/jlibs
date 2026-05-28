@@ -6,7 +6,6 @@ import de.thecodelabs.midi.mapping.Mapping;
 import de.thecodelabs.midi.mapping.action.Action;
 import de.thecodelabs.midi.mapping.action.ActionHandler;
 import de.thecodelabs.midi.mapping.action.ActionHandlerResolver;
-import de.thecodelabs.midi.mapping.input.InputKey;
 import de.thecodelabs.midi.mapping.input.KeyboardInputKey;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -46,7 +45,7 @@ public class KeyboardMappingListener implements EventHandler<KeyEvent>
 				return;
 			}
 
-			final Optional<InputKey> midiKeyOptional = mapping.getInputKeyForPredicate(inputKey ->
+			final Optional<KeyboardInputKey> midiKeyOptional = mapping.getInputKeyForPredicate(inputKey ->
 					inputKey instanceof KeyboardInputKey keyboardInputKey
 					&& keyboardInputKey.code() == code);
 			if(midiKeyOptional.isEmpty())

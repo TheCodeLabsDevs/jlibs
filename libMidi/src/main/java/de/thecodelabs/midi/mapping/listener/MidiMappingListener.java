@@ -6,7 +6,10 @@ import de.thecodelabs.midi.mapping.Mapping;
 import de.thecodelabs.midi.mapping.action.Action;
 import de.thecodelabs.midi.mapping.action.ActionHandler;
 import de.thecodelabs.midi.mapping.action.ActionHandlerResolver;
-import de.thecodelabs.midi.mapping.input.InputKey;
+import de.thecodelabs.midi.mapping.feedback.FeedbackState;
+import de.thecodelabs.midi.mapping.feedback.FeedbackValue;
+import de.thecodelabs.midi.mapping.feedback.FeedbackValueWriter;
+import de.thecodelabs.midi.mapping.feedback.FeedbackValueWriterResolver;
 import de.thecodelabs.midi.mapping.input.MidiInputKey;
 import de.thecodelabs.midi.midi.message.MidiMessage;
 import de.thecodelabs.midi.midi.message.MidiMessageListener;
@@ -18,13 +21,16 @@ public class MidiMappingListener implements MidiMessageListener
 {
 	private final Mapping mapping;
 	private final ActionHandlerResolver actionHandlerResolver;
+	private final FeedbackValueWriterResolver feedbackValueWriterResolver;
 
-	public MidiMappingListener(Mapping mapping, ActionHandlerResolver actionHandlerResolver)
+	public MidiMappingListener(Mapping mapping, ActionHandlerResolver actionHandlerResolver, FeedbackValueWriterResolver feedbackValueWriterResolver)
 	{
 		this.mapping = mapping;
 		this.actionHandlerResolver = actionHandlerResolver;
+		this.feedbackValueWriterResolver = feedbackValueWriterResolver;
 	}
 
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void onMidiMessage(MidiMessage midiEvent)
 	{
@@ -36,7 +42,7 @@ public class MidiMappingListener implements MidiMessageListener
 			final int key = payload[0];
 			final int velocity = payload[1];
 
-			final Optional<InputKey> midiKeyOptional = mapping.getInputKeyForPredicate(inputKey ->
+			final Optional<MidiInputKey> midiKeyOptional = mapping.getInputKeyForPredicate(inputKey ->
 					inputKey instanceof MidiInputKey midiKey
 					&& midiKey.getValue() == key);
 			if(midiKeyOptional.isEmpty())
@@ -44,7 +50,8 @@ public class MidiMappingListener implements MidiMessageListener
 				return;
 			}
 
-			final Action action = mapping.getAction(midiKeyOptional.get());
+			final MidiInputKey inputKey = midiKeyOptional.get();
+			final Action action = mapping.getAction(inputKey);
 			final ActionHandler actionHandler = actionHandlerResolver.resolve(action);
 			if(actionHandler == null)
 			{
@@ -52,8 +59,15 @@ public class MidiMappingListener implements MidiMessageListener
 			}
 
 			final KeyInputType type = velocity > 0 ? KeyInputType.DOWN : KeyInputType.UP;
-			final KeyInputEvent keyEvent = new KeyInputEvent(midiKeyOptional.get(), type);
-			actionHandler.handleAction(keyEvent, action);
+			final KeyInputEvent keyEvent = new KeyInputEvent(inputKey, type);
+
+			final FeedbackState feedbackState = actionHandler.handleAction(keyEvent, action);
+			final FeedbackValue feedbackValue = inputKey.getFeedbackValues().get(feedbackState);
+			if(feedbackValue != null)
+			{
+				final FeedbackValueWriter feedbackValueWriter = feedbackValueWriterResolver.resolve(inputKey, feedbackValue);
+				feedbackValueWriter.write(inputKey, feedbackValue);
+			}
 		}
 	}
 }
