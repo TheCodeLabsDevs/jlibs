@@ -1,34 +1,44 @@
 package de.thecodelabs.midi.midi.message;
 
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MidiInputPublisher
 {
-	private final List<MidiMessageListener> midiListenerList;
+	private record PrioritizedListener(int priority, MidiMessageListener listener) {}
 
-	public MidiInputPublisher()
-	{
-		midiListenerList = new CopyOnWriteArrayList<>();
-	}
+	private final CopyOnWriteArrayList<PrioritizedListener> midiListenerList = new CopyOnWriteArrayList<>();
 
 	public void addMidiListener(final MidiMessageListener midiListener)
 	{
-		midiListenerList.add(midiListener);
+		addMidiListener(midiListener, 0);
 	}
 
-	public void removeMidiListener(final MidiMessageListener midiListener)
+	public synchronized void addMidiListener(final MidiMessageListener midiListener, final int priority)
 	{
-		midiListenerList.remove(midiListener);
+		int index = midiListenerList.size();
+		for(int i = 0; i < midiListenerList.size(); i++)
+		{
+			if(midiListenerList.get(i).priority() < priority)
+			{
+				index = i;
+				break;
+			}
+		}
+		midiListenerList.add(index, new PrioritizedListener(priority, midiListener));
+	}
+
+	public synchronized void removeMidiListener(final MidiMessageListener midiListener)
+	{
+		midiListenerList.removeIf(entry -> entry.listener() == midiListener);
 	}
 
 	public void publish(final MidiMessage message)
 	{
-		for(final MidiMessageListener midiListener : midiListenerList)
+		for(final PrioritizedListener entry : midiListenerList)
 		{
 			if(!message.isConsumed())
 			{
-				midiListener.onMidiMessage(message);
+				entry.listener().onMidiMessage(message);
 			}
 		}
 	}

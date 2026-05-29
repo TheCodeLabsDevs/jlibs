@@ -187,6 +187,15 @@ device.getPublisher().addMidiListener(
 );
 ```
 
+Listeners can be registered with an integer priority. Higher values are called first. The default priority is `0`.
+
+```java
+device.getPublisher().addMidiListener(rawLogger, 10);   // called before the mapping listener
+device.getPublisher().addMidiListener(new MidiMappingListener(mapping, registry, registry));
+```
+
+A higher-priority listener can call `message.consume()` to stop propagation to lower-priority listeners.
+
 For JavaFX keyboard input, add the listener to a scene:
 
 ```java
