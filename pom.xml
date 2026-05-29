@@ -6,7 +6,7 @@
 
     <groupId>de.thecodelabs</groupId>
     <artifactId>jlibs</artifactId>
-    <version>4.2.0</version>
+    <version>4.3.0</version>
 
     <packaging>pom</packaging>
 
@@ -18,7 +18,7 @@
 
         <libAutostart.version>[3.0.0,3.1.0)</libAutostart.version>
         <libLogger-slf4j.version>[3.2.0,3.3.0)</libLogger-slf4j.version>
-        <libMidi.version>[3.0.0,3.1.0)</libMidi.version>
+        <libMidi.version>[4.0.0,4.1.0)</libMidi.version>
         <libNetwork.version>[3.0.0,3.1.0)</libNetwork.version>
     </properties>
 
