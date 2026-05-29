@@ -42,7 +42,7 @@ public abstract class MidiDevice
 
 	public abstract void sendMidiMessage(MidiMessage midiEvent);
 
-	public abstract void closeDevice() throws Exception;
+	public abstract void closeDevice();
 
 	public abstract boolean isOpen();
 

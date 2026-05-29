@@ -8,7 +8,6 @@ import de.thecodelabs.midi.mapping.feedback.DemoFeedbackValueWriter;
 import de.thecodelabs.midi.mapping.input.KeyboardInputKey;
 import de.thecodelabs.midi.mapping.input.MidiInputKey;
 import de.thecodelabs.midi.midi.Midi;
-import de.thecodelabs.midi.midi.device.CloseException;
 import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.Test;
 
@@ -40,10 +39,6 @@ class MappingTest
 			final Mapping deserialize = serializer.deserialize(serialize);
 
 			assertThat(deserialize).isEqualTo(mapping);
-		}
-		catch(CloseException e)
-		{
-			throw new RuntimeException(e);
 		}
 	}
 }

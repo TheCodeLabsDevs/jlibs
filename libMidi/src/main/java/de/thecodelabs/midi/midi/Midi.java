@@ -6,7 +6,10 @@ import de.thecodelabs.midi.mapping.action.ActionHandler;
 import de.thecodelabs.midi.mapping.action.ActionHandlerResolver;
 import de.thecodelabs.midi.mapping.feedback.*;
 import de.thecodelabs.midi.mapping.input.InputKey;
-import de.thecodelabs.midi.midi.device.*;
+import de.thecodelabs.midi.midi.device.MidiDevice;
+import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
+import de.thecodelabs.midi.midi.device.MidiDeviceManager;
+import de.thecodelabs.midi.midi.device.MidiListener;
 import de.thecodelabs.midi.midi.device.coremidi.CoreMidiDeviceManager;
 import de.thecodelabs.midi.midi.device.java.JavaDeviceManager;
 import de.thecodelabs.utils.util.OS;
@@ -104,7 +107,8 @@ public class Midi implements AutoCloseable
 
 			final FeedbackValue feedbackValue = feedbackProvider.getFeedbackValueForState(currentState);
 			final FeedbackValueWriter valueWriter = feedbackValueWriterResolver.resolve(inputKey, feedbackValue);
-			if (valueWriter == null) {
+			if(valueWriter == null)
+			{
 				continue;
 			}
 
@@ -112,20 +116,13 @@ public class Midi implements AutoCloseable
 		}
 	}
 
-	public void close() throws CloseException
+	public void close()
 	{
-		try
+		if(device != null)
 		{
-			if(device != null)
-			{
-				device.closeDevice();
-			}
-			midiDeviceManager.close();
+			device.closeDevice();
 		}
-		catch(Exception e)
-		{
-			throw new CloseException(e);
-		}
+		midiDeviceManager.close();
 	}
 
 	public boolean isOpen()
