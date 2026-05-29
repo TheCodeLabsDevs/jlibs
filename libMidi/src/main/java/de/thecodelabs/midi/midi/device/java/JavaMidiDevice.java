@@ -5,6 +5,7 @@ import de.thecodelabs.midi.midi.device.MidiDevice;
 import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
 import de.thecodelabs.midi.midi.message.MidiInputPublisher;
 import de.thecodelabs.midi.midi.message.MidiMessage;
+import de.thecodelabs.midi.midi.message.MidiMessageType;
 
 import javax.sound.midi.*;
 
@@ -50,8 +51,18 @@ class JavaMidiDevice extends MidiDevice
 			try
 			{
 				final byte[] payload = midiEvent.getPayload();
-				final ShortMessage message = new ShortMessage(midiEvent.getMessageType().getMidiValue() + midiEvent.getChannel(), payload[0], payload[1]);
-				internalReceiver.send(message, -1);
+				if(midiEvent.getMessageType() == MidiMessageType.SYSTEM_EXCLUSIVE)
+				{
+					final byte[] data = new byte[payload.length + 1];
+					data[0] = (byte) SysexMessage.SYSTEM_EXCLUSIVE;
+					System.arraycopy(payload, 0, data, 1, payload.length);
+					internalReceiver.send(new SysexMessage(data, data.length), -1);
+				}
+				else
+				{
+					final ShortMessage message = new ShortMessage(midiEvent.getMessageType().getMidiValue() + midiEvent.getChannel(), payload[0], payload[1]);
+					internalReceiver.send(message, -1);
+				}
 			}
 			catch(InvalidMidiDataException e)
 			{
