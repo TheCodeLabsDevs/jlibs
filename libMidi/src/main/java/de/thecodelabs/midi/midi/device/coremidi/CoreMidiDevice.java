@@ -47,6 +47,7 @@ class CoreMidiDevice extends MidiDevice
 				}
 			}
 		}
+		startDisconnectPoller();
 	}
 
 	private void openInput() throws MidiUnavailableException
@@ -203,6 +204,24 @@ class CoreMidiDevice extends MidiDevice
 			CoreMidiLibrary.portDispose(outputPortRef);
 			outputPortRef = 0;
 		}
+	}
+
+	private void startDisconnectPoller()
+	{
+		final int endpointToCheck = sourceEndpointRef != 0 ? sourceEndpointRef : destEndpointRef;
+		if(endpointToCheck == 0) return;
+		Thread.ofVirtual().start(() -> {
+			while(isOpen())
+			{
+				try { Thread.sleep(2000); } catch(final InterruptedException e) { return; }
+				if(!isOpen()) return;
+				if(CoreMidiLibrary.getIntegerProperty(endpointToCheck, CoreMidiLibrary.K_MIDI_PROPERTY_OFFLINE) != 0)
+				{
+					fireDisconnect();
+					return;
+				}
+			}
+		});
 	}
 
 	@Override

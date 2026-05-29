@@ -184,9 +184,7 @@ final class CoreMidiLibrary
 				sym(CORE_FOUNDATION, "CFRelease"),
 				FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
 
-		// kMIDIPropertyName and kMIDIPropertyManufacturer are lazily initialized by CoreMIDI —
-		// they are NULL (0x0) until MIDIClientCreate triggers CoreMIDI server initialization.
-		// We must read them AFTER creating the MIDIClient.
+		// kMIDIPropertyName etc. are lazily initialized by CoreMIDI — null until MIDIClientCreate runs.
 		try(final Arena arena = Arena.ofConfined())
 		{
 			final MemorySegment cfName = createCFStringRaw("libMidi-CoreMidi", arena);
@@ -200,10 +198,9 @@ final class CoreMidiLibrary
 			}
 			CLIENT_REF = outClient.get(ValueLayout.JAVA_INT, 0);
 
-			// Read property key constants now that CoreMIDI is initialized
-			K_MIDI_PROPERTY_NAME = readPointerSymbol(CORE_MIDI, "kMIDIPropertyName");
+			K_MIDI_PROPERTY_NAME        = readPointerSymbol(CORE_MIDI, "kMIDIPropertyName");
 			K_MIDI_PROPERTY_MANUFACTURER = readPointerSymbol(CORE_MIDI, "kMIDIPropertyManufacturer");
-			K_MIDI_PROPERTY_OFFLINE = readPointerSymbol(CORE_MIDI, "kMIDIPropertyOffline");
+			K_MIDI_PROPERTY_OFFLINE      = readPointerSymbol(CORE_MIDI, "kMIDIPropertyOffline");
 		}
 		catch(final Throwable t)
 		{
@@ -406,8 +403,8 @@ final class CoreMidiLibrary
 	{
 		try
 		{
-			final int status = (int) h_MIDIPortDisconnectSource.invokeExact(portRef, sourceRef);
-			if(status != 0) throw new RuntimeException("MIDIPortDisconnectSource failed with OSStatus " + status);
+			// Ignore non-zero status — the source endpoint may already be gone (device disconnect).
+			h_MIDIPortDisconnectSource.invokeExact(portRef, sourceRef);
 		}
 		catch(final Throwable t)
 		{

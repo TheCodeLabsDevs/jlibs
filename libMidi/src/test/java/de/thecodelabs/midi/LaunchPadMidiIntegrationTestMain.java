@@ -48,6 +48,7 @@ public class LaunchPadMidiIntegrationTestMain
 				@Override
 				public void onDeviceOpen(MidiDevice device)
 				{
+					System.out.println("Connected");
 					device.sendMidiMessage(new MidiMessage(new byte[]{(byte) 240, 126, 127, 6, 1, (byte) 247}));
 					device.sendMidiMessage(new MidiMessage(new byte[]{(byte) 240, 0, 32, 41, 2, 13, 0, 127, (byte) 247}));
 					device.sendMidiMessage(new MidiMessage(new byte[]{(byte) 240, 0, 32, 41, 2, 13, 14, 1, (byte) 247}));
@@ -69,6 +70,12 @@ public class LaunchPadMidiIntegrationTestMain
 					for (byte i = liveKeyMin; i <= liveKeyMax; i++) {
 						device.sendMidiMessage(new MidiMessage(MidiMessageType.CONTROL_CHANGE, i, (byte) 0));
 					}
+				}
+
+				@Override
+				public void onDeviceDisconnected(MidiDevice device)
+				{
+					System.out.println("Disconnected");
 				}
 			});
 

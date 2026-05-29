@@ -5,4 +5,8 @@ public interface MidiListener
 	void onDeviceOpen(MidiDevice device);
 
 	void onFeedbackClear(MidiDevice device);
+
+	default void onDeviceDisconnected(MidiDevice device)
+	{
+	}
 }

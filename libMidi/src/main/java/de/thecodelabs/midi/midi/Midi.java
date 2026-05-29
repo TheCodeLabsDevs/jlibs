@@ -73,6 +73,8 @@ public class Midi implements AutoCloseable
 			modes = new Mode[]{Mode.INPUT, Mode.OUTPUT};
 		}
 		device = midiDeviceManager.openDevice(deviceInfo, modes);
+		device.setDisconnectCallback(() ->
+				midiListeners.forEach(listener -> listener.onDeviceDisconnected(device)));
 		midiListeners.forEach(listener -> listener.onDeviceOpen(device));
 		return device;
 	}

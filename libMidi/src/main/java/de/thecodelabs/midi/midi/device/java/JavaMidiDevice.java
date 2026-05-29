@@ -10,6 +10,9 @@ import javax.sound.midi.*;
 
 class JavaMidiDevice extends MidiDevice
 {
+	private volatile boolean cleanClose = false;
+	private volatile boolean explicitlyClosed = false;
+
 	private class MidiReceiver implements Receiver
 	{
 		@Override
@@ -22,7 +25,10 @@ class JavaMidiDevice extends MidiDevice
 		@Override
 		public void close()
 		{
-			// Close receiver
+			if(!cleanClose)
+			{
+				fireDisconnect();
+			}
 		}
 	}
 
@@ -55,23 +61,32 @@ class JavaMidiDevice extends MidiDevice
 	}
 
 	@Override
-	public void closeDevice() throws MidiUnavailableException
+	public void closeDevice()
 	{
+		explicitlyClosed = true;
 		closeInput();
 		closeOutput();
 	}
 
 	private void closeInput()
 	{
-		if(internalTransmitter != null)
+		cleanClose = true;
+		try
 		{
-			internalTransmitter.close();
-			internalTransmitter = null;
+			if(internalTransmitter != null)
+			{
+				internalTransmitter.close();
+				internalTransmitter = null;
+			}
+			if(internalInputDevice != null)
+			{
+				internalInputDevice.close();
+				internalInputDevice = null;
+			}
 		}
-		if(internalInputDevice != null)
+		finally
 		{
-			internalInputDevice.close();
-			internalInputDevice = null;
+			cleanClose = false;
 		}
 	}
 
@@ -124,6 +139,39 @@ class JavaMidiDevice extends MidiDevice
 				}
 			}
 		}
+		startDisconnectPoller(deviceInfo.name());
+	}
+
+	private void startDisconnectPoller(final String deviceName)
+	{
+		Thread.ofVirtual().start(() -> {
+			while(!explicitlyClosed)
+			{
+				try
+				{
+					Thread.sleep(2000);
+				}
+				catch(final InterruptedException e)
+				{
+					return;
+				}
+				if(explicitlyClosed) return;
+				if(!isOpen() || !isDeviceAvailable(deviceName))
+				{
+					fireDisconnect();
+					return;
+				}
+			}
+		});
+	}
+
+	private static boolean isDeviceAvailable(final String name)
+	{
+		for(final javax.sound.midi.MidiDevice.Info info : MidiSystem.getMidiDeviceInfo())
+		{
+			if(info.getName().equals(name)) return true;
+		}
+		return false;
 	}
 
 	private static JavaMidiDeviceInfo getMidiDeviceInfo(MidiDeviceInfo deviceInfo)
