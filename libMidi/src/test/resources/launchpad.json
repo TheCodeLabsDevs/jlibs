@@ -1,0 +1,66 @@
+[
+    {
+        "inputKey": {
+            "type": "midi",
+            "value": 36,
+            "feedbackValues": [
+                {
+                    "state": [
+                        "demo-feedback-state",
+                        "NORMAL"
+                    ],
+                    "feedbackValue": {
+                        "type": "demo-feedback-value",
+                        "value": 3
+                    }
+                },
+                {
+                    "state": [
+                        "demo-feedback-state",
+                        "PLAYING"
+                    ],
+                    "feedbackValue": {
+                        "type": "demo-feedback-value",
+                        "value": 5
+                    }
+                }
+            ]
+        },
+        "action": {
+            "type": "test",
+            "test": "Demo"
+        }
+    },
+    {
+        "inputKey": {
+            "type": "midi",
+            "value": 91,
+            "feedbackValues": [
+                {
+                    "state": [
+                        "demo-feedback-state",
+                        "NORMAL"
+                    ],
+                    "feedbackValue": {
+                        "type": "demo-feedback-value",
+                        "value": 3
+                    }
+                },
+                {
+                    "state": [
+                        "demo-feedback-state",
+                        "PLAYING"
+                    ],
+                    "feedbackValue": {
+                        "type": "demo-feedback-value",
+                        "value": 10
+                    }
+                }
+            ]
+        },
+        "action": {
+            "type": "test",
+            "test": "Demo"
+        }
+    }
+]

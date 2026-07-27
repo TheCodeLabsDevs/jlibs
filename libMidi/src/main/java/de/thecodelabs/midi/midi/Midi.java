@@ -1,79 +1,67 @@
 package de.thecodelabs.midi.midi;
 
-import de.thecodelabs.midi.Mapping;
-import de.thecodelabs.midi.action.Action;
-import de.thecodelabs.midi.action.ActionHandler;
-import de.thecodelabs.midi.action.ActionRegistry;
-import de.thecodelabs.midi.device.CloseException;
-import de.thecodelabs.midi.device.MidiDevice;
-import de.thecodelabs.midi.device.MidiDeviceInfo;
-import de.thecodelabs.midi.device.MidiDeviceManager;
-import de.thecodelabs.midi.device.java.JavaDeviceManager;
-import de.thecodelabs.midi.feedback.FeedbackType;
-import de.thecodelabs.midi.mapping.MidiKey;
-import de.thecodelabs.midi.midi.feedback.MidiFeedbackTranscript;
-import de.thecodelabs.midi.midi.feedback.MidiFeedbackTranscriptionRegistry;
+import de.thecodelabs.midi.mapping.Mapping;
+import de.thecodelabs.midi.mapping.action.Action;
+import de.thecodelabs.midi.mapping.action.ActionHandler;
+import de.thecodelabs.midi.mapping.action.ActionHandlerResolver;
+import de.thecodelabs.midi.mapping.feedback.*;
+import de.thecodelabs.midi.mapping.input.InputKey;
+import de.thecodelabs.midi.midi.device.MidiDevice;
+import de.thecodelabs.midi.midi.device.MidiDeviceInfo;
+import de.thecodelabs.midi.midi.device.MidiDeviceManager;
+import de.thecodelabs.midi.midi.device.MidiListener;
+import de.thecodelabs.midi.midi.device.coremidi.CoreMidiDeviceManager;
+import de.thecodelabs.midi.midi.device.java.JavaDeviceManager;
 import de.thecodelabs.utils.util.OS;
-import uk.co.xfactorylibrarians.coremidi4j.CoreMidiDeviceProvider;
-import uk.co.xfactorylibrarians.coremidi4j.CoreMidiException;
 
 import javax.sound.midi.MidiUnavailableException;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 public class Midi implements AutoCloseable
 {
-	private static Midi INSTANCE;
-	private static boolean useNative = true;
-
 	public enum Mode
 	{
 		INPUT, OUTPUT
 	}
 
-	private MidiDeviceManager midiDeviceManager;
+	private final MidiDeviceManager midiDeviceManager;
+	private final List<MidiListener> midiListeners = new LinkedList<>();
 
 	private MidiDevice device;
-	private MidiFeedbackTranscript feedbackTranscript;
 
-	public static Midi getInstance()
+	public Midi()
 	{
-		if(INSTANCE == null)
-		{
-			INSTANCE = new Midi();
-		}
-		return INSTANCE;
+		midiDeviceManager = OS.isMacOS() ? new CoreMidiDeviceManager() : new JavaDeviceManager();
 	}
 
-	private Midi()
+	public Midi(MidiDeviceManager midiDeviceManager)
 	{
-		if(OS.isMacOS() && useNative)
-		{
-			try
-			{
-				CoreMidiDeviceProvider.isLibraryLoaded();
-			}
-			catch(CoreMidiException e)
-			{
-				throw new RuntimeException(e);
-			}
-		}
-		midiDeviceManager = new JavaDeviceManager();
+		this.midiDeviceManager = midiDeviceManager;
 	}
 
-	public MidiDeviceInfo[] getMidiDevices()
+	public Collection<MidiDeviceInfo> getMidiDevices()
 	{
 		return midiDeviceManager.listDevices();
 	}
 
-	public MidiDeviceInfo getMidiDeviceInfo(String name)
+	public Optional<MidiDeviceInfo> getMidiDeviceInfo(String name)
 	{
-		for(MidiDeviceInfo info : getMidiDevices())
-		{
-			if(info.getName().equals(name))
-			{
-				return info;
-			}
-		}
-		return null;
+		return getMidiDevices().stream()
+				.filter(info -> info.name().equals(name))
+				.findAny();
+	}
+
+	public void addMidiListener(MidiListener listener)
+	{
+		midiListeners.add(listener);
+	}
+
+	public void removeMidiListener(MidiListener listener)
+	{
+		midiListeners.remove(listener);
 	}
 
 	public MidiDevice getDevice()
@@ -81,76 +69,60 @@ public class Midi implements AutoCloseable
 		return device;
 	}
 
-	public MidiFeedbackTranscript getFeedbackTranscript()
-	{
-		return feedbackTranscript;
-	}
-
-	public void openDevice(MidiDeviceInfo deviceInfo, Mode... modes) throws MidiUnavailableException
+	public MidiDevice openDevice(MidiDeviceInfo deviceInfo, Mode... modes) throws MidiUnavailableException
 	{
 		if(modes == null || modes.length == 0)
 		{
 			modes = new Mode[]{Mode.INPUT, Mode.OUTPUT};
 		}
 		device = midiDeviceManager.openDevice(deviceInfo, modes);
-
-		if(device.isModeSupported(Mode.OUTPUT))
-		{
-			feedbackTranscript = MidiFeedbackTranscriptionRegistry.getInstance().getTransripter(deviceInfo.getName());
-		}
-	}
-
-	public void close() throws CloseException
-	{
-		try
-		{
-			device.closeDevice();
-			feedbackTranscript = null;
-		}
-		catch(Exception e)
-		{
-			throw new CloseException(e);
-		}
-	}
-
-	public void showFeedback()
-	{
-		for(Action action : Mapping.getCurrentMapping().getActions())
-		{
-			showFeedback(action);
-		}
-	}
-
-	public void showFeedback(Action action)
-	{
-		ActionHandler handler = ActionRegistry.getActionHandler(action.getActionType());
-		final FeedbackType currentFeedbackType = handler.getCurrentFeedbackType(action);
-
-		for(MidiKey key : action.getKeysForType(MidiKey.class))
-		{
-			Midi.getInstance().sendFeedback(key, currentFeedbackType);
-		}
-	}
-
-	public void sendFeedback(MidiKey key, FeedbackType feedbackType)
-	{
-		if(feedbackTranscript != null)
-		{
-			feedbackTranscript.sendFeedback(key, feedbackType);
-		}
+		device.setDisconnectCallback(() ->
+				midiListeners.forEach(listener -> listener.onDeviceDisconnected(device)));
+		midiListeners.forEach(listener -> listener.onDeviceOpen(device));
+		return device;
 	}
 
 	public void clearFeedback()
 	{
-		if(feedbackTranscript != null)
+		midiListeners.forEach(listener -> listener.onFeedbackClear(device));
+	}
+
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	public void showCurrentFeedbackState(Mapping mapping, ActionHandlerResolver actionHandlerResolver, FeedbackValueWriterResolver feedbackValueWriterResolver)
+	{
+		for(InputKey inputKey : mapping.getAllInputKeys())
 		{
-			feedbackTranscript.clearFeedback();
+			if(!(inputKey instanceof FeedbackProvider feedbackProvider))
+			{
+				continue;
+			}
+			final Action action = mapping.getAction(inputKey);
+			final ActionHandler actionHandler = actionHandlerResolver.resolve(action);
+
+			final FeedbackState currentState = actionHandler.getCurrentState(action);
+			if(currentState == null)
+			{
+				continue;
+			}
+
+			final FeedbackValue feedbackValue = feedbackProvider.getFeedbackValueForState(currentState);
+			final FeedbackValueWriter valueWriter = feedbackValueWriterResolver.resolve(inputKey, feedbackValue);
+			if(valueWriter == null)
+			{
+				continue;
+			}
+
+			valueWriter.write(inputKey, feedbackValue);
 		}
 	}
 
-	public void sendMessage(MidiCommand midiCommand)
+	public void close()
 	{
-		device.sendMidiMessage(midiCommand);
+		if(device != null)
+		{
+			device.closeDevice();
+		}
+		midiDeviceManager.close();
 	}
 
 	public boolean isOpen()
@@ -160,15 +132,5 @@ public class Midi implements AutoCloseable
 			return false;
 		}
 		return device.isOpen();
-	}
-
-	public static boolean isUseNative()
-	{
-		return useNative;
-	}
-
-	public static void setUseNative(boolean useNative)
-	{
-		Midi.useNative = useNative;
 	}
 }

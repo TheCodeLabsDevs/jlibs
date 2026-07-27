@@ -1,0 +1,13 @@
+[
+    {
+        "inputKey": {
+            "type": "midi",
+            "value": 36,
+            "feedbackValues": []
+        },
+        "action": {
+            "type": "test",
+            "test": "Demo"
+        }
+    }
+]
