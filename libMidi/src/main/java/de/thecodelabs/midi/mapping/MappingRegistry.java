@@ -12,10 +12,7 @@ import de.thecodelabs.midi.mapping.input.InputKey;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.jsontype.NamedType;
 
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class MappingRegistry implements ActionHandlerResolver, FeedbackValueWriterResolver
 {
@@ -56,6 +53,11 @@ public class MappingRegistry implements ActionHandlerResolver, FeedbackValueWrit
 		feedbackValueWriterMap.putIfAbsent(inputKeyClass, new HashMap<>());
 		feedbackValueWriterMap.get(inputKeyClass).put(feedbackValueClass, writer);
 		return this;
+	}
+
+	public List<Class<? extends Action>> getRegisteredActions()
+	{
+		return new ArrayList<>(actionHandlerMap.keySet());
 	}
 
 	@Override
