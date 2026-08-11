@@ -12,76 +12,90 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-public class BusyView {
+public class BusyView
+{
 
-	private HBox progressPane;
-	private Pane root;
-	private ProgressIndicator indicator;
+	private final Pane root;
+	private HBox container;
+	private Region indicator;
 
 	private Transition inTransition;
 	private Transition outTransition;
 
-	public BusyView(NVC rootViewController) {
-		if (rootViewController.getParent() instanceof Pane) {
-			root = (Pane) rootViewController.getParent();
-			indicator = new ProgressIndicator(-1);
-			indicator.setStyle("-fx-progress-color: white;");
-			indicator.setPrefSize(75, 75);
-
-			progressPane = new HBox(indicator);
-			progressPane.setBackground(new Background(new BackgroundFill(new Color(0.2, 0.2, 0.2, 0.8), new CornerRadii(0.5), new Insets(0))));
-			progressPane.setAlignment(Pos.CENTER);
-
-			inTransition = createTransition(true);
-			outTransition = createTransition(false);
-		} else {
+	public BusyView(NVC rootViewController)
+	{
+		if(rootViewController.getParent() instanceof Pane pane)
+		{
+			root = pane;
+			initialize();
+		}
+		else
+		{
 			throw new IllegalArgumentException("Root node is not Pane: " + rootViewController.getParent().getClass().getName());
 		}
 	}
 
-	public BusyView(Pane pane) {
-		root = pane;
+	public BusyView(Pane container)
+	{
+		root = container;
+		initialize();
+	}
+
+	private void initialize()
+	{
 		indicator = new ProgressIndicator(-1);
 		indicator.setStyle("-fx-progress-color: white;");
 		indicator.setPrefSize(75, 75);
 
-		progressPane = new HBox(indicator);
-		progressPane.setBackground(new Background(new BackgroundFill(new Color(0.2, 0.2, 0.2, 0.8), new CornerRadii(0.5), new Insets(0))));
-		progressPane.setAlignment(Pos.CENTER);
+		container = new HBox(indicator);
+		container.setBackground(new Background(new BackgroundFill(new Color(0.2, 0.2, 0.2, 0.8), new CornerRadii(0.5), new Insets(0))));
+		container.setAlignment(Pos.CENTER);
 
 		inTransition = createTransition(true);
 		outTransition = createTransition(false);
-
 	}
 
-	public Transition getInTransition() {
-		return inTransition;
-	}
-
-	public void setInTransition(Transition inTransition) {
-		this.inTransition = inTransition;
-	}
-
-	public Transition getOutTransition() {
-		return outTransition;
-	}
-
-	public void setOutTransition(Transition outTransition) {
-		this.outTransition = outTransition;
-	}
-
-	public ProgressIndicator getIndicator() {
+	public Region getIndicatorNode()
+	{
 		return indicator;
 	}
 
-	private Transition createTransition(boolean in) {
+	public void setIndicatorNode(Region indicator)
+	{
+		this.indicator = indicator;
+		container.getChildren().setAll(indicator);
+	}
+
+	public Transition getInTransition()
+	{
+		return inTransition;
+	}
+
+	public void setInTransition(Transition inTransition)
+	{
+		this.inTransition = inTransition;
+	}
+
+	public Transition getOutTransition()
+	{
+		return outTransition;
+	}
+
+	public void setOutTransition(Transition outTransition)
+	{
+		this.outTransition = outTransition;
+	}
+
+	private Transition createTransition(boolean in)
+	{
 		FadeTransition fadeTransition = new FadeTransition();
-		fadeTransition.setNode(progressPane);
+		fadeTransition.setNode(container);
 
 		ScaleTransition scaleTransition = new ScaleTransition();
-		scaleTransition.setNode(progressPane);
+		scaleTransition.setNode(container);
 
-		if (in) {
+		if(in)
+		{
 			fadeTransition.setFromValue(0);
 			fadeTransition.setToValue(1);
 
@@ -89,7 +103,9 @@ public class BusyView {
 			scaleTransition.setFromY(1.3);
 			scaleTransition.setToX(1);
 			scaleTransition.setToY(1);
-		} else {
+		}
+		else
+		{
 			fadeTransition.setFromValue(1);
 			fadeTransition.setToValue(0);
 
@@ -101,26 +117,32 @@ public class BusyView {
 
 		ParallelTransition parallelTransition = new ParallelTransition(fadeTransition, scaleTransition);
 
-		parallelTransition.setOnFinished((e) ->
+		parallelTransition.setOnFinished(_ ->
 		{
-			if (!in)
-				root.getChildren().remove(progressPane);
+			if(!in)
+				root.getChildren().remove(container);
 		});
 		return parallelTransition;
 	}
 
-	public void showProgress(boolean b) {
-		if (!Platform.isFxApplicationThread()) {
-			Platform.runLater(() -> showProgress(b));
+	public void showProgress(boolean show)
+	{
+		if(!Platform.isFxApplicationThread())
+		{
+			Platform.runLater(() -> showProgress(show));
 			return;
 		}
-		
-		if (b) {
-			if (!root.getChildren().contains(progressPane)) {
-				root.getChildren().add(progressPane);
+
+		if(show)
+		{
+			if(!root.getChildren().contains(container))
+			{
+				root.getChildren().add(container);
 				inTransition.play();
 			}
-		} else {
+		}
+		else
+		{
 			outTransition.play();
 		}
 	}
