@@ -52,6 +52,11 @@ public class MidiMappingListener implements MidiMessageListener
 
 			final MidiInputKey inputKey = midiKeyOptional.get();
 			final Action action = mapping.getAction(inputKey);
+			if(action == null)
+			{
+				return;
+			}
+
 			final ActionHandler actionHandler = actionHandlerResolver.resolve(action);
 			if(actionHandler == null)
 			{

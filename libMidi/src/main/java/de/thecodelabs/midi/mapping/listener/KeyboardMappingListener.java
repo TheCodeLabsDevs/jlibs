@@ -45,22 +45,26 @@ public class KeyboardMappingListener implements EventHandler<KeyEvent>
 				return;
 			}
 
-			final Optional<KeyboardInputKey> midiKeyOptional = mapping.getInputKeyForPredicate(inputKey ->
+			final Optional<KeyboardInputKey> keyboardKeyOptional = mapping.getInputKeyForPredicate(inputKey ->
 					inputKey instanceof KeyboardInputKey keyboardInputKey
 					&& keyboardInputKey.code() == code);
-			if(midiKeyOptional.isEmpty())
+			if(keyboardKeyOptional.isEmpty())
 			{
 				return;
 			}
 
-			final Action action = mapping.getAction(midiKeyOptional.get());
+			final Action action = mapping.getAction(keyboardKeyOptional.get());
+			if(action == null)
+			{
+				return;
+			}
 			final ActionHandler actionHandler = actionHandlerResolver.resolve(action);
 			if(actionHandler == null)
 			{
 				return;
 			}
 
-			final KeyInputEvent keyEvent = new KeyInputEvent(midiKeyOptional.get(), type);
+			final KeyInputEvent keyEvent = new KeyInputEvent(keyboardKeyOptional.get(), type);
 			actionHandler.handleAction(keyEvent, action);
 		}
 
