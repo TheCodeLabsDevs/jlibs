@@ -23,4 +23,10 @@ public record KeyboardInputKey(KeyCode code, String key) implements InputKey
 		       ", key='" + key + '\'' +
 		       '}';
 	}
+
+	@Override
+	public InputKey copy()
+	{
+		return new KeyboardInputKey(code, key);
+	}
 }

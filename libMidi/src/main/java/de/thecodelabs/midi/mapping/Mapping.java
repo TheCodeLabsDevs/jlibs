@@ -46,6 +46,16 @@ public class Mapping
 		return Collections.unmodifiableMap(inputKeyActionMap);
 	}
 
+	public Mapping copy()
+	{
+		final Mapping mapping = new Mapping();
+		for(Map.Entry<InputKey, Action> entry : inputKeyActionMap.entrySet())
+		{
+			mapping.addInputKeyWithAction(entry.getKey().copy(), entry.getValue() != null ? entry.getValue().copy() : null);
+		}
+		return mapping;
+	}
+
 	@Override
 	public boolean equals(Object o)
 	{
@@ -64,7 +74,7 @@ public class Mapping
 	public String toString()
 	{
 		return "Mapping{" +
-		       "inputKeyActionMap=" + inputKeyActionMap +
-		       '}';
+			   "inputKeyActionMap=" + inputKeyActionMap +
+			   '}';
 	}
 }

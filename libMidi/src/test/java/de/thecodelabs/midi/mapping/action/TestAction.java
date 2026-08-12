@@ -21,4 +21,10 @@ public record TestAction(String test) implements Action
 		       "test='" + test + '\'' +
 		       '}';
 	}
+
+	@Override
+	public Action copy()
+	{
+		return new TestAction(test);
+	}
 }

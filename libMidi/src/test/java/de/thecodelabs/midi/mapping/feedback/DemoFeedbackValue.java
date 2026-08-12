@@ -13,4 +13,9 @@ public record DemoFeedbackValue(int value) implements FeedbackValue
 		this.value = value;
 	}
 
+	@Override
+	public FeedbackValue copy()
+	{
+		return new DemoFeedbackValue(value);
+	}
 }

@@ -7,5 +7,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public enum DemoFeedbackState implements FeedbackState
 {
 	NORMAL,
-	PLAYING
+	PLAYING;
+
+	@Override
+	public FeedbackState copy()
+	{
+		return this;
+	}
 }

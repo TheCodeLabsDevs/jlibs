@@ -12,7 +12,8 @@ import java.util.Map;
 import java.util.Objects;
 
 @JsonTypeName("midi")
-public record MidiInputKey(byte value, Map<FeedbackState, FeedbackValue> feedbackValues) implements InputKey, FeedbackProvider
+public record MidiInputKey(byte value,
+                           Map<FeedbackState, FeedbackValue> feedbackValues) implements InputKey, FeedbackProvider
 {
 	public MidiInputKey(byte value)
 	{
@@ -21,7 +22,7 @@ public record MidiInputKey(byte value, Map<FeedbackState, FeedbackValue> feedbac
 
 	@JsonCreator
 	public MidiInputKey(@JsonProperty("value") byte value,
-	                    @JsonDeserialize(using = FeedbackValueMapDeserializer.class)
+						@JsonDeserialize(using = FeedbackValueMapDeserializer.class)
 						@JsonProperty("feedbackValues") Map<FeedbackState, FeedbackValue> feedbackValues)
 	{
 		this.value = value;
@@ -54,5 +55,16 @@ public record MidiInputKey(byte value, Map<FeedbackState, FeedbackValue> feedbac
 	public FeedbackValue getFeedbackValueForState(FeedbackState state)
 	{
 		return feedbackValues.get(state);
+	}
+
+	@Override
+	public InputKey copy()
+	{
+		final Map<FeedbackState, FeedbackValue> feedbackValues = new HashMap<>();
+		for(Map.Entry<FeedbackState, FeedbackValue> entry : this.feedbackValues.entrySet())
+		{
+			feedbackValues.put(entry.getKey().copy(), entry.getValue().copy());
+		}
+		return new MidiInputKey(value, feedbackValues);
 	}
 }
